@@ -18,6 +18,7 @@ namespace KKSFramework.ResourcesLoad
         Page,
         Popup,
         CommonView,
+        Element,
 
         BGM = 50,
         Button,

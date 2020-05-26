@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using HexaPuzzle;
 using KKSFramework.DesignPattern;
-using KKSFramework.GameSystem.GlobalText;
-using UniRx.Async;
 using Zenject;
 
 public class ProjectInstall : MonoInstaller
@@ -16,6 +15,8 @@ public class ProjectInstall : MonoInstaller
 
     private void BindViewmodel ()
     {
+        ViewModelTypes.Add (typeof(GameViewmodel));
+        ViewModelTypes.Add (typeof(PuzzleViewmodel));
         ViewModelTypes.ForEach (type => { Container.Bind (type).AsSingle (); });
     }
 

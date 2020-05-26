@@ -232,7 +232,7 @@ namespace KKSFramework.Navigation
         /// <summary>
         /// create common view.
         /// </summary>
-        public async UniTask OpenCommonView<T> (string viewName) where T : PooledObjectComponent
+        public async UniTask<T> OpenCommonView<T> (string viewName) where T : PooledObjectComponent
         {
             var resObj =
                 await ResourcesLoadHelper.GetResourcesAsync<T> (ResourceRoleType._Prefab, ResourcesType.CommonView,
@@ -243,6 +243,8 @@ namespace KKSFramework.Navigation
             var rectT = commonView.GetComponent<RectTransform> ();
             rectT.SetParent (_navigationComponent.CommonViewParents);
             rectT.SetInstantiateTransform ();
+
+            return commonView;
         }
 
         /// <summary>
@@ -316,8 +318,8 @@ namespace KKSFramework.Navigation
         {
             await _navigationComponent.transitionEffector.HideAsync ();
         }
-
-
+        
+        
         /// <summary>
         /// change effector playable state.
         /// </summary>

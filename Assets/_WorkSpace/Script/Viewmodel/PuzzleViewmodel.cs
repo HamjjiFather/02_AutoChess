@@ -143,11 +143,9 @@ namespace HexaPuzzle
                     new LandModel (0, LandTypes.Hide),
                     new LandModel (1, LandTypes.Hide),
                     new LandModel (2, LandTypes.Show),
-                    new LandModel (3, LandTypes.Hide),
+                    new LandModel (3, LandTypes.Show),
                     new LandModel (4, LandTypes.Show),
                     new LandModel (5, LandTypes.Hide),
-                    new LandModel (6, LandTypes.Hide),
-                    new LandModel (7, LandTypes.Hide)
                 },
                 IsCreateLine = false,
             });
@@ -161,8 +159,6 @@ namespace HexaPuzzle
                     new LandModel (3, LandTypes.Show),
                     new LandModel (4, LandTypes.Show),
                     new LandModel (5, LandTypes.Hide),
-                    new LandModel (6, LandTypes.Hide),
-                    new LandModel (7, LandTypes.Hide)
                 },
                 IsCreateLine = true,
             });
@@ -176,8 +172,6 @@ namespace HexaPuzzle
                     new LandModel (3, LandTypes.Show),
                     new LandModel (4, LandTypes.Show),
                     new LandModel (5, LandTypes.Show),
-                    new LandModel (6, LandTypes.Hide),
-                    new LandModel (7, LandTypes.Hide)
                 },
                 IsCreateLine = true,
             });
@@ -191,8 +185,6 @@ namespace HexaPuzzle
                     new LandModel (3, LandTypes.Show),
                     new LandModel (4, LandTypes.Show),
                     new LandModel (5, LandTypes.Show),
-                    new LandModel (6, LandTypes.Hide),
-                    new LandModel (7, LandTypes.Hide)
                 },
                 IsCreateLine = true,
             });
@@ -206,8 +198,6 @@ namespace HexaPuzzle
                     new LandModel (3, LandTypes.Show),
                     new LandModel (4, LandTypes.Show),
                     new LandModel (5, LandTypes.Show),
-                    new LandModel (6, LandTypes.Hide),
-                    new LandModel (7, LandTypes.Hide)
                 },
                 IsCreateLine = true,
             });
@@ -221,8 +211,6 @@ namespace HexaPuzzle
                     new LandModel (3, LandTypes.Show),
                     new LandModel (4, LandTypes.Show),
                     new LandModel (5, LandTypes.Hide),
-                    new LandModel (6, LandTypes.Hide),
-                    new LandModel (7, LandTypes.Hide)
                 },
                 IsCreateLine = true,
             });
@@ -233,11 +221,9 @@ namespace HexaPuzzle
                     new LandModel (0, LandTypes.Hide),
                     new LandModel (1, LandTypes.Hide),
                     new LandModel (2, LandTypes.Show),
-                    new LandModel (3, LandTypes.Hide),
+                    new LandModel (3, LandTypes.Show),
                     new LandModel (4, LandTypes.Show),
                     new LandModel (5, LandTypes.Hide),
-                    new LandModel (6, LandTypes.Hide),
-                    new LandModel (7, LandTypes.Hide)
                 },
                 IsCreateLine = false,
             });

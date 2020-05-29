@@ -1,17 +1,18 @@
 using System.Collections.Generic;
 using System.Linq;
+using KKSFramework.DesignPattern;
 
 namespace HexaPuzzle
 {
     /// <summary>
     /// Column model data.
     /// </summary>
-    public class LineModel
+    public class PuzzleLineModel : ModelBase
     {
         /// <summary>
         /// land data. 
         /// </summary>
-        public List<LandModel> LandDatas = new List<LandModel> ();
+        public List<PuzzleLandModel> LandDatas = new List<PuzzleLandModel> ();
 
 
         public bool IsCreateLine;

@@ -1,0 +1,15 @@
+Id	PuzzleMatchingType	CheckValue
+1000	None	0
+1001	ThreeMatching	30
+1002	FourMatching	45
+1003	FiveMatching	60
+1004	TOverlap	75
+1005	TFourLineOverlap	100
+1006	TFiveLineOverlap	150
+1007	Xoverlap	75
+1008	XFourLineOverlap	150
+1009	XFiveLineOverlap	200
+1010	ThreeOverlap	180
+1011	HexaOverlap	250
+1012	CombineSpecial	100
+1013	Pick	125

@@ -237,6 +237,7 @@ public static class BaseExtension
             Convert.ToInt32 (b, 16) / 255f, Convert.ToInt32 (a, 16) / 255f);
     }
 
+
     #endregion
 
 

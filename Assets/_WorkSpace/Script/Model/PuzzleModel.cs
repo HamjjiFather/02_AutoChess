@@ -1,4 +1,6 @@
 using System;
+using KKSFramework.DesignPattern;
+using UniRx;
 using UnityEngine.Events;
 
 namespace HexaPuzzle
@@ -32,32 +34,28 @@ namespace HexaPuzzle
     /// 퍼즐 모델.
     /// </summary>
     [Serializable]
-    public class PuzzleModel
+    public class PuzzleModel : ModelBase
     {
         /// <summary>
         /// 퍼즐 색상 타입.
         /// </summary>
-        public PuzzleColorTypes PuzzleColorTypes;
+        public readonly ReactiveProperty<PuzzleColorTypes> PuzzleColorTypes = new ReactiveProperty<PuzzleColorTypes> ();
 
         /// <summary>
         /// 퍼즐 체크 타입.
         /// </summary>
-        public PuzzleSpecialTypes PuzzleSpecialTypes = PuzzleSpecialTypes.None;
+        public readonly ReactiveProperty<PuzzleSpecialTypes> PuzzleSpecialTypes =
+            new ReactiveProperty<PuzzleSpecialTypes> (HexaPuzzle.PuzzleSpecialTypes.None);
 
         /// <summary>
         /// 장애물 혹은 스테이지 타겟.
         /// </summary>
-        public ObstacleTypes ObstacleTypes;
+        public readonly ReactiveProperty<ObstacleTypes> ObstacleTypes = new ReactiveProperty<ObstacleTypes> ();
 
         /// <summary>
         /// 현재 자신이 속한 위치.
         /// </summary>
-        public PositionModel PositionModel;
-
-        /// <summary>
-        /// 색상, 또는 모습이 변경됬을 경우 실행할 이벤트.
-        /// </summary>
-        public UnityAction<PuzzleModel> ChangePuzzleEvent;
+        public PuzzlePositionModel puzzlePositionModel;
 
         /// <summary>
         /// 퍼즐이 삭제됬을 경우 실행할 이벤트.
@@ -67,17 +65,12 @@ namespace HexaPuzzle
         /// <summary>
         /// 아래로 내려가는 이벤트. 
         /// </summary>
-        public UnityAction<PositionModel> MoveToPositionEvent;
+        public UnityAction<PuzzlePositionModel> MoveToPositionEvent;
 
         /// <summary>
         /// Check obstacle puzzle checked callback event.
         /// </summary>
         public UnityAction<int> ObstacleEvent;
-
-        /// <summary>
-        /// Change to special puzzle callback event.
-        /// </summary>
-        public UnityAction<PuzzleSpecialTypes> ChangeSpecialPuzzleEvent;
 
 
         public UnityAction ResetPuzzleEvent;
@@ -96,18 +89,12 @@ namespace HexaPuzzle
         /// <summary>
         /// 현재 Column.
         /// </summary>
-        public int Column => PositionModel.Column;
+        public int Column => puzzlePositionModel.Column;
 
         /// <summary>
         /// 현재 Row.
         /// </summary>
-        public int Row => PositionModel.Row;
-
-
-        public void AddChangePuzzleEvent (UnityAction<PuzzleModel> action)
-        {
-            ChangePuzzleEvent = action;
-        }
+        public int Row => puzzlePositionModel.Row;
 
 
         public void AddCheckpuzzleEvent (UnityAction<PuzzleModel> action)
@@ -116,7 +103,7 @@ namespace HexaPuzzle
         }
 
 
-        public void AddDownPuzzleEvent (UnityAction<PositionModel> action)
+        public void AddDownPuzzleEvent (UnityAction<PuzzlePositionModel> action)
         {
             MoveToPositionEvent = action;
         }
@@ -134,12 +121,6 @@ namespace HexaPuzzle
         }
 
 
-        public void AddChangeSpecialTypeEvent (UnityAction<PuzzleSpecialTypes> action)
-        {
-            ChangeSpecialPuzzleEvent = action;
-        }
-
-
         public void CheckPuzzle ()
         {
             if (IsChecked)
@@ -148,8 +129,8 @@ namespace HexaPuzzle
             }
 
             IsChecked = true;
-            ObstacleTypes = ObstacleTypes.None;
-            PositionModel.Clear ();
+            ObstacleTypes.Value = HexaPuzzle.ObstacleTypes.None;
+            puzzlePositionModel.Clear ();
             CheckPuzzleEvent?.Invoke (this);
         }
 
@@ -160,15 +141,14 @@ namespace HexaPuzzle
         public void ChangeSpecialPuzzle (PuzzleSpecialTypes puzzleSpecialTypes)
         {
             IsChecked = false;
-            PuzzleSpecialTypes = puzzleSpecialTypes;
-            ChangeSpecialPuzzleEvent?.Invoke (puzzleSpecialTypes);
+            PuzzleSpecialTypes.Value = puzzleSpecialTypes;
         }
 
 
         /// <summary>
         /// move to position.
         /// </summary>
-        public void MoveTo (PositionModel positionModel)
+        public void MoveTo (PuzzlePositionModel positionModel)
         {
             MoveToPositionEvent?.Invoke (positionModel);
         }
@@ -183,18 +163,18 @@ namespace HexaPuzzle
         }
 
 
-        public void ResetPuzzle (PuzzleColorTypes puzzleColorTypes, PositionModel positionModel)
+        public void ResetPuzzle (PuzzleColorTypes puzzleColorTypes, PuzzlePositionModel puzzlePositionModel)
         {
             IsChecked = false;
-            PuzzleColorTypes = puzzleColorTypes;
-            PuzzleSpecialTypes = PuzzleSpecialTypes.None;
-            PositionModel = positionModel;
+            PuzzleColorTypes.Value = puzzleColorTypes;
+            PuzzleSpecialTypes.Value = HexaPuzzle.PuzzleSpecialTypes.None;
+            this.puzzlePositionModel = puzzlePositionModel;
             ResetPuzzleEvent?.Invoke ();
         }
 
         public override string ToString ()
         {
-            return $"{PuzzleColorTypes} {PuzzleSpecialTypes} {PositionModel}";
+            return $"{PuzzleColorTypes} {PuzzleSpecialTypes} {puzzlePositionModel}";
         }
     }
 }

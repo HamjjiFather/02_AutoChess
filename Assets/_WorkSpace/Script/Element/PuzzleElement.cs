@@ -35,13 +35,13 @@ namespace HexaPuzzle
         /// <summary>
         /// move position.
         /// </summary>
-        private readonly Queue<PositionModel> _movePositions = new Queue<PositionModel> ();
+        private readonly Queue<PuzzlePositionModel> _movePositions = new Queue<PuzzlePositionModel> ();
 
-        private PositionModel _nowPosition;
+        private PuzzlePositionModel _nowPuzzlePosition;
 
         private Vector2 _beginDragPosition;
 
-        private GamePageView _gamePageView;
+        private PuzzleView _puzzleView;
 
         private PuzzleViewmodel _puzzleViewmodel;
 
@@ -49,46 +49,24 @@ namespace HexaPuzzle
 
         private IDisposable _movementDisposable;
 
+        private IDisposable _changeColorDisposable;
+
+        private IDisposable _changeSpecialTypeDisposable;
+
+        private IDisposable _changeObstacleDisposable;
+
 
         private void Awake ()
         {
             specialObj.Foreach (x => x.SetActive (false));
             _puzzleMovementState = PuzzleMovementState.None;
         }
-        //
-        // private void Update ()
-        // {
-        //     if (!_isMove)
-        //         return;
-        //
-        //     var targetPos = _gamePageView.GetLandElement (_nowPosition).transform.position;
-        //     transform.position = Vector2.MoveTowards (transform.position, targetPos, 0.015f);
-        //
-        //     if (!(Vector2.Distance (transform.position, targetPos) <= 0.05f)) return;
-        //     if (!PuzzleModel.PositionModel.Equals (_nowPosition))
-        //         PuzzleModel.PositionModel.Set (_nowPosition);
-        //
-        //
-        //     if (!(Vector2.Distance (transform.position, targetPos) <= float.Epsilon)) return;
-        //
-        //     _movePositions.Dequeue ();
-        //
-        //     if (_movePositions.Count == 0)
-        //     {
-        //         _puzzleViewmodel.CompleteAlignedPuzzles (PuzzleModel);
-        //         _movePositions.Clear ();
-        //         _isMove = false;
-        //         return;
-        //     }
-        //
-        //     _nowPosition = _movePositions.Peek ();
-        // }
 
 
-        public void SetPuzzleView (PuzzleViewmodel puzzleViewmodel, GamePageView view)
+        public void SetPuzzleView (PuzzleViewmodel puzzleViewmodel, PuzzleView view)
         {
             _puzzleViewmodel = puzzleViewmodel;
-            _gamePageView = view;
+            _puzzleView = view;
         }
 
 
@@ -96,14 +74,62 @@ namespace HexaPuzzle
         {
             PuzzleModel = puzzleModel;
 
-            PuzzleModel.AddChangePuzzleEvent (ChangeShape);
             PuzzleModel.AddCheckpuzzleEvent (Checked);
             PuzzleModel.AddDownPuzzleEvent (Move);
             PuzzleModel.AddObstacleEvent (CheckObstacle);
-            PuzzleModel.AddChangeSpecialTypeEvent (ChangeSpecialType);
             PuzzleModel.AddResetPuzzleEvent (InitializePuzzle);
 
-            ChangeShape (PuzzleModel);
+            _changeColorDisposable = PuzzleModel.PuzzleColorTypes.Subscribe (ChangeColor);
+            _changeSpecialTypeDisposable = PuzzleModel.PuzzleSpecialTypes.Subscribe (ChangeSpecialType);
+            _changeObstacleDisposable = PuzzleModel.ObstacleTypes.Subscribe (ChangeObstacleType);
+            
+            void ChangeColor (PuzzleColorTypes puzzleColorTypes)
+            {
+                if (puzzleColorTypes == PuzzleColorTypes.None)
+                    return;
+                
+                switch (puzzleColorTypes)
+                {
+                    case PuzzleColorTypes.Blue:
+                        puzzleIcon.color = blue;
+                        break;
+
+                    case PuzzleColorTypes.Orange:
+                        puzzleIcon.color = new Color (1f, 0.4f, 0f);
+                        break;
+
+                    case PuzzleColorTypes.Green:
+                        puzzleIcon.color = green;
+                        break;
+
+                    case PuzzleColorTypes.Yellow:
+                        puzzleIcon.color = yellow;
+                        break;
+
+                    case PuzzleColorTypes.Purple:
+                        puzzleIcon.color = magenta;
+                        break;
+
+                    default:
+                        puzzleIcon.color = white;
+                        break;
+                }
+            }
+
+            void ChangeSpecialType (PuzzleSpecialTypes puzzleSpecialTypes)
+            {
+                if (puzzleSpecialTypes == PuzzleSpecialTypes.None)
+                    return;
+                
+                gameObject.SetActive (true);
+                specialObj[(int) puzzleSpecialTypes].SetActive (true);
+            }
+
+            void ChangeObstacleType (ObstacleTypes obstacleTypes)
+            {
+                puzzleIcon.gameObject.SetActive (obstacleTypes == ObstacleTypes.None);
+                obstacleObj.gameObject.SetActive (obstacleTypes == ObstacleTypes.Top);
+            }
         }
 
 
@@ -117,71 +143,33 @@ namespace HexaPuzzle
             gameObject.SetActive (true);
             specialObj.Foreach (x => x.SetActive (false));
             _movePositions.Clear ();
-            var targetPos = _gamePageView.GetLandElement (PuzzleModel.PositionModel).transform.position;
-            transform.position = targetPos;
-            ChangeShape (PuzzleModel);
+            transform.position = _puzzleView.GetLandElement (PuzzleModel.puzzlePositionModel).transform.position;
         }
-
-
-        /// <summary>
-        /// 색상 변경.
-        /// </summary>
-        private void ChangeShape (PuzzleModel puzzleModel)
-        {
-            puzzleIcon.gameObject.SetActive (PuzzleModel.ObstacleTypes == ObstacleTypes.None);
-            obstacleObj.gameObject.SetActive (puzzleModel.ObstacleTypes == ObstacleTypes.Top);
-
-            switch (puzzleModel.PuzzleColorTypes)
-            {
-                case PuzzleColorTypes.Blue:
-                    puzzleIcon.color = blue;
-                    break;
-
-                case PuzzleColorTypes.Orange:
-                    puzzleIcon.color = new Color (1f, 0.4f, 0f);
-                    break;
-
-                case PuzzleColorTypes.Green:
-                    puzzleIcon.color = green;
-                    break;
-
-                case PuzzleColorTypes.Yellow:
-                    puzzleIcon.color = yellow;
-                    break;
-
-                case PuzzleColorTypes.Purple:
-                    puzzleIcon.color = new Color (1f, 0f, 1f);
-                    break;
-
-                default:
-                    puzzleIcon.color = white;
-                    break;
-            }
-        }
+        
 
         public void Checked (PuzzleModel puzzleModel)
         {
             _puzzleMovementState = PuzzleMovementState.None;
             _movementDisposable.DisposeSafe ();
             _movePositions.Clear ();
-            _gamePageView.ContainPuzzle (this);
+            _puzzleView.ContainPuzzle (this);
         }
 
 
-        public void Move (PositionModel positionModel)
+        public void Move (PuzzlePositionModel puzzlePositionModel)
         {
-            if (_movePositions.Contains (positionModel)) return;
-            _movePositions.Enqueue (positionModel);
+            if (_movePositions.Contains (puzzlePositionModel)) return;
+            _movePositions.Enqueue (puzzlePositionModel);
 
             if (_puzzleMovementState != PuzzleMovementState.None) return;
             SubscribeMovementAction ();
 
             void SubscribeMovementAction ()
             {
-                _nowPosition = _movePositions.Peek ();
+                _nowPuzzlePosition = _movePositions.Peek ();
                 _puzzleMovementState = PuzzleMovementState.Moving;
 
-                var targetPos = _gamePageView.GetLandElement (_nowPosition).transform.position;
+                var targetPos = _puzzleView.GetLandElement (_nowPuzzlePosition).transform.position;
 
                 _movementDisposable.DisposeSafe ();
                 _movementDisposable = Observable.EveryUpdate ()
@@ -194,15 +182,15 @@ namespace HexaPuzzle
                             Vector2.Distance (transform.position, targetPos) <= GameConstants.PuzzleMovementSpeed)
                         {
                             _puzzleMovementState = PuzzleMovementState.Almost;
-                            if (!PuzzleModel.PositionModel.Equals (_nowPosition))
-                                PuzzleModel.PositionModel.Set (_nowPosition);
+                            if (!PuzzleModel.puzzlePositionModel.Equals (_nowPuzzlePosition))
+                                PuzzleModel.puzzlePositionModel.Set (_nowPuzzlePosition);
                         }
 
                         if (_puzzleMovementState == PuzzleMovementState.Almost &&
                             Vector2.Distance (transform.position, targetPos) <= float.Epsilon)
                         {
                             if (!_movePositions.Any ()) return;
-                            _nowPosition = _movePositions.Dequeue ();
+                            _nowPuzzlePosition = _movePositions.Dequeue ();
                             _puzzleMovementState = PuzzleMovementState.Moving;
                         }
                     }, () =>
@@ -226,12 +214,6 @@ namespace HexaPuzzle
             Checked (PuzzleModel);
         }
 
-        public void ChangeSpecialType (PuzzleSpecialTypes puzzleSpecialTypes)
-        {
-            gameObject.SetActive (true);
-            specialObj[(int) puzzleSpecialTypes].SetActive (true);
-        }
-
 
         public void OnDragBegin (BaseEventData baseEventData)
         {
@@ -250,13 +232,13 @@ namespace HexaPuzzle
             if (dist > 100f)
             {
                 var angle = GetAngle ();
-                var besideModel = _puzzleViewmodel.GetBesideModel (PuzzleModel.PositionModel, angle);
+                var besideModel = _puzzleViewmodel.GetBesideModel (PuzzleModel.puzzlePositionModel, angle);
 
                 // 위치를 변경할 퍼즐이 있음.
                 if (besideModel != null)
                 {
                     _isSelected = false;
-                    await _gamePageView.ChangePuzzlePosition (PuzzleModel, besideModel, angle);
+                    await _puzzleView.ChangePuzzlePosition (PuzzleModel, besideModel, angle);
                 }
             }
 

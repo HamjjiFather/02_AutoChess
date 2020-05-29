@@ -1,3 +1,5 @@
+using KKSFramework.DesignPattern;
+
 namespace HexaPuzzle
 {
     /// <summary>
@@ -9,13 +11,13 @@ namespace HexaPuzzle
         Hide,
     }
 
-    public class LandModel
+    public class PuzzleLandModel : ModelBase
     {
         public readonly int row;
 
         public readonly LandTypes landTypes;
 
-        public LandModel (int row, LandTypes landTypes)
+        public PuzzleLandModel (int row, LandTypes landTypes)
         {
             this.row = row;
             this.landTypes = landTypes;

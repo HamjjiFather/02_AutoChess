@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using System.Linq;
+using KKSFramework.DesignPattern;
 
 namespace HexaPuzzle
 {
-
-    public class PlayerControlModel
+    public class PuzzlePlayerControlModel : ModelBase
     {
         public readonly List<PuzzleModel> ControlPuzzles = new List<PuzzleModel> ();
 
@@ -12,7 +11,7 @@ namespace HexaPuzzle
 
         public bool IsPlayerControl;
 
-        public PlayerControlModel (bool isPlayerControl)
+        public PuzzlePlayerControlModel (bool isPlayerControl)
         {
             ControlPuzzles.Clear ();
             IsPlayerControl = isPlayerControl;
@@ -23,9 +22,6 @@ namespace HexaPuzzle
             ControlPuzzles.Clear ();
             ControlPuzzles.AddRange (movedPuzzles);
         }
-
-        public IEnumerable<PuzzleModel> PickColorTypePuzzleModels =>
-            ControlPuzzles.Where (x => x.PuzzleSpecialTypes == PuzzleSpecialTypes.PickColors);
 
 
         public PuzzleModel Origin => IsPlayerControl ? ControlPuzzles[0] : null;

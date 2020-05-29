@@ -7,11 +7,18 @@ namespace HexaPuzzle
     {
         public LandElement[] landElements;
 
-        public LineModel LineModel { get; private set; }
+        public PuzzleLineModel PuzzleLineModel { get; private set; }
 
-        public LineElement SetLineModel (LineModel lineModel)
+
+        private void Awake ()
         {
-            LineModel = lineModel;
+            landElements.Foreach (x => x.gameObject.SetActive (false));
+        }
+        
+        
+        public LineElement SetLineModel (PuzzleLineModel puzzleLineModel)
+        {
+            PuzzleLineModel = puzzleLineModel;
             return this;
         }
 

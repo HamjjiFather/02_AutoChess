@@ -1,18 +1,15 @@
-﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using KKSFramework.Navigation;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using HexaPuzzle;
 using KKSFramework.ResourcesLoad;
 using UniRx.Async;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using Zenject;
 
-namespace KKSFramework
+namespace HexaPuzzle
 {
-    public class GamePageView : PageViewBase
+    public class PuzzleView : MonoBehaviour
     {
         #region Fields & Property
 
@@ -23,6 +20,8 @@ namespace KKSFramework
 
 
         public GameObject touchPreventionObj;
+
+        public SummonView summonView;
 
         /// <summary>
         /// Container of destroyed puzzles.
@@ -56,11 +55,11 @@ namespace KKSFramework
         #endregion
 
 
-        protected override async UniTask OnPush (object pushValue = null)
+        public void InitializePuzzleView ()
         {
+            _puzzleViewmodel.StartGame (EndPuzzleMovement);
+            
             touchPreventionObj.SetActive (false);
-            _puzzleViewmodel.StartStage (EndPuzzleMovement);
-
             AllLineElements = _puzzleViewmodel.AllLineModels
                 .ToDictionary (x => x.Key, x => lineElements[x.Key].SetLineModel (x.Value));
 
@@ -68,7 +67,7 @@ namespace KKSFramework
             {
                 for (var r = 0; r < AllLineElements[c].landElements.Length; r++)
                 {
-                    if (AllLineElements[c].LineModel.LandDatas[r].landTypes == LandTypes.Hide)
+                    if (AllLineElements[c].PuzzleLineModel.LandDatas[r].landTypes == LandTypes.Hide)
                         continue;
 
                     var element = AllLineElements[c].GetLandElement (r);
@@ -89,12 +88,9 @@ namespace KKSFramework
                 var poppedElement = _puzzleElements.Pop ();
                 poppedElement.SetPuzzleView (_puzzleViewmodel, this);
                 poppedElement.SetModel (puzzleModel);
-                poppedElement.transform.position = AllLineElements[puzzleModel.PositionModel.Column]
-                    .GetLandElement (puzzleModel.PositionModel.Row).transform.position;
+                poppedElement.transform.position = AllLineElements[puzzleModel.puzzlePositionModel.Column]
+                    .GetLandElement (puzzleModel.puzzlePositionModel.Row).transform.position;
             }
-
-            await WaitDisplayPuzzles ().ToUniTask ();
-            await base.OnPush (pushValue);
         }
 
 
@@ -113,12 +109,6 @@ namespace KKSFramework
         {
             element.gameObject.SetActive (false);
             element.transform.position = puzzleContainer.transform.position;
-        }
-
-
-        private IEnumerator WaitDisplayPuzzles ()
-        {
-            yield return new WaitForSeconds (2.5f);
         }
 
 
@@ -177,18 +167,19 @@ namespace KKSFramework
         }
 
 
-        public bool IsContainLandElement (PositionModel positionModel)
+        public bool IsContainLandElement (PuzzlePositionModel puzzlePositionModel)
         {
-            return IsContainLineElement (positionModel.Column) &&
-                   AllLineElements[positionModel.Column].IsContainRow (positionModel.Row);
+            return IsContainLineElement (puzzlePositionModel.Column) &&
+                   AllLineElements[puzzlePositionModel.Column].IsContainRow (puzzlePositionModel.Row);
         }
 
 
-        public LandElement GetLandElement (PositionModel positionModel)
+        public LandElement GetLandElement (PuzzlePositionModel puzzlePositionModel)
         {
-            return IsContainLandElement (positionModel)
-                ? AllLineElements[positionModel.Column].GetLandElement (positionModel.Row)
+            return IsContainLandElement (puzzlePositionModel)
+                ? AllLineElements[puzzlePositionModel.Column].GetLandElement (puzzlePositionModel.Row)
                 : null;
         }
+        
     }
 }

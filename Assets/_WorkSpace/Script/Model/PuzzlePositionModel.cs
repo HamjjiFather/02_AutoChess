@@ -6,12 +6,12 @@ namespace HexaPuzzle
     /// Puzzle position data model.
     /// </summary>
     [Serializable]
-    public struct PositionModel
+    public struct PuzzlePositionModel
     {
         public int Column;
         public int Row;
 
-        public PositionModel (int column, int row)
+        public PuzzlePositionModel (int column, int row)
         {
             Column = column;
             Row = row;
@@ -30,20 +30,20 @@ namespace HexaPuzzle
         }
 
 
-        public void Set (PositionModel positionModel)
+        public void Set (PuzzlePositionModel puzzlePositionModel)
         {
-            Column = positionModel.Column;
-            Row = positionModel.Row;
+            Column = puzzlePositionModel.Column;
+            Row = puzzlePositionModel.Row;
         }
 
 
-        public bool Equals (PositionModel other)
+        public bool Equals (PuzzlePositionModel other)
         {
             return Column == other.Column && Row == other.Row;
         }
 
 
-        public static PositionModel EmptyPositionModel => new PositionModel (int.MaxValue, int.MaxValue);
+        public static PuzzlePositionModel EmptyPuzzlePositionModel => new PuzzlePositionModel (int.MaxValue, int.MaxValue);
 
         public override string ToString ()
         {

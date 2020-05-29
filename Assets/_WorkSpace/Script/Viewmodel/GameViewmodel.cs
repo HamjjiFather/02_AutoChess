@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using KKSFramework.DesignPattern;
 
 namespace HexaPuzzle
@@ -12,22 +12,33 @@ namespace HexaPuzzle
 
 #pragma warning restore CS0649
 
-        private float _resultValue;
+        private readonly SummonResultModel _summonResultModel = new SummonResultModel ();
+        public SummonResultModel SummonResultModel => _summonResultModel;
+            
+
+        private readonly List<CurrencyModel> _currencyModels = new List<CurrencyModel> ();
+        public List<CurrencyModel> CurrencyModels => _currencyModels;
 
         #endregion
 
 
         public override void Initialize ()
         {
-
+            _currencyModels.Add (new CurrencyModel (CurrencyType.Gold, 1000));
+            _currencyModels.Add (new CurrencyModel (CurrencyType.Soulstone, 100));
         }
 
+
+        #region Subscribe
+
+        #endregion
+        
 
         #region Methods
 
         public void AddResult (float value)
         {
-            _resultValue += value;
+            _summonResultModel.SummonGageValue.Value += value;
         }
 
         #endregion

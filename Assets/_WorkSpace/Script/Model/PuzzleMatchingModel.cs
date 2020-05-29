@@ -1,24 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
+using KKSFramework.DesignPattern;
 
 namespace HexaPuzzle
 {
-    public enum PuzzleMatchingTypes
-    {
-        None,
-        ThreeMatching = 3,
-        FourMatching = 4,
-        FiveMatching = 5,
-        Overlap,
-        CombineSpecial,
-        Pick
-    }
-
-    public class MatchingResultModel
+    public class PuzzleMatchingResultModel : ModelBase
     {
         public bool isMatching;
 
-        public List<TotalCheckResultModel> checkResultModels = new List<TotalCheckResultModel> ();
+        public List<TotalPuzzleCheckResultModel> checkResultModels = new List<TotalPuzzleCheckResultModel> ();
 
 
         public void Reset ()
@@ -43,14 +33,14 @@ namespace HexaPuzzle
             });
         }
 
-        public void AddCheckResult (TotalCheckResultModel checkResultModel)
+        public void AddCheckResult (TotalPuzzleCheckResultModel puzzleCheckResultModel)
         {
-            checkResultModels.Add (checkResultModel);
+            checkResultModels.Add (puzzleCheckResultModel);
             checkResultModels = checkResultModels.OrderByDescending (x => x.CheckPuzzles.Count).ToList ();
         }
 
 
-        public (TotalCheckResultModel, bool) FindContainedResultModels (IEnumerable<PuzzleModel> puzzleModels)
+        public (TotalPuzzleCheckResultModel, bool) FindContainedResultModels (IEnumerable<PuzzleModel> puzzleModels)
         {
             var checkResultTuple = checkResultModels
                 .Select (x => x.ContainResult (puzzleModels))

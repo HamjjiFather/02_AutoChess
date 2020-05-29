@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using KKSFramework.DesignPattern;
 
 
 namespace HexaPuzzle
@@ -26,7 +27,7 @@ namespace HexaPuzzle
         ToDownRight = 300,
     }
 
-    public class TotalCheckResultModel : CheckResultModel
+    public class TotalPuzzleCheckResultModel : PuzzleCheckResultModel
     {
         public PuzzleModel OverlapPuzzle;
 
@@ -42,7 +43,7 @@ namespace HexaPuzzle
             PickedPuzzle = puzzleModel;
         }
 
-        public void SetTotalMatchingType (IEnumerable<PuzzleMatchingTypes> puzzleMatchingTypes)
+        public void SetTotalMatchingType (IEnumerable<PuzzleMatchingType> puzzleMatchingTypes)
         {
             puzzleMatchingTypes.Foreach (types =>
             {
@@ -51,7 +52,7 @@ namespace HexaPuzzle
         }
 
 
-        public (TotalCheckResultModel, bool) ContainResult (IEnumerable<PuzzleModel> puzzleModels)
+        public (TotalPuzzleCheckResultModel, bool) ContainResult (IEnumerable<PuzzleModel> puzzleModels)
         {
             if (puzzleModels.Any () &&
                 puzzleModels.Count () >= CheckPuzzles.Count &&
@@ -65,15 +66,15 @@ namespace HexaPuzzle
     }
 
 
-    public class CheckResultModel
+    public class PuzzleCheckResultModel : ModelBase
     {
-        public PuzzleMatchingTypes PuzzleMatchingTypes;
+        public PuzzleMatchingType PuzzleMatchingTypes;
 
         public List<PuzzleModel> CheckPuzzles = new List<PuzzleModel> ();
 
-        public bool IsChecked => PuzzleMatchingTypes != PuzzleMatchingTypes.None;
+        public bool IsChecked => PuzzleMatchingTypes != PuzzleMatchingType.None;
 
-        public CheckResultModel ()
+        public PuzzleCheckResultModel ()
         {
         }
 
@@ -82,7 +83,7 @@ namespace HexaPuzzle
             CheckPuzzles.Add (puzzleModel);
         }
 
-        public void SetMatchingType (PuzzleMatchingTypes puzzleMatchingTypes)
+        public void SetMatchingType (PuzzleMatchingType puzzleMatchingTypes)
         {
             PuzzleMatchingTypes = puzzleMatchingTypes;
 

@@ -1,1 +1,1 @@
-Id	GlobalTexts	GlobalTexts	GlobalTexts
+Id	GlobalTexts

@@ -51,6 +51,11 @@ namespace HexaPuzzle
             await UniTask.Delay (TimeSpan.FromSeconds (2));
         }
 
+        private void InitSlider ()
+        {
+            silders.Foreach (x => x.value = 0);
+        }
+
         #endregion
 
 

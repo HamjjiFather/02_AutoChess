@@ -1,6 +1,9 @@
-﻿using HexaPuzzle;
+﻿using System;
+using HexaPuzzle;
 using KKSFramework.Navigation;
 using UniRx.Async;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace KKSFramework
 {
@@ -9,10 +12,14 @@ namespace KKSFramework
         #region Fields & Property
 
         public StatusView statusView;
-        
-        public SummonView summonView;
+
+        public GameObject[] bottomViewPageObj;
         
         public PuzzleView puzzleView;
+
+        public Button puzzleViewButton;
+        
+        public Button specialPuzzleViewButton;
         
 
 #pragma warning disable CS0649
@@ -23,6 +30,13 @@ namespace KKSFramework
 
 
         #region UnityMethods
+
+        private void Awake ()
+        {
+            puzzleViewButton.onClick.AddListener (ClickPuzzle);
+            specialPuzzleViewButton.onClick.AddListener (ClickSpecialPuzzle);
+            SetSubviewPage (0);
+        }
 
         #endregion
 
@@ -37,10 +51,29 @@ namespace KKSFramework
             return base.OnPush (pushValue);
         }
 
+        
+        public void SetSubviewPage (int index)
+        {
+            bottomViewPageObj.Foreach (x => x.SetActive (false));
+            bottomViewPageObj[index].SetActive (true);
+        }
+
         #endregion
 
 
         #region EventMethods
+
+        private void ClickPuzzle ()
+        {
+            SetSubviewPage (0);
+        }
+        
+        
+        private void ClickSpecialPuzzle ()
+        {
+            SetSubviewPage (1);
+        }
+        
 
         #endregion
     }

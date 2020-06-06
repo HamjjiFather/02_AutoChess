@@ -1,6 +1,8 @@
-﻿using KKSFramework.SceneLoad;
+﻿using HexaPuzzle;
+using KKSFramework.SceneLoad;
 using UniRx.Async;
 using UnityEngine.UI;
+using Zenject;
 
 namespace KKSFramework.Navigation
 {
@@ -11,6 +13,9 @@ namespace KKSFramework.Navigation
         public Button titleButton;
 
 #pragma warning disable CS0649
+
+        [Inject]
+        private PuzzleViewmodel _puzzleViewmodel;
 
 #pragma warning restore CS0649
 
@@ -39,6 +44,8 @@ namespace KKSFramework.Navigation
 
         private void SetViewmodel ()
         {
+            _puzzleViewmodel.InitTableData ();
+            _puzzleViewmodel.InitLocalData ();
         }
 
         private void ClickTitle ()

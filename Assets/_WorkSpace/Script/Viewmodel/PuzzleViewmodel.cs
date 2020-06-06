@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using KKSFramework.DesignPattern;
+using KKSFramework.LocalData;
 using UniRx.Async;
 using UnityEngine;
 using UnityEngine.Events;
@@ -56,7 +57,7 @@ namespace HexaPuzzle
     }
 
 
-    public class PuzzleViewmodel : ViewModelBase
+    public partial class PuzzleViewmodel : ViewModelBase
     {
         #region DataModel
 
@@ -70,9 +71,6 @@ namespace HexaPuzzle
         /// </summary>
         public List<PuzzleModel> AllPuzzleModels { get; } = new List<PuzzleModel> ();
 
-        #endregion
-
-
         /// <summary>
         /// 이동 예정이 되어있는 데이터.
         /// </summary>
@@ -80,7 +78,10 @@ namespace HexaPuzzle
             new Dictionary<PuzzleModel, PuzzlePositionModel> ();
 
 
-        private readonly Dictionary<PuzzleModel, PuzzlePositionModel> _predicatedFlowDownPositions =
+        /// <summary>
+        /// 최종 목적지.
+        /// </summary>
+        private readonly Dictionary<PuzzleModel, PuzzlePositionModel> _predictFlowDownPositions =
             new Dictionary<PuzzleModel, PuzzlePositionModel> ();
 
 
@@ -88,6 +89,9 @@ namespace HexaPuzzle
         /// 정렬, 이동이 완료된 퍼즐들.
         /// </summary>
         private readonly List<PuzzleModel> _alignedPuzzles = new List<PuzzleModel> ();
+
+        #endregion
+
 
         /// <summary>
         /// 정렬 완료 이벤트.
@@ -114,9 +118,10 @@ namespace HexaPuzzle
         /// </summary>
         private bool _isAligned;
 
-        
+
         private float _puzzleCheckValue;
-        
+
+
         #region Fields & Property
 
 #pragma warning disable CS0649
@@ -127,7 +132,12 @@ namespace HexaPuzzle
 #pragma warning restore CS0649
 
         #endregion
-        
+
+
+        public override void Initialize ()
+        {
+        }
+
 
         /// <summary>
         /// start game.
@@ -241,12 +251,6 @@ namespace HexaPuzzle
         }
 
 
-        public override void Initialize ()
-        {
-            // throw new NotImplementedException ();
-        }
-
-
         /// <summary>
         /// generate lands.
         /// </summary>
@@ -254,10 +258,10 @@ namespace HexaPuzzle
         {
             AllLineModels.Clear ();
             AllPuzzleModels.Clear ();
+            _predictFlowDownPositions.Clear ();
             _predicatedFlowSidePositionDict.Clear ();
-            _predicatedFlowDownPositions.Clear ();
             _alignedPuzzles.Clear ();
-            
+
             _cancellationTokenSource?.Cancel ();
             _cancellationTokenSource.DisposeSafe ();
             _cancellationTokenSource = new CancellationTokenSource ();
@@ -287,10 +291,10 @@ namespace HexaPuzzle
         /// 퍼즐 생성.
         /// Generate puzzles.
         /// </summary>
-        private void CreatePuzzles ()
+        public void CreatePuzzles ()
         {
-            var createdObs = CreateObstaclesPosition (); 
-            
+            var createdObs = CreateObstaclesPosition ();
+
             do
             {
                 Positioning ();
@@ -324,8 +328,8 @@ namespace HexaPuzzle
                 AllPuzzleModels.Clear ();
             }
         }
-        
-        
+
+
         /// <summary>
         /// 모든 퍼즐의 위치를 확인함.
         /// 퍼즐이 이동하여 매칭이 되는 곳이 있는지 체크.
@@ -384,7 +388,6 @@ namespace HexaPuzzle
         }
 
 
-
         #region Puzzle Movement.
 
         /// <summary>
@@ -397,7 +400,8 @@ namespace HexaPuzzle
             origin.MoveTo (target.puzzlePositionModel);
             target.MoveTo (originPosition);
 
-            await UniTask.Delay (TimeSpan.FromSeconds (GameConstants.WaitCheckTime), cancellationToken: _cancellationTokenSource.Token);
+            await UniTask.Delay (TimeSpan.FromSeconds (GameConstants.WaitCheckTime),
+                cancellationToken: _cancellationTokenSource.Token);
         }
 
 
@@ -407,7 +411,7 @@ namespace HexaPuzzle
         public void CompleteAlignedPuzzles (PuzzleModel puzzleModel)
         {
             Debug.Log ($"{puzzleModel} move complete at");
-            _predicatedFlowDownPositions.Remove (puzzleModel);
+            _predictFlowDownPositions.Remove (puzzleModel);
             _predicatedFlowSidePositionDict.Remove (puzzleModel);
             if (_alignedPuzzles.Contains (puzzleModel))
                 return;
@@ -427,7 +431,8 @@ namespace HexaPuzzle
         {
             _puzzleMatchingResultModel.Reset ();
 
-            await UniTask.Delay (TimeSpan.FromSeconds (GameConstants.WaitCheckTime), cancellationToken: _cancellationTokenSource.Token);
+            await UniTask.Delay (TimeSpan.FromSeconds (GameConstants.WaitCheckTime),
+                cancellationToken: _cancellationTokenSource.Token);
 
             FindPuzzle ();
             ChangeSpecialPuzzle ();
@@ -438,9 +443,10 @@ namespace HexaPuzzle
                 return false;
 
             CheckSpecialPuzzle ();
-            CheckPuzzle ();
+            CheckTotalResults ();
 
-            await UniTask.Delay (TimeSpan.FromSeconds (GameConstants.WaitCheckTime), cancellationToken: _cancellationTokenSource.Token);
+            await UniTask.Delay (TimeSpan.FromSeconds (GameConstants.WaitCheckTime),
+                cancellationToken: _cancellationTokenSource.Token);
             AlignPuzzles ();
 
             return true;
@@ -463,10 +469,10 @@ namespace HexaPuzzle
                 }
 
                 Debug.LogWarning ("Array Check Ended");
-                await UniTask.Delay (TimeSpan.FromSeconds (0.5f), cancellationToken:_cancellationTokenSource.Token);
+                await UniTask.Delay (TimeSpan.FromSeconds (0.5f), cancellationToken: _cancellationTokenSource.Token);
 
                 ChangeControlMode (false, PuzzleCheckTypes.None, _alignedPuzzles);
-                
+
                 // when exist moved puzzles, re-check matching state of the moved puzzle.
                 if (await PuzzleCheckFlow ()) return;
 
@@ -476,9 +482,10 @@ namespace HexaPuzzle
             void DonePuzzleChecks ()
             {
                 _alignedPuzzles.Clear ();
-                _gameViewmodel.AddResult (_puzzleCheckValue);
+                _gameViewmodel.SetResult (_puzzleCheckValue);
                 _completeCheckPuzzles.Invoke ();
                 _puzzleCheckValue = 0;
+                LocalDataHelper.SaveSpecialPuzzleData (AllSpecialPuzzles.Values.Select (x => x.Exp.Value).ToList ());
             }
         }
 
@@ -540,7 +547,12 @@ namespace HexaPuzzle
                     {
                         if (!firstCheck.IsChecked || !secondCheck.IsChecked) return;
                         var overlapPuzzle = GetOverlapedPuzzle (firstCheck.CheckPuzzles, secondCheck.CheckPuzzles);
-                        totalCheckResultModel.SetMatchingType (PuzzleMatchingType.TOverlap);
+                        var firstCheckAt = firstCheck.CheckPuzzles.FirstOrLast (overlapPuzzle);
+                        var secondsCheckAt = secondCheck.CheckPuzzles.FirstOrLast (overlapPuzzle);
+                        var overlapType = !firstCheckAt && !secondsCheckAt ? PuzzleMatchingType.XOverlap :
+                            firstCheckAt && secondsCheckAt ? PuzzleMatchingType.VOverlap : PuzzleMatchingType.TOverlap;
+
+                        totalCheckResultModel.SetMatchingType (overlapType);
                         totalCheckResultModel.SetOverlapPuzzle (overlapPuzzle);
                     }
                 }
@@ -629,19 +641,41 @@ namespace HexaPuzzle
 
             void ChangeSpecialPuzzles (TotalPuzzleCheckResultModel totalCheckResultModel)
             {
-                if (totalCheckResultModel.PuzzleMatchingTypes == PuzzleMatchingType.TOverlap)
+                switch (totalCheckResultModel.PuzzleMatchingTypes)
                 {
-                    CreateSpecialPuzzle (PuzzleSpecialTypes.Bomb);
-                }
+                    case PuzzleMatchingType.None:
+                        break;
+                    case PuzzleMatchingType.ThreeMatching:
+                        break;
 
-                if (totalCheckResultModel.PuzzleMatchingTypes == PuzzleMatchingType.FourMatching)
-                {
-                    CreateSpecialPuzzle (GetPuzzleSpecialType ());
-                }
+                    case PuzzleMatchingType.FourMatching:
+                        CreateSpecialPuzzle (GetPuzzleSpecialType ());
+                        break;
 
-                if (totalCheckResultModel.PuzzleMatchingTypes == PuzzleMatchingType.FiveMatching)
-                {
-                    CreateSpecialPuzzle (PuzzleSpecialTypes.PickColors);
+                    case PuzzleMatchingType.FiveMatching:
+                        CreateSpecialPuzzle (PuzzleSpecialTypes.PickColors);
+                        break;
+
+                    case PuzzleMatchingType.TOverlap:
+                    case PuzzleMatchingType.TFourLineOverlap:
+                    case PuzzleMatchingType.TFiveLineOverlap:
+                    case PuzzleMatchingType.VOverlap:
+                    case PuzzleMatchingType.VFourLineOverlap:
+                    case PuzzleMatchingType.VFiveLineOverlap:
+                    case PuzzleMatchingType.XOverlap:
+                    case PuzzleMatchingType.XFourLineOverlap:
+                    case PuzzleMatchingType.XFiveLineOverlap:
+                    case PuzzleMatchingType.ThreeOverlap:
+                    case PuzzleMatchingType.HexaOverlap:
+                        CreateSpecialPuzzle (PuzzleSpecialTypes.Bomb);
+                        break;
+
+                    case PuzzleMatchingType.CombineSpecial:
+                        break;
+                    case PuzzleMatchingType.Pick:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException ();
                 }
 
                 void CreateSpecialPuzzle (PuzzleSpecialTypes puzzleSpecialTypes)
@@ -654,7 +688,7 @@ namespace HexaPuzzle
 
                 PuzzleModel GetChangeTargetPuzzle ()
                 {
-                    if (totalCheckResultModel.PuzzleMatchingTypes == PuzzleMatchingType.TOverlap)
+                    if (totalCheckResultModel.PuzzleMatchingTypes.ToString ().Contains ("Overlap"))
                         return totalCheckResultModel.OverlapPuzzle;
 
                     if (!_puzzlePlayerControlModel.IsPlayerControl)
@@ -687,7 +721,7 @@ namespace HexaPuzzle
         /// 퍼즐 데이터를 초기화함.
         /// Initialize checked puzzle data.
         /// </summary>
-        private void CheckPuzzle ()
+        private void CheckTotalResults ()
         {
             var index = 0;
             var obstacles = new List<PuzzleModel> ();
@@ -695,8 +729,9 @@ namespace HexaPuzzle
 
             _puzzleMatchingResultModel.checkResultModels.Foreach (checkResult =>
             {
-                CheckPuzzleValue (checkResult);
-                
+                AddPuzzleExp (checkResult.PuzzleMatchingTypes);
+                _puzzleCheckValue += GetPuzzleValue (checkResult.PuzzleMatchingTypes);
+
                 checkResult.CheckPuzzles.Foreach (removePuzzleModel =>
                 {
                     if (removePuzzleModel == null)
@@ -714,43 +749,6 @@ namespace HexaPuzzle
             });
 
             CheckObstacles (obstacles);
-        }
-
-
-        private void CheckPuzzleValue (TotalPuzzleCheckResultModel totalPuzzleCheckResultModel)
-        {
-            switch (totalPuzzleCheckResultModel.PuzzleMatchingTypes)
-            {
-                case PuzzleMatchingType.None:
-                    break;
-                
-                case PuzzleMatchingType.ThreeMatching:
-                    _puzzleCheckValue += GameConstants.ThreeMatchingPuzzleCheckValue;
-                    break;
-                
-                case PuzzleMatchingType.FourMatching:
-                    _puzzleCheckValue += GameConstants.FourMatchingPuzzleCheckValue;
-                    break;
-                
-                case PuzzleMatchingType.FiveMatching:
-                    _puzzleCheckValue += GameConstants.FiveMatchingPuzzleCheckValue;
-                    break;
-                
-                case PuzzleMatchingType.TOverlap:
-                    _puzzleCheckValue += GameConstants.OverlapMatchingPuzzleCheckValue;
-                    break;
-                
-                case PuzzleMatchingType.CombineSpecial:
-                    _puzzleCheckValue += GameConstants.CombineSpecialMatchingPuzzleCheckValue;
-                    break;
-                
-                case PuzzleMatchingType.Pick:
-                    _puzzleCheckValue += GameConstants.PickMatchingPuzzleCheckValue;
-                    break;
-                
-                default:
-                    throw new ArgumentOutOfRangeException ();
-            }
         }
 
 
@@ -805,8 +803,10 @@ namespace HexaPuzzle
 
             void CombinePickTypePuzzle ()
             {
-                var isOriginPickType = _puzzlePlayerControlModel.Origin.PuzzleSpecialTypes.Value == PuzzleSpecialTypes.PickColors;
-                var isTargetPickType = _puzzlePlayerControlModel.Target.PuzzleSpecialTypes.Value == PuzzleSpecialTypes.PickColors;
+                var isOriginPickType = _puzzlePlayerControlModel.Origin.PuzzleSpecialTypes.Value ==
+                                       PuzzleSpecialTypes.PickColors;
+                var isTargetPickType = _puzzlePlayerControlModel.Target.PuzzleSpecialTypes.Value ==
+                                       PuzzleSpecialTypes.PickColors;
 
                 if (!isOriginPickType && !isTargetPickType)
                     return;
@@ -863,7 +863,8 @@ namespace HexaPuzzle
         /// <summary>
         /// 특수 퍼즐 영역에 맞는 퍼즐들을 찾음.
         /// </summary>
-        private void ProcessCheckSpecialPuzzle (TotalPuzzleCheckResultModel totalPuzzleCheckResultModel, PuzzleModel puzzleModel)
+        private void ProcessCheckSpecialPuzzle (TotalPuzzleCheckResultModel totalPuzzleCheckResultModel,
+            PuzzleModel puzzleModel)
         {
             if (totalPuzzleCheckResultModel.PuzzleMatchingTypes == PuzzleMatchingType.Pick)
             {
@@ -947,7 +948,8 @@ namespace HexaPuzzle
         }
 
         // 해당 방향에 해당하는 모든 퍼즐을 찾음.
-        void AllPuzzleFindCheckDir (TotalPuzzleCheckResultModel totalPuzzleCheckResultModel, PuzzleModel puzzleModel,
+        private void AllPuzzleFindCheckDir (TotalPuzzleCheckResultModel totalPuzzleCheckResultModel,
+            PuzzleModel puzzleModel,
             CheckDirectionTypes checkDirectionTypes, CheckDirectionTypes otherCheckDirectionTypes)
         {
             var foundedPuzzles = new List<PuzzleModel> ();
@@ -980,6 +982,8 @@ namespace HexaPuzzle
 
 
         // 퍼즐 재정렬.
+
+
         #region ArrayPuzzles.
 
         /// <summary>
@@ -987,37 +991,42 @@ namespace HexaPuzzle
         /// </summary>
         private async UniTask FlowDownCheck ()
         {
-            Debug.Log ($"{nameof (FlowDownCheck)}ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
-
             AllPuzzleModels
+                .Where (model => ContainLineModel (model.puzzlePositionModel))
                 .Where (CheckMovablePuzzleModel)
                 .OrderBy (x => x.Row)
                 .Foreach (puzzleModel =>
                 {
-                    if (!ContainLineModel (puzzleModel.puzzlePositionModel))
-                        return;
-
-
                     var existLandRows = AllLineModels[puzzleModel.Column].GetBelowRows (puzzleModel.Row);
-                    foreach (var row in existLandRows)
-                    {
-                        var checkPosition = new PuzzlePositionModel (puzzleModel.Column, row);
-                        var checkPuzzle = GetContainPuzzleModel (checkPosition);
 
-                        if ((checkPuzzle == null || checkPuzzle.IsChecked ||
-                             _predicatedFlowDownPositions.ContainsKey (checkPuzzle)) &&
-                            !_predicatedFlowDownPositions.ContainsValue (checkPosition) &&
-                            !_predicatedFlowSidePositionDict.ContainsValue (checkPosition))
+                    existLandRows
+                        .Select (row => new PuzzlePositionModel (puzzleModel.Column, row))
+                        .Foreach (checkPosition =>
                         {
-                            Debug.Log (
-                                $"{puzzleModel} flow down to {checkPosition}");
-                            _predicatedFlowDownPositions.SetOrAdd (puzzleModel, checkPosition);
-                            puzzleModel.MoveTo (checkPosition);
-                        }
-                    }
+                            if (_predictFlowDownPositions.ContainsKey (puzzleModel))
+                                return;
+
+                            var checkPuzzle = GetContainPuzzleModel (checkPosition);
+
+                            if (_predictFlowDownPositions.ContainsValue (checkPosition) ||
+                                checkPuzzle != null &&
+                                (!_predictFlowDownPositions.ContainsKey (checkPuzzle) ||
+                                 _predictFlowDownPositions[checkPuzzle].Equals (checkPosition))) return;
+                            
+                            Debug.Log ($"{puzzleModel} {checkPosition}");
+                            _predictFlowDownPositions.SetOrAdd (puzzleModel, checkPosition);
+
+                            for (var i = puzzleModel.Row - 1; i >= checkPosition.Row; i--)
+                            {
+                                Debug.Log ($"{puzzleModel} {checkPosition}");
+                                var insidePosition = new PuzzlePositionModel (puzzleModel.Column, i);
+                                puzzleModel.MoveTo (insidePosition);
+                            }
+                        });
                 });
 
-            await UniTask.Delay (TimeSpan.FromSeconds (GameConstants.FlowCheckTime), cancellationToken: _cancellationTokenSource.Token);
+            await UniTask.Delay (TimeSpan.FromSeconds (GameConstants.FlowCheckTime),
+                cancellationToken: _cancellationTokenSource.Token);
         }
 
 
@@ -1026,7 +1035,7 @@ namespace HexaPuzzle
         /// </summary>
         private async UniTask FlowSideCheck ()
         {
-            Debug.Log ($"{nameof (FlowSideCheck)}ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+            // Debug.Log ($"{nameof (FlowSideCheck)}ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
 
             AllPuzzleModels
                 .Where (CheckMovablePuzzleModel)
@@ -1040,7 +1049,8 @@ namespace HexaPuzzle
                     }
                 });
 
-            await UniTask.Delay (TimeSpan.FromSeconds (GameConstants.FlowCheckTime), cancellationToken: _cancellationTokenSource.Token);
+            await UniTask.Delay (TimeSpan.FromSeconds (GameConstants.FlowCheckTime),
+                cancellationToken: _cancellationTokenSource.Token);
 
             bool FlowCheckSide (PuzzleModel puzzleModel, CheckDirectionTypes lineDirectionTypes)
             {
@@ -1073,27 +1083,28 @@ namespace HexaPuzzle
         /// <returns></returns>
         private async UniTask CreateNewPuzzle ()
         {
-            Debug.Log ($"{nameof (CreateNewPuzzle)}ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+            AllLineModels
+                .Where (x => x.Value.IsCreateLine)
+                .Foreach (lineModel =>
+                {
+                    var position = new PuzzlePositionModel (lineModel.Key, lineModel.Value.CreatePuzzleRow ());
+                    var puzzle = GetContainPuzzleModel (position);
+                    if (puzzle != null && !puzzle.IsChecked)
+                        return;
 
-            AllLineModels.Where (x => x.Value.IsCreateLine).Foreach (lineModel =>
-            {
-                var position = new PuzzlePositionModel (lineModel.Key, lineModel.Value.CreatePuzzleRow ());
-                var puzzle = GetContainPuzzleModel (position);
-                if (puzzle != null && !puzzle.IsChecked)
-                    return;
+                    var removedPuzzle = AllPuzzleModels.FirstOrDefault (x => x.IsChecked);
+                    if (removedPuzzle == null)
+                        return;
 
-                var removedPuzzle = AllPuzzleModels.FirstOrDefault (x => x.IsChecked);
-                if (removedPuzzle == null)
-                    return;
+                    var puzzleColor =
+                        (PuzzleColorTypes) Random.Range ((int) PuzzleColorTypes.None + 1, (int) PuzzleColorTypes.Max);
+                    Debug.LogWarning ($"create {puzzleColor} at {position}");
+                    removedPuzzle.ResetPuzzle (puzzleColor, position);
+                    _alignedPuzzles.Add (removedPuzzle);
+                });
 
-                var puzzleColor =
-                    (PuzzleColorTypes) Random.Range ((int) PuzzleColorTypes.None + 1, (int) PuzzleColorTypes.Max);
-                Debug.LogWarning ($"create {puzzleColor} at {position}");
-                removedPuzzle.ResetPuzzle (puzzleColor, position);
-                _alignedPuzzles.Add (removedPuzzle);
-            });
-
-            await UniTask.Delay (TimeSpan.FromSeconds (GameConstants.FlowCheckTime), cancellationToken: _cancellationTokenSource.Token);
+            await UniTask.Delay (TimeSpan.FromSeconds (GameConstants.FlowCheckTime),
+                cancellationToken: _cancellationTokenSource.Token);
         }
 
         #endregion
@@ -1138,7 +1149,7 @@ namespace HexaPuzzle
             return puzzleModel != null &&
                    !puzzleModel.IsChecked &&
                    !_predicatedFlowSidePositionDict.ContainsKey (puzzleModel) &&
-                   !_predicatedFlowDownPositions.ContainsKey (puzzleModel);
+                   !_predictFlowDownPositions.ContainsKey (puzzleModel);
         }
 
         public PuzzleModel GetBesideModel (PuzzlePositionModel puzzlePositionModel, float angle)
@@ -1228,7 +1239,7 @@ namespace HexaPuzzle
             return ContainLineModel (puzzlePositionModel) &&
                    GetContainPuzzleModel (puzzlePositionModel) == null &&
                    !_predicatedFlowSidePositionDict.ContainsValue (puzzlePositionModel) &&
-                   !_predicatedFlowDownPositions.ContainsValue (puzzlePositionModel);
+                   !_predictFlowDownPositions.ContainsValue (puzzlePositionModel);
         }
 
 
@@ -1268,7 +1279,8 @@ namespace HexaPuzzle
         /// <summary>
         /// 해당 enum 타입 방향에 있는 바로 옆 퍼즐의 키 값을 리턴.
         /// </summary>
-        public PuzzlePositionModel GetPositionByDirectionType (PuzzleModel model, CheckDirectionTypes checkDirectionTypes)
+        public PuzzlePositionModel GetPositionByDirectionType (PuzzleModel model,
+            CheckDirectionTypes checkDirectionTypes)
         {
             return GetKeyByAngle (model.puzzlePositionModel, (float) checkDirectionTypes);
         }

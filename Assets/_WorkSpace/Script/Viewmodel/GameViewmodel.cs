@@ -36,9 +36,9 @@ namespace HexaPuzzle
 
         #region Methods
 
-        public void AddResult (float value)
+        public void SetResult (float value)
         {
-            _summonResultModel.SummonGageValue.Value += value;
+            _summonResultModel.SummonGageValue.Value = value;
         }
 
         #endregion

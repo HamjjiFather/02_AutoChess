@@ -10,7 +10,7 @@ namespace HexaPuzzle
 
         public const float WaitCheckTime = 0.9f;
 
-        public static float PuzzleMovementSpeed => Time.deltaTime;
+        public const float PuzzleAlmostArriveDistance = 0.05f;
 
         public const float ThreeMatchingPuzzleCheckValue = 30f;
         

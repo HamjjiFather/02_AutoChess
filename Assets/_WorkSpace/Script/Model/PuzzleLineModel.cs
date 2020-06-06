@@ -65,6 +65,9 @@ namespace HexaPuzzle
             return list;
         }
 
+        /// <summary>
+        /// 오름차순으로 정렬하여 리턴.
+        /// </summary>
         public IEnumerable<int> GetBelowRows (int row)
         {
             var list = new List<int> ();
@@ -82,7 +85,7 @@ namespace HexaPuzzle
                 break;
             }
 
-            return list;
+            return list.OrderBy (x => x);
         }
     }
 }

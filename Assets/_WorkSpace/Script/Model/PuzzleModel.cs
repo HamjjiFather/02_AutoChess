@@ -86,6 +86,10 @@ namespace HexaPuzzle
         /// /// </summary>
         public bool IsChecked { get; private set; }
 
+
+        public bool IsMoving;
+        
+
         /// <summary>
         /// 현재 Column.
         /// </summary>

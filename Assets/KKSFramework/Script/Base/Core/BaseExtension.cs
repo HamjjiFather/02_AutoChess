@@ -610,6 +610,12 @@ public static class BaseExtension
     }
 
 
+    public static bool FirstOrLast<TSource> (this IEnumerable<TSource> source, TSource element)
+    {
+        return element.Equals(source.FirstOrDefault ()) || element.Equals(source.LastOrDefault ());
+    }
+    
+
     public static bool ContainIndex<TSource> (this IEnumerable<TSource> source, int index)
     {
         return Enumerable.Range (0, source.Count ()).Contains (index);

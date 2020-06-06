@@ -71,7 +71,7 @@ namespace HexaPuzzle
         public PuzzleMatchingType PuzzleMatchingTypes;
 
         public List<PuzzleModel> CheckPuzzles = new List<PuzzleModel> ();
-
+        
         public bool IsChecked => PuzzleMatchingTypes != PuzzleMatchingType.None;
 
         public PuzzleCheckResultModel ()
@@ -82,6 +82,7 @@ namespace HexaPuzzle
         {
             CheckPuzzles.Add (puzzleModel);
         }
+
 
         public void SetMatchingType (PuzzleMatchingType puzzleMatchingTypes)
         {

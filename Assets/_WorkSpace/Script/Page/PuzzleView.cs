@@ -5,6 +5,7 @@ using KKSFramework.ResourcesLoad;
 using UniRx.Async;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Zenject;
 
 namespace HexaPuzzle
@@ -20,8 +21,6 @@ namespace HexaPuzzle
 
 
         public GameObject touchPreventionObj;
-
-        public SummonView summonView;
 
         /// <summary>
         /// Container of destroyed puzzles.

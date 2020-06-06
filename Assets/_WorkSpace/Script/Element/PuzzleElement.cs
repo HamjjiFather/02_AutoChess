@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using KKSFramework;
 using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,7 +17,7 @@ namespace HexaPuzzle
     }
 
     /// <summary>
-    /// 퍼즐 조각.
+    /// Puzzle element in puzzle land.
     /// </summary>
     public class PuzzleElement : MonoBehaviour
     {
@@ -35,9 +34,7 @@ namespace HexaPuzzle
         /// <summary>
         /// move position.
         /// </summary>
-        private readonly Queue<PuzzlePositionModel> _movePositions = new Queue<PuzzlePositionModel> ();
-
-        private PuzzlePositionModel _nowPuzzlePosition;
+        public List<PuzzlePositionModel> _movePositions = new List<PuzzlePositionModel> ();
 
         private Vector2 _beginDragPosition;
 
@@ -159,38 +156,37 @@ namespace HexaPuzzle
         public void Move (PuzzlePositionModel puzzlePositionModel)
         {
             if (_movePositions.Contains (puzzlePositionModel)) return;
-            _movePositions.Enqueue (puzzlePositionModel);
+            _movePositions.Add (puzzlePositionModel);
 
             if (_puzzleMovementState != PuzzleMovementState.None) return;
             SubscribeMovementAction ();
 
             void SubscribeMovementAction ()
             {
-                _nowPuzzlePosition = _movePositions.Peek ();
                 _puzzleMovementState = PuzzleMovementState.Moving;
 
-                var targetPos = _puzzleView.GetLandElement (_nowPuzzlePosition).transform.position;
 
                 _movementDisposable.DisposeSafe ();
                 _movementDisposable = Observable.EveryUpdate ()
                     .TakeWhile (_ => _movePositions.Any ())
                     .Subscribe (_ =>
                     {
-                        transform.MoveTowards (transform.position, targetPos, Time.deltaTime);
+                        var targetPos = _puzzleView.GetLandElement (_movePositions.First()).transform.position;
+                        
+                        transform.MoveTowards (transform.position, targetPos, Time.deltaTime * 1.5f);
 
                         if (_puzzleMovementState == PuzzleMovementState.Moving &&
-                            Vector2.Distance (transform.position, targetPos) <= GameConstants.PuzzleMovementSpeed)
+                            Vector2.Distance (transform.position, targetPos) <= GameConstants.PuzzleAlmostArriveDistance)
                         {
                             _puzzleMovementState = PuzzleMovementState.Almost;
-                            if (!PuzzleModel.puzzlePositionModel.Equals (_nowPuzzlePosition))
-                                PuzzleModel.puzzlePositionModel.Set (_nowPuzzlePosition);
+                            if (!PuzzleModel.puzzlePositionModel.Equals (_movePositions.First()))
+                                PuzzleModel.puzzlePositionModel.Set (_movePositions.First());
                         }
 
                         if (_puzzleMovementState == PuzzleMovementState.Almost &&
                             Vector2.Distance (transform.position, targetPos) <= float.Epsilon)
                         {
-                            if (!_movePositions.Any ()) return;
-                            _nowPuzzlePosition = _movePositions.Dequeue ();
+                            _movePositions.RemoveAt (0);
                             _puzzleMovementState = PuzzleMovementState.Moving;
                         }
                     }, () =>

@@ -30,7 +30,7 @@ namespace KKSFramework.Navigation
         public void RegistPopup(PopupViewBase popupViewBase)
         {
             popupViewBase.transform.SetParent(PageOption.popupParents);
-            popupViewBase.rectTransform.SetInstantiateTransform ();
+            popupViewBase.transform.SetInstantiateTransform ();
             _registedPopupStack.Push(popupViewBase);
         }
 

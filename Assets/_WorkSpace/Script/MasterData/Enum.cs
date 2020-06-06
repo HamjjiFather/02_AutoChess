@@ -3,6 +3,8 @@
 public enum DataType
 {
 	GlobalText = 1000,
+	SpecialPuzzle = 2000,
+	Level = 3000,
 
 }
 
@@ -22,12 +24,15 @@ public enum PuzzleMatchingType
 	TOverlap = 6,
 	TFourLineOverlap = 7,
 	TFiveLineOverlap = 8,
-	Xoverlap = 9,
-	XFourLineOverlap = 10,
-	XFiveLineOverlap = 11,
-	ThreeOverlap = 12,
-	HexaOverlap = 13,
-	CombineSpecial = 14,
-	Pick = 15,
+	VOverlap = 9,
+	VFourLineOverlap = 10,
+	VFiveLineOverlap = 11,
+	XOverlap = 12,
+	XFourLineOverlap = 13,
+	XFiveLineOverlap = 14,
+	ThreeOverlap = 15,
+	HexaOverlap = 16,
+	CombineSpecial = 17,
+	Pick = 18,
 
 }

@@ -1,7 +1,14 @@
 using System;
+using System.Collections.Generic;
 
 namespace KKSFramework.LocalData
 {
+    [Serializable]
+    public class SpecialPuzzleBundle : Bundle
+    {
+        public List<int> Exps = new List<int> ();
+    }
+    
     public static class LocalDataHelper
     {
         private static readonly LocalData LocalDataClass = new LocalData();
@@ -13,7 +20,17 @@ namespace KKSFramework.LocalData
         /// </summary>
         public static void LoadAllGameData()
         {
+            var loadedData =
+                LocalDataManager.Instance.LoadGameData<SpecialPuzzleBundle> (LocalDataClass.SpecialPuzzleBundle);
+            LocalDataClass.SpecialPuzzleBundle = loadedData;
         }
+
+
+        public static SpecialPuzzleBundle GetSpecialPuzzleBundle ()
+        {
+            return LocalDataClass.SpecialPuzzleBundle;
+        }
+        
 
         #endregion
 
@@ -25,6 +42,14 @@ namespace KKSFramework.LocalData
         /// </summary>
         public static void SaveAllGameData()
         {
+            LocalDataManager.Instance.SaveGameData (LocalDataClass.SpecialPuzzleBundle);
+        }
+
+
+        public static void SaveSpecialPuzzleData (List<int> exps)
+        {
+            LocalDataClass.SpecialPuzzleBundle.Exps = exps;
+            LocalDataManager.Instance.SaveGameData (LocalDataClass.SpecialPuzzleBundle);
         }
 
 
@@ -36,7 +61,7 @@ namespace KKSFramework.LocalData
         [Serializable]
         public class LocalData
         {
-            
+            public SpecialPuzzleBundle SpecialPuzzleBundle = new SpecialPuzzleBundle ();
         }
     }
 }

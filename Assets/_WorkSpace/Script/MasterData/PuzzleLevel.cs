@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using KKSFramework.TableData;
 
-public class Level : TableDataBase
+public class PuzzleLevel : TableDataBase
 {
 	// 인덱스.
 	public int Id;
@@ -18,7 +18,7 @@ public class Level : TableDataBase
 	public int CoExp;
 
 
-    public Level ()
+    public PuzzleLevel ()
     {
     }
 

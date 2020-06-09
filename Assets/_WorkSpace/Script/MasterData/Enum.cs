@@ -4,7 +4,11 @@ public enum DataType
 {
 	GlobalText = 1000,
 	SpecialPuzzle = 2000,
-	Level = 3000,
+	PuzzleLevel = 3000,
+	CharacterProbability = 4000,
+	ProbabilityRange = 5000,
+	Character = 6000,
+	CharacterLevel = 7000,
 
 }
 
@@ -34,5 +38,16 @@ public enum PuzzleMatchingType
 	HexaOverlap = 16,
 	CombineSpecial = 17,
 	Pick = 18,
+
+}
+
+public enum Grade
+{
+	None = -1,
+	Grade1 = 0,
+	Grade2 = 1,
+	Grade3 = 2,
+	Grade4 = 3,
+	Grade5 = 4,
 
 }

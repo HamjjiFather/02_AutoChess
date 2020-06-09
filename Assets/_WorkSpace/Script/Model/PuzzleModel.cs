@@ -75,19 +75,20 @@ namespace HexaPuzzle
 
         public UnityAction ResetPuzzleEvent;
 
-
         /// <summary>
         /// 장애물 체크 카운트.
         /// </summary>
         private int _obstacleCount;
 
         /// <summary>
-        /// 이 퍼즐이 체크 되었는지.
+        /// 이 퍼즐이 삭제 되었는지.
         /// /// </summary>
-        public bool IsChecked { get; private set; }
+        public bool IsCleared { get; private set; }
 
-
-        public bool IsMoving;
+        /// <summary>
+        /// 이 퍼즐이 체크 되었는지.
+        /// </summary>
+        public bool IsChecked;
         
 
         /// <summary>
@@ -127,12 +128,12 @@ namespace HexaPuzzle
 
         public void CheckPuzzle ()
         {
-            if (IsChecked)
+            if (IsCleared)
             {
                 return;
             }
 
-            IsChecked = true;
+            IsCleared = true;
             ObstacleTypes.Value = HexaPuzzle.ObstacleTypes.None;
             puzzlePositionModel.Clear ();
             CheckPuzzleEvent?.Invoke (this);
@@ -144,7 +145,7 @@ namespace HexaPuzzle
         /// </summary>
         public void ChangeSpecialPuzzle (PuzzleSpecialTypes puzzleSpecialTypes)
         {
-            IsChecked = false;
+            IsCleared = false;
             PuzzleSpecialTypes.Value = puzzleSpecialTypes;
         }
 
@@ -167,9 +168,16 @@ namespace HexaPuzzle
         }
 
 
+        public bool IsCheckableSpecialPuzzle ()
+        {
+            return !IsChecked && PuzzleSpecialTypes.Value != HexaPuzzle.PuzzleSpecialTypes.None;
+        }
+
+
         public void ResetPuzzle (PuzzleColorTypes puzzleColorTypes, PuzzlePositionModel puzzlePositionModel)
         {
             IsChecked = false;
+            IsCleared = false;
             PuzzleColorTypes.Value = puzzleColorTypes;
             PuzzleSpecialTypes.Value = HexaPuzzle.PuzzleSpecialTypes.None;
             this.puzzlePositionModel = puzzlePositionModel;

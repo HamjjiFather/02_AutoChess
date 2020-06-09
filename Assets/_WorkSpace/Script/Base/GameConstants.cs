@@ -23,6 +23,8 @@ namespace HexaPuzzle
         public const float CombineSpecialMatchingPuzzleCheckValue = 45f;
         
         public const float PickMatchingPuzzleCheckValue = 30f;
-        
+
+        public const string BaseUniqueId = "Character_Base_Unique_Index_";
+
     }
 }

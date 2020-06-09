@@ -1,1 +1,21 @@
 Id	GlobalTexts
+CHARACTER_NAME_0000	전사/Warrior
+CHARACTER_NAME_0001	파이터/Fighter
+CHARACTER_NAME_0002	아처/Archer
+CHARACTER_NAME_0003	석궁수/Crossbowman
+CHARACTER_NAME_0004	마법사/Magician
+CHARACTER_NAME_0005	파괴술사/Invoker
+CHARACTER_NAME_0006	암살자/Assassin
+CHARACTER_NAME_0007	도둑/Thief
+CHARACTER_NAME_0008	클레릭/Cleric
+CHARACTER_NAME_0009	팔라딘/Paladin
+CHARACTER_DESC_0000	직업설명/Job Description
+CHARACTER_DESC_0001	직업설명/Job Description
+CHARACTER_DESC_0002	직업설명/Job Description
+CHARACTER_DESC_0003	직업설명/Job Description
+CHARACTER_DESC_0004	직업설명/Job Description
+CHARACTER_DESC_0005	직업설명/Job Description
+CHARACTER_DESC_0006	직업설명/Job Description
+CHARACTER_DESC_0007	직업설명/Job Description
+CHARACTER_DESC_0008	직업설명/Job Description
+CHARACTER_DESC_0009	직업설명/Job Description

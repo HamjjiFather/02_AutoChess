@@ -20,6 +20,8 @@ namespace KKSFramework
         public Button puzzleViewButton;
         
         public Button specialPuzzleViewButton;
+
+        public Button battleCharacterViewButton;
         
 
 #pragma warning disable CS0649
@@ -35,6 +37,7 @@ namespace KKSFramework
         {
             puzzleViewButton.onClick.AddListener (ClickPuzzle);
             specialPuzzleViewButton.onClick.AddListener (ClickSpecialPuzzle);
+            battleCharacterViewButton.onClick.AddListener (ClickBattleCharacterPuzzle);
             SetSubviewPage (0);
         }
 
@@ -72,6 +75,12 @@ namespace KKSFramework
         private void ClickSpecialPuzzle ()
         {
             SetSubviewPage (1);
+        }
+        
+        
+        private void ClickBattleCharacterPuzzle ()
+        {
+            SetSubviewPage (2);
         }
         
 

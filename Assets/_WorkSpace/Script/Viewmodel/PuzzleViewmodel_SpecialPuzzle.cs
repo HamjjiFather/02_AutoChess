@@ -83,9 +83,9 @@ namespace HexaPuzzle
 
         #region GetLevel
 
-        public Level GetLevelData (int exp)
+        public PuzzleLevel GetLevelData (int exp)
         {
-            return TableDataManager.Instance.LevelDict.Values.FirstOrDefault (x => x.AccReqExp > exp);
+            return TableDataManager.Instance.PuzzleLevelDict.Values.FirstOrDefault (x => x.AccReqExp > exp);
         }
 
         #endregion

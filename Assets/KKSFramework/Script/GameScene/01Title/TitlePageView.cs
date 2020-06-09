@@ -17,6 +17,9 @@ namespace KKSFramework.Navigation
         [Inject]
         private PuzzleViewmodel _puzzleViewmodel;
 
+        [Inject]
+        private CharacterViewmodel _characterViewmodel;
+
 #pragma warning restore CS0649
 
         private bool _isLoaded; 
@@ -46,6 +49,7 @@ namespace KKSFramework.Navigation
         {
             _puzzleViewmodel.InitTableData ();
             _puzzleViewmodel.InitLocalData ();
+            _characterViewmodel.InitLocalData ();
         }
 
         private void ClickTitle ()

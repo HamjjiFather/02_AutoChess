@@ -9,6 +9,8 @@ namespace HexaPuzzle
     {
         #region Fields & Property
 
+        public Text puzzleLevelText;
+        
         public Text puzzleNameText;
         
         public Text puzzleExpText;
@@ -38,13 +40,14 @@ namespace HexaPuzzle
         {
             _specialPuzzleModel = specialPuzzleModel;
 
-            puzzleValueText.text = _specialPuzzleModel.SpecialPuzzleData.CheckValue.ToString (); 
+            puzzleValueText.text = $"+{_specialPuzzleModel.SpecialPuzzleData.CheckValue.ToString ()}"; 
+            puzzleNameText.text = $"{_specialPuzzleModel.SpecialPuzzleData.PuzzleMatchingType}";
 
             _specialPuzzleModel.Exp.Subscribe (x =>
             {
                 var levelData = _puzzleViewmodel.GetLevelData (x);
 
-                puzzleNameText.text = $"{_specialPuzzleModel.SpecialPuzzleData.PuzzleMatchingType} Lv.{levelData.LevelString}";
+                puzzleLevelText.text = $"Lv.{levelData.LevelString}";
                 puzzleExpText.text = $"{x - levelData.CoExp}/{levelData.ReqExp}";
             });
         }

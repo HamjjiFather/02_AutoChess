@@ -30,6 +30,8 @@ namespace HexaPuzzle
 
         public async UniTask SetGageAnimation (float gageValue)
         {
+            InitSlider ();
+            
             var i = 0;
             var time = gageValue / 100 + (gageValue % 100 > 0 ? 1 : 0);
 

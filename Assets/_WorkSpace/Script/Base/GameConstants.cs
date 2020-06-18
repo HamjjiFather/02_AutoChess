@@ -1,30 +1,17 @@
 using UnityEngine;
 
-namespace HexaPuzzle
+namespace AutoChess
 {
     public class GameConstants
     {
-        public const int CreatedColumn = 3;
+        public const int BaseCharacterUniqueId = 100000;
 
-        public const float FlowCheckTime = 0.01f;
-
-        public const float WaitCheckTime = 0.9f;
-
-        public const float PuzzleAlmostArriveDistance = 0.05f;
-
-        public const float ThreeMatchingPuzzleCheckValue = 30f;
-        
-        public const float FourMatchingPuzzleCheckValue = 45f;
-        
-        public const float FiveMatchingPuzzleCheckValue = 60f;
-        
-        public const float OverlapMatchingPuzzleCheckValue = 60f;
-        
-        public const float CombineSpecialMatchingPuzzleCheckValue = 45f;
-        
-        public const float PickMatchingPuzzleCheckValue = 30f;
-
-        public const string BaseUniqueId = "Character_Base_Unique_Index_";
-
+        public static readonly string[] PlayerCharacterPosition = {
+            "1,5",
+            "2,5",
+            "3,4",
+            "4,5",
+            "5,5"
+        };
     }
 }

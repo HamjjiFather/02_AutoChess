@@ -1,11 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using UnityEngine.UI;
 using KKSFramework.DesignPattern;
 using KKSFramework.LocalData;
+using UnityEngine;
+using Zenject;
+using Random = UnityEngine.Random;
 
-namespace HexaPuzzle
+namespace AutoChess
 {
     public class CharacterViewmodel : ViewModelBase
     {
@@ -13,23 +15,29 @@ namespace HexaPuzzle
 
 #pragma warning disable CS0649
 
+        [Inject]
+        private EquipmentViewmodel _equipmentViewmodel;
 
 #pragma warning restore CS0649
 
-        private int _lastUniqueId = 0;
-        
-        private readonly List<CharacterModel> _allCharacterModels = new List<CharacterModel> ();
-        
-        private readonly List<CharacterModel> _battleCharacterModels = new List<CharacterModel> ();
+        private int _lastUniqueId;
 
-        private readonly int[] StartCharacterIndexes = 
+        private readonly List<CharacterModel> _allCharacterModels = new List<CharacterModel> ();
+        public List<CharacterModel> AllCharacterModels => _allCharacterModels;
+
+        private readonly List<CharacterModel> _battleCharacterModels = new List<CharacterModel> (5);
+        public List<CharacterModel> BattleCharacterModels => _battleCharacterModels;
+
+        private readonly int[] StartCharacterIndexes =
         {
-            6000,
-            6001,
-            6002,
-            6003,
-            6004
+            2000,
+            2001,
+            2002,
+            2003,
+            2004
         };
+
+        public bool IsDataChanged { get; set; }
 
         #endregion
 
@@ -38,71 +46,221 @@ namespace HexaPuzzle
         {
         }
 
+
         public override void InitTableData ()
         {
             base.InitTableData ();
         }
 
+
         public override void InitLocalData ()
         {
             _lastUniqueId = LocalDataHelper.GetGameBundle ().LastCharacterUniqueId;
-            
+
             var characterBundle = LocalDataHelper.GetCharacterBundle ();
 
             if (!characterBundle.CharacterUniqueIds.Any ())
             {
-                StartCharacterIndexes.Foreach ((characterIndex, index) =>
+                StartCharacterIndexes.Foreach (index =>
                 {
-                    var characterModel = new CharacterModel ();
-                    var characterData = TableDataManager.Instance.CharacterDict[characterIndex];
-                    characterModel.SetUniqueData (NewUniqueId(), 0);
-                    characterModel.SetCharacterData (characterData);
-                    characterModel.SetStatusModel (GetStatusModel (characterData));
-
+                    var characterModel = NewCharacter (index);
                     _battleCharacterModels.Add (characterModel);
                 });
+
+                SaveCharacterData ();
+                SaveCharacterStatusGradeData ();
+                SaveBattleCharacterData ();
+                IsDataChanged = true;
+                return;
             }
 
             characterBundle.CharacterUniqueIds.Foreach ((uid, index) =>
             {
                 var characterModel = new CharacterModel ();
+                var statusGrade = characterBundle.CharacterStatusGrades[index];
                 var characterData = TableDataManager.Instance.CharacterDict[characterBundle.CharacterIds[index]];
-                characterModel.SetUniqueData (CombineUniqueId(uid), characterBundle.CharacterExps[index]);
-                characterModel.SetCharacterData (characterData);
-                characterModel.SetStatusModel (GetStatusModel (characterData));
+                var characterLevel = GameExtension.GetCharacterLevel (characterBundle.CharacterExps[index]);
+                var statusModel = GetBaseStatusModel (characterData, characterLevel,
+                    characterBundle.CharacterStatusGrades[index]);
 
+                characterModel.SetUniqueData (CombineUniqueId (uid), characterBundle.CharacterExps[index]);
+                characterModel.SetCharacterData (characterData);
+                characterModel.SetStatusModel (statusModel);
+                characterModel.SetPositionModel (new PositionModel (GameConstants.PlayerCharacterPosition[index]));
+
+                characterModel.GetBaseStatusModel (StatusType.Health).SetGradeValue (statusGrade.HealthStatusGrade);
+                characterModel.GetBaseStatusModel (StatusType.Attack).SetGradeValue (statusGrade.AttackStatusGrade);
+                characterModel.GetBaseStatusModel (StatusType.Defense).SetGradeValue (statusGrade.DefenseStatusGrade);
+
+                var equipment = _equipmentViewmodel.GetEquipmentModel (characterBundle.EquipmentUIds[index]);
+                characterModel.SetEquipmentModel (equipment);
+
+                _allCharacterModels.Add (characterModel);
                 _battleCharacterModels.Add (characterModel);
             });
+
+            IsDataChanged = true;
         }
 
 
         #region Methods
+
+
+        public void SetBattleCharacter (int index, CharacterModel characterModel)
+        {
+            characterModel.SetPositionModel (new PositionModel (GameConstants.PlayerCharacterPosition[index]));
+            _battleCharacterModels[index] = characterModel;
+            
+        }
+        
+        public void SetEquipment (int characterUid, EquipmentModel equipmentModel)
+        {
+            GetCharacterModel (characterUid).SetEquipmentModel (equipmentModel);
+        }
+
+
+        public void SaveCharacterData ()
+        {
+            LocalDataHelper.SaveCharacterIdData (
+                _allCharacterModels.Select (x => x.UniqueCharacterId).ToList (),
+                _allCharacterModels.Select (x => x.CharacterData.Id).ToList (),
+                _allCharacterModels.Select (x => x.Exp.Value).ToList (),
+                _allCharacterModels.Select (x => x.EquipmentModel.UniqueEquipmentId).ToList ());
+        }
+
+        public void SaveCharacterStatusGradeData ()
+        {
+            LocalDataHelper.SaveCharacterStatusGradeData (
+                _allCharacterModels.Select (x => x.StatusModel.GetStatusGradeValue (StatusType.Health)).ToList (),
+                _allCharacterModels.Select (x => x.StatusModel.GetStatusGradeValue (StatusType.Attack)).ToList (),
+                _allCharacterModels.Select (x => x.StatusModel.GetStatusGradeValue (StatusType.Defense)).ToList ());
+        }
+
+
+        public void SaveBattleCharacterData ()
+        {
+            LocalDataHelper.SaveBattleCharacterUidData (_battleCharacterModels.Select (x => x.UniqueCharacterId)
+                .ToList ());
+        }
+
+
+        /// <summary>
+        /// 캐릭터 획득.
+        /// </summary>
+        public CharacterModel NewCharacter (int characterIndex)
+        {
+            var characterModel = new CharacterModel ();
+            var characterData = TableDataManager.Instance.CharacterDict[characterIndex];
+            var gradeStatusValues = NewStatusGradeValue ();
+            var characterStatus = GetBaseStatusModel (characterData,
+                TableDataManager.Instance.CharacterLevelDict.Values.First (), gradeStatusValues);
+            var equipmentModel = _equipmentViewmodel.GetEquipmentModel (Constant.InvalidIndex);
+
+            characterModel.SetUniqueData (NewUniqueId (), 0);
+            characterModel.SetCharacterData (characterData);
+            characterModel.SetStatusModel (characterStatus);
+            characterModel.SetEquipmentModel (equipmentModel);
+            SetStatusGradeValue ();
+            _allCharacterModels.Add (characterModel);
+
+            return characterModel;
+
+            CharacterBundle.CharacterStatusGrade NewStatusGradeValue ()
+            {
+                return new CharacterBundle.CharacterStatusGrade
+                {
+                    HealthStatusGrade = Random.Range (0, 1f),
+                    AttackStatusGrade = Random.Range (0, 1f),
+                    DefenseStatusGrade = Random.Range (0, 1f)
+                };
+            }
+
+            void SetStatusGradeValue ()
+            {
+                characterStatus.SetNewStatusGradeValue (StatusType.Health, gradeStatusValues.HealthStatusGrade);
+                characterStatus.SetNewStatusGradeValue (StatusType.Attack, gradeStatusValues.AttackStatusGrade);
+                characterStatus.SetNewStatusGradeValue (StatusType.Defense, gradeStatusValues.DefenseStatusGrade);
+            }
+        }
+
+
+        public void InBattleCharacter (int index, CharacterModel characterModel)
+        {
+            _battleCharacterModels[index] = characterModel;
+            SaveBattleCharacterData ();
+        }
+
+        #endregion
+
+
+        #region GetMethods
 
         public CharacterModel GetBattleCharacterModel (int index)
         {
             return _battleCharacterModels.Count > index ? _battleCharacterModels[index] : default;
         }
 
-        public StatusModel GetStatusModel (Character character)
+
+        public CharacterModel GetCharacterModel (int uid)
         {
-            var status = new StatusModel (character.Hp, 0, character.At, character.Df);
+            return _allCharacterModels[uid];
+        }
+
+
+        public StatusModel GetBaseStatusModel (Character character, CharacterLevel characterLevel,
+            CharacterBundle.CharacterStatusGrade characterStatusGrade)
+        {
+            var characterStatus = GetBaseStatusDict (character, characterLevel, characterStatusGrade);
+            var status = new StatusModel ();
+            status.SetStatus (characterStatus);
             return status;
         }
 
 
-        public string CombineUniqueId (int uniqueIndex)
+        public int CombineUniqueId (int uniqueIndex)
         {
-            return $"{GameConstants.BaseUniqueId}{uniqueIndex}";
+            return GameConstants.BaseCharacterUniqueId + uniqueIndex;
         }
-        
-        public string NewUniqueId ()
+
+        public int NewUniqueId ()
         {
             _lastUniqueId++;
             LocalDataHelper.SaveGameUniqueIdData (_lastUniqueId);
-            return $"{GameConstants.BaseUniqueId}{_lastUniqueId}";
+            return GameConstants.BaseCharacterUniqueId + _lastUniqueId;
         }
 
         #endregion
+
+
+        private Dictionary<StatusType, BaseStatusModel> GetBaseStatusDict (Character character,
+            CharacterLevel characterLevel, CharacterBundle.CharacterStatusGrade characterStatusGrade)
+        {
+            var dict = new Dictionary<StatusType, BaseStatusModel> ();
+            var enums = Enum.GetValues (typeof (StatusType)) as StatusType[];
+            enums.Foreach ((statustype, index) =>
+            {
+                dict.Add (statustype,
+                    new BaseStatusModel (TableDataManager.Instance.StatusDict[(int) DataType.Status + index]));
+            });
+
+            dict[StatusType.Health]
+                .SetStatusValue (
+                    Mathf.Lerp (character.Hp[1], character.Hp[1], characterStatusGrade.HealthStatusGrade) +
+                    character.HpInc * characterLevel.Level);
+            dict[StatusType.Attack]
+                .SetStatusValue (
+                    Mathf.Lerp (character.At[0], character.At[1], characterStatusGrade.AttackStatusGrade) +
+                    character.AtInc * characterLevel.Level);
+            dict[StatusType.Defense]
+                .SetStatusValue (
+                    Mathf.Lerp (character.Df[0], character.Df[1], characterStatusGrade.DefenseStatusGrade) +
+                    character.DfInc * characterLevel.Level);
+            dict[StatusType.AtSpd].SetStatusValue (character.AtSpd);
+            dict[StatusType.CriticalDmg].SetStatusValue (Constant.CriticalDamage);
+            dict[StatusType.CriticalProb].SetStatusValue (Constant.CriticalProbability);
+
+            return dict;
+        }
 
 
         #region EventMethods

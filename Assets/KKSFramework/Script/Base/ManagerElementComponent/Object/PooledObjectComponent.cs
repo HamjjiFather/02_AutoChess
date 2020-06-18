@@ -1,4 +1,4 @@
-﻿﻿using UnityEngine;
+﻿using UnityEngine;
 
 namespace KKSFramework.Object
 {
@@ -7,7 +7,7 @@ namespace KKSFramework.Object
     /// </summary>
     public struct PoolingInfo
     {
-        public PoolingInfo(PoolingObjectType poolingObjectType, string prefixName)
+        public PoolingInfo (PoolingObjectType poolingObjectType, string prefixName)
         {
             IsInited = true;
             IsPooled = false;
@@ -46,80 +46,83 @@ namespace KKSFramework.Object
         /// <summary>
         /// 풀링 정보.
         /// </summary>
-        private PoolingInfo PoolingInfo;
+        private PoolingInfo _poolingInfo;
+
+        public PoolingInfo PoolingInfo => _poolingInfo;
 
         #endregion
+
 
         #region Methods
 
         /// <summary>
         /// 오브젝트가 생성됨.
         /// </summary>
-        public T Created<T>(PoolingObjectType pEPoolingObjectType, string p_name)
+        public T Created<T> (PoolingObjectType pEPoolingObjectType, string p_name)
             where T : PooledObjectComponent
         {
-            gameObject.SetActive(true);
-            PoolingInfo = new PoolingInfo(pEPoolingObjectType, p_name);
-            OnCreated();
-            return GetCachedComponent<T>();
+            gameObject.SetActive (true);
+            _poolingInfo = new PoolingInfo (pEPoolingObjectType, p_name);
+            OnCreated ();
+            return GetCachedComponent<T> ();
         }
 
         /// <summary>
         /// 오브젝트가 생성됨.
         /// </summary>
-        public T Created<T>(Transform parents, PoolingObjectType pEPoolingObjectType, string p_name)
+        public T Created<T> (Transform parents, PoolingObjectType pEPoolingObjectType, string p_name)
             where T : PooledObjectComponent
         {
-            transform.SetParent(parents);
-            gameObject.SetActive(true);
-            PoolingInfo = new PoolingInfo(pEPoolingObjectType, p_name);
-            OnCreated();
-            return GetCachedComponent<T>();
+            transform.SetParent (parents);
+            gameObject.SetActive (true);
+            _poolingInfo = new PoolingInfo (pEPoolingObjectType, p_name);
+            OnCreated ();
+            return GetCachedComponent<T> ();
         }
 
         /// <summary>
         /// 오브젝트가 파괴되지 않고 풀링 매니저에 등록됨.
         /// </summary>
-        public virtual void PoolingObject()
+        public virtual void PoolingObject ()
         {
-            PoolingInfo.IsPooled = true;
-            gameObject.SetActive(false);
-            ObjectPoolingManager.Instance.RegistPooledObject(PoolingInfo, this);
-            OnPooling();
+            _poolingInfo.IsPooled = true;
+            gameObject.SetActive (false);
+            ObjectPoolingManager.Instance.RegistPooledObject (this);
+            OnPooling ();
         }
 
         /// <summary>
         /// 풀링에서 해제됨 (오브젝트 활성화).
         /// </summary>
-        public void Unpooled()
+        public void Unpooled ()
         {
-            PoolingInfo.IsPooled = false;
-            gameObject.SetActive(true);
-            OnUnpooled();
+            _poolingInfo.IsPooled = false;
+            gameObject.SetActive (true);
+            OnUnpooled ();
         }
 
         /// <summary>
         /// 개체 생성시 실행할 함수.
         /// </summary>
-        protected virtual void OnCreated()
+        protected virtual void OnCreated ()
         {
-            Debug.Log($"{nameof(PooledObjectComponent)} : OnCreated");
+            Debug.Log ($"{nameof (PooledObjectComponent)} : OnCreated");
         }
 
         /// <summary>
         /// 풀링될 때 실행 할 함수.
         /// </summary>
-        protected virtual void OnPooling()
+        protected virtual void OnPooling ()
         {
-            Debug.Log($"{nameof(PooledObjectComponent)} : OnPooling");
+            Debug.Log ($"{nameof (PooledObjectComponent)} : OnPooling");
         }
 
         /// <summary>
         /// 풀링에서 해제될때 실행 할 함수.
         /// </summary>
-        protected virtual void OnUnpooled()
+        protected virtual void OnUnpooled ()
         {
-            Debug.Log($"{nameof(PooledObjectComponent)} : OnUnpooled");
+            Debug.Log ($"{nameof (PooledObjectComponent)} : OnUnpooled");
         }
 
         #endregion

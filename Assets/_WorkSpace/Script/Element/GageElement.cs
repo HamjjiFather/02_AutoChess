@@ -2,7 +2,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace HexaPuzzle
+namespace AutoChess
 {
     public class GageElement : MonoBehaviour
     {
@@ -26,25 +26,30 @@ namespace HexaPuzzle
 
         #region Methods
 
-        public virtual void SetValue (IntReactiveProperty gageValue, int maxValue)
-        {
-            gageValue.Subscribe (value =>
-            {
-                SetValue (gageValue.Value, maxValue);
-            });
-        }
 
+        public void SetValueOnlyGageValue (int gageValue, int maxValue)
+        {
+            slider.value = (float)gageValue / maxValue;
+            sliderText.text = $"{gageValue}";
+        }
+        
 
         public void SetValue (int gageValue, int maxValue)
         {
             slider.value = (float)gageValue / maxValue;
             sliderText.text = $"{gageValue}/{maxValue}";
         }
+
+
+        public void SetValue (float gageValue, float maxValue)
+        {
+            slider.value = gageValue / maxValue;
+            sliderText.text = $"{gageValue}/{maxValue}";
+        }
         
 
         #endregion
         
-
 
         #region EventMethods
 

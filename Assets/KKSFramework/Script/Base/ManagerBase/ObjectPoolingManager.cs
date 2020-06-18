@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using KKSFramework.Management;
+using KKSFramework.ResourcesLoad;
 using UnityEngine;
 
 namespace KKSFramework.Object
@@ -26,6 +27,7 @@ namespace KKSFramework.Object
 
         #endregion
 
+
         #region Fields & Property
 
 #pragma warning disable CS0649
@@ -41,37 +43,38 @@ namespace KKSFramework.Object
         /// 풀링된 오브젝트 보관 트랜스폼.
         /// </summary>
         private readonly Dictionary<PoolingObjectType, Transform> _pooledObjTransformDict =
-            new Dictionary<PoolingObjectType, Transform>();
+            new Dictionary<PoolingObjectType, Transform> ();
 
         /// <summary>
         /// 풀링된 페이지 뷰 오브젝트 리스트.
         /// enum 타입별로 관리하고 싶으면 변수 타입에 해당하는 딕셔너리를 늘려서 관리하도록.
         /// </summary>
         private readonly Dictionary<string, PooledObjectComponent> _pooledPageViewDict =
-            new Dictionary<string, PooledObjectComponent>();
+            new Dictionary<string, PooledObjectComponent> ();
 
         /// <summary>
         /// 풀링된 일반 프리팹 오브젝트 리스트.
         /// enum 타입별로 관리하고 싶으면 변수 타입에 해당하는 딕셔너리를 늘려서 관리하도록.
         /// </summary>
         private readonly Dictionary<string, Queue<PooledObjectComponent>> _pooledPrefabDict =
-            new Dictionary<string, Queue<PooledObjectComponent>>();
+            new Dictionary<string, Queue<PooledObjectComponent>> ();
 
         #endregion
+
 
         #region Methods
 
         /// <summary>
         /// 해당 타입의 풀링된 오브젝트를 리턴.
         /// </summary>
-        private PooledObjectComponent ReturnPooledObjectBase(PoolingObjectType pEPoolingObjectType,
+        private PooledObjectComponent ReturnPooledObjectBase (PoolingObjectType pEPoolingObjectType,
             string objectName)
         {
             switch (pEPoolingObjectType)
             {
                 case PoolingObjectType.View:
                 {
-                    if (IsExistPooledObject(pEPoolingObjectType, objectName))
+                    if (IsExistPooledObject (pEPoolingObjectType, objectName))
                     {
                         var obj = _pooledPageViewDict[objectName];
                         _pooledPageViewDict.Remove (objectName);
@@ -83,8 +86,8 @@ namespace KKSFramework.Object
 
                 case PoolingObjectType.Prefab:
                 {
-                    if (IsExistPooledObject(pEPoolingObjectType, objectName))
-                        return _pooledPrefabDict[objectName].Dequeue();
+                    if (IsExistPooledObject (pEPoolingObjectType, objectName))
+                        return _pooledPrefabDict[objectName].Dequeue ();
 
                     return null;
                 }
@@ -94,28 +97,29 @@ namespace KKSFramework.Object
             }
         }
 
+
         /// <summary>
         /// 해당 타입의 해당 문자열을 가진 풀링된 오브젝트가 있는지 여부.
         /// </summary>
         /// <returns></returns>
-        public bool IsExistPooledObject(PoolingObjectType pEPoolingObjectType, string p_prefix_name)
+        public bool IsExistPooledObject (PoolingObjectType poolingObjectType, string objectName)
         {
-            switch (pEPoolingObjectType)
+            switch (poolingObjectType)
             {
                 case PoolingObjectType.View:
                 {
-                    return _pooledPageViewDict.ContainsKey(p_prefix_name) &&
-                           _pooledPageViewDict[p_prefix_name] != null;
+                    return _pooledPageViewDict.ContainsKey (objectName) &&
+                           _pooledPageViewDict[objectName] != null;
                 }
 
                 case PoolingObjectType.Prefab:
                 {
-                    return _pooledPrefabDict.ContainsKey(p_prefix_name) &&
-                           _pooledPrefabDict[p_prefix_name].Count != 0;
+                    return _pooledPrefabDict.ContainsKey (objectName) &&
+                           _pooledPrefabDict[objectName].Count != 0;
                 }
 
                 default:
-                    Debug.Log($"Wrong Status_Pooling Value : {default(PoolingObjectType)}");
+                    Debug.Log ($"Wrong Status_Pooling Value : {default (PoolingObjectType)}");
                     return false;
             }
         }
@@ -124,21 +128,21 @@ namespace KKSFramework.Object
         /// 풀링된 오브젝트를 꺼냄.
         /// 리소스 관리를 껐다 켰다 할 수 있도록 설계해야 함.
         /// </summary>
-        public T ReturnLoadResources<T>(PoolingObjectType pEPoolingObjectType,
-            string objectName, Transform parents = null) where T : PooledObjectComponent
+        public T ReturnLoadResources<T> (PoolingObjectType poolingObjectType, string objectName,
+            Transform parents = null) where T : PooledObjectComponent
         {
-            if (!IsExistPooledObject (pEPoolingObjectType, objectName))
+            if (!IsExistPooledObject (poolingObjectType, objectName))
             {
-                Debug.LogException (new NullReferenceException("null ref exception pooled object"));
+                Debug.LogException (new NullReferenceException ("null ref exception pooled object"));
                 return null;
             }
-            
-            var pooledObject = ReturnPooledObjectBase(pEPoolingObjectType, objectName);
-            
+
+            var pooledObject = ReturnPooledObjectBase (poolingObjectType, objectName);
+
             // 리소스 오브젝트가 없음.
             if (pooledObject == null)
             {
-                Debug.LogException (new NullReferenceException("null ref exception pooled object"));
+                Debug.LogException (new NullReferenceException ("null ref exception pooled object"));
                 return null;
             }
 
@@ -147,34 +151,38 @@ namespace KKSFramework.Object
             {
                 pooledObject.transform.SetParent (parents);
             }
-            pooledObject.Unpooled();
+
+            pooledObject.Unpooled ();
 
             return pooledObject.GetComponent<T> ();
         }
-        
+
 
         /// <summary>
         /// 오브젝트를 파괴하지 않고 풀링함.
         /// 풀링된 오브젝트는 하위에 위치 시킴.
         /// </summary>
-        public void RegistPooledObject(PoolingInfo poolingInfo, PooledObjectComponent pooledObjectComponent)
+        public void RegistPooledObject (PooledObjectComponent pooledObjectComponent)
         {
-            switch (poolingInfo.PoolingObjectType)
+            var poolingInfo = pooledObjectComponent.PoolingInfo;
+            var prefixName = poolingInfo.PrefixName;
+
+            switch (pooledObjectComponent.PoolingInfo.PoolingObjectType)
             {
                 case PoolingObjectType.View:
                 {
-                    if (_pooledPageViewDict.ContainsKey(poolingInfo.PrefixName) == false)
-                        _pooledPageViewDict.Add(poolingInfo.PrefixName, pooledObjectComponent);
+                    if (_pooledPageViewDict.ContainsKey (prefixName) == false)
+                        _pooledPageViewDict.Add (prefixName, pooledObjectComponent);
 
                     break;
                 }
 
                 case PoolingObjectType.Prefab:
                 {
-                    if (_pooledPrefabDict.ContainsKey(poolingInfo.PrefixName) == false)
-                        _pooledPrefabDict.Add(poolingInfo.PrefixName, new Queue<PooledObjectComponent>());
+                    if (_pooledPrefabDict.ContainsKey (prefixName) == false)
+                        _pooledPrefabDict.Add (prefixName, new Queue<PooledObjectComponent> ());
 
-                    _pooledPrefabDict[poolingInfo.PrefixName].Enqueue(pooledObjectComponent);
+                    _pooledPrefabDict[prefixName].Enqueue (pooledObjectComponent);
                     break;
                 }
 
@@ -182,19 +190,19 @@ namespace KKSFramework.Object
                     break;
             }
 
-            if (_pooledObjTransformDict.ContainsKey(poolingInfo.PoolingObjectType) == false)
+            if (_pooledObjTransformDict.ContainsKey (poolingInfo.PoolingObjectType) == false)
             {
-                var gameObj = new GameObject();
+                var gameObj = new GameObject ();
                 var objTransform = gameObj.transform;
-                objTransform.name = poolingInfo.PoolingObjectType.ToString();
-                objTransform.SetParent(_objectPoolingComponent.transform);
+                objTransform.name = poolingInfo.PoolingObjectType.ToString ();
+                objTransform.SetParent (_objectPoolingComponent.transform);
                 objTransform.SetInstantiateTransform ();
 
-                _pooledObjTransformDict.Add(poolingInfo.PoolingObjectType, objTransform);
+                _pooledObjTransformDict.Add (poolingInfo.PoolingObjectType, objTransform);
             }
 
-            pooledObjectComponent.transform.SetParent(_pooledObjTransformDict[poolingInfo.PoolingObjectType]);
-            pooledObjectComponent.gameObject.SetActive(false);
+            pooledObjectComponent.transform.SetParent (_pooledObjTransformDict[poolingInfo.PoolingObjectType]);
+            pooledObjectComponent.gameObject.SetActive (false);
         }
 
         #endregion

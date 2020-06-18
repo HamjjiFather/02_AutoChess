@@ -1,7 +1,8 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace HexaPuzzle
+namespace AutoChess
 {
     public static class GameExtension
     {
@@ -24,7 +25,13 @@ namespace HexaPuzzle
             return TableDataManager.Instance.CharacterLevelDict.Values.FirstOrDefault (x => x.AccReqExp > exp);
         }
 
+        
+        public static CharacterLevel GetCharacterLevel (int level)
+        {
+            return TableDataManager.Instance.CharacterLevelDict[(int) DataType.CharacterLevel + level];
+        }
 
+        
         #region Methods
 
         #endregion

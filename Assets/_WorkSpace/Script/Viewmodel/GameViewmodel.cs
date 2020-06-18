@@ -3,7 +3,7 @@ using UnityEngine;
 using KKSFramework.DesignPattern;
 using Zenject;
 
-namespace HexaPuzzle
+namespace AutoChess
 {
     public class GameViewmodel : ViewModelBase
     {
@@ -11,8 +11,6 @@ namespace HexaPuzzle
 
 #pragma warning disable CS0649
 
-        [Inject]
-        private SummonViewmodel _summonViewmodel;
 
 #pragma warning restore CS0649
 
@@ -43,7 +41,6 @@ namespace HexaPuzzle
         public void SetResult (float value)
         {
             _summonResultModel.SummonGageValue.Value = value;
-            _summonViewmodel.Summon (value);
         }
 
         #endregion

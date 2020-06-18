@@ -19,6 +19,8 @@ namespace KKSFramework.LocalData
 
         private LocalDataComponent LocalDataComponent => ComponentBase as LocalDataComponent;
 
+        public static string DataPath => Application.persistentDataPath;
+
         #endregion
 
         public override void AddComponentBase(ComponentBase componentBase)
@@ -47,9 +49,17 @@ namespace KKSFramework.LocalData
         /// .
         public void SaveGameData(Bundle bundle)
         {
-            bundle.ToJsonData<Bundle>();
+            bundle.ToJsonData();
         }
 
+
+        public void DeleteData ()
+        {
+            var files = Directory.GetFiles (DataPath, "*.json");
+            files.Foreach (File.Delete);
+        }
+        
+        
         #endregion
     }
     
@@ -61,7 +71,7 @@ namespace KKSFramework.LocalData
         /// </summary>
         public static Bundle FromJsonData(this Bundle bundle)
         {
-            var filePath = $"{Application.persistentDataPath}/{bundle.GetType().Name}.json";
+            var filePath = $"{LocalDataManager.DataPath}/{bundle.GetType().Name}.json";
             if (!File.Exists (filePath)) return bundle;
             var dataString = File.ReadAllText(filePath);
             JsonUtility.FromJsonOverwrite(dataString, bundle);
@@ -72,9 +82,9 @@ namespace KKSFramework.LocalData
         /// <summary>
         /// Json파일 Bundle클래스로 저장.
         /// </summary>
-        public static void ToJsonData<T>(this Bundle bundle) where T : Bundle
+        public static void ToJsonData(this Bundle bundle)
         {
-            var filePath = $"{Application.persistentDataPath}/{bundle.GetType ().Name}.json";
+            var filePath = $"{LocalDataManager.DataPath}/{bundle.GetType ().Name}.json";
             File.WriteAllText(filePath, JsonUtility.ToJson(bundle));
         }
     }

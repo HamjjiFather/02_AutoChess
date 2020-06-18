@@ -8,8 +8,8 @@ namespace KKSFramework.LocalData
     {
         public int LastCharacterUniqueId;
     }
-    
-    
+
+
     [Serializable]
     public class SpecialPuzzleBundle : Bundle
     {
@@ -19,11 +19,46 @@ namespace KKSFramework.LocalData
     [Serializable]
     public class CharacterBundle : Bundle
     {
+        public List<CharacterStatusGrade> CharacterStatusGrades = new List<CharacterStatusGrade> ();
+
         public List<int> CharacterUniqueIds = new List<int> ();
-        
+
         public List<int> CharacterIds = new List<int> ();
 
         public List<int> CharacterExps = new List<int> ();
+
+        public List<int> EquipmentUIds = new List<int> ();
+
+        public List<int> BattleCharacterUniqueIds = new List<int> ();
+
+        [Serializable]
+        public class CharacterStatusGrade
+        {
+            public float HealthStatusGrade;
+
+            public float AttackStatusGrade;
+
+            public float DefenseStatusGrade;
+
+
+            public CharacterStatusGrade ()
+            {
+            }
+
+
+            public CharacterStatusGrade (float healthStatusGrade, float attackStatusGrade, float defenseStatusGrade)
+            {
+                HealthStatusGrade = healthStatusGrade;
+                AttackStatusGrade = attackStatusGrade;
+                DefenseStatusGrade = defenseStatusGrade;
+            }
+        }
+    }
+
+    [Serializable]
+    public class EquipmentBundle : Bundle
+    {
+        public List<int> EquipmentUniqueIds = new List<int> ();
     }
 
     [Serializable]
@@ -31,26 +66,27 @@ namespace KKSFramework.LocalData
     {
         public int StageIndex;
     }
-    
+
     public static class LocalDataHelper
     {
-        private static readonly LocalData LocalDataClass = new LocalData();
+        private static readonly LocalData LocalDataClass = new LocalData ();
+
 
         #region Load
 
         /// <summary>
         /// 게임 데이터 로드.
         /// </summary>
-        public static void LoadAllGameData()
+        public static void LoadAllGameData ()
         {
             var specialPuzzleBundle =
                 LocalDataManager.Instance.LoadGameData<SpecialPuzzleBundle> (LocalDataClass.SpecialPuzzleBundle);
             LocalDataClass.SpecialPuzzleBundle = specialPuzzleBundle;
-            
+
             var characterBundle =
                 LocalDataManager.Instance.LoadGameData<CharacterBundle> (LocalDataClass.CharacterBundle);
             LocalDataClass.CharacterBundle = characterBundle;
-            
+
             var gameBundle = LocalDataManager.Instance.LoadGameData<GameBundle> (LocalDataClass.GameBundle);
             LocalDataClass.GameBundle = gameBundle;
         }
@@ -70,7 +106,6 @@ namespace KKSFramework.LocalData
         {
             return LocalDataClass.GameBundle;
         }
-        
 
         #endregion
 
@@ -80,7 +115,7 @@ namespace KKSFramework.LocalData
         /// <summary>
         /// 게임 데이터 저장.
         /// </summary>
-        public static void SaveAllGameData()
+        public static void SaveAllGameData ()
         {
             LocalDataManager.Instance.SaveGameData (LocalDataClass.SpecialPuzzleBundle);
             LocalDataManager.Instance.SaveGameData (LocalDataClass.CharacterBundle);
@@ -100,16 +135,40 @@ namespace KKSFramework.LocalData
         }
 
 
-        public static void SaveCharacterIdData (List<int> characterUIds, List<int> characterIds, List<int> characterExps)
+        public static void SaveCharacterIdData (List<int> characterUids, List<int> characterIds,
+            List<int> characterExps, List<int> equipmentUid)
         {
-            LocalDataClass.CharacterBundle.CharacterUniqueIds = characterUIds;
+            LocalDataClass.CharacterBundle.CharacterUniqueIds = characterUids;
             LocalDataClass.CharacterBundle.CharacterIds = characterIds;
             LocalDataClass.CharacterBundle.CharacterExps = characterExps;
+            LocalDataClass.CharacterBundle.EquipmentUIds = equipmentUid;
             LocalDataManager.Instance.SaveGameData (LocalDataClass.CharacterBundle);
         }
 
 
+        public static void SaveCharacterStatusGradeData (List<float> hp, List<float> attack, List<float> defense)
+        {
+            for (var i = 0; i < hp.Count; i++)
+            {
+                LocalDataClass.CharacterBundle.CharacterStatusGrades.Add (
+                    new CharacterBundle.CharacterStatusGrade (hp[i], attack[i], defense[i]));
+            }
+        }
+
+
+        public static void SaveBattleCharacterUidData (List<int> characterUids)
+        {
+            LocalDataClass.CharacterBundle.BattleCharacterUniqueIds = characterUids;
+            LocalDataManager.Instance.SaveGameData (LocalDataClass.CharacterBundle);
+        }
+
         #endregion
+
+
+        public static void DeleteData ()
+        {
+            LocalDataManager.Instance.DeleteData ();
+        }
 
         /// <summary>
         /// 게임 데이터 클래스.
@@ -118,9 +177,9 @@ namespace KKSFramework.LocalData
         public class LocalData
         {
             public GameBundle GameBundle = new GameBundle ();
-            
+
             public SpecialPuzzleBundle SpecialPuzzleBundle = new SpecialPuzzleBundle ();
-            
+
             public CharacterBundle CharacterBundle = new CharacterBundle ();
         }
     }

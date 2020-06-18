@@ -3,7 +3,7 @@ using KKSFramework.LocalData;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace HexaPuzzle
+namespace AutoChess
 {
     public class SpecialPuzzleBundle : Bundle
     {

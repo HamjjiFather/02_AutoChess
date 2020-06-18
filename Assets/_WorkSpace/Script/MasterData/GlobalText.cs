@@ -6,10 +6,16 @@ using KKSFramework.TableData;
 
 public class GlobalText : TableDataBase
 {
-	// 인덱스.
-	public string Id;
-	// 글로벌 텍스트.
-	public string[] GlobalTexts;
+    /// <summary>
+    /// 인덱스
+    /// </summary>
+    public string Id;
+
+    /// <summary>
+    /// 글로벌 텍스트
+    /// </summary>
+    public string[] GlobalTexts;
+
 
 
     public GlobalText ()

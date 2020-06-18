@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using HexaPuzzle;
+using AutoChess;
 using KKSFramework.DesignPattern;
 using Zenject;
 
@@ -16,10 +16,9 @@ public class ProjectInstall : MonoInstaller
     private void BindViewmodel ()
     {
         ViewModelTypes.Add (typeof(GameViewmodel));
-        ViewModelTypes.Add (typeof(PuzzleViewmodel));
-        ViewModelTypes.Add (typeof(SummonViewmodel));
         ViewModelTypes.Add (typeof(BattleViewmodel));
         ViewModelTypes.Add (typeof(CharacterViewmodel));
+        ViewModelTypes.Add (typeof(EquipmentViewmodel));
         ViewModelTypes.ForEach (type => { Container.Bind (type).AsSingle (); });
     }
 

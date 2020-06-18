@@ -1,32 +1,29 @@
-using KKSFramework.GameSystem.GlobalText;
-using UniRx;
+using KKSFramework.Navigation;
+using KKSFramework.Object;
+using KKSFramework.ResourcesLoad;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace HexaPuzzle
+namespace AutoChess
 {
-    public class BattleCharacterElement : MonoBehaviour
+    public class BattleCharacterElement : PooledObjectComponent, IElementBase<CharacterModel>
     {
         #region Fields & Property
 
+        public GageElement hpGageElement;
+        
         public Image characterImage;
 
-        public Text characterLevelText;
-
-        public Text characterNameText;
-
-        public GageElement expGageElement;
-
-        public GageElement hpGageElement;
-
-        public GageElement skillGageElement;
+        public Animator characterAnimator;
 
 
 #pragma warning disable CS0649
 
 #pragma warning restore CS0649
+        
+        public CharacterModel ElementData { get; set; }
 
-        private CharacterModel _characterModel;
+        private int _maxHealth;
 
         #endregion
 
@@ -37,30 +34,32 @@ namespace HexaPuzzle
 
 
         #region Methods
-
+        
         public void SetElement (CharacterModel characterModel)
         {
-            _characterModel = characterModel;
+            ElementData = characterModel;
+            
+            characterImage.sprite = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
+                ResourcesType.Monster, ElementData.CharacterData.SpriteResName);
+            
+            characterAnimator.runtimeAnimatorController =
+                ResourcesLoadHelper.GetResources<RuntimeAnimatorController> (ResourceRoleType._Animation,
+                    characterModel.CharacterData.AnimatorResName);
 
-            characterNameText.GetTranslatedString (_characterModel.CharacterData.Name);
+            _maxHealth = (int)ElementData.GetTotalStatus (StatusType.Health);
+            hpGageElement.SetValueOnlyGageValue (_maxHealth, _maxHealth);
+        }
 
-            hpGageElement.SetValue (_characterModel.StatusModel.Health, _characterModel.StatusModel.Health.Value);
+        
+        public void StartBattle ()
+        {
+            ElementData.AddHealthEvent (SetHealth);
+        }
 
-            _characterModel.StatusModel.Health.Subscribe (hp =>
-            {
-                var rectT = hpGageElement.GetComponent<RectTransform> ();
-                rectT.sizeDelta = new Vector2 (Mathf.Clamp (hp, 0, 760), rectT.sizeDelta.y);
-                hpGageElement.SetValue (hp, hp);
-            });
 
-            _characterModel.Exp.Subscribe (exp =>
-            {
-                var level = GameExtension.GetCharacterLevel (exp);
-                var nowExp = (int) (exp - level.CoExp);
-
-                expGageElement.SetValue (nowExp, (int) level.ReqExp);
-                characterLevelText.text = $"Lv.{level.LevelString}";
-            });
+        private void SetHealth (int hp)
+        {
+            hpGageElement.SetValueOnlyGageValue (hp, _maxHealth);
         }
 
         #endregion

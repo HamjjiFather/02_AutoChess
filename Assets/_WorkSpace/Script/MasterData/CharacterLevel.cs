@@ -6,16 +6,36 @@ using KKSFramework.TableData;
 
 public class CharacterLevel : TableDataBase
 {
-	// 인덱스.
-	public int Id;
-	// 레벨.
-	public string LevelString;
-	// 누적 EXP.
-	public float AccReqExp;
-	// 요구 EXP.
-	public float ReqExp;
-	// 보정 EXP.
-	public float CoExp;
+    /// <summary>
+    /// 인덱스
+    /// </summary>
+    public int Id;
+
+    /// <summary>
+    /// 실제 레벨
+    /// </summary>
+    public int Level;
+
+    /// <summary>
+    /// 레벨
+    /// </summary>
+    public string LevelString;
+
+    /// <summary>
+    /// 누적 EXP
+    /// </summary>
+    public float AccReqExp;
+
+    /// <summary>
+    /// 요구 EXP
+    /// </summary>
+    public float ReqExp;
+
+    /// <summary>
+    /// 보정 EXP
+    /// </summary>
+    public float CoExp;
+
 
 
     public CharacterLevel ()
@@ -27,6 +47,7 @@ public class CharacterLevel : TableDataBase
     {
         var rowIndex = 0;
 		Id = int.Parse(myData[rowIndex++]);
+		Level = int.Parse(myData[rowIndex++]);
 		LevelString = myData[rowIndex++];
 		AccReqExp = float.Parse(myData[rowIndex++]);
 		ReqExp = float.Parse(myData[rowIndex++]);

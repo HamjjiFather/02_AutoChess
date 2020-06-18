@@ -1,27 +1,49 @@
-using UnityEngine;
-using UnityEngine.UI;
+using System;
+using System.Collections.Generic;
 using KKSFramework.DesignPattern;
 using UniRx;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
-namespace HexaPuzzle
+namespace AutoChess
 {
-    public class StatusModel : ModelBase
+    public interface IStatusModel
+    {
+        Dictionary<StatusType, BaseStatusModel> Status { set; get; }
+        
+        void SetStatus (Dictionary<StatusType, BaseStatusModel> status);
+
+        float GetStatusValue (StatusType statusType);
+    }
+    
+    
+    public enum StatusType
+    {
+        Health,
+        HealthRegen,
+        SkillGageRegen,
+        Attack,
+        Defense,
+        AtSpd,
+        CriticalProb,
+        CriticalDmg,
+        EvadeProb,
+    }
+    
+    
+    public class StatusModel : ModelBase, IStatusModel
     {
         #region Fields & Property
-
-        public readonly IntReactiveProperty MaxHealth = new IntReactiveProperty ();
         
-        public readonly IntReactiveProperty Health = new IntReactiveProperty ();
-
-        public readonly IntReactiveProperty SkillGage = new IntReactiveProperty ();
-
-        public readonly IntReactiveProperty Attack = new IntReactiveProperty ();
+        public Dictionary<StatusType, BaseStatusModel> Status { get; set; }
         
-        public readonly IntReactiveProperty Defense = new IntReactiveProperty ();
-
 #pragma warning disable CS0649
 
 #pragma warning restore CS0649
+
+        private float _maxHealth;
+
+        public float MaxHealth => _maxHealth;
 
         #endregion
 
@@ -31,13 +53,34 @@ namespace HexaPuzzle
         #endregion
 
 
-        public StatusModel (int hp, int sg, int at, int df)
+
+        public void SetStatus (Dictionary<StatusType, BaseStatusModel> status)
         {
-            Health.Value = hp;
-            MaxHealth.Value = hp;
-            SkillGage.Value = sg;
-            Attack.Value = at;
-            Defense.Value = df;
+            Status = status;
+            _maxHealth = Status[StatusType.Health].StatusValue;
+        }
+
+        
+        public void SetNewStatusGradeValue (StatusType statusType, float gradeValue)
+        {
+            GetBaseStatusModel(statusType).SetGradeValue (gradeValue);
+        }
+
+        
+        public BaseStatusModel GetBaseStatusModel (StatusType statusType)
+        {
+            return Status.ContainsKey (statusType) ? Status[statusType] : new BaseStatusModel ();
+        }
+
+
+        public float GetStatusGradeValue (StatusType statusType)
+        {
+            return Status.ContainsKey (statusType) ? Status[statusType].GradeValue : 0f;
+        } 
+        
+        public float GetStatusValue (StatusType statusType)
+        {
+            return Status.ContainsKey (statusType) ? Status[statusType].StatusValue : 0f;
         }
     }
 }

@@ -6,26 +6,81 @@ using KKSFramework.TableData;
 
 public class Character : TableDataBase
 {
-	// 인덱스.
-	public int Id;
-	// 이름.
-	public string Name;
-	// 설명.
-	public string Desc;
-	// 시작등급.
-	public Grade StartGrade;
-	// 체력.
-	public int Hp;
-	// 체력 증가값.
-	public int HpInc;
-	// 공격력.
-	public int At;
-	// 공격력 증가값.
-	public int AtInc;
-	// 방어력.
-	public int Df;
-	// 방어력 증가값.
-	public int DfInc;
+    /// <summary>
+    /// 인덱스
+    /// </summary>
+    public int Id;
+
+    /// <summary>
+    /// 캐릭터 이름 로컬 키값
+    /// </summary>
+    public string Name;
+
+    /// <summary>
+    /// 설명
+    /// </summary>
+    public string Desc;
+
+    /// <summary>
+    /// 시작등급
+    /// </summary>
+    public CharacterGrade StartGrade;
+
+    /// <summary>
+    /// 몬스터 위치
+    /// </summary>
+    public CharacterGroundType GroundType;
+
+    /// <summary>
+    /// 체력
+    /// </summary>
+    public float[] Hp;
+
+    /// <summary>
+    /// 체력 증가값
+    /// </summary>
+    public float HpInc;
+
+    /// <summary>
+    /// 공격력
+    /// </summary>
+    public float[] At;
+
+    /// <summary>
+    /// 공격력 증가값
+    /// </summary>
+    public float AtInc;
+
+    /// <summary>
+    /// 방어력
+    /// </summary>
+    public float[] Df;
+
+    /// <summary>
+    /// 방어력 증가값
+    /// </summary>
+    public float DfInc;
+
+    /// <summary>
+    /// 공격 속도
+    /// </summary>
+    public float AtSpd;
+
+    /// <summary>
+    /// 스킬 인덱스
+    /// </summary>
+    public int SkillIndex;
+
+    /// <summary>
+    /// 스프라이트 이름
+    /// </summary>
+    public string SpriteResName;
+
+    /// <summary>
+    /// 애니메이터 이름
+    /// </summary>
+    public string AnimatorResName;
+
 
 
     public Character ()
@@ -39,13 +94,18 @@ public class Character : TableDataBase
 		Id = int.Parse(myData[rowIndex++]);
 		Name = myData[rowIndex++];
 		Desc = myData[rowIndex++];
-		StartGrade = (Grade)Enum.Parse (typeof(Grade), myData[rowIndex++]);
-		Hp = int.Parse(myData[rowIndex++]);
-		HpInc = int.Parse(myData[rowIndex++]);
-		At = int.Parse(myData[rowIndex++]);
-		AtInc = int.Parse(myData[rowIndex++]);
-		Df = int.Parse(myData[rowIndex++]);
-		DfInc = int.Parse(myData[rowIndex++]);
+		StartGrade = (CharacterGrade)Enum.Parse (typeof(CharacterGrade), myData[rowIndex++]);
+		GroundType = (CharacterGroundType)Enum.Parse (typeof(CharacterGroundType), myData[rowIndex++]);
+		Hp = Array.ConvertAll (myData[rowIndex++].Split ('/'), float.Parse);
+		HpInc = float.Parse(myData[rowIndex++]);
+		At = Array.ConvertAll (myData[rowIndex++].Split ('/'), float.Parse);
+		AtInc = float.Parse(myData[rowIndex++]);
+		Df = Array.ConvertAll (myData[rowIndex++].Split ('/'), float.Parse);
+		DfInc = float.Parse(myData[rowIndex++]);
+		AtSpd = float.Parse(myData[rowIndex++]);
+		SkillIndex = int.Parse(myData[rowIndex++]);
+		SpriteResName = myData[rowIndex++];
+		AnimatorResName = myData[rowIndex++];
 
     }
 }

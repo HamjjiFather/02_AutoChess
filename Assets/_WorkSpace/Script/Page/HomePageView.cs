@@ -2,7 +2,7 @@ using KKSFramework.Navigation;
 using UniRx.Async;
 using UnityEngine.UI;
 
-namespace HexaPuzzle
+namespace AutoChess
 {
     public class HomePageView : PageViewBase
     {

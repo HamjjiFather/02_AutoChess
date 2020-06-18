@@ -1,7 +1,7 @@
 using KKSFramework.DesignPattern;
 using UniRx;
 
-namespace HexaPuzzle
+namespace AutoChess
 {
     public class SummonResultModel : ModelBase
     {

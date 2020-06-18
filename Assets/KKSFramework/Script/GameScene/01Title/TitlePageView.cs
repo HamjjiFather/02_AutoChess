@@ -1,4 +1,4 @@
-﻿using HexaPuzzle;
+﻿using AutoChess;
 using KKSFramework.SceneLoad;
 using UniRx.Async;
 using UnityEngine.UI;
@@ -13,9 +13,6 @@ namespace KKSFramework.Navigation
         public Button titleButton;
 
 #pragma warning disable CS0649
-
-        [Inject]
-        private PuzzleViewmodel _puzzleViewmodel;
 
         [Inject]
         private CharacterViewmodel _characterViewmodel;
@@ -47,8 +44,6 @@ namespace KKSFramework.Navigation
 
         private void SetViewmodel ()
         {
-            _puzzleViewmodel.InitTableData ();
-            _puzzleViewmodel.InitLocalData ();
             _characterViewmodel.InitLocalData ();
         }
 

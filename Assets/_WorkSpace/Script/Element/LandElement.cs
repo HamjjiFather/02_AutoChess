@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 
-namespace HexaPuzzle
+namespace AutoChess
 {
     public class LandElement : MonoBehaviour
     {
+        public Transform characterPositionTransform;
     }
 }

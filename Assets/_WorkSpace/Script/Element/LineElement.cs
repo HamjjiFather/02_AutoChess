@@ -1,26 +1,11 @@
 ﻿using System.Linq;
 using UnityEngine;
 
-namespace HexaPuzzle
+namespace AutoChess
 {
     public class LineElement : MonoBehaviour
     {
         public LandElement[] landElements;
-
-        public PuzzleLineModel PuzzleLineModel { get; private set; }
-
-
-        private void Awake ()
-        {
-            landElements.Foreach (x => x.gameObject.SetActive (false));
-        }
-        
-        
-        public LineElement SetLineModel (PuzzleLineModel puzzleLineModel)
-        {
-            PuzzleLineModel = puzzleLineModel;
-            return this;
-        }
 
 
         public LandElement GetLandElement (int row)

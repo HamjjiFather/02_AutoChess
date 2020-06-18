@@ -1,5 +1,5 @@
-﻿using System;
-using HexaPuzzle;
+﻿using System.Linq;
+using AutoChess;
 using KKSFramework.Navigation;
 using UniRx.Async;
 using UnityEngine;
@@ -11,17 +11,11 @@ namespace KKSFramework
     {
         #region Fields & Property
 
+        public ViewLayoutBase[] subViewObjs;
+
+        public Button[] buttons;
+        
         public StatusView statusView;
-
-        public GameObject[] bottomViewPageObj;
-        
-        public PuzzleView puzzleView;
-
-        public Button puzzleViewButton;
-        
-        public Button specialPuzzleViewButton;
-
-        public Button battleCharacterViewButton;
         
 
 #pragma warning disable CS0649
@@ -35,10 +29,12 @@ namespace KKSFramework
 
         private void Awake ()
         {
-            puzzleViewButton.onClick.AddListener (ClickPuzzle);
-            specialPuzzleViewButton.onClick.AddListener (ClickSpecialPuzzle);
-            battleCharacterViewButton.onClick.AddListener (ClickBattleCharacterPuzzle);
-            SetSubviewPage (0);
+            buttons.Foreach ((button, index) =>
+            {
+                button.onClick.AddListener (() => SetSubView(index));
+            });
+            
+            subViewObjs.Foreach (x => x.gameObject.SetActive (false));
         }
 
         #endregion
@@ -49,39 +45,26 @@ namespace KKSFramework
         protected override UniTask OnPush (object pushValue = null)
         {
             statusView.InitializeStatusView ();
-            puzzleView.InitializePuzzleView ();
+            SetSubView (0);
             
             return base.OnPush (pushValue);
         }
 
-        
-        public void SetSubviewPage (int index)
+
+        public void SetSubView (int index)
         {
-            bottomViewPageObj.Foreach (x => x.SetActive (false));
-            bottomViewPageObj[index].SetActive (true);
+            subViewObjs.Where (x => x.gameObject.activeSelf).Foreach (x =>
+            {
+                x.DisableLayout ().Forget();
+            });
+            
+            subViewObjs[index].ActiveLayout ().Forget();
         }
 
         #endregion
 
 
         #region EventMethods
-
-        private void ClickPuzzle ()
-        {
-            SetSubviewPage (0);
-        }
-        
-        
-        private void ClickSpecialPuzzle ()
-        {
-            SetSubviewPage (1);
-        }
-        
-        
-        private void ClickBattleCharacterPuzzle ()
-        {
-            SetSubviewPage (2);
-        }
         
 
         #endregion

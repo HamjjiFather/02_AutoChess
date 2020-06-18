@@ -1,11 +1,11 @@
 using System;
+using KKSFramework.Navigation;
 using UniRx;
-using UnityEngine;
 using UnityEngine.UI;
 
-namespace HexaPuzzle
+namespace AutoChess
 {
-    public class CurrencyElement : MonoBehaviour
+    public class CurrencyElement : ElementBase<CurrencyModel>
     {
         #region Fields & Property
 
@@ -17,7 +17,7 @@ namespace HexaPuzzle
 
 #pragma warning restore CS0649
 
-        private CurrencyModel _currencyModel;
+        public override CurrencyModel ElementData { get; set; }
 
         private IDisposable _currencyDisposable;
 
@@ -31,10 +31,10 @@ namespace HexaPuzzle
 
         #region Methods
 
-        public void SetCurrencyElemency (CurrencyModel currencyModel)
+        public override void SetElement (CurrencyModel currencyModel)
         {
-            _currencyModel = currencyModel;
-            _currencyModel.CurrencyAmount.SubscribeToText (statusText);
+            ElementData = currencyModel;
+            ElementData.CurrencyAmount.SubscribeToText (statusText);
         }
 
         #endregion

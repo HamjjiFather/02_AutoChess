@@ -8,6 +8,7 @@ namespace KKSFramework.ResourcesLoad
         _Prefab,
         _Sound,
         _Image,
+        _Animation
     }
 
     public enum ResourcesType
@@ -23,16 +24,23 @@ namespace KKSFramework.ResourcesLoad
         BGM = 50,
         Button,
         SFX,
+        
+        Food,
+        Monster,
+        Item
     }
 
     public static class ResourcesLoadHelper
     {
+        #region GetResources
+
         public static T GetResources<T>(ResourceRoleType roleType, ResourcesType type, string resourceName)
             where T : UnityEngine.Object
         {
             return ResourcesLoadManager.Instance.GetResources<T>(roleType.ToString(), type.ToString(), resourceName);
         }
 
+        
         public static T GetResources<T>(ResourceRoleType roleType, string resourceName) where T : UnityEngine.Object
         {
             return ResourcesLoadManager.Instance.GetResources<T>(roleType.ToString(), resourceName);
@@ -53,10 +61,21 @@ namespace KKSFramework.ResourcesLoad
                 resourceName);
         }
 
+        
         public static async UniTask<T> GetResourcesAsync<T>(ResourceRoleType roleType, string resourceName)
             where T : UnityEngine.Object
         {
             return await ResourcesLoadManager.Instance.GetResourcesAsync<T>(roleType.ToString(), resourceName);
         }
+        
+        #endregion
+
+
+        #region Instantiate Prefab
+
+        
+
+        #endregion
+
     }
 }

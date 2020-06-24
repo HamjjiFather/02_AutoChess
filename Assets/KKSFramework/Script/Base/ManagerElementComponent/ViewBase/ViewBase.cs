@@ -1,7 +1,7 @@
 ﻿using System.Threading;
-using KKSFramework.Object;
-using UniRx;
+using KKSFramework.ResourcesLoad;
 using UniRx.Async;
+using UnityEngine;
 
 namespace KKSFramework.Navigation
 {
@@ -9,7 +9,11 @@ namespace KKSFramework.Navigation
     {
         #region Fields & Property
 
-        protected Subject<Unit> HideUntilSubject;
+        /// <summary>
+        /// RectTransform.
+        /// </summary>
+        public RectTransform rectTransform => GetCachedComponent<RectTransform> ();
+        
         
 #pragma warning disable CS0649
 

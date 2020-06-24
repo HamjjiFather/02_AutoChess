@@ -1,48 +1,49 @@
-Id	SkillActiveCondition
-4000	OnHit
-4001	OnHit
-4002	OnHit
-4003	OnHit
-4004	OnDeath
-4005	Passive
-4006	Passive
-4007	Passive
-4008	OnAllyDeath
-4009	Passive
-4010	OnHit
-4011	OnEnemyDeath
-4012	OnAttack
-4013	Passive
-4014	OnAttack
-4015	OnShot
-4016	Passive
-4017	OnHit
-4018	OnHit
-4019	OnHit
-4020	OnEnemyDeath
-4021	OnHit
-4022	OnAttack
-4023	OnHit
-4024	OnHit
-4025	OnAttack
-4026	OnHit
-4027	OnAttack
-4028	Passive
-4029	OnEnemyDeath
-4030	OnAttack
-4031	OnAttack
-4032	OnAttack
-4033	OnAttack
-4034	OnAttack
-4035	OnAttack
-4036	OnAttack
-4037	OnAttack
-4038	OnAttack
-4039	OnAttack
-4040	OnAttack
-4041	OnAttack
-4042	OnAttack
-4043	OnAttack
-4044	OnAttack
-4045	OnAttack
-4046	OnAttack
+Id	SkillActiveCondition	SkillStatusType	StatusChangeType	InvokeCount	InvokeTime	SkillBound	SkillTarget	SkillTargetBound	RefSkillValueTarget	RefSkillStatusType	RefSkillValueAmount
+4000	OnActive	Health	Decrease	1	0	Target	Enemy	0	Self	Attack	1
+4001	OnActive	Health	Increase	1	0	All	Enemy	0	Self	Attack	1
+4002	OnActive	Health	Decrease	1	0	Target	Enemy	0	Self	Attack	1
+4003	OnActive	Health	Increase	1	0	SelfArea	Enemy	1	Self	Attack	1
+4004	OnActive	Health	Decrease	2	0	Target	Enemy	0	Self	Attack	1
+4005	OnDeath	Health	Decrease	1	0	SelfAreaOnly	Enemy	1	Self	Attack	1
+4006	OnActive	Health	Decrease	1	0	All	Enemy	0	Self	Attack	1
+4007	OnActive	AbilityPoint	Decrease	1	0	SelfAreaOnly	Enemy	1	Self	Attack	1
+4008	OnAlways	Defense	Increase	1	0	Self	Enemy	0	Self	Attack	1
+4009	OnAllyDeath	Attack	Increase	1	0	Self	Enemy	0	Self	Attack	1
+4010	OnAlways	Attack	Increase	1	0	Self	Enemy	0	Self	Attack	1
+4011	OnActive	Health	Decrease	1	0	Self	Enemy	0	Self	Attack	1
+4012	OnActive	Attack	Increase	1	0	Self	Enemy	0	Self	Attack	1
+4013	OnActive	Defense	Decrease	1	0	Self	Enemy	0	Self	Attack	1
+4014	OnActive	Defense	Increase	1	10	Self	Enemy	0	Self	Attack	1
+4015	OnActive	Health	Decrease	1	0	Self	Enemy	1	Self	Attack	1
+4016	OnActive	Health	Decrease	1	10	Self	Enemy	0	Self	Attack	1
+4017	OnActive	Health	Decrease	1	0	Self	Enemy	2	Self	Attack	1
+4018	OnActive	Health	Decrease	1	3	Self	Enemy	0	Self	Attack	1
+4019	OnActive	Health	Decrease	1	5	Self	Enemy	0	Self	Attack	1
+4020	OnActive	Attack	Decrease	1	3	Self	Enemy	0	Self	Attack	1
+4021	OnActive	Attack	Increase	1	10	Self	Enemy	0	Self	Attack	1
+4022	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1
+4023	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1
+4024	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1
+4025	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1
+4026	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1
+4027	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1
+4028	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1
+4029	OnActive	Attack	Decrease	1	0	Self	Enemy	1	Self	Attack	1
+4030	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1
+4031	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1
+4032	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1
+4033	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1
+4034	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1
+4035	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1
+4036	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1
+4037	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1
+4038	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1
+4039	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1
+4040	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1
+4041	OnActive	Attack	Decrease	1	0	Self	Enemy	1	Self	Attack	1
+4042	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1
+4043	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1
+4044	OnActive	Attack	Decrease	1	0	Self	Enemy	1	Self	Attack	1
+4045	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1
+4046	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1
+4047	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1

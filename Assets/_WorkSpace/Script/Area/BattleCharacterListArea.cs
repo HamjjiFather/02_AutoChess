@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using BaseFrame;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace AutoChess
 {

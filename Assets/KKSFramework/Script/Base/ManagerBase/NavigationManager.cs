@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using KKSFramework.Event;
 using KKSFramework.Management;
-using KKSFramework.Object;
 using KKSFramework.ResourcesLoad;
 using UniRx;
 using UniRx.Async;
@@ -141,17 +140,17 @@ namespace KKSFramework.Navigation
         /// </summary>
         private async UniTask<PageViewBase> CreatePage (string viewString)
         {
+            var poolingPath = $"{ResourceRoleType._Prefab}/{ResourcesType.Page}/{viewString}";
             // if exist pooled object.
-            if (ObjectPoolingManager.Instance.IsExistPooledObject (PoolingObjectType.View, viewString))
+            if (ObjectPoolingManager.Instance.IsExistPooledObject (poolingPath))
             {
-                return ObjectPoolingManager.Instance.ReturnLoadResources<PageViewBase> (PoolingObjectType.View,
-                    viewString);
+                return ObjectPoolingManager.Instance.ReturnLoadResources<PageViewBase> (poolingPath);
             }
 
             var resObj = await ResourcesLoadHelper.GetResourcesAsync<PageViewBase> (ResourceRoleType._Prefab,
                 ResourcesType.Page, viewString);
             var page = ProjectContext.Instance.Container.InstantiatePrefabForComponent<PageViewBase> (resObj);
-            page.Created<PageViewBase> (PoolingObjectType.View, viewString);
+            page.Created<PageViewBase> (poolingPath);
             return page;
         }
 
@@ -161,17 +160,17 @@ namespace KKSFramework.Navigation
         /// </summary>
         private async UniTask<PopupViewBase> CreatePopup (string viewString)
         {
+            var poolingPath = $"{ResourceRoleType._Prefab}/{ResourcesType.Popup}/{viewString}";
             // 풀링된 오브젝트가 있을 경우.
-            if (ObjectPoolingManager.Instance.IsExistPooledObject (PoolingObjectType.View, viewString))
+            if (ObjectPoolingManager.Instance.IsExistPooledObject (poolingPath))
             {
-                return ObjectPoolingManager.Instance.ReturnLoadResources<PopupViewBase> (PoolingObjectType.View,
-                    viewString);
+                return ObjectPoolingManager.Instance.ReturnLoadResources<PopupViewBase> (poolingPath);
             }
 
             var resObj = await ResourcesLoadHelper.GetResourcesAsync<PopupViewBase> (ResourceRoleType._Prefab,
                 ResourcesType.Popup, viewString);
             var popup = ProjectContext.Instance.Container.InstantiatePrefabForComponent<PopupViewBase> (resObj);
-            popup.Created<PopupViewBase> (PoolingObjectType.View, viewString);
+            popup.Created<PopupViewBase> (poolingPath);
             return popup;
         }
 
@@ -232,19 +231,18 @@ namespace KKSFramework.Navigation
         /// <summary>
         /// create common view.
         /// </summary>
-        public async UniTask<T> OpenCommonView<T> (string viewName) where T : PooledObjectComponent
+        public async UniTask OpenCommonView<T> (string viewName) where T : PooledObjectComponent
         {
+            var poolingPath = $"{ResourceRoleType._Prefab}/{ResourcesType.CommonView}/{viewName}";
             var resObj =
                 await ResourcesLoadHelper.GetResourcesAsync<T> (ResourceRoleType._Prefab, ResourcesType.CommonView,
                     viewName);
             var commonView = ProjectContext.Instance.Container.InstantiatePrefabForComponent<T> (resObj);
-            commonView.Created<T> (PoolingObjectType.Prefab, viewName);
+            commonView.Created<T> (poolingPath);
 
             var rectT = commonView.GetComponent<RectTransform> ();
             rectT.SetParent (_navigationComponent.CommonViewParents);
             rectT.SetInstantiateTransform ();
-
-            return commonView;
         }
 
         /// <summary>
@@ -318,8 +316,8 @@ namespace KKSFramework.Navigation
         {
             await _navigationComponent.transitionEffector.HideAsync ();
         }
-        
-        
+
+
         /// <summary>
         /// change effector playable state.
         /// </summary>

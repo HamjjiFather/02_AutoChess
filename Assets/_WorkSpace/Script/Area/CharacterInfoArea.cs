@@ -60,7 +60,7 @@ namespace AutoChess
                 ResourcesLoadHelper.GetResources<RuntimeAnimatorController> (ResourceRoleType._Animation,
                     characterModel.CharacterData.AnimatorResName);
 
-            var healthValue = (int)characterModel.GetTotalStatus (StatusType.Health);
+            var healthValue = (int)characterModel.GetTotalStatusValue (StatusType.Health);
             hpGageElement.SetValue (healthValue, healthValue);
 
             var levelData = characterModel.GetLevelData ();

@@ -52,6 +52,16 @@ public class Character : TableDataBase
     public float AtInc;
 
     /// <summary>
+    /// 주문력
+    /// </summary>
+    public float[] Ap;
+
+    /// <summary>
+    /// 공격력 증가값
+    /// </summary>
+    public float ApInc;
+
+    /// <summary>
     /// 방어력
     /// </summary>
     public float[] Df;
@@ -100,6 +110,8 @@ public class Character : TableDataBase
 		HpInc = float.Parse(myData[rowIndex++]);
 		At = Array.ConvertAll (myData[rowIndex++].Split ('/'), float.Parse);
 		AtInc = float.Parse(myData[rowIndex++]);
+		Ap = Array.ConvertAll (myData[rowIndex++].Split ('/'), float.Parse);
+		ApInc = float.Parse(myData[rowIndex++]);
 		Df = Array.ConvertAll (myData[rowIndex++].Split ('/'), float.Parse);
 		DfInc = float.Parse(myData[rowIndex++]);
 		AtSpd = float.Parse(myData[rowIndex++]);

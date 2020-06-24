@@ -27,6 +27,8 @@ namespace AutoChess
         public EquipmentModel EquipmentModel;
 
         public PositionModel PositionModel;
+
+        public CharacterSideType CharacterSideType;
         
 #pragma warning disable CS0649
 
@@ -35,6 +37,7 @@ namespace AutoChess
         private readonly HealthEvent _healthEvent = new HealthEvent ();
         
         private IDisposable _healthDisposable;
+        
 
         #endregion
 
@@ -44,7 +47,7 @@ namespace AutoChess
 
         public void StartBattle ()
         {
-            var health = new FloatReactiveProperty (GetTotalStatus (StatusType.Health));
+            var health = new FloatReactiveProperty (GetTotalStatusValue (StatusType.Health));
             health.Subscribe (hp =>
             {
                 _healthEvent.Invoke ((int)hp);
@@ -88,6 +91,12 @@ namespace AutoChess
             PositionModel = positionModel;
         }
 
+
+        public void SetSide (CharacterSideType sideType)
+        {
+            CharacterSideType = sideType;
+        }
+
         #endregion
 
 
@@ -121,7 +130,7 @@ namespace AutoChess
         }
         
         
-        public float GetTotalStatus (StatusType statusType)
+        public float GetTotalStatusValue (StatusType statusType)
         {
             return GetBaseStatus (statusType) + GetEquipmentStatus (statusType);
         }

@@ -87,6 +87,7 @@ namespace AutoChess
                 characterModel.SetCharacterData (characterData);
                 characterModel.SetStatusModel (statusModel);
                 characterModel.SetPositionModel (new PositionModel (GameConstants.PlayerCharacterPosition[index]));
+                characterModel.SetSide (CharacterSideType.Player);
 
                 characterModel.GetBaseStatusModel (StatusType.Health).SetGradeValue (statusGrade.HealthStatusGrade);
                 characterModel.GetBaseStatusModel (StatusType.Attack).SetGradeValue (statusGrade.AttackStatusGrade);
@@ -105,14 +106,12 @@ namespace AutoChess
 
         #region Methods
 
-
         public void SetBattleCharacter (int index, CharacterModel characterModel)
         {
             characterModel.SetPositionModel (new PositionModel (GameConstants.PlayerCharacterPosition[index]));
             _battleCharacterModels[index] = characterModel;
-            
         }
-        
+
         public void SetEquipment (int characterUid, EquipmentModel equipmentModel)
         {
             GetCharacterModel (characterUid).SetEquipmentModel (equipmentModel);
@@ -133,6 +132,7 @@ namespace AutoChess
             LocalDataHelper.SaveCharacterStatusGradeData (
                 _allCharacterModels.Select (x => x.StatusModel.GetStatusGradeValue (StatusType.Health)).ToList (),
                 _allCharacterModels.Select (x => x.StatusModel.GetStatusGradeValue (StatusType.Attack)).ToList (),
+                _allCharacterModels.Select (x => x.StatusModel.GetStatusGradeValue (StatusType.AbilityPoint)).ToList (),
                 _allCharacterModels.Select (x => x.StatusModel.GetStatusGradeValue (StatusType.Defense)).ToList ());
         }
 
@@ -243,18 +243,19 @@ namespace AutoChess
                     new BaseStatusModel (TableDataManager.Instance.StatusDict[(int) DataType.Status + index]));
             });
 
-            dict[StatusType.Health]
-                .SetStatusValue (
-                    Mathf.Lerp (character.Hp[1], character.Hp[1], characterStatusGrade.HealthStatusGrade) +
-                    character.HpInc * characterLevel.Level);
-            dict[StatusType.Attack]
-                .SetStatusValue (
-                    Mathf.Lerp (character.At[0], character.At[1], characterStatusGrade.AttackStatusGrade) +
-                    character.AtInc * characterLevel.Level);
-            dict[StatusType.Defense]
-                .SetStatusValue (
-                    Mathf.Lerp (character.Df[0], character.Df[1], characterStatusGrade.DefenseStatusGrade) +
-                    character.DfInc * characterLevel.Level);
+            var healthValue = Mathf.Lerp (character.Hp[1], character.Hp[1], characterStatusGrade.HealthStatusGrade) +
+                              character.HpInc * characterLevel.Level;
+            var attackValue = Mathf.Lerp (character.At[0], character.At[1], characterStatusGrade.AttackStatusGrade) +
+                              character.AtInc * characterLevel.Level;
+            var apValue = Mathf.Lerp (character.Ap[0], character.Ap[1], characterStatusGrade.AbilityPointStatusGrade) +
+                          character.ApInc * characterLevel.Level;
+            var defenseValue = Mathf.Lerp (character.Df[0], character.Df[1], characterStatusGrade.DefenseStatusGrade) +
+                               character.DfInc * characterLevel.Level;
+
+            dict[StatusType.Health].SetStatusValue (healthValue);
+            dict[StatusType.Attack].SetStatusValue (attackValue);
+            dict[StatusType.AbilityPoint].SetStatusValue (apValue);
+            dict[StatusType.Defense].SetStatusValue (defenseValue);
             dict[StatusType.AtSpd].SetStatusValue (character.AtSpd);
             dict[StatusType.CriticalDmg].SetStatusValue (Constant.CriticalDamage);
             dict[StatusType.CriticalProb].SetStatusValue (Constant.CriticalProbability);

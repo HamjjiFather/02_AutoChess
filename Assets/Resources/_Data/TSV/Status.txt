@@ -3,8 +3,11 @@ Id	NameKey	StatusType	IconImage	Format
 6001	STATUS_NAME_0001	HealthRegen	Status_Icon_0001	F0
 6002	STATUS_NAME_0002	SkillGageRegen	Status_Icon_0002	F0
 6003	STATUS_NAME_0003	Attack	Status_Icon_0003	F0
-6004	STATUS_NAME_0004	Defense	Status_Icon_0004	F0
-6005	STATUS_NAME_0005	AtSpd	Status_Icon_0005	F2
-6006	STATUS_NAME_0006	CriticalProb	Status_Icon_0006	F0
-6007	STATUS_NAME_0007	CriticalDmg	Status_Icon_0007	F0
-6008	STATUS_NAME_0008	EvadeProb	Status_Icon_0008	F0
+6004	STATUS_NAME_0004	AbilityPoint	Status_Icon_0004	F0
+6005	STATUS_NAME_0005	Defense	Status_Icon_0005	F2
+6006	STATUS_NAME_0006	AtSpd	Status_Icon_0006	F0
+6007	STATUS_NAME_0007	CriticalProb	Status_Icon_0007	F0
+6008	STATUS_NAME_0008	CriticalDmg	Status_Icon_0008	F0
+6009	STATUS_NAME_0009	EvadeProb	Status_Icon_0009	F0
+6010	STATUS_NAME_0010	AmountOfAttackDamage	Status_Icon_0010	F0
+6011	STATUS_NAME_0011	AmountOfShotDamage	Status_Icon_0011	F0

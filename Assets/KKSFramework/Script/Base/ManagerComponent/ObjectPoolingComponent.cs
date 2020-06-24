@@ -1,6 +1,6 @@
 ﻿using KKSFramework.Management;
 
-namespace KKSFramework.Object
+namespace KKSFramework.ResourcesLoad
 {
     public class ObjectPoolingComponent : ComponentBase
     {

@@ -4,7 +4,6 @@ using KKSFramework.GameSystem.GlobalText;
 using KKSFramework.LocalData;
 using KKSFramework.Management;
 using KKSFramework.Navigation;
-using KKSFramework.Object;
 using KKSFramework.ResourcesLoad;
 using KKSFramework.SceneLoad;
 using KKSFramework.Sound;

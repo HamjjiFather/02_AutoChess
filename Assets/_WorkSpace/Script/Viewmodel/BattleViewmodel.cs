@@ -5,7 +5,13 @@ using Zenject;
 
 namespace AutoChess
 {
-    public class BattleViewmodel : ViewModelBase
+    public enum CharacterSideType
+    {
+        Player,
+        AI
+    }
+    
+    public partial class BattleViewmodel : ViewModelBase
     {
         #region Fields & Property
 
@@ -33,16 +39,28 @@ namespace AutoChess
         /// </summary>
         private readonly List<CharacterModel> _battleMonsterModels = new List<CharacterModel> ();
         public List<CharacterModel> BattleMonsterModels => _battleMonsterModels;
+        
+        /// <summary>
+        /// 플레이어 캐릭터.
+        /// </summary>
+        private List<BattleCharacterElement> _playerCharacterElements = new List<BattleCharacterElement> ();
+        public List<BattleCharacterElement> PlayerCharacterElements => _playerCharacterElements;
+
+        /// <summary>
+        /// AI 플레이어 캐릭터.
+        /// </summary>
+        private List<BattleCharacterElement> _aiCharacterElements = new List<BattleCharacterElement> ();
+        public List<BattleCharacterElement> AiCharacterElements => _aiCharacterElements;
 
         #endregion
 
 
         public override void Initialize ()
         {
-
+            InitializeLines ();
         }
-
-
+        
+        
         #region Methods
 
         /// <summary>
@@ -58,6 +76,7 @@ namespace AutoChess
             var stage = TableDataManager.Instance.StageDict[(int) DataType.Stage + _lastStageIndex];
             _nowStageModel.SetStageData (stage);
 
+            // 적 AI 세팅.
             stage.MonsterIndexes.Foreach ((monsterIndex, index) =>
             {
                 var characterModel = new CharacterModel ();
@@ -70,6 +89,7 @@ namespace AutoChess
                 characterModel.SetStatusModel (statusModel);
                 characterModel.SetPositionModel (new PositionModel (stage.MonsterPosition[index]));
                 characterModel.SetEquipmentModel (EquipmentViewmodel.EmptyEquipmentModel);
+                characterModel.SetSide (CharacterSideType.AI);
 
                 characterModel.GetBaseStatusModel (StatusType.Health).SetGradeValue (statusGrade.HealthStatusGrade);
                 characterModel.GetBaseStatusModel (StatusType.Attack).SetGradeValue (statusGrade.AttackStatusGrade);
@@ -88,6 +108,21 @@ namespace AutoChess
                 DefenseStatusGrade = Constant.MonsterStatusGradeValue
             };
         }
+
+
+        public void AddPlayerBattleCharacterElement (BattleCharacterElement battleCharacterElement)
+        {
+            _playerCharacterElements.Add (battleCharacterElement);
+        }
+
+
+        public void AddAiBattleCharacterElement (BattleCharacterElement battleCharacterElement)
+        {
+            _aiCharacterElements.Add (battleCharacterElement);
+        }
+
+
+
 
         #endregion
 

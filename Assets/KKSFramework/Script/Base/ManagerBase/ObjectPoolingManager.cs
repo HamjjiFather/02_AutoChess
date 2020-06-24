@@ -1,21 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using KKSFramework.Management;
-using KKSFramework.ResourcesLoad;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
-namespace KKSFramework.Object
+namespace KKSFramework.ResourcesLoad
 {
-    /// <summary>
-    /// 풀링할 오브젝트 타입.
-    /// 게임에 맞게 선언해주어야 함.
-    /// </summary>
-    public enum PoolingObjectType
-    {
-        View,
-        Prefab
-    }
-
     /// <summary>
     /// 오브젝트 풀링 관리 클래스.
     /// 선입선출 타입의 페이지뷰 풀링.
@@ -42,21 +32,14 @@ namespace KKSFramework.Object
         /// <summary>
         /// 풀링된 오브젝트 보관 트랜스폼.
         /// </summary>
-        private readonly Dictionary<PoolingObjectType, Transform> _pooledObjTransformDict =
-            new Dictionary<PoolingObjectType, Transform> ();
-
-        /// <summary>
-        /// 풀링된 페이지 뷰 오브젝트 리스트.
-        /// enum 타입별로 관리하고 싶으면 변수 타입에 해당하는 딕셔너리를 늘려서 관리하도록.
-        /// </summary>
-        private readonly Dictionary<string, PooledObjectComponent> _pooledPageViewDict =
-            new Dictionary<string, PooledObjectComponent> ();
+        private readonly Dictionary<string, Transform> _pooledObjTransformDict =
+            new Dictionary<string, Transform> ();
 
         /// <summary>
         /// 풀링된 일반 프리팹 오브젝트 리스트.
         /// enum 타입별로 관리하고 싶으면 변수 타입에 해당하는 딕셔너리를 늘려서 관리하도록.
         /// </summary>
-        private readonly Dictionary<string, Queue<PooledObjectComponent>> _pooledPrefabDict =
+        private readonly Dictionary<string, Queue<PooledObjectComponent>> _pooledPrefabs =
             new Dictionary<string, Queue<PooledObjectComponent>> ();
 
         #endregion
@@ -67,89 +50,42 @@ namespace KKSFramework.Object
         /// <summary>
         /// 해당 타입의 풀링된 오브젝트를 리턴.
         /// </summary>
-        private PooledObjectComponent ReturnPooledObjectBase (PoolingObjectType pEPoolingObjectType,
-            string objectName)
+        private PooledObjectComponent ReturnPooledObjectBase (string poolingPath)
         {
-            switch (pEPoolingObjectType)
-            {
-                case PoolingObjectType.View:
-                {
-                    if (IsExistPooledObject (pEPoolingObjectType, objectName))
-                    {
-                        var obj = _pooledPageViewDict[objectName];
-                        _pooledPageViewDict.Remove (objectName);
-                        return obj;
-                    }
+            if (IsExistPooledObject (poolingPath))
+                return _pooledPrefabs[poolingPath].Dequeue ();
 
-                    return null;
-                }
-
-                case PoolingObjectType.Prefab:
-                {
-                    if (IsExistPooledObject (pEPoolingObjectType, objectName))
-                        return _pooledPrefabDict[objectName].Dequeue ();
-
-                    return null;
-                }
-
-                default:
-                    return null;
-            }
+            return null;
         }
-
 
         /// <summary>
         /// 해당 타입의 해당 문자열을 가진 풀링된 오브젝트가 있는지 여부.
         /// </summary>
         /// <returns></returns>
-        public bool IsExistPooledObject (PoolingObjectType poolingObjectType, string objectName)
+        public bool IsExistPooledObject (string resourceTypeString)
         {
-            switch (poolingObjectType)
-            {
-                case PoolingObjectType.View:
-                {
-                    return _pooledPageViewDict.ContainsKey (objectName) &&
-                           _pooledPageViewDict[objectName] != null;
-                }
-
-                case PoolingObjectType.Prefab:
-                {
-                    return _pooledPrefabDict.ContainsKey (objectName) &&
-                           _pooledPrefabDict[objectName].Count != 0;
-                }
-
-                default:
-                    Debug.Log ($"Wrong Status_Pooling Value : {default (PoolingObjectType)}");
-                    return false;
-            }
+            return _pooledPrefabs.ContainsKey (resourceTypeString) && _pooledPrefabs[resourceTypeString].Count != 0;
         }
 
         /// <summary>
         /// 풀링된 오브젝트를 꺼냄.
         /// 리소스 관리를 껐다 켰다 할 수 있도록 설계해야 함.
         /// </summary>
-        public T ReturnLoadResources<T> (PoolingObjectType poolingObjectType, string objectName,
-            Transform parents = null) where T : PooledObjectComponent
+        public T ReturnLoadResources<T> (string poolingPath) where T : Object
         {
-            if (!IsExistPooledObject (poolingObjectType, objectName))
+            if (!IsExistPooledObject (poolingPath))
             {
                 Debug.LogException (new NullReferenceException ("null ref exception pooled object"));
                 return null;
             }
 
-            var pooledObject = ReturnPooledObjectBase (poolingObjectType, objectName);
+            var pooledObject = ReturnPooledObjectBase (poolingPath);
 
             // 리소스 오브젝트가 없음.
             if (pooledObject == null)
             {
                 Debug.LogException (new NullReferenceException ("null ref exception pooled object"));
                 return null;
-            }
-
-            // 리소스 오브젝트가 있음.
-            if (parents)
-            {
-                pooledObject.transform.SetParent (parents);
             }
 
             pooledObject.Unpooled ();
@@ -162,46 +98,25 @@ namespace KKSFramework.Object
         /// 오브젝트를 파괴하지 않고 풀링함.
         /// 풀링된 오브젝트는 하위에 위치 시킴.
         /// </summary>
-        public void RegistPooledObject (PooledObjectComponent pooledObjectComponent)
+        public void RegistPooledObject (PoolingInfo poolingInfo, PooledObjectComponent pooledObjectComponent)
         {
-            var poolingInfo = pooledObjectComponent.PoolingInfo;
-            var prefixName = poolingInfo.PrefixName;
+            if (_pooledPrefabs.ContainsKey (poolingInfo.PoolingPath) == false)
+                _pooledPrefabs.Add (poolingInfo.PoolingPath, new Queue<PooledObjectComponent> ());
 
-            switch (pooledObjectComponent.PoolingInfo.PoolingObjectType)
-            {
-                case PoolingObjectType.View:
-                {
-                    if (_pooledPageViewDict.ContainsKey (prefixName) == false)
-                        _pooledPageViewDict.Add (prefixName, pooledObjectComponent);
+            _pooledPrefabs[poolingInfo.PoolingPath].Enqueue (pooledObjectComponent);
 
-                    break;
-                }
-
-                case PoolingObjectType.Prefab:
-                {
-                    if (_pooledPrefabDict.ContainsKey (prefixName) == false)
-                        _pooledPrefabDict.Add (prefixName, new Queue<PooledObjectComponent> ());
-
-                    _pooledPrefabDict[prefixName].Enqueue (pooledObjectComponent);
-                    break;
-                }
-
-                default:
-                    break;
-            }
-
-            if (_pooledObjTransformDict.ContainsKey (poolingInfo.PoolingObjectType) == false)
+            if (_pooledObjTransformDict.ContainsKey (poolingInfo.PoolingPath) == false)
             {
                 var gameObj = new GameObject ();
                 var objTransform = gameObj.transform;
-                objTransform.name = poolingInfo.PoolingObjectType.ToString ();
+                objTransform.name = poolingInfo.PoolingPath;
                 objTransform.SetParent (_objectPoolingComponent.transform);
                 objTransform.SetInstantiateTransform ();
 
-                _pooledObjTransformDict.Add (poolingInfo.PoolingObjectType, objTransform);
+                _pooledObjTransformDict.Add (poolingInfo.PoolingPath, objTransform);
             }
 
-            pooledObjectComponent.transform.SetParent (_pooledObjTransformDict[poolingInfo.PoolingObjectType]);
+            pooledObjectComponent.transform.SetParent (_pooledObjTransformDict[poolingInfo.PoolingPath]);
             pooledObjectComponent.gameObject.SetActive (false);
         }
 

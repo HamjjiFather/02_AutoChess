@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UniRx.Async;
 using UnityEngine;
 
@@ -30,7 +29,7 @@ namespace KKSFramework.Navigation
         public void RegistPopup(PopupViewBase popupViewBase)
         {
             popupViewBase.transform.SetParent(PageOption.popupParents);
-            popupViewBase.transform.SetInstantiateTransform ();
+            popupViewBase.rectTransform.SetInstantiateTransform ();
             _registedPopupStack.Push(popupViewBase);
         }
 

@@ -1,6 +1,5 @@
 using KKSFramework.GameSystem.GlobalText;
 using KKSFramework.Navigation;
-using KKSFramework.Object;
 using KKSFramework.ResourcesLoad;
 using UnityEngine;
 using UnityEngine.Events;

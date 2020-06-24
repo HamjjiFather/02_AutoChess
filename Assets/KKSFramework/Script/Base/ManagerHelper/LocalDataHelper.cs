@@ -38,6 +38,8 @@ namespace KKSFramework.LocalData
 
             public float AttackStatusGrade;
 
+            public float AbilityPointStatusGrade;
+
             public float DefenseStatusGrade;
 
 
@@ -46,10 +48,11 @@ namespace KKSFramework.LocalData
             }
 
 
-            public CharacterStatusGrade (float healthStatusGrade, float attackStatusGrade, float defenseStatusGrade)
+            public CharacterStatusGrade (float healthStatusGrade, float attackStatusGrade, float abilityPointStatusGrade, float defenseStatusGrade)
             {
                 HealthStatusGrade = healthStatusGrade;
                 AttackStatusGrade = attackStatusGrade;
+                AbilityPointStatusGrade = abilityPointStatusGrade;
                 DefenseStatusGrade = defenseStatusGrade;
             }
         }
@@ -146,12 +149,12 @@ namespace KKSFramework.LocalData
         }
 
 
-        public static void SaveCharacterStatusGradeData (List<float> hp, List<float> attack, List<float> defense)
+        public static void SaveCharacterStatusGradeData (List<float> hp, List<float> attack, List<float> ap, List<float> defense)
         {
             for (var i = 0; i < hp.Count; i++)
             {
                 LocalDataClass.CharacterBundle.CharacterStatusGrades.Add (
-                    new CharacterBundle.CharacterStatusGrade (hp[i], attack[i], defense[i]));
+                    new CharacterBundle.CharacterStatusGrade (hp[i], attack[i], ap[i], defense[i]));
             }
         }
 

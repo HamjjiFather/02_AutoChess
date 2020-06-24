@@ -1,35 +1,87 @@
+using System;
+using System.Runtime.CompilerServices;
+using JetBrains.Annotations;
+
 namespace AutoChess
 {
-    public readonly struct PositionModel
+    public struct PositionModel
     {
         #region Fields & Property
 
-        public readonly int Column;
+        public int Column;
 
-        public readonly int Row;
+        public int Row;
 
 #pragma warning disable CS0649
 
 #pragma warning restore CS0649
 
         #endregion
+        
+        public PositionModel (string positionString)
+        {
+            var splitString = positionString.Split (',');
+            Column = int.Parse (splitString[0]);
+            Row = int.Parse (splitString[1]);
+        }
+        
+        
+        public PositionModel (int column, int row)
+        {
+            Column = column;
+            Row = row;
+        }
 
 
         #region Methods
 
-        #endregion
 
-
-        public PositionModel (string @string)
+        public void Set (int column, int row)
         {
-            var splitString = @string.Split (',');
-            Column = int.Parse (splitString[0]);
-            Row = int.Parse (splitString[1]);
+            Column = column;
+            Row = row;
         }
+        
+        
+        public int Distance (PositionModel positionModel)
+        {
+            return Math.Abs (Column - positionModel.Column) + Math.Abs (Row - positionModel.Row);
+        }
+        
+        
+        public static PositionModel Empty => new PositionModel(-1, -1);
+
+        
+        public override bool Equals (object obj)
+        {
+            if (obj is PositionModel asPosition)
+            {
+                return Column == asPosition.Column && Row == asPosition.Row;
+            }
+
+            return false;
+        }
+
+        
+        public bool Equals (PositionModel other)
+        {
+            return Column == other.Column && Row == other.Row;
+        }
+
+        public override int GetHashCode ()
+        {
+            unchecked
+            {
+                return (Column * 397) ^ Row;
+            }
+        }
+
 
         public override string ToString ()
         {
             return $"{Column},{Row}";
         }
+
+        #endregion
     }
 }

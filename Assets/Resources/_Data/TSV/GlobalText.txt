@@ -93,12 +93,15 @@ CHARACTER_DESC_0043	물 정령/물 정령
 CHARACTER_DESC_0044	마녀/마녀
 CHARACTER_DESC_0045	공허 뱀/공허 뱀
 CHARACTER_DESC_0046	좀비/좀비
-STATUS_NAME_0000	체력/체력
-STATUS_NAME_0001	체력 재생/체력 재생
-STATUS_NAME_0002	스킬 게이지 재생/스킬 게이지 재생
-STATUS_NAME_0003	공격/공격
-STATUS_NAME_0004	방어/방어
-STATUS_NAME_0005	공속/공속
-STATUS_NAME_0006	치명타 확률/치명타 확률
-STATUS_NAME_0007	치명타 데미지 배율/치명타 데미지 배율
-STATUS_NAME_0008	회피 확률/회피 확률
+STATUS_NAME_0000	체력/Health
+STATUS_NAME_0001	체력 재생/Health Regeneration
+STATUS_NAME_0002	스킬 게이지 재생/SkillGage Regeneration
+STATUS_NAME_0003	공격/Attack
+STATUS_NAME_0004	주문력/Ability Point
+STATUS_NAME_0005	방어/Defense
+STATUS_NAME_0006	공격 속도/Attack Speed
+STATUS_NAME_0007	치명타 확률/Critical Probability
+STATUS_NAME_0008	치명타 데미지 배율/Critical Value
+STATUS_NAME_0009	회피 확률/Evade Probability
+STATUS_NAME_0010	가하는 피해량/회피 확률
+STATUS_NAME_0011	받는 피해량/회피 확률

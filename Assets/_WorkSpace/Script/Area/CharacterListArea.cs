@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using KKSFramework.Object;
 using KKSFramework.ResourcesLoad;
 using UnityEngine;
 using UnityEngine.Events;
@@ -43,22 +42,8 @@ namespace AutoChess
 
             _characterViewmodel.AllCharacterModels.Foreach (characterModel =>
             {
-                CharacterInfoListElement element;
-
-                if (ObjectPoolingManager.Instance.IsExistPooledObject (PoolingObjectType.Prefab, nameof(CharacterInfoListElement))
-                )
-                {
-                    element = ObjectPoolingManager.Instance.ReturnLoadResources<CharacterInfoListElement> (
-                        PoolingObjectType.Prefab, nameof(CharacterInfoListElement), contents);
-                }
-                else
-                {
-                    var res = ResourcesLoadHelper.GetResources<CharacterInfoListElement> (ResourceRoleType._Prefab,
-                        ResourcesType.Element, nameof(CharacterInfoListElement));
-                    element = res.InstantiateObject<CharacterInfoListElement> ();
-                    element.transform.SetParent (contents);
-                    element.GetComponent<RectTransform> ().SetInstantiateTransform ();
-                }
+                var element = ObjectPoolingHelper.GetResources<CharacterInfoListElement> (ResourceRoleType._Prefab,
+                    ResourcesType.Element, nameof(CharacterInfoListElement), contents);
 
                 element.SetElement (new CharacterInfoListElementModel
                 {

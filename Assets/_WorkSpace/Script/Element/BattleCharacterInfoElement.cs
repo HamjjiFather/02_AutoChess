@@ -58,8 +58,8 @@ namespace AutoChess
             characterImage.sprite = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
                 ResourcesType.Monster, characterModel.CharacterData.SpriteResName);
 
-            var health = ElementData.GetTotalStatus (StatusType.Health);
-            hpGageElement.SetValue (ElementData.GetTotalStatus (StatusType.Health), ElementData.StatusModel.MaxHealth);
+            var health = ElementData.GetTotalStatusValue (StatusType.Health);
+            hpGageElement.SetValue (ElementData.GetTotalStatusValue (StatusType.Health), ElementData.StatusModel.MaxHealth);
 
             var valueReactive = new FloatReactiveProperty (health); 
             _healthDisposable = valueReactive.Subscribe (hp =>
@@ -80,13 +80,5 @@ namespace AutoChess
         }
 
         #endregion
-
-
-        #region EventMethods
-
-        #endregion
-
-
-        
     }
 }

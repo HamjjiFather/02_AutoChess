@@ -26,7 +26,12 @@ namespace AutoChess
 
         #region Methods
 
-
+        public void SetSliderValue (float value)
+        {
+            slider.value = value;
+        }
+        
+        
         public void SetValueOnlyGageValue (int gageValue, int maxValue)
         {
             slider.value = (float)gageValue / maxValue;

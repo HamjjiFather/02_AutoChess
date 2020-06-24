@@ -17,20 +17,6 @@ namespace AutoChess
     }
     
     
-    public enum StatusType
-    {
-        Health,
-        HealthRegen,
-        SkillGageRegen,
-        Attack,
-        Defense,
-        AtSpd,
-        CriticalProb,
-        CriticalDmg,
-        EvadeProb,
-    }
-    
-    
     public class StatusModel : ModelBase, IStatusModel
     {
         #region Fields & Property

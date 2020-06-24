@@ -6,7 +6,7 @@ using Zenject;
 
 #endif
 
-namespace KKSFramework.Object
+namespace KKSFramework.ResourcesLoad
 {
     /// <summary>
     /// 프리팹 관리 클래스.
@@ -109,10 +109,7 @@ namespace KKSFramework.Object
             Vector3 localPosition, Vector3 localEulerAngle, params Type[] types)
         {
             var prefabObj = InstantiateObject (parents, types);
-            var prefabObjTransform = prefabObj.transform;
-            prefabObjTransform.localScale = localScale;
-            prefabObjTransform.localPosition = localPosition;
-            prefabObjTransform.localEulerAngles = localEulerAngle;
+            prefabObj.transform.SetInstantiateTransform ();
 
             return prefabObj;
         }

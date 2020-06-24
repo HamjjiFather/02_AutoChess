@@ -57,14 +57,48 @@ public enum EquipmentGrade
 
 public enum SkillActiveCondition
 {
-	Passive = 0,
-	OnAttack = 1,
-	OnHit = 2,
-	OnShot = 3,
-	OnKill = 4,
-	OnDeath = 5,
-	OnAllyDeath = 6,
-	OnEnemyDeath = 7,
+	OnActive = 0,
+	OnAlways = 1,
+	OnAttack = 2,
+	OnHit = 3,
+	OnShot = 4,
+	OnKill = 5,
+	OnDeath = 6,
+	OnAllyDeath = 7,
+	OnEnemyDeath = 8,
+
+}
+
+public enum StatusChangeType
+{
+	Increase = 0,
+	Decrease = 1,
+
+}
+
+public enum SkillBound
+{
+	Self = 0,
+	Target = 1,
+	SelfArea = 2,
+	TargetArea = 3,
+	SelfAreaOnly = 4,
+	TargetAreaOnly = 5,
+	All = 6,
+
+}
+
+public enum SkillTarget
+{
+	Ally = 0,
+	Enemy = 1,
+
+}
+
+public enum RefSkillValueTarget
+{
+	Self = 0,
+	Target = 1,
 
 }
 
@@ -87,10 +121,13 @@ public enum StatusType
 	HealthRegen = 1,
 	SkillGageRegen = 2,
 	Attack = 3,
-	Defense = 4,
-	AtSpd = 5,
-	CriticalProb = 6,
-	CriticalDmg = 7,
-	EvadeProb = 8,
+	AbilityPoint = 4,
+	Defense = 5,
+	AtSpd = 6,
+	CriticalProb = 7,
+	CriticalDmg = 8,
+	EvadeProb = 9,
+	AmountOfAttackDamage = 10,
+	AmountOfShotDamage = 11,
 
 }

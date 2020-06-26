@@ -140,10 +140,8 @@ namespace AutoChess
         {
             _lastBattleIndex = _battleViewmodel.LastStageIndex;
 
-            _playerBattleCharacterElements.First().StartBattle ();
-            // _playerBattleCharacterElements.Foreach (element => { element.StartBattle (); });
-            //
-            // _monsterBattleCharacterElements.Foreach (element => { element.StartBattle (); });
+            _playerBattleCharacterElements.Foreach (x => x.StartBattle ());
+            _monsterBattleCharacterElements.Foreach (element => { element.StartBattle (); });
         }
 
         #endregion

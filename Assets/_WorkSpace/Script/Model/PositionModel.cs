@@ -1,6 +1,4 @@
 using System;
-using System.Runtime.CompilerServices;
-using JetBrains.Annotations;
 
 namespace AutoChess
 {
@@ -68,18 +66,10 @@ namespace AutoChess
             return Column == other.Column && Row == other.Row;
         }
 
-        public override int GetHashCode ()
-        {
-            unchecked
-            {
-                return (Column * 397) ^ Row;
-            }
-        }
-
 
         public override string ToString ()
         {
-            return $"{Column},{Row}";
+            return $"({Column},{Row})";
         }
 
         #endregion

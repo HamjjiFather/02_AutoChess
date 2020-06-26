@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using KKSFramework.DesignPattern;
+using KKSFramework.GameSystem.GlobalText;
 using KKSFramework.LocalData;
 using UnityEngine;
 using Zenject;
@@ -252,6 +253,7 @@ namespace AutoChess
             var defenseValue = Mathf.Lerp (character.Df[0], character.Df[1], characterStatusGrade.DefenseStatusGrade) +
                                character.DfInc * characterLevel.Level;
 
+            Debug.Log ($"Character name : {character.Name}, Hp : {healthValue}, Attack : {attackValue}, Ap : {apValue}, Df : {defenseValue}");
             dict[StatusType.Health].SetStatusValue (healthValue);
             dict[StatusType.Attack].SetStatusValue (attackValue);
             dict[StatusType.AbilityPoint].SetStatusValue (apValue);

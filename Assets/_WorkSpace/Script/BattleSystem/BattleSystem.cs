@@ -119,7 +119,8 @@ namespace AutoChess
         /// </summary>
         private async UniTask Move (PositionModel positionModel)
         {
-            Debug.Log ($"move to {positionModel}");
+            Debug.Log ($"{_characterModel} move to {positionModel}");
+            _characterModel.SetPredicatePosition (positionModel);
             await movingSystem.Moving (positionModel, _cancellationToken.Token);
             _battleViewmodel.CompleteMovement (_characterModel, positionModel);
             Debug.Log ("complete movement");

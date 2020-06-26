@@ -179,7 +179,8 @@ namespace AutoChess
             for (var i = 0; i < skillModel.TargetCharacters.Count; i++)
             {
                 Debug.Log (
-                    $"Skill User {skillModel.UseCharacterModel.CharacterData.Name}, Skill Target {skillModel.TargetCharacters[i].CharacterData.Name}, Skill Value {skillModel.SkillValue[i]}");
+                    $"Count {skillModel.TargetCharacters.Count}/{i}\nSkill User {skillModel.UseCharacterModel}\nSkill Target {skillModel.TargetCharacters[i]}\nSkill Value {skillModel.SkillValue[i]}");
+                skillModel.TargetCharacters[i].ApplySkill (skillModel);
             }
         }
 

@@ -20,14 +20,34 @@ namespace AutoChess
         
         public readonly IntReactiveProperty Exp = new IntReactiveProperty ();
         
+        /// <summary>
+        /// 캐릭터 데이터.
+        /// </summary>
         public Character CharacterData;
 
+        /// <summary>
+        /// 능력치.
+        /// </summary>
         public StatusModel StatusModel;
 
+        /// <summary>
+        /// 장비.
+        /// </summary>
         public EquipmentModel EquipmentModel;
 
+        /// <summary>
+        /// 현재 위치.
+        /// </summary>
         public PositionModel PositionModel;
 
+        /// <summary>
+        /// 이동 예정 위치.
+        /// </summary>
+        public PositionModel PredicatedPositionModel = PositionModel.Empty;
+
+        /// <summary>
+        /// 캐릭터 진영(플레이어, AI).
+        /// </summary>
         public CharacterSideType CharacterSideType;
         
 #pragma warning disable CS0649
@@ -35,6 +55,8 @@ namespace AutoChess
 #pragma warning restore CS0649
 
         private readonly HealthEvent _healthEvent = new HealthEvent ();
+
+        private FloatReactiveProperty _health;
         
         private IDisposable _healthDisposable;
         
@@ -47,8 +69,8 @@ namespace AutoChess
 
         public void StartBattle ()
         {
-            var health = new FloatReactiveProperty (GetTotalStatusValue (StatusType.Health));
-            health.Subscribe (hp =>
+            _health = new FloatReactiveProperty (GetTotalStatusValue (StatusType.Health));
+            _health.Subscribe (hp =>
             {
                 _healthEvent.Invoke ((int)hp);
             });
@@ -86,12 +108,6 @@ namespace AutoChess
         }
 
 
-        public void SetPositionModel (PositionModel positionModel)
-        {
-            PositionModel = positionModel;
-        }
-
-
         public void SetSide (CharacterSideType sideType)
         {
             CharacterSideType = sideType;
@@ -99,6 +115,8 @@ namespace AutoChess
 
         #endregion
 
+
+        #region Level
 
         public CharacterLevel GetLevelData ()
         {
@@ -111,6 +129,10 @@ namespace AutoChess
             return Exp.Value - (int)GetLevelData ().CoExp;
         }
         
+        #endregion
+
+
+        #region Status
 
         public BaseStatusModel GetBaseStatusModel (StatusType statusType)
         {
@@ -133,6 +155,47 @@ namespace AutoChess
         public float GetTotalStatusValue (StatusType statusType)
         {
             return GetBaseStatus (statusType) + GetEquipmentStatus (statusType);
+        }
+        
+        #endregion
+
+
+
+        #region Position
+        
+        public void SetPositionModel (PositionModel positionModel)
+        {
+            PositionModel = positionModel;
+        }
+        
+
+        public void SetPredicatePosition (PositionModel positionModel)
+        {
+            PredicatedPositionModel = positionModel;
+        }
+
+        
+        public void RemovePredicatePosition ()
+        {
+            PredicatedPositionModel = PositionModel.Empty;
+        }
+
+        #endregion
+
+
+        #region Skill
+
+        public void ApplySkill (SkillModel skillModel)
+        {
+            
+        }
+
+        #endregion
+
+
+        public override string ToString ()
+        {
+            return $"{CharacterData.Name}({CharacterSideType}) - Position : {PositionModel},{PredicatedPositionModel}";
         }
     }
 }

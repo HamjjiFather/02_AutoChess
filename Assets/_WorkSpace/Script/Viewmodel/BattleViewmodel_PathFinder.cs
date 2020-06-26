@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace AutoChess
 {
@@ -134,7 +135,6 @@ namespace AutoChess
                 return BattleState.Idle;
             }
 
-
             // 행동이 가능한지 체크.
             var isCanBehave = CanBehavior (sideType, positionModel, out var nearestPosition);
             if (isCanBehave)
@@ -165,17 +165,21 @@ namespace AutoChess
         private bool CanBehavior (CharacterSideType sideType, PositionModel positionModel,
             out PositionModel besidePosition)
         {
+            Debug.Log ($"{sideType}{positionModel}");
             var nearPositions = GetAroundPositionModel (positionModel);
-            var enemies = GetOtherSideCharacters (sideType);
-
-            var foundedEnemy = enemies.Where (enemy =>
+            var characters = GetOtherSideCharacters (sideType);
+            var foundedCharacter = characters.Where (characterModel =>
             {
-                return nearPositions.Any (position => position.Equals (enemy.PositionModel));
+                return nearPositions.Any (position =>
+                    position.Equals (characterModel.PositionModel) ||
+                    position.Equals (characterModel.PredicatedPositionModel));
             }).ToList ();
 
-            if (foundedEnemy.Any ())
+            if (foundedCharacter.Any ())
             {
-                besidePosition = foundedEnemy.First ().PositionModel;
+                var firstCharacter = foundedCharacter.First ();
+                Debug.Log ($"{sideType}{positionModel}, {firstCharacter}");
+                besidePosition = firstCharacter.PositionModel;
                 return true;
             }
 
@@ -276,9 +280,9 @@ namespace AutoChess
         /// <summary>
         /// 해당 방향에 있는 바로 옆 퍼즐의 키 값을 리턴. 
         /// </summary>
-        private PositionModel GetKeyByAngle (PositionModel puzzlePositionModel, float angle)
+        private PositionModel GetKeyByAngle (PositionModel positionModel, float angle)
         {
-            if (!_allLineModels.ContainsKey (puzzlePositionModel.Column))
+            if (!_allLineModels.ContainsKey (positionModel.Column))
             {
                 return PositionModel.Empty;
             }
@@ -286,7 +290,7 @@ namespace AutoChess
             // To upper direction.
             if (Enumerable.Range (150, 60).Contains ((int) angle))
             {
-                return new PositionModel (puzzlePositionModel.Column, puzzlePositionModel.Row + 1);
+                return new PositionModel (positionModel.Column, positionModel.Row + 1);
             }
 
             // To upper right direction.
@@ -314,19 +318,19 @@ namespace AutoChess
             }
 
             // To lower direction.
-            return new PositionModel (puzzlePositionModel.Column, puzzlePositionModel.Row - 1);
+            return new PositionModel (positionModel.Column, positionModel.Row - 1);
 
             PositionModel GetPuzzlePosition (bool toLeft = true, bool toUpper = true)
             {
-                var checkColumn = puzzlePositionModel.Column + (toLeft ? -1 : 1);
+                var checkColumn = positionModel.Column + (toLeft ? -1 : 1);
 
                 if (!_allLineModels.ContainsKey (checkColumn))
                     return PositionModel.Empty;
 
-                var anEvenNumberColumn = puzzlePositionModel.Column % 2 == 0;
-                var posCoeff = anEvenNumberColumn && toUpper ? 0 : anEvenNumberColumn ? -1 : toUpper ? 1 : 0;
+                var isLargeColumn = _allLineModels[positionModel.Column].Count > _allLineModels[checkColumn].Count;
+                var posCoeff = isLargeColumn && toUpper ? 0 : isLargeColumn ? -1 : toUpper ? 1 : 0;
 
-                return new PositionModel (checkColumn, puzzlePositionModel.Row + posCoeff);
+                return new PositionModel (checkColumn, positionModel.Row + posCoeff);
             }
         }
 
@@ -351,6 +355,7 @@ namespace AutoChess
         public void CompleteMovement (CharacterModel characterModel, PositionModel positionModel)
         {
             characterModel.PositionModel.Set (positionModel.Column, positionModel.Row);
+            characterModel.RemovePredicatePosition ();
             _predicateMovePositions.Remove (positionModel);
         }
 

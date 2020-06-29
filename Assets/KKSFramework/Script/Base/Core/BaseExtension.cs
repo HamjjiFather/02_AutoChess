@@ -615,6 +615,13 @@ public static class BaseExtension
         var minValue = sources.Min (selector);
         return sources.Where (x => selector.Invoke (x) == minValue);
     }
+    
+    
+    public static IEnumerable<TSource> MinSources<TSource> (this IEnumerable<TSource> sources, Func<TSource, float> selector)
+        {
+            var minValue = sources.Min (selector);
+            return sources.Where (x => Math.Abs (selector.Invoke (x) - minValue) < float.Epsilon);
+        }
 
 
     public static bool FirstOrLast<TSource> (this IEnumerable<TSource> source, TSource element)

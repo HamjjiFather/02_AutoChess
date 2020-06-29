@@ -94,8 +94,14 @@ namespace AutoChess
                 characterModel.GetBaseStatusModel (StatusType.Health).SetGradeValue (statusGrade.HealthStatusGrade);
                 characterModel.GetBaseStatusModel (StatusType.Attack).SetGradeValue (statusGrade.AttackStatusGrade);
                 characterModel.GetBaseStatusModel (StatusType.Defense).SetGradeValue (statusGrade.DefenseStatusGrade);
+                characterModel.StartBattle ();
                 
                 _battleMonsterModels.Add (characterModel);
+            });
+            
+            _battleMonsterModels.Foreach (model =>
+            {
+                model.StartBattle ();
             });
         }
         

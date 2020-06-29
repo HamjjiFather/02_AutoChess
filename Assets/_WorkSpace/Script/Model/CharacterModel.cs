@@ -1,8 +1,9 @@
 using System;
+using System.Collections.Generic;
 using KKSFramework.DesignPattern;
 using UniRx;
+using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UIElements;
 
 namespace AutoChess
 {
@@ -26,14 +27,19 @@ namespace AutoChess
         public Character CharacterData;
 
         /// <summary>
-        /// 능력치.
+        /// 캐릭터 기본 능력치.
         /// </summary>
         public StatusModel StatusModel;
 
         /// <summary>
-        /// 장비.
+        /// 장비 능력치.
         /// </summary>
         public EquipmentModel EquipmentModel;
+
+        /// <summary>
+        /// 스킬로 인해 변동된 능력치.
+        /// </summary>
+        public SkillStatusModel SkillStatusModel = new SkillStatusModel ();
 
         /// <summary>
         /// 현재 위치.
@@ -50,17 +56,37 @@ namespace AutoChess
         /// </summary>
         public CharacterSideType CharacterSideType;
         
+        /// <summary>
+        /// 사망 여부.
+        /// </summary>
+        public bool IsExcuted;
+
+        
 #pragma warning disable CS0649
 
 #pragma warning restore CS0649
 
+        /// <summary>
+        /// 체력 이벤트.
+        /// </summary>
         private readonly HealthEvent _healthEvent = new HealthEvent ();
 
+        /// <summary>
+        /// 체력.
+        /// </summary>
         private FloatReactiveProperty _health;
         
+        /// <summary>
+        /// 체력
+        /// </summary>
         private IDisposable _healthDisposable;
-        
 
+        /// <summary>
+        /// 지속 상태.
+        /// </summary>
+        private List<IDisposable> _registeredDisposables;
+
+        
         #endregion
 
 
@@ -69,11 +95,30 @@ namespace AutoChess
 
         public void StartBattle ()
         {
+            IsExcuted = false;
             _health = new FloatReactiveProperty (GetTotalStatusValue (StatusType.Health));
-            _health.Subscribe (hp =>
+            _healthDisposable = _health.Subscribe (hp =>
             {
                 _healthEvent.Invoke ((int)hp);
+                if (hp <= 0)
+                {
+                    EndBattle ();
+                }
             });
+            
+            _registeredDisposables = new List<IDisposable> ();
+        }
+
+
+        public void EndBattle ()
+        {
+            PositionModel.Clear ();
+            PredicatedPositionModel.Clear ();
+            _healthDisposable.DisposeSafe ();
+            _registeredDisposables.Foreach (x => x.DisposeSafe ());
+            _registeredDisposables.Clear ();
+            SkillStatusModel.Clear ();
+            IsExcuted = true;
         }
         
         
@@ -140,25 +185,30 @@ namespace AutoChess
         }
         
         
-        public float GetBaseStatus (StatusType statusType)
+        public float GetBaseStatusValue (StatusType statusType)
         {
             return StatusModel.GetStatusValue (statusType);
         }
         
         
-        public float GetEquipmentStatus (StatusType statusType)
+        public float GetEquipmentStatusValue (StatusType statusType)
         {
             return EquipmentModel.GetStatusValue (statusType);
+        }
+
+
+        public float GetSkillStatusValue (StatusType statusType)
+        {
+            return SkillStatusModel.GetStatusValue (statusType);
         }
         
         
         public float GetTotalStatusValue (StatusType statusType)
         {
-            return GetBaseStatus (statusType) + GetEquipmentStatus (statusType);
+            return GetBaseStatusValue (statusType) + GetEquipmentStatusValue (statusType) + GetSkillStatusValue(statusType);
         }
         
         #endregion
-
 
 
         #region Position
@@ -185,11 +235,41 @@ namespace AutoChess
 
         #region Skill
 
-        public void ApplySkill (SkillModel skillModel)
+        public void ApplySkill (SkillModel skillModel, float skillValue)
         {
-            
+            CheckStatus (skillModel, skillValue);
         }
 
+
+        public void CheckStatus (SkillModel skillModel, float skillValue)
+        {
+            // 체력을 증감시키는 스킬이라면.
+            if (skillModel.SkillData.SkillStatusType == StatusType.Health)
+            {
+                var calcedValue = _health.Value + skillValue;
+                _health.Value = Mathf.Clamp (calcedValue, 0, GetTotalStatusValue (StatusType.Health));
+                return;
+            }
+            
+            // 지속 시간이 존재함.
+            if (skillModel.SkillData.InvokeTime > 0)
+            {
+                SkillStatusModel.AddStatus (skillModel.SkillData.SkillStatusType, new BaseStatusModel
+                {
+                    StatusData = TableDataManager.Instance.StatusDict[(int)DataType.Status + (int)skillModel.SkillData.SkillStatusType],
+                    StatusValue = skillValue
+                });
+                
+                var disposable = Observable.Timer (TimeSpan.FromSeconds (skillModel.SkillData.InvokeTime)).Subscribe (
+                    _ =>
+                    {
+
+                    });
+                
+                _registeredDisposables.Add (disposable);
+            }
+        } 
+        
         #endregion
 
 

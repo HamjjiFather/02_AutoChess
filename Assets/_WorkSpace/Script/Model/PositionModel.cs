@@ -41,9 +41,9 @@ namespace AutoChess
         }
         
         
-        public int Distance (PositionModel positionModel)
+        public void Clear ()
         {
-            return Math.Abs (Column - positionModel.Column) + Math.Abs (Row - positionModel.Row);
+            this = Empty;
         }
         
         

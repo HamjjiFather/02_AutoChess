@@ -42,7 +42,7 @@ namespace AutoChess
         /// <summary>
         /// 애니메이션 액션.
         /// </summary>
-        private Func<BattleState, UniTask> _playAnimationAction;
+        private Func<BattleState, CancellationTokenSource, UniTask> _playAnimationAction;
 
         #endregion
 
@@ -72,16 +72,17 @@ namespace AutoChess
 
 
         /// <summary>
-        /// 전투 종료.
+        /// 전투 종료(사망 처리).
         /// </summary>
         public void EndBattle ()
         {
             _cancellationToken.Cancel();
             _cancellationToken.Dispose ();
+            _battleState = BattleState.Death;
         }
 
 
-        public void PlayAnimationCallback (Func<BattleState, UniTask> animationCallback)
+        public void PlayAnimationCallback (Func<BattleState, CancellationTokenSource, UniTask> animationCallback)
         {
             _playAnimationAction = animationCallback;
         }
@@ -132,7 +133,7 @@ namespace AutoChess
         /// </summary>
         private async UniTask Behaviour (PositionModel positionModel)
         {
-            await _playAnimationAction (BattleState.Behave);
+            await _playAnimationAction (BattleState.Behave, _cancellationToken);
             await behaviourSystem.Behaviour (_characterModel, positionModel, _cancellationToken.Token);
         }
         

@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
 using UniRx.Async;
@@ -74,17 +75,22 @@ namespace AutoChess
 
         private void SetHealth (int hp)
         {
+            if (hp == 0)
+            {
+                battleSystem.EndBattle ();
+            }
             hpGageElement.SetValueOnlyGageValue (hp, _maxHealth);
+            
         }
 
 
-        private async UniTask WaitAnimation (BattleState state)
+        private async UniTask WaitAnimation (BattleState state, CancellationTokenSource token)
         {
             var animationName = AnimationNameByState ();
             // var c = characterAnimator.lay
             // var clipInfo = c.First (x => x.clip.name.Equals (animationName));
             characterAnimator.Play (animationName);
-            await UniTask.Delay (TimeSpan.FromSeconds (0.5f));
+            await UniTask.Delay (TimeSpan.FromSeconds (0.5f), cancellationToken: token.Token);
 
             string AnimationNameByState ()
             {

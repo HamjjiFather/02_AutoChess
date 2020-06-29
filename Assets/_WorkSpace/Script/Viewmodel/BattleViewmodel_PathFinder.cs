@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,11 +11,11 @@ namespace AutoChess
     public enum CheckDirectionTypes
     {
         ToUpward = 180,
-        ToDownward = 0,
-        ToUpLeft = 120,
-        ToDownLeft = 60,
         ToUpRight = 240,
         ToDownRight = 300,
+        ToDownward = 0,
+        ToDownLeft = 60,
+        ToUpLeft = 120,
     }
 
 
@@ -26,14 +27,14 @@ namespace AutoChess
 
 #pragma warning restore CS0649
 
-        private readonly Dictionary<PositionModel, CharacterModel> _predicateMovePositions =
-            new Dictionary<PositionModel, CharacterModel> ();
+        private IEnumerable<CharacterModel> AllOfCharacterModels =>
+            BattleMonsterModels.Concat (_characterViewmodel.BattleCharacterModels).ToList ();
 
         private Dictionary<int, List<LandModel>> _allLineModels = new Dictionary<int, List<LandModel>> ();
 
         private readonly int[] RowCount =
         {
-            5, 6, 7, 8, 7, 6, 5
+            7, 8, 7, 8, 7, 8, 7
         };
 
         #endregion
@@ -165,7 +166,6 @@ namespace AutoChess
         private bool CanBehavior (CharacterSideType sideType, PositionModel positionModel,
             out PositionModel besidePosition)
         {
-            Debug.Log ($"{sideType}{positionModel}");
             var nearPositions = GetAroundPositionModel (positionModel);
             var characters = GetOtherSideCharacters (sideType);
             var foundedCharacter = characters.Where (characterModel =>
@@ -178,7 +178,6 @@ namespace AutoChess
             if (foundedCharacter.Any ())
             {
                 var firstCharacter = foundedCharacter.First ();
-                Debug.Log ($"{sideType}{positionModel}, {firstCharacter}");
                 besidePosition = firstCharacter.PositionModel;
                 return true;
             }
@@ -194,61 +193,29 @@ namespace AutoChess
         public CharacterModel FindClosestMonster (CharacterSideType sideType, PositionModel positionModel)
         {
             var otherSideCharacters = GetOtherSideCharacters (sideType);
-            var foundedModel = otherSideCharacters.MinSources (x => positionModel.Distance (x.PositionModel)).First ();
+            var foundedModel = otherSideCharacters
+                .Where (x => !x.IsExcuted)
+                .MinSources (x => Distance (positionModel, x.PositionModel)).First ();
             return foundedModel;
         }
 
 
+        /// <summary>
+        /// 목표까지 가장 빠르게 이동 가능한 주변 위치를 반환함.
+        /// </summary>
         private bool FindMovePosition (PositionModel myPosition, PositionModel targetPosition,
             out PositionModel positionModel)
         {
-            // 아래로 내려감.
-            if (myPosition.Row > targetPosition.Row)
+            if (Enum.GetValues (typeof (CheckDirectionTypes)) is CheckDirectionTypes[] roots)
             {
-                var checkPosition = new PositionModel (myPosition.Column, myPosition.Row - 1);
-                if (!_predicateMovePositions.ContainsKey (checkPosition))
-                {
-                    positionModel = checkPosition;
-                    return true;
-                }
+                var orderBy = roots
+                    .Select (direction => GetPositionByDirectionType (myPosition, direction))
+                    .Where (IsMovablePosition)
+                    .OrderBy (position => Distance (position, targetPosition)).ToList ();
 
-                checkPosition = GetPositionByDirectionType (myPosition, CheckDirectionTypes.ToDownLeft);
-                if (!_predicateMovePositions.ContainsKey (checkPosition))
+                foreach (var model in orderBy)
                 {
-                    positionModel = checkPosition;
-                    return true;
-                }
-
-                checkPosition = GetPositionByDirectionType (myPosition, CheckDirectionTypes.ToDownRight);
-                if (!_predicateMovePositions.ContainsKey (checkPosition))
-                {
-                    positionModel = checkPosition;
-                    return true;
-                }
-            }
-
-            // 위로 올라감.
-            if (myPosition.Row < targetPosition.Row)
-            {
-                var checkPosition = new PositionModel (myPosition.Column, myPosition.Row + 1);
-
-                if (!_predicateMovePositions.ContainsKey (checkPosition))
-                {
-                    positionModel = checkPosition;
-                    return true;
-                }
-
-                checkPosition = GetPositionByDirectionType (myPosition, CheckDirectionTypes.ToUpLeft);
-                if (!_predicateMovePositions.ContainsKey (checkPosition))
-                {
-                    positionModel = checkPosition;
-                    return true;
-                }
-
-                checkPosition = GetPositionByDirectionType (myPosition, CheckDirectionTypes.ToUpRight);
-                if (!_predicateMovePositions.ContainsKey (checkPosition))
-                {
-                    positionModel = checkPosition;
+                    positionModel = model;
                     return true;
                 }
             }
@@ -261,19 +228,10 @@ namespace AutoChess
         /// <summary>
         /// 해당 enum 타입 방향에 있는 바로 옆 퍼즐의 키 값을 리턴.
         /// </summary>
-        private PositionModel GetPositionByDirectionType (PositionModel puzzlePositionModel,
+        private PositionModel GetPositionByDirectionType (PositionModel positionModel,
             CheckDirectionTypes checkDirectionTypes)
         {
-            return GetKeyByAngle (puzzlePositionModel, (float) checkDirectionTypes);
-        }
-
-
-        /// <summary>
-        /// 해당 enum 타입 방향에 있는 바로 옆 퍼즐의 키 값을 리턴.
-        /// </summary>
-        private PositionModel GetPositionByDirectionType (CharacterModel model, CheckDirectionTypes checkDirectionTypes)
-        {
-            return GetKeyByAngle (model.PositionModel, (float) checkDirectionTypes);
+            return GetKeyByAngle (positionModel, (float) checkDirectionTypes);
         }
 
 
@@ -352,11 +310,34 @@ namespace AutoChess
         }
 
 
+        public bool IsMovablePosition (PositionModel positionModel)
+        {
+            return _allLineModels.ContainsKey (positionModel.Column) &&
+                   _allLineModels[positionModel.Column].ContainIndex (positionModel.Row) &&
+                   !positionModel.Equals (PositionModel.Empty) &&
+                   AllOfCharacterModels.All (x => !x.PositionModel.Equals (positionModel)) &&
+                   AllOfCharacterModels.All (x => !x.PredicatedPositionModel.Equals (positionModel));
+        }
+
+
+        public float Distance (PositionModel checkPosition, PositionModel targetPosition)
+        {
+            if (!(_allLineModels.ContainsKey (targetPosition.Column) &&
+                _allLineModels[targetPosition.Column].ContainIndex (targetPosition.Row)))
+            {
+                return float.MaxValue;
+            }
+            
+            var coeffValue = Mathf.Min (_allLineModels[checkPosition.Column].Count % 2, 0.5f);
+            return Math.Abs (checkPosition.Row - targetPosition.Row) +
+                   Math.Abs (checkPosition.Column - targetPosition.Column) - coeffValue;
+        }
+
+
         public void CompleteMovement (CharacterModel characterModel, PositionModel positionModel)
         {
             characterModel.PositionModel.Set (positionModel.Column, positionModel.Row);
             characterModel.RemovePredicatePosition ();
-            _predicateMovePositions.Remove (positionModel);
         }
 
         #endregion

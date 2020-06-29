@@ -178,9 +178,12 @@ namespace AutoChess
         {
             for (var i = 0; i < skillModel.TargetCharacters.Count; i++)
             {
+                var skillValue = skillModel.SkillData.StatusChangeType == StatusChangeType.Increase
+                    ? skillModel.SkillValue[i]
+                    : -skillModel.SkillValue[i]; 
                 Debug.Log (
                     $"Count {skillModel.TargetCharacters.Count}/{i}\nSkill User {skillModel.UseCharacterModel}\nSkill Target {skillModel.TargetCharacters[i]}\nSkill Value {skillModel.SkillValue[i]}");
-                skillModel.TargetCharacters[i].ApplySkill (skillModel);
+                skillModel.TargetCharacters[i].ApplySkill (skillModel, skillValue);
             }
         }
 

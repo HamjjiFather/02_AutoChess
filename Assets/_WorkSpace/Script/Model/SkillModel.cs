@@ -8,23 +8,20 @@ namespace AutoChess
         #region Fields & Property
 
         public CharacterModel UseCharacterModel;
-
+        
         public PositionModel TargetPosition;
         
         public Skill SkillData;
 
-        public List<CharacterModel> TargetCharacters = new List<CharacterModel> ();
+        public DamageType DamageType;
 
-        public List<float> SkillValue = new List<float> ();
+        public readonly List<CharacterModel> TargetCharacters = new List<CharacterModel> ();
+
+        public readonly List<float> SkillValue = new List<float> ();
 
 #pragma warning disable CS0649
 
 #pragma warning restore CS0649
-
-        #endregion
-
-
-        #region Methods
 
         #endregion
     }

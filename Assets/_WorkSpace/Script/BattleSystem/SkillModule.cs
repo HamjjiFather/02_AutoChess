@@ -94,6 +94,9 @@ namespace AutoChess
         }
 
 
+        /// <summary>
+        /// 스킬 대상을 체크함.
+        /// </summary>
         private void CheckSkillTarget (SkillModel skillModel)
         {
             var skillTarget = skillModel.SkillData.SkillTarget;
@@ -151,6 +154,9 @@ namespace AutoChess
         }
 
 
+        /// <summary>
+        /// 스킬 적용값.
+        /// </summary>
         private void CheckSkillValue (SkillModel skillModel)
         {
             switch (skillModel.SkillData.RefSkillValueTarget)
@@ -178,12 +184,13 @@ namespace AutoChess
         {
             for (var i = 0; i < skillModel.TargetCharacters.Count; i++)
             {
-                var skillValue = skillModel.SkillData.StatusChangeType == StatusChangeType.Increase
-                    ? skillModel.SkillValue[i]
-                    : -skillModel.SkillValue[i]; 
+                var damageType = skillModel.SkillData.StatusChangeType == StatusChangeType.Increase
+                    ? DamageType.Heal : DamageType.Damage;
+                var skillValue = damageType == DamageType.Heal ? skillModel.SkillValue[i] : -skillModel.SkillValue[i];
                 Debug.Log (
                     $"Count {skillModel.TargetCharacters.Count}/{i}\nSkill User {skillModel.UseCharacterModel}\nSkill Target {skillModel.TargetCharacters[i]}\nSkill Value {skillModel.SkillValue[i]}");
-                skillModel.TargetCharacters[i].ApplySkill (skillModel, skillValue);
+                var element = _battleViewmodel.FindCharacterElement (skillModel.TargetCharacters[i]);
+                element.ApplySkill (skillModel, skillValue);
             }
         }
 

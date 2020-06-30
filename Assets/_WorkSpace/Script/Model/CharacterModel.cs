@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
 using KKSFramework.DesignPattern;
 using UniRx;
-using UnityEngine;
 using UnityEngine.Events;
 
 namespace AutoChess
@@ -60,33 +57,13 @@ namespace AutoChess
         /// 사망 여부.
         /// </summary>
         public bool IsExcuted;
-
+        
         
 #pragma warning disable CS0649
 
 #pragma warning restore CS0649
 
-        /// <summary>
-        /// 체력 이벤트.
-        /// </summary>
-        private readonly HealthEvent _healthEvent = new HealthEvent ();
 
-        /// <summary>
-        /// 체력.
-        /// </summary>
-        private FloatReactiveProperty _health;
-        
-        /// <summary>
-        /// 체력
-        /// </summary>
-        private IDisposable _healthDisposable;
-
-        /// <summary>
-        /// 지속 상태.
-        /// </summary>
-        private List<IDisposable> _registeredDisposables;
-
-        
         #endregion
 
 
@@ -96,17 +73,6 @@ namespace AutoChess
         public void StartBattle ()
         {
             IsExcuted = false;
-            _health = new FloatReactiveProperty (GetTotalStatusValue (StatusType.Health));
-            _healthDisposable = _health.Subscribe (hp =>
-            {
-                _healthEvent.Invoke ((int)hp);
-                if (hp <= 0)
-                {
-                    EndBattle ();
-                }
-            });
-            
-            _registeredDisposables = new List<IDisposable> ();
         }
 
 
@@ -114,20 +80,11 @@ namespace AutoChess
         {
             PositionModel.Clear ();
             PredicatedPositionModel.Clear ();
-            _healthDisposable.DisposeSafe ();
-            _registeredDisposables.Foreach (x => x.DisposeSafe ());
-            _registeredDisposables.Clear ();
             SkillStatusModel.Clear ();
             IsExcuted = true;
         }
         
         
-        public void AddHealthEvent (UnityAction<int> healthAction)
-        {
-            _healthEvent.AddListener (healthAction);
-        }
-        
-
         public void SetUniqueData (int uid, int exp)
         {
             UniqueCharacterId = uid;
@@ -231,48 +188,8 @@ namespace AutoChess
         }
 
         #endregion
-
-
-        #region Skill
-
-        public void ApplySkill (SkillModel skillModel, float skillValue)
-        {
-            CheckStatus (skillModel, skillValue);
-        }
-
-
-        public void CheckStatus (SkillModel skillModel, float skillValue)
-        {
-            // 체력을 증감시키는 스킬이라면.
-            if (skillModel.SkillData.SkillStatusType == StatusType.Health)
-            {
-                var calcedValue = _health.Value + skillValue;
-                _health.Value = Mathf.Clamp (calcedValue, 0, GetTotalStatusValue (StatusType.Health));
-                return;
-            }
-            
-            // 지속 시간이 존재함.
-            if (skillModel.SkillData.InvokeTime > 0)
-            {
-                SkillStatusModel.AddStatus (skillModel.SkillData.SkillStatusType, new BaseStatusModel
-                {
-                    StatusData = TableDataManager.Instance.StatusDict[(int)DataType.Status + (int)skillModel.SkillData.SkillStatusType],
-                    StatusValue = skillValue
-                });
-                
-                var disposable = Observable.Timer (TimeSpan.FromSeconds (skillModel.SkillData.InvokeTime)).Subscribe (
-                    _ =>
-                    {
-
-                    });
-                
-                _registeredDisposables.Add (disposable);
-            }
-        } 
         
-        #endregion
-
-
+        
         public override string ToString ()
         {
             return $"{CharacterData.Name}({CharacterSideType}) - Position : {PositionModel},{PredicatedPositionModel}";

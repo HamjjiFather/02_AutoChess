@@ -63,55 +63,74 @@ namespace AutoChess
             hpGageElement.SetValueOnlyGageValue (_maxHealth, _maxHealth);
         }
 
+        public void SetInfoElement (BattleCharacterInfoElement infoElement)
+        {
+            battleCharacterInfoElement = infoElement;
+        }
+
 
         public void StartBattle ()
         {
-            battleSystem.PlayAnimationCallback (WaitAnimation);
+            battleSystem.SetCallbacks (SetHealth, WaitAnimation);
             battleSystem.SetCharacterData (ElementData);
             battleSystem.StartBattle (SkillGageCallback);
-            ElementData.AddHealthEvent (SetHealth);
-        }
-
-
-        private void SetHealth (int hp)
-        {
-            if (hp == 0)
-            {
-                battleSystem.EndBattle ();
-            }
-            hpGageElement.SetValueOnlyGageValue (hp, _maxHealth);
             
-        }
-
-
-        private async UniTask WaitAnimation (BattleState state, CancellationTokenSource token)
-        {
-            var animationName = AnimationNameByState ();
-            // var c = characterAnimator.lay
-            // var clipInfo = c.First (x => x.clip.name.Equals (animationName));
-            characterAnimator.Play (animationName);
-            await UniTask.Delay (TimeSpan.FromSeconds (0.5f), cancellationToken: token.Token);
-
-            string AnimationNameByState ()
+            // 체력 증감 처리.
+            void SetHealth (int hp)
             {
-                switch (state)
+                if (hp == 0)
                 {
-                    case BattleState.Moving:
-                        return "Move";
+                    EndBattle ();
+                }
+                hpGageElement.SetValueOnlyGageValue (hp, _maxHealth);
+                
+                if(ElementData.CharacterSideType == CharacterSideType.Player)
+                    battleCharacterInfoElement.hpGageElement.SetValue  (hp, _maxHealth);
+            }
+            
+            // 애니메이션 실행 대기.
+            async UniTask WaitAnimation (BattleState state, CancellationToken token)
+            {
+                var animationName = AnimationNameByState ();
+                characterAnimator.Play (animationName);
+                await UniTask.Delay (TimeSpan.FromSeconds (0.5f), cancellationToken: token);
 
-                    case BattleState.Behave:
-                        return "Attack";
+                string AnimationNameByState ()
+                {
+                    switch (state)
+                    {
+                        case BattleState.Moving:
+                            return "Move";
 
-                    default:
-                        return "Idle";
+                        case BattleState.Behave:
+                            return "Attack";
+
+                        default:
+                            return "Idle";
+                    }
                 }
             }
+        }
+
+
+        private void EndBattle ()
+        {
+            ElementData.EndBattle ();
+            gameObject.SetActive (false);
         }
 
 
         private void SkillGageCallback (float skillValue)
         {
             skillGageElement.SetSliderValue (skillValue);
+            if(ElementData.CharacterSideType == CharacterSideType.Player)
+                battleCharacterInfoElement.skillGageElement.SetSliderValue  (skillValue);
+        }
+        
+        
+        public void ApplySkill (SkillModel skillModel, float skillValue)
+        {
+            battleSystem.ApplySkill (skillModel, skillValue);
         }
 
         #endregion

@@ -30,6 +30,9 @@ namespace AutoChess
         private IEnumerable<CharacterModel> AllOfCharacterModels =>
             BattleMonsterModels.Concat (_characterViewmodel.BattleCharacterModels).ToList ();
 
+        private IEnumerable<BattleCharacterElement> allOfBattleCharacterElements =>
+            _playerCharacterElements.Concat (_aiCharacterElements);
+
         private Dictionary<int, List<LandModel>> _allLineModels = new Dictionary<int, List<LandModel>> ();
 
         private readonly int[] RowCount =

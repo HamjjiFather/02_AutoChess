@@ -65,7 +65,7 @@ namespace AutoChess
         }
 
 
-        public void Disposable ()
+        public void Dispose ()
         {
             _canBehaviour = false;
             _isFullSkillGage = false;

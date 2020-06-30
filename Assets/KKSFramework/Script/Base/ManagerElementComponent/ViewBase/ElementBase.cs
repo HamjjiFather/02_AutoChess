@@ -1,3 +1,4 @@
+using KKSFramework.DesignPattern;
 using UnityEngine;
 
 namespace KKSFramework.Navigation
@@ -7,7 +8,7 @@ namespace KKSFramework.Navigation
         public abstract void SetElement ();
     }
 
-    public abstract class ElementBase<T> : MonoBehaviour, IElementBase<T>
+    public abstract class ElementBase<T> : MonoBehaviour, IElementBase<T> where T : ModelBase
     {
         public abstract T ElementData { get; set; }
 

@@ -41,20 +41,15 @@ namespace AutoChess
 
             _movingDisposable = Observable.EveryUpdate ().Subscribe (_ =>
             {
-                var element = _battleViewLayout.GetLandElement (positionModel);
-                transform.MoveTowards (transform.position, element.transform.position, Time.deltaTime);
+                var element = _battleViewLayout.GetLandElement (positionModel).characterPositionTransform;
+                transform.MoveTowards (transform.position, element.position, Time.deltaTime);
             });
             
-            await UniTask.WaitWhile (() => Vector2.Distance (transform.position, _moveTargetLandElement.transform.position) >
+            await UniTask.WaitWhile (() => Vector2.Distance (transform.position, _moveTargetLandElement.characterPositionTransform.position) >
                                              float.Epsilon, cancellationToken:cancellationToken);
             
             _movingDisposable.DisposeSafe ();
         }
-
-        #endregion
-
-
-        #region EventMethods
 
         #endregion
     }

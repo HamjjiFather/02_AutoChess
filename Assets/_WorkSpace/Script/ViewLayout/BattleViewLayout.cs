@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using KKSFramework.ResourcesLoad;
 using UniRx.Async;
 using UnityEngine;
@@ -67,8 +66,8 @@ namespace AutoChess
             ProjectContext.Instance.Container.BindInstance (this);
 
             battleCharacterListArea.SetCharacterList (_characterViewmodel.BattleCharacterModels);
-            await SummonPlayerMonster ();
-            await SummonEnemyMonster ();
+            await SummonPlayerCharacter ();
+            await SummonEnemyCharacter ();
             await base.ActiveLayout ();
         }
 
@@ -76,7 +75,7 @@ namespace AutoChess
         /// <summary>
         /// 플레이어 캐릭터 소환.
         /// </summary>
-        public async UniTask SummonPlayerMonster ()
+        public async UniTask SummonPlayerCharacter ()
         {
             if (!_characterViewmodel.IsDataChanged)
             {
@@ -87,7 +86,7 @@ namespace AutoChess
             _playerBattleCharacterElements.Foreach (x => x.PoolingObject ());
             _playerBattleCharacterElements.Clear ();
 
-            _characterViewmodel.BattleCharacterModels.Foreach (battlePlayer =>
+            _characterViewmodel.BattleCharacterModels.Foreach ((battlePlayer, index) =>
             {
                 var landElement = lineElements[battlePlayer.PositionModel.Column]
                     .landElements[battlePlayer.PositionModel.Row];
@@ -95,6 +94,7 @@ namespace AutoChess
                     ResourcesType.Element, nameof (BattleCharacterElement), landElement.characterPositionTransform);
                 
                 characterElement.SetElement (battlePlayer);
+                characterElement.SetInfoElement (battleCharacterListArea.battleCharacterInfoElements[index]);
 
                 _playerBattleCharacterElements.Add (characterElement);
                 _battleViewmodel.AddPlayerBattleCharacterElement (characterElement);
@@ -105,7 +105,7 @@ namespace AutoChess
         /// <summary>
         /// 적 캐릭터 소환.
         /// </summary>
-        public async UniTask SummonEnemyMonster ()
+        public async UniTask SummonEnemyCharacter ()
         {
             if (_lastBattleIndex.Equals (_battleViewmodel.LastStageIndex))
             {
@@ -118,12 +118,10 @@ namespace AutoChess
             {
                 var landElement = lineElements[battleMonster.PositionModel.Column]
                     .landElements[battleMonster.PositionModel.Row];
-                var res = ResourcesLoadHelper.GetResources<BattleCharacterElement> (ResourceRoleType._Prefab,
-                    ResourcesType.Element, nameof (BattleCharacterElement));
-
-                var characterElement =
-                    res.InstantiateObject<BattleCharacterElement> (landElement.characterPositionTransform);
-                characterElement.GetComponent<RectTransform> ().SetInstantiateTransform ();
+                var characterElement = ObjectPoolingHelper.GetResources<BattleCharacterElement> (ResourceRoleType._Prefab,
+                    ResourcesType.Element, nameof (BattleCharacterElement), landElement.characterPositionTransform);
+                Debug.Log (landElement.characterPositionTransform.position);
+                
                 characterElement.SetElement (battleMonster);
                 
                 _monsterBattleCharacterElements.Add (characterElement);

@@ -19,13 +19,13 @@ namespace AutoChess
         Death
     }
     
-    public class BattleSystem : MonoBehaviour
+    public class BattleSystemModule : MonoBehaviour
     {
         #region Fields & Property
         
-        public MovingSystem movingSystem;
+        public MovingSystemModule movingSystemModule;
 
-        public BehaviourSystem behaviourSystem;
+        public BehaviourSystemModule behaviourSystemModule;
 
         public Transform damageElementParents;
         
@@ -36,9 +36,15 @@ namespace AutoChess
 
 #pragma warning restore CS0649
 
+        /// <summary>
+        /// 캐릭터 모델.
+        /// </summary>
         private CharacterModel _characterModel;
         public CharacterModel CharacterModel => _characterModel;
         
+        /// <summary>
+        /// 전투 상태.
+        /// </summary>
         private BattleState _battleState;
         public BattleState BattleState => _battleState;
 
@@ -51,7 +57,6 @@ namespace AutoChess
         /// 애니메이션 액션.
         /// </summary>
         private Func<BattleState, CancellationToken, UniTask> _playAnimationAction;
-        
         
         /// <summary>
         /// 체력 이벤트.
@@ -78,6 +83,11 @@ namespace AutoChess
         /// 생성된 데미지 표시 엘리먼트.
         /// </summary>
         private readonly List<BattleDamageElement> _spawnedDamageElements = new List<BattleDamageElement> ();
+
+        /// <summary>
+        /// 컴포넌트 패키지.
+        /// </summary>
+        private BattleCharacterPackage _battleCharacterPackage;
         
         #endregion
 
@@ -89,6 +99,12 @@ namespace AutoChess
 
         #region Methods
 
+        public void InitModule (BattleCharacterPackage characterPackage)
+        {
+            _battleCharacterPackage = characterPackage;
+        }
+
+        
         public void SetCharacterData (CharacterModel characterModel)
         {
             _characterModel = characterModel;
@@ -113,7 +129,7 @@ namespace AutoChess
             
             _registeredDisposables = new List<IDisposable> ();
             
-            behaviourSystem.Initialize (gageAction);
+            behaviourSystemModule.Initialize (gageAction);
             
             CheckNextBehaviour ().Forget();
         }
@@ -126,7 +142,7 @@ namespace AutoChess
         {
             _battleState = BattleState.Death;
             
-            behaviourSystem.Dispose ();
+            behaviourSystemModule.Dispose ();
             _cancellationToken.Cancel();
             _cancellationToken.DisposeSafe ();
             _healthDisposable.DisposeSafe ();
@@ -173,7 +189,7 @@ namespace AutoChess
                     throw new ArgumentOutOfRangeException ();
             }
         }
-        
+
         
         /// <summary>
         /// 이동.
@@ -182,7 +198,7 @@ namespace AutoChess
         {
             Debug.Log ($"{_characterModel} move to {positionModel}");
             _characterModel.SetPredicatePosition (positionModel);
-            await movingSystem.Moving (positionModel, _cancellationToken.Token);
+            await movingSystemModule.Moving (positionModel, _cancellationToken.Token);
             _battleViewmodel.CompleteMovement (_characterModel, positionModel);
             Debug.Log ("complete movement");
         }
@@ -194,7 +210,7 @@ namespace AutoChess
         private async UniTask Behaviour (PositionModel positionModel)
         {
             await _playAnimationAction (BattleState.Behave, _cancellationToken.Token);
-            await behaviourSystem.Behaviour (_characterModel, positionModel, _cancellationToken.Token);
+            await behaviourSystemModule.Behaviour (_characterModel, positionModel, _cancellationToken.Token, ApplyAfterSkill);
         }
         
         
@@ -209,6 +225,15 @@ namespace AutoChess
             CheckStatus (skillModel, skillValue);
         }
 
+
+        /// <summary>
+        /// 스킬 사용 후 처리.
+        /// </summary>
+        public void ApplyAfterSkill (SkillModel skillModel)
+        {
+            
+        }
+
         
         /// <summary>
         /// 스킬 적용 처리.
@@ -218,7 +243,11 @@ namespace AutoChess
             // 체력을 증감시키는 스킬이라면.
             if (skillModel.SkillData.SkillStatusType == StatusType.Health)
             {
+                if(skillModel.DamageType == DamageType.Damage)
+                    behaviourSystemModule.AddSkillValue (Constant.RestoreSkillGageOnHit);
+                
                 DamageElement (Math.Abs (skillValue), skillModel.DamageType);
+                SetApplyParticle (skillModel.DamageType);
                 
                 var calcedValue = _health.Value + skillValue;
                 _health.Value = Mathf.Clamp (calcedValue, 0, _characterModel.GetTotalStatusValue (StatusType.Health));
@@ -267,7 +296,42 @@ namespace AutoChess
                 battleDamageElement.PoolingObject ();
                 _spawnedDamageElements.Remove (battleDamageElement);
             }
-        } 
+        }
+
+        /// <summary>
+        /// 스킬 적용시 파티클 실행.
+        /// </summary>
+        private void SetApplyParticle (DamageType damageType)
+        {
+            switch (damageType)
+            {
+                case DamageType.Heal:
+                    break;
+                    
+                case DamageType.Damage:
+                    PlayParticle (CharacterParticleType.Hit);
+                    _battleCharacterPackage.characterAppearanceModule.DoFlashImageTween ();
+                    break;
+                    
+                case DamageType.CriticalHeal:
+                    break;
+                    
+                case DamageType.CriticalDamage:
+                    PlayParticle (CharacterParticleType.CriticalHit);
+                    break;
+                    
+                default:
+                    throw new ArgumentOutOfRangeException ();
+            }
+        }
+        
+        /// <summary>
+        /// 파티클 실행.
+        /// </summary>
+        private void PlayParticle (CharacterParticleType particleType)
+        {
+            _battleCharacterPackage.characterParticleModule.PlayParticle (particleType);
+        }
         
         #endregion
     }

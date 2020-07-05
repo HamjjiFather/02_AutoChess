@@ -230,6 +230,8 @@ MonoBehaviour:
   damageText: {fileID: 4026346005422731829}
   damageTypeImage: {fileID: 9077093989318990460}
   damageAnimator: {fileID: 3911358946418884025}
+  damageColor: {r: 1, g: 0.2, b: 0.15, a: 1}
+  restoreColor: {r: 0.23113209, g: 0.85, b: 0.24050851, a: 1}
 --- !u!114 &6949962036354892299
 MonoBehaviour:
   m_ObjectHideFlags: 0

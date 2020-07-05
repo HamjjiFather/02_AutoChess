@@ -20,6 +20,15 @@ namespace KKSFramework.ResourcesLoad
 
         #region UnityMethods
 
+        private void OnDestroy ()
+        {
+            var children = transform.GetChildTransforms ();
+            children.Foreach (child =>
+            {
+                Destroy (child);
+            });
+        }
+
         #endregion
 
         #region Methods

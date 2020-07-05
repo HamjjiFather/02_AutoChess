@@ -17,6 +17,12 @@ namespace AutoChess
 
         public Button startButton;
 
+        public VerticalLayoutGroup[] verticalLayoutGroups;
+
+        public Transform characterParents;
+
+        public Transform upperCharacterParents;
+
 #pragma warning disable CS0649
 
         [Inject]
@@ -66,6 +72,7 @@ namespace AutoChess
             ProjectContext.Instance.Container.BindInstance (this);
 
             battleCharacterListArea.SetCharacterList (_characterViewmodel.BattleCharacterModels);
+            verticalLayoutGroups.Foreach (x => x.SetLayoutVertical ());
             await SummonPlayerCharacter ();
             await SummonEnemyCharacter ();
             await base.ActiveLayout ();
@@ -93,8 +100,8 @@ namespace AutoChess
                 var characterElement = ObjectPoolingHelper.GetResources<BattleCharacterElement> (ResourceRoleType._Prefab,
                     ResourcesType.Element, nameof (BattleCharacterElement), landElement.characterPositionTransform);
                 
-                characterElement.SetElement (battlePlayer);
                 characterElement.SetInfoElement (battleCharacterListArea.battleCharacterInfoElements[index]);
+                characterElement.SetElement (battlePlayer);
 
                 _playerBattleCharacterElements.Add (characterElement);
                 _battleViewmodel.AddPlayerBattleCharacterElement (characterElement);
@@ -120,7 +127,6 @@ namespace AutoChess
                     .landElements[battleMonster.PositionModel.Row];
                 var characterElement = ObjectPoolingHelper.GetResources<BattleCharacterElement> (ResourceRoleType._Prefab,
                     ResourcesType.Element, nameof (BattleCharacterElement), landElement.characterPositionTransform);
-                Debug.Log (landElement.characterPositionTransform.position);
                 
                 characterElement.SetElement (battleMonster);
                 
@@ -138,8 +144,18 @@ namespace AutoChess
         {
             _lastBattleIndex = _battleViewmodel.LastStageIndex;
 
-            _playerBattleCharacterElements.Foreach (x => x.StartBattle ());
-            _monsterBattleCharacterElements.Foreach (element => { element.StartBattle (); });
+            // _playerBattleCharacterElements.First().transform.SetParent (characterParents);
+            // _playerBattleCharacterElements.First().StartBattle ();
+            _playerBattleCharacterElements.Foreach (element =>
+            {
+                element.transform.SetParent (characterParents);
+                element.StartBattle ();
+            });
+            _monsterBattleCharacterElements.Foreach (element =>
+            {
+                element.transform.SetParent (characterParents);
+                element.StartBattle ();
+            });
         }
 
         #endregion

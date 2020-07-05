@@ -17,14 +17,14 @@ public class Character : TableDataBase
     public string Name;
 
     /// <summary>
-    /// 설명
+    /// 캐릭터 설명 로컬 키값
     /// </summary>
     public string Desc;
 
     /// <summary>
-    /// 시작등급
+    /// 사정거리
     /// </summary>
-    public CharacterGrade StartGrade;
+    public int AttackDistance;
 
     /// <summary>
     /// 몬스터 위치
@@ -77,6 +77,11 @@ public class Character : TableDataBase
     public float AtSpd;
 
     /// <summary>
+    /// 기본 공격 인덱스
+    /// </summary>
+    public int AttackIndex;
+
+    /// <summary>
     /// 스킬 인덱스
     /// </summary>
     public int SkillIndex;
@@ -104,7 +109,7 @@ public class Character : TableDataBase
 		Id = int.Parse(myData[rowIndex++]);
 		Name = myData[rowIndex++];
 		Desc = myData[rowIndex++];
-		StartGrade = (CharacterGrade)Enum.Parse (typeof(CharacterGrade), myData[rowIndex++]);
+		AttackDistance = int.Parse(myData[rowIndex++]);
 		GroundType = (CharacterGroundType)Enum.Parse (typeof(CharacterGroundType), myData[rowIndex++]);
 		Hp = Array.ConvertAll (myData[rowIndex++].Split ('/'), float.Parse);
 		HpInc = float.Parse(myData[rowIndex++]);
@@ -115,6 +120,7 @@ public class Character : TableDataBase
 		Df = Array.ConvertAll (myData[rowIndex++].Split ('/'), float.Parse);
 		DfInc = float.Parse(myData[rowIndex++]);
 		AtSpd = float.Parse(myData[rowIndex++]);
+		AttackIndex = int.Parse(myData[rowIndex++]);
 		SkillIndex = int.Parse(myData[rowIndex++]);
 		SpriteResName = myData[rowIndex++];
 		AnimatorResName = myData[rowIndex++];

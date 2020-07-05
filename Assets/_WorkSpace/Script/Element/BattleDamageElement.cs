@@ -20,6 +20,10 @@ namespace AutoChess
         
         public Animator damageAnimator;
 
+        public Color damageColor;
+
+        public Color restoreColor;
+
 #pragma warning disable CS0649
 
 #pragma warning restore CS0649
@@ -49,6 +53,7 @@ namespace AutoChess
         {
             ElementData = elementData;
             damageText.text = ElementData.Amount.ToString();
+            damageText.color = elementData.DamageType == DamageType.Damage ? damageColor : restoreColor;
             damageTypeImage.gameObject.SetActive ((int)elementData.DamageType >= (int)DamageType.CriticalHeal);
         }
 

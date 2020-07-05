@@ -27,12 +27,6 @@ namespace AutoChess
 
         #region Methods
 
-        public void SetModel (DamageType damageType, int amount)
-        {
-            DamageType = damageType;
-            Amount = amount;
-        }
-
         #endregion
     }
 }

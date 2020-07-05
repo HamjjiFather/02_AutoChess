@@ -301,6 +301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92269f8137494ca5bd6577442facc4c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gageImage: {fileID: 1244909912201196258}
   slider: {fileID: 7425746342562343958}
   sliderText: {fileID: 7767215522148150827}
 --- !u!1 &5413885089525589940

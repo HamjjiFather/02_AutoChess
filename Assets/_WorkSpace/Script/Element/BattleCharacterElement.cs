@@ -4,26 +4,30 @@ using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
 using UniRx.Async;
 using UnityEngine;
-using UnityEngine.UI;
 using Zenject;
 
 namespace AutoChess
 {
+    [Serializable]
+    public class BattleCharacterPackage
+    {
+        public CharacterAppearanceModule characterAppearanceModule;
+
+        public CharacterParticleModule characterParticleModule;
+        
+        public BattleSystemModule battleSystemModule;
+
+        public void InitPackage ()
+        {
+            battleSystemModule.InitModule (this);
+        }
+    }
+    
     public class BattleCharacterElement : PooledObjectComponent, IElementBase<CharacterModel>
     {
         #region Fields & Property
 
-        public BattleSystem battleSystem;
-
-        public GageElement hpGageElement;
-
-        public GageElement skillGageElement;
-        
-        public Image characterImage;
-
-        public Animator characterAnimator;
-
-        public BattleCharacterInfoElement battleCharacterInfoElement;
+        public BattleCharacterPackage battleCharacterPackage;
 
 #pragma warning disable CS0649
 
@@ -32,16 +36,35 @@ namespace AutoChess
 
 #pragma warning restore CS0649
 
+        /// <summary>
+        /// 캐릭터 데이터.
+        /// </summary>
         public CharacterModel ElementData { get; set; }
 
-        public BattleState BattleState => battleSystem.BattleState;
+        /// <summary>
+        /// 전투 상태.
+        /// </summary>
+        public BattleState BattleState => battleCharacterPackage.battleSystemModule.BattleState;
 
+        /// <summary>
+        /// 최대 체력.
+        /// </summary>
         private int _maxHealth;
+
+        /// <summary>
+        /// 캐릭터 정보 엘리먼트.
+        /// </summary>
+        private BattleCharacterInfoElement _battleCharacterInfoElement;
 
         #endregion
 
 
         #region UnityMethods
+
+        private void Awake ()
+        {
+            battleCharacterPackage.InitPackage ();
+        }
 
         #endregion
 
@@ -52,29 +75,37 @@ namespace AutoChess
         {
             ElementData = characterModel;
 
-            characterImage.sprite = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
-                ResourcesType.Monster, ElementData.CharacterData.SpriteResName);
+            battleCharacterPackage.characterAppearanceModule.SetActive (true);
 
-            characterAnimator.runtimeAnimatorController =
-                ResourcesLoadHelper.GetResources<RuntimeAnimatorController> (ResourceRoleType._Animation,
-                    characterModel.CharacterData.AnimatorResName);
+            var sprite = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
+                ResourcesType.Monster, ElementData.CharacterData.SpriteResName);
+            var aniamtorController = ResourcesLoadHelper.GetResources<RuntimeAnimatorController> (
+                ResourceRoleType._Animation, characterModel.CharacterData.AnimatorResName);
+            battleCharacterPackage.characterAppearanceModule.SetSprite (sprite);
+            battleCharacterPackage.characterAppearanceModule.SetRuntimeAnimatorContoller (aniamtorController);
 
             _maxHealth = (int) ElementData.GetTotalStatusValue (StatusType.Health);
-            hpGageElement.SetValueOnlyGageValue (_maxHealth, _maxHealth);
+            battleCharacterPackage.characterAppearanceModule.SetValueOnlyHealthGageValue (_maxHealth, _maxHealth);
+            battleCharacterPackage.characterAppearanceModule.SetHealthGageColor (ElementData.CharacterSideType);
+            SkillGageCallback (0);
         }
 
         public void SetInfoElement (BattleCharacterInfoElement infoElement)
         {
-            battleCharacterInfoElement = infoElement;
+            _battleCharacterInfoElement = infoElement;
+            _battleCharacterInfoElement.RegistActiveAction (() =>
+            {
+                
+            });
         }
 
 
         public void StartBattle ()
         {
-            battleSystem.SetCallbacks (SetHealth, WaitAnimation);
-            battleSystem.SetCharacterData (ElementData);
-            battleSystem.StartBattle (SkillGageCallback);
-            
+            battleCharacterPackage.battleSystemModule.SetCallbacks (SetHealth, WaitAnimation);
+            battleCharacterPackage.battleSystemModule.SetCharacterData (ElementData);
+            battleCharacterPackage.battleSystemModule.StartBattle (SkillGageCallback);
+
             // 체력 증감 처리.
             void SetHealth (int hp)
             {
@@ -82,17 +113,18 @@ namespace AutoChess
                 {
                     EndBattle ();
                 }
-                hpGageElement.SetValueOnlyGageValue (hp, _maxHealth);
-                
-                if(ElementData.CharacterSideType == CharacterSideType.Player)
-                    battleCharacterInfoElement.hpGageElement.SetValue  (hp, _maxHealth);
+
+                battleCharacterPackage.characterAppearanceModule.SetValueOnlyHealthGageValue(hp, _maxHealth);
+
+                if (ElementData.CharacterSideType == CharacterSideType.Player)
+                    _battleCharacterInfoElement.hpGageElement.SetValue (hp, _maxHealth);
             }
-            
+
             // 애니메이션 실행 대기.
             async UniTask WaitAnimation (BattleState state, CancellationToken token)
             {
                 var animationName = AnimationNameByState ();
-                characterAnimator.Play (animationName);
+                await battleCharacterPackage.characterAppearanceModule.PlayAnimation (animationName, token);
                 await UniTask.Delay (TimeSpan.FromSeconds (0.5f), cancellationToken: token);
 
                 string AnimationNameByState ()
@@ -113,24 +145,36 @@ namespace AutoChess
         }
 
 
+        /// <summary>
+        /// 전투 종료.
+        /// </summary>
         private void EndBattle ()
         {
             ElementData.EndBattle ();
-            gameObject.SetActive (false);
+            battleCharacterPackage.characterAppearanceModule.SetActive (false);
+            battleCharacterPackage.characterParticleModule.PlayParticle (CharacterParticleType.Death);
         }
 
 
+        /// <summary>
+        /// 스킬 게이지.
+        /// </summary>
         private void SkillGageCallback (float skillValue)
         {
-            skillGageElement.SetSliderValue (skillValue);
-            if(ElementData.CharacterSideType == CharacterSideType.Player)
-                battleCharacterInfoElement.skillGageElement.SetSliderValue  (skillValue);
+            var sliderValue = skillValue / Constant.MaxSkillGageValue;
+            
+            battleCharacterPackage.characterAppearanceModule.SetSkillSliderValue (sliderValue);
+            if (ElementData.CharacterSideType == CharacterSideType.Player)
+                _battleCharacterInfoElement.skillGageElement.SetSliderValue (sliderValue);
         }
-        
-        
+
+
+        /// <summary>
+        /// 스킬 적용.
+        /// </summary>
         public void ApplySkill (SkillModel skillModel, float skillValue)
         {
-            battleSystem.ApplySkill (skillModel, skillValue);
+            battleCharacterPackage.battleSystemModule.ApplySkill (skillModel, skillValue);
         }
 
         #endregion

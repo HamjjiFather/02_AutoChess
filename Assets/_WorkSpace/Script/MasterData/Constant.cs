@@ -22,5 +22,20 @@ public class Constant
     /// </summary>
     public const float MonsterStatusGradeValue = 0.4f;
 
+    /// <summary>
+    /// 스킬게이지 최대치
+    /// </summary>
+    public const float MaxSkillGageValue = 100f;
+
+    /// <summary>
+    /// 공격시 스킬게이지 회복량
+    /// </summary>
+    public const float RestoreSkillGageOnAttack = 10f;
+
+    /// <summary>
+    /// 피격시 스킬게이지 회복량
+    /// </summary>
+    public const float RestoreSkillGageOnHit = 5f;
+
 
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UniRx.Async;
 using UnityEngine;
 
 namespace AutoChess
@@ -33,7 +34,7 @@ namespace AutoChess
         private IEnumerable<BattleCharacterElement> allOfBattleCharacterElements =>
             _playerCharacterElements.Concat (_aiCharacterElements);
 
-        private Dictionary<int, List<LandModel>> _allLineModels = new Dictionary<int, List<LandModel>> ();
+        private readonly Dictionary<int, List<LandModel>> _allLineModels = new Dictionary<int, List<LandModel>> ();
 
         private readonly int[] RowCount =
         {
@@ -198,33 +199,97 @@ namespace AutoChess
             var otherSideCharacters = GetOtherSideCharacters (sideType);
             var foundedModel = otherSideCharacters
                 .Where (x => !x.IsExcuted)
-                .MinSources (x => Distance (positionModel, x.PositionModel)).First ();
+                .MinSources (x => Distance (positionModel, x.PositionModel))
+                .First (x => IsArrivable (x.PositionModel));
             return foundedModel;
+
+            // 도달가능 여부.
+            bool IsArrivable (PositionModel position)
+            {
+                var aroundPosition = GetAroundPositionModel (position);
+                return aroundPosition.Intersect (AllOfCharacterModels.Select (x => x.PositionModel)).Any ();
+            }
         }
 
 
+        private class FindModel
+        {
+            public PositionModel StartPosition;
+
+            public List<PositionModel> AroundPositionModels = new List<PositionModel> ();
+
+            public FindModel (PositionModel startPosition)
+            {
+                StartPosition = startPosition;
+                AroundPositionModels.Add (startPosition);
+            }
+
+            public void AddRangeAroundPositions (IEnumerable<PositionModel> positionModels)
+            {
+                AroundPositionModels.AddRange (positionModels);
+            }
+        }
+
         /// <summary>
-        /// 목표까지 가장 빠르게 이동 가능한 주변 위치를 반환함.
+        /// 목표까지 가장 빠르게 이동 가능한 주변 위치를 반환함 A star.
         /// </summary>
         private bool FindMovePosition (PositionModel myPosition, PositionModel targetPosition,
             out PositionModel positionModel)
         {
-            if (Enum.GetValues (typeof (CheckDirectionTypes)) is CheckDirectionTypes[] roots)
-            {
-                var orderBy = roots
-                    .Select (direction => GetPositionByDirectionType (myPosition, direction))
-                    .Where (IsMovablePosition)
-                    .OrderBy (position => Distance (position, targetPosition)).ToList ();
+            var firstPositions = GetAroundPositionModel (myPosition).Where (IsMovablePosition).ToList ();
+            var allOfCheckedPositions = new List<PositionModel> {myPosition};
+            allOfCheckedPositions.AddRange (firstPositions);
 
-                foreach (var model in orderBy)
+            if (firstPositions.Any (position => position.Equals (targetPosition)))
+            {
+                positionModel = firstPositions.First (x => x.Equals (targetPosition));
+                return true;
+            }
+
+            var checkPosition = PositionModel.Empty;
+            var findModels = firstPositions.Select ((x, i) => new FindModel (x)).ToList ();
+            CheckArounds ();
+
+            positionModel = checkPosition;
+            return !checkPosition.Equals (PositionModel.Empty);
+
+            void CheckArounds ()
+            {
+                while (true)
                 {
-                    positionModel = model;
-                    return true;
+                    foreach (var findModel in findModels)
+                    {
+                        Debug.Log (myPosition);
+                        
+                        if (allOfCheckedPositions.Count >= RowCount.Sum())
+                        {
+                            Debug.Log ("Return");
+                            return;
+                        }
+
+                        var aroundPositions = findModel
+                            .AroundPositionModels.SelectMany (GetAroundPositionModel)
+                            .ToList ();
+                        
+                        findModel.AroundPositionModels.Clear ();
+
+                        if (CheckAround (aroundPositions))
+                        {
+                            checkPosition = findModel.StartPosition;
+                            return;
+                        }
+
+                        allOfCheckedPositions.AddRange (aroundPositions);
+                        allOfCheckedPositions = allOfCheckedPositions.Distinct ().ToList ();
+                        findModel.AddRangeAroundPositions (aroundPositions);
+                    }
                 }
             }
 
-            positionModel = PositionModel.Empty;
-            return false;
+            bool CheckAround (IEnumerable<PositionModel> checkPositions)
+            {
+                return checkPositions.Any (position => position.Equals (targetPosition));
+            }
         }
 
 
@@ -326,14 +391,14 @@ namespace AutoChess
         public float Distance (PositionModel checkPosition, PositionModel targetPosition)
         {
             if (!(_allLineModels.ContainsKey (targetPosition.Column) &&
-                _allLineModels[targetPosition.Column].ContainIndex (targetPosition.Row)))
+                  _allLineModels[targetPosition.Column].ContainIndex (targetPosition.Row)))
             {
                 return float.MaxValue;
             }
-            
+
             var coeffValue = Mathf.Min (_allLineModels[checkPosition.Column].Count % 2, 0.5f);
             return Math.Abs (checkPosition.Row - targetPosition.Row) +
-                   Math.Abs (checkPosition.Column - targetPosition.Column) - coeffValue;
+                Math.Abs (checkPosition.Column - targetPosition.Column) - coeffValue;
         }
 
 

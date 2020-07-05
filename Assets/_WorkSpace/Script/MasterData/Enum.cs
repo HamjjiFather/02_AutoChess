@@ -10,6 +10,8 @@ public enum DataType
 	Status = 6000,
 	StatusGrade = 7000,
 	Stage = 8000,
+	Particle = 9000,
+	Combination = 10000,
 
 }
 

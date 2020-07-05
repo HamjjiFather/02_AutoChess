@@ -31,7 +31,7 @@ namespace AutoChess
 
         #region Methods
 
-        public void ProgressSkillEffect (CharacterModel user, PositionModel positionModel, int skillIndex)
+        public SkillModel ProgressSkillEffect (CharacterModel user, PositionModel positionModel, int skillIndex)
         {
             var skillModel = new SkillModel
             {
@@ -41,6 +41,7 @@ namespace AutoChess
             };
 
             CheckSkillStatus (skillModel);
+            return skillModel;
         }
 
 
@@ -165,7 +166,7 @@ namespace AutoChess
                     var calcValue =
                         skillModel.UseCharacterModel.GetTotalStatusValue (skillModel.SkillData.RefSkillStatusType) *
                         skillModel.SkillData.RefSkillValueAmount;
-                    skillModel.SkillValue.Add (calcValue);
+                    skillModel.SkillValue.AddRange (Enumerable.Repeat (calcValue, skillModel.TargetCharacters.Count));
                     break;
 
                 case RefSkillValueTarget.Target:
@@ -185,7 +186,9 @@ namespace AutoChess
             for (var i = 0; i < skillModel.TargetCharacters.Count; i++)
             {
                 var damageType = skillModel.SkillData.StatusChangeType == StatusChangeType.Increase
-                    ? DamageType.Heal : DamageType.Damage;
+                    ? DamageType.Heal
+                    : DamageType.Damage;
+                skillModel.DamageType = damageType;
                 var skillValue = damageType == DamageType.Heal ? skillModel.SkillValue[i] : -skillModel.SkillValue[i];
                 Debug.Log (
                     $"Count {skillModel.TargetCharacters.Count}/{i}\nSkill User {skillModel.UseCharacterModel}\nSkill Target {skillModel.TargetCharacters[i]}\nSkill Value {skillModel.SkillValue[i]}");

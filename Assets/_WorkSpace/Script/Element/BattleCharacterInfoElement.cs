@@ -4,7 +4,9 @@ using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
 using UniRx;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
+using Zenject;
 
 namespace AutoChess
 {
@@ -26,21 +28,20 @@ namespace AutoChess
 
         public GageElement skillGageElement;
 
-
 #pragma warning disable CS0649
+
+        [Inject]
+        private BattleViewmodel _battleViewmodel;
 
 #pragma warning restore CS0649
 
         public override CharacterModel ElementData { get; set; }
 
+        private UnityAction _clickInfoElement;
+
         private IDisposable _healthDisposable;
 
         private IDisposable _expDisposable;
-
-        #endregion
-
-
-        #region UnityMethods
 
         #endregion
 
@@ -51,7 +52,7 @@ namespace AutoChess
         {
             ElementData = characterModel;
 
-            starGradeArea.SetGrade (ElementData.CharacterData.StartGrade);
+            starGradeArea.SetGrade (CharacterGrade.Grade1);
             
             characterNameText.GetTranslatedString (ElementData.CharacterData.Name);
             
@@ -77,6 +78,12 @@ namespace AutoChess
                 expGageElement.SetValue (nowExp, (int) level.ReqExp);
                 characterLevelText.text = $"Lv.{level.LevelString}";
             });
+        }
+
+
+        public void RegistActiveAction (UnityAction unityAction)
+        {
+            _clickInfoElement = unityAction;
         }
 
         #endregion

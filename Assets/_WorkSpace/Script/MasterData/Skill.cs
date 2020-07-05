@@ -12,6 +12,16 @@ public class Skill : TableDataBase
     public int Id;
 
     /// <summary>
+    /// 스킬 이름 로컬 키값
+    /// </summary>
+    public string Name;
+
+    /// <summary>
+    /// 스킬 설명 로컬 키값
+    /// </summary>
+    public string Desc;
+
+    /// <summary>
     /// 스킬 발동 타이밍
     /// </summary>
     public SkillActiveCondition SkillActiveCondition;
@@ -66,6 +76,16 @@ public class Skill : TableDataBase
     /// </summary>
     public float RefSkillValueAmount;
 
+    /// <summary>
+    /// 발동시 출력할 파티클 인덱스
+    /// </summary>
+    public int InvokeParticle;
+
+    /// <summary>
+    /// 적용시 출력할 파티클 인덱스
+    /// </summary>
+    public int ApplyParticle;
+
 
 
     public Skill ()
@@ -77,6 +97,8 @@ public class Skill : TableDataBase
     {
         var rowIndex = 0;
 		Id = int.Parse(myData[rowIndex++]);
+		Name = myData[rowIndex++];
+		Desc = myData[rowIndex++];
 		SkillActiveCondition = (SkillActiveCondition)Enum.Parse (typeof(SkillActiveCondition), myData[rowIndex++]);
 		SkillStatusType = (StatusType)Enum.Parse (typeof(StatusType), myData[rowIndex++]);
 		StatusChangeType = (StatusChangeType)Enum.Parse (typeof(StatusChangeType), myData[rowIndex++]);
@@ -88,6 +110,8 @@ public class Skill : TableDataBase
 		RefSkillValueTarget = (RefSkillValueTarget)Enum.Parse (typeof(RefSkillValueTarget), myData[rowIndex++]);
 		RefSkillStatusType = (StatusType)Enum.Parse (typeof(StatusType), myData[rowIndex++]);
 		RefSkillValueAmount = float.Parse(myData[rowIndex++]);
+		InvokeParticle = int.Parse(myData[rowIndex++]);
+		ApplyParticle = int.Parse(myData[rowIndex++]);
 
     }
 }

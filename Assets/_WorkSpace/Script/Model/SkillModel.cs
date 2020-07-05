@@ -13,7 +13,7 @@ namespace AutoChess
         
         public Skill SkillData;
 
-        public DamageType DamageType;
+        public DamageType DamageType = DamageType.Damage;
 
         public readonly List<CharacterModel> TargetCharacters = new List<CharacterModel> ();
 

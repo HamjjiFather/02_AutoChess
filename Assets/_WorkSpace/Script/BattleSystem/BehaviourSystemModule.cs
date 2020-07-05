@@ -8,14 +8,14 @@ using Zenject;
 
 namespace AutoChess
 {
-    public class BehaviourSystem : MonoBehaviour
+    public class BehaviourSystemModule : MonoBehaviour
     {
         #region Fields & Property
-        
+
         public SkillModule skillModule;
-        
+
 #pragma warning disable CS0649
-        
+
         [Inject]
         private BattleViewmodel _battleViewmodel;
 
@@ -34,7 +34,7 @@ namespace AutoChess
         private IDisposable _attackSpeedDisposable;
 
         private bool _fullSkillGage;
-        
+
         #endregion
 
 
@@ -45,14 +45,13 @@ namespace AutoChess
 
         #region Methods
 
-
         public void Initialize (UnityAction<float> gageAction)
         {
             _canBehaviour = true;
             _skillValueDisposable = _skillGageValue.Subscribe (gageAction.Invoke);
             _skillValueAddDisposable = Observable.EveryUpdate ().Subscribe (_ =>
             {
-                if (_skillGageValue.Value >= 1f)
+                if (_skillGageValue.Value >= Constant.MaxSkillGageValue)
                 {
                     if (_isFullSkillGage)
                         return;
@@ -60,7 +59,7 @@ namespace AutoChess
                     _isFullSkillGage = true;
                 }
 
-                _skillGageValue.Value += Time.deltaTime * 0.01f;
+                _skillGageValue.Value += Time.deltaTime * 10;
             });
         }
 
@@ -72,23 +71,36 @@ namespace AutoChess
             _skillValueDisposable.DisposeSafe ();
             _skillValueAddDisposable.DisposeSafe ();
         }
-        
-        
-        public async UniTask Behaviour (CharacterModel characterModel, PositionModel positionModel, CancellationToken cancellationToken)
+
+
+        /// <summary>
+        /// 공격 / 스킬
+        /// </summary>
+        public async UniTask Behaviour (CharacterModel characterModel, PositionModel positionModel,
+            CancellationToken cancellationToken, UnityAction<SkillModel> skillCallback)
         {
             if (_canBehaviour)
             {
+                SkillModel skillModel;
+                
                 if (_isFullSkillGage)
                 {
                     Debug.Log ("Skill behaviour");
-                    skillModule.ProgressSkillEffect (characterModel, positionModel, 4000);
-                    CheckAttackSpeed (characterModel, cancellationToken).Forget();
+                    skillModel = skillModule.ProgressSkillEffect (characterModel, positionModel,
+                        characterModel.CharacterData.SkillIndex);
+                    CheckAttackSpeed (characterModel, cancellationToken).Forget ();
+                    skillCallback.Invoke (skillModel);
+                    _skillGageValue.Value = 0;
+                    _isFullSkillGage = false;
                     return;
                 }
-                
+
                 Debug.Log ("Attack behaviour");
-                skillModule.ProgressSkillEffect (characterModel, positionModel, 4000);
-                CheckAttackSpeed (characterModel, cancellationToken).Forget();
+                skillModel = skillModule.ProgressSkillEffect (characterModel, positionModel,
+                    characterModel.CharacterData.AttackIndex);
+                CheckAttackSpeed (characterModel, cancellationToken).Forget ();
+                skillCallback.Invoke (skillModel);
+                AddSkillValue (Constant.RestoreSkillGageOnAttack);
                 return;
             }
 
@@ -102,12 +114,19 @@ namespace AutoChess
         private async UniTask CheckAttackSpeed (CharacterModel characterModel, CancellationToken cancellationToken)
         {
             _canBehaviour = false;
-            var attackDelay =  1 / characterModel.GetTotalStatusValue (StatusType.AtSpd);
+            var attackDelay = 1 / characterModel.GetTotalStatusValue (StatusType.AtSpd);
             Debug.Log ($"Attack Delay = {attackDelay}");
-            await UniTask.Delay (TimeSpan.FromSeconds (attackDelay), cancellationToken:cancellationToken);
+            await UniTask.Delay (TimeSpan.FromSeconds (attackDelay), cancellationToken: cancellationToken);
             _canBehaviour = true;
         }
-        
+
+
+        public void AddSkillValue (float skillValue)
+        {
+            var calcedValue = _skillGageValue.Value + skillValue;
+            _skillGageValue.Value = Mathf.Clamp (calcedValue, 0, Constant.MaxSkillGageValue);
+        }
+
         #endregion
 
 

@@ -1,5 +1,3 @@
-using System;
-
 namespace AutoChess
 {
     public struct PositionModel
@@ -45,11 +43,10 @@ namespace AutoChess
         {
             this = Empty;
         }
-        
-        
-        public static PositionModel Empty => new PositionModel(-1, -1);
 
-        
+
+        public static PositionModel Empty { get; } = new PositionModel(-1, -1);
+
         public override bool Equals (object obj)
         {
             if (obj is PositionModel asPosition)

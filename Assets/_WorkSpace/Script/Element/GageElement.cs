@@ -51,6 +51,14 @@ namespace AutoChess
             slider.value = gageValue / maxValue;
             sliderText.text = $"{gageValue}/{maxValue}";
         }
+
+
+        public void SetGageColor (Color color)
+        {
+            var block = slider.colors;
+            block.disabledColor = color;
+            slider.colors = block;
+        }
         
 
         #endregion

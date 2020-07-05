@@ -7,9 +7,11 @@ using Zenject;
 
 namespace AutoChess
 {
-    public class MovingSystem : MonoBehaviour
+    public class MovingSystemModule : MonoBehaviour
     {
         #region Fields & Property
+
+        public Transform movingTarget;
 
 #pragma warning disable CS0649
 
@@ -42,10 +44,10 @@ namespace AutoChess
             _movingDisposable = Observable.EveryUpdate ().Subscribe (_ =>
             {
                 var element = _battleViewLayout.GetLandElement (positionModel).characterPositionTransform;
-                transform.MoveTowards (transform.position, element.position, Time.deltaTime);
+                movingTarget.MoveTowards (movingTarget.position, element.position, Time.deltaTime);
             });
             
-            await UniTask.WaitWhile (() => Vector2.Distance (transform.position, _moveTargetLandElement.characterPositionTransform.position) >
+            await UniTask.WaitWhile (() => Vector2.Distance (movingTarget.position, _moveTargetLandElement.characterPositionTransform.position) >
                                              float.Epsilon, cancellationToken:cancellationToken);
             
             _movingDisposable.DisposeSafe ();

@@ -18,6 +18,9 @@ namespace AutoChess
         [Inject]
         private EquipmentViewmodel _equipmentViewmodel;
 
+        [Inject]
+        private GameSetting _gameSetting;
+
 #pragma warning restore CS0649
 
         private int _lastUniqueId;
@@ -86,7 +89,7 @@ namespace AutoChess
                 characterModel.SetUniqueData (CombineUniqueId (uid), characterBundle.CharacterExps[index]);
                 characterModel.SetCharacterData (characterData);
                 characterModel.SetStatusModel (statusModel);
-                characterModel.SetPositionModel (new PositionModel (GameConstants.PlayerCharacterPosition[index]));
+                characterModel.SetPositionModel (new PositionModel (_gameSetting.PlayerCharacterPosition[index]));
                 characterModel.SetSide (CharacterSideType.Player);
 
                 characterModel.GetBaseStatusModel (StatusType.Health).SetGradeValue (statusGrade.HealthStatusGrade);
@@ -108,7 +111,7 @@ namespace AutoChess
 
         public void SetBattleCharacter (int index, CharacterModel characterModel)
         {
-            characterModel.SetPositionModel (new PositionModel (GameConstants.PlayerCharacterPosition[index]));
+            characterModel.SetPositionModel (new PositionModel (_gameSetting.PlayerCharacterPosition[index]));
             _battleCharacterModels[index] = characterModel;
         }
 
@@ -219,14 +222,14 @@ namespace AutoChess
 
         public int CombineUniqueId (int uniqueIndex)
         {
-            return GameConstants.BaseCharacterUniqueId + uniqueIndex;
+            return _gameSetting.baseCharacterUniqueId + uniqueIndex;
         }
 
         public int NewUniqueId ()
         {
             _lastUniqueId++;
             LocalDataHelper.SaveGameUniqueIdData (_lastUniqueId);
-            return GameConstants.BaseCharacterUniqueId + _lastUniqueId;
+            return _gameSetting.baseCharacterUniqueId + _lastUniqueId;
         }
 
         #endregion
@@ -237,7 +240,7 @@ namespace AutoChess
         {
             var dict = new Dictionary<StatusType, BaseStatusModel> ();
             var enums = Enum.GetValues (typeof (StatusType)) as StatusType[];
-            enums.Foreach ((statustype, index) =>
+            enums?.Skip (1).Foreach ((statustype, index) =>
             {
                 dict.Add (statustype,
                     new BaseStatusModel (TableDataManager.Instance.StatusDict[(int) DataType.Status + index]));
@@ -252,7 +255,8 @@ namespace AutoChess
             var defenseValue = Mathf.Lerp (character.Df[0], character.Df[1], characterStatusGrade.DefenseStatusGrade) +
                                character.DfInc * characterLevel.Level;
 
-            Debug.Log ($"Character name : {character.Name}, Hp : {healthValue}, Attack : {attackValue}, Ap : {apValue}, Df : {defenseValue}");
+            Debug.Log (
+                $"Character name : {character.Name}, Hp : {healthValue}, Attack : {attackValue}, Ap : {apValue}, Df : {defenseValue}");
             dict[StatusType.Health].SetStatusValue (healthValue);
             dict[StatusType.Attack].SetStatusValue (attackValue);
             dict[StatusType.AbilityPoint].SetStatusValue (apValue);

@@ -12,9 +12,19 @@ public class Particle : TableDataBase
     public int Id;
 
     /// <summary>
-    /// temp
+    /// 프리팹 이름
     /// </summary>
-    public string String;
+    public string PrefabName;
+
+    /// <summary>
+    /// 파티클 영역
+    /// </summary>
+    public int BoundArea;
+
+    /// <summary>
+    /// 파티클 크기
+    /// </summary>
+    public float ParticleSize;
 
 
 
@@ -27,7 +37,9 @@ public class Particle : TableDataBase
     {
         var rowIndex = 0;
 		Id = int.Parse(myData[rowIndex++]);
-		String = myData[rowIndex++];
+		PrefabName = myData[rowIndex++];
+		BoundArea = int.Parse(myData[rowIndex++]);
+		ParticleSize = float.Parse(myData[rowIndex++]);
 
     }
 }

@@ -34,7 +34,11 @@ namespace KKSFramework
                 button.onClick.AddListener (() => SetSubView(index));
             });
             
-            subViewObjs.Foreach (x => x.gameObject.SetActive (false));
+            subViewObjs.Foreach (x =>
+            {
+                x.Initialize ();
+                x.gameObject.SetActive (false);
+            });
         }
 
         #endregion

@@ -20,6 +20,7 @@ namespace KKSFramework.ResourcesLoad
         Popup,
         CommonView,
         Element,
+        Particle,
 
         BGM = 50,
         Button,

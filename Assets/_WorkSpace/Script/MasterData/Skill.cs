@@ -12,6 +12,11 @@ public class Skill : TableDataBase
     public int Id;
 
     /// <summary>
+    /// 동시에 발동되는 스킬 인덱스
+    /// </summary>
+    public int InvokeSkillIndex;
+
+    /// <summary>
     /// 스킬 이름 로컬 키값
     /// </summary>
     public string Name;
@@ -47,9 +52,14 @@ public class Skill : TableDataBase
     public float InvokeTime;
 
     /// <summary>
-    /// 스킬 범위
+    /// 스킬 범위 타입
     /// </summary>
     public SkillBound SkillBound;
+
+    /// <summary>
+    /// 스킬 범위
+    /// </summary>
+    public int SkillTargetBound;
 
     /// <summary>
     /// 스킬 대상
@@ -57,9 +67,14 @@ public class Skill : TableDataBase
     public SkillTarget SkillTarget;
 
     /// <summary>
-    /// 스킬 범위
+    /// 스킬 값
     /// </summary>
-    public int SkillTargetBound;
+    public float SkillValue;
+
+    /// <summary>
+    /// 스킬 값 타입
+    /// </summary>
+    public SkillValueType SkillValueType;
 
     /// <summary>
     /// 능력치 참조 대상
@@ -77,14 +92,29 @@ public class Skill : TableDataBase
     public float RefSkillValueAmount;
 
     /// <summary>
+    /// 부여할 상태
+    /// </summary>
+    public BattleStateType BattleStateType;
+
+    /// <summary>
+    /// 상태 부여 시간(초)
+    /// </summary>
+    public float BattleStateSeconds;
+
+    /// <summary>
     /// 발동시 출력할 파티클 인덱스
     /// </summary>
-    public int InvokeParticle;
+    public int InvokeParticleIndex;
 
     /// <summary>
     /// 적용시 출력할 파티클 인덱스
     /// </summary>
-    public int ApplyParticle;
+    public int ApplyParticleIndex;
+
+    /// <summary>
+    /// 적용후 출력할 파티클 인덱스
+    /// </summary>
+    public int AfterParticleIndex;
 
 
 
@@ -97,6 +127,7 @@ public class Skill : TableDataBase
     {
         var rowIndex = 0;
 		Id = int.Parse(myData[rowIndex++]);
+		InvokeSkillIndex = int.Parse(myData[rowIndex++]);
 		Name = myData[rowIndex++];
 		Desc = myData[rowIndex++];
 		SkillActiveCondition = (SkillActiveCondition)Enum.Parse (typeof(SkillActiveCondition), myData[rowIndex++]);
@@ -105,13 +136,18 @@ public class Skill : TableDataBase
 		InvokeCount = int.Parse(myData[rowIndex++]);
 		InvokeTime = float.Parse(myData[rowIndex++]);
 		SkillBound = (SkillBound)Enum.Parse (typeof(SkillBound), myData[rowIndex++]);
-		SkillTarget = (SkillTarget)Enum.Parse (typeof(SkillTarget), myData[rowIndex++]);
 		SkillTargetBound = int.Parse(myData[rowIndex++]);
+		SkillTarget = (SkillTarget)Enum.Parse (typeof(SkillTarget), myData[rowIndex++]);
+		SkillValue = float.Parse(myData[rowIndex++]);
+		SkillValueType = (SkillValueType)Enum.Parse (typeof(SkillValueType), myData[rowIndex++]);
 		RefSkillValueTarget = (RefSkillValueTarget)Enum.Parse (typeof(RefSkillValueTarget), myData[rowIndex++]);
 		RefSkillStatusType = (StatusType)Enum.Parse (typeof(StatusType), myData[rowIndex++]);
 		RefSkillValueAmount = float.Parse(myData[rowIndex++]);
-		InvokeParticle = int.Parse(myData[rowIndex++]);
-		ApplyParticle = int.Parse(myData[rowIndex++]);
+		BattleStateType = (BattleStateType)Enum.Parse (typeof(BattleStateType), myData[rowIndex++]);
+		BattleStateSeconds = float.Parse(myData[rowIndex++]);
+		InvokeParticleIndex = int.Parse(myData[rowIndex++]);
+		ApplyParticleIndex = int.Parse(myData[rowIndex++]);
+		AfterParticleIndex = int.Parse(myData[rowIndex++]);
 
     }
 }

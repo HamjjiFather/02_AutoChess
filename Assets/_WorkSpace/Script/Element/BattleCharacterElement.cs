@@ -117,7 +117,7 @@ namespace AutoChess
                 battleCharacterPackage.characterAppearanceModule.SetValueOnlyHealthGageValue(hp, _maxHealth);
 
                 if (ElementData.CharacterSideType == CharacterSideType.Player)
-                    _battleCharacterInfoElement.hpGageElement.SetValue (hp, _maxHealth);
+                    _battleCharacterInfoElement.hpGageElement.SetValueAsync (hp, _maxHealth);
             }
 
             // 애니메이션 실행 대기.
@@ -152,7 +152,7 @@ namespace AutoChess
         {
             ElementData.EndBattle ();
             battleCharacterPackage.characterAppearanceModule.SetActive (false);
-            battleCharacterPackage.characterParticleModule.PlayParticle (CharacterParticleType.Death);
+            battleCharacterPackage.characterParticleModule.PlayParticle (CharacterBuiltInParticleType.Death);
         }
 
 

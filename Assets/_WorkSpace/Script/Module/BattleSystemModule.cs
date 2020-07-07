@@ -223,6 +223,7 @@ namespace AutoChess
                 return;
             
             CheckStatus (skillModel, skillValue);
+            PlayCommonParticle (skillModel.SkillData.ApplyParticleIndex);
         }
 
 
@@ -309,7 +310,7 @@ namespace AutoChess
                     break;
                     
                 case DamageType.Damage:
-                    PlayParticle (CharacterParticleType.Hit);
+                    PlayBuiltInParticle (CharacterBuiltInParticleType.Hit);
                     _battleCharacterPackage.characterAppearanceModule.DoFlashImageTween ();
                     break;
                     
@@ -317,7 +318,7 @@ namespace AutoChess
                     break;
                     
                 case DamageType.CriticalDamage:
-                    PlayParticle (CharacterParticleType.CriticalHit);
+                    PlayBuiltInParticle (CharacterBuiltInParticleType.CriticalHit);
                     break;
                     
                 default:
@@ -328,9 +329,15 @@ namespace AutoChess
         /// <summary>
         /// 파티클 실행.
         /// </summary>
-        private void PlayParticle (CharacterParticleType particleType)
+        private void PlayBuiltInParticle (CharacterBuiltInParticleType particleType)
         {
             _battleCharacterPackage.characterParticleModule.PlayParticle (particleType);
+        }
+
+
+        private void PlayCommonParticle (int index)
+        {
+            _battleCharacterPackage.characterParticleModule.GenerateParticle (index);
         }
         
         #endregion

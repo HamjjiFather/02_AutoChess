@@ -1,4 +1,6 @@
-using UniRx;
+using BaseFrame.DoTween.Async.Triggers;
+using DG.Tweening;
+using UniRx.Async;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +11,10 @@ namespace AutoChess
         #region Fields & Property
 
         public Slider slider;
+
+        public Slider effectSlider;
+
+        public Image gageImage;
 
         public Text sliderText;
         
@@ -30,12 +36,33 @@ namespace AutoChess
         {
             slider.value = value;
         }
+
+
+        public async UniTask SliderAsync (float value, float asyncSeconds = 0.25f)
+        {
+            await slider.DOValue (value, asyncSeconds).WaitForCompleteAsync ();
+            effectSlider.DOValue (value, asyncSeconds).WaitForCompleteAsync ().Forget();
+        } 
+        
+        
+        public void SetValueOnlyGageValueAsync (int gageValue, int maxValue)
+        {
+            sliderText.text = $"{gageValue}";
+            SliderAsync(gageValue/(float)maxValue).Forget();
+        }
         
         
         public void SetValueOnlyGageValue (int gageValue, int maxValue)
         {
             slider.value = (float)gageValue / maxValue;
             sliderText.text = $"{gageValue}";
+        }
+
+
+        public void SetValueAsync (int gageValue, int maxValue)
+        {
+            sliderText.text = $"{gageValue}/{maxValue}";
+            SliderAsync(gageValue/(float)maxValue).Forget();
         }
         
 
@@ -55,9 +82,7 @@ namespace AutoChess
 
         public void SetGageColor (Color color)
         {
-            var block = slider.colors;
-            block.disabledColor = color;
-            slider.colors = block;
+            gageImage.color = color;
         }
         
 

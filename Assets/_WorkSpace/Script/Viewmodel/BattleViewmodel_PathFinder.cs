@@ -259,11 +259,8 @@ namespace AutoChess
                 {
                     foreach (var findModel in findModels)
                     {
-                        Debug.Log (myPosition);
-                        
                         if (allOfCheckedPositions.Count >= RowCount.Sum())
                         {
-                            Debug.Log ("Return");
                             return;
                         }
 

@@ -16,6 +16,12 @@ namespace AutoChess
 
         #region Methods
 
+
+        public virtual void Initialize ()
+        {
+        }
+        
+
         public virtual async UniTask ActiveLayout ()
         {
             gameObject.SetActive (true);

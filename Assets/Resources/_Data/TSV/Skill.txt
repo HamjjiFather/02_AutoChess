@@ -1,49 +1,56 @@
-Id	Name	Desc	SkillActiveCondition	SkillStatusType	StatusChangeType	InvokeCount	InvokeTime	SkillBound	SkillTarget	SkillTargetBound	RefSkillValueTarget	RefSkillStatusType	RefSkillValueAmount	InvokeParticle	ApplyParticle
-4000	SKILL_NAME_0000	SKILL_DESC_0000	OnActive	Health	Decrease	1	0	Target	Enemy	0	Self	Attack	1	0	0
-4001	SKILL_NAME_0001	SKILL_DESC_0001	OnActive	Health	Increase	1	0	All	Ally	0	Self	AbilityPoint	1	9000	9000
-4002	SKILL_NAME_0002	SKILL_DESC_0002	OnActive	Health	Decrease	1	0	Target	Enemy	0	Self	Attack	1	9000	9000
-4003	SKILL_NAME_0003	SKILL_DESC_0003	OnActive	Health	Increase	1	0	SelfArea	Enemy	1	Self	Attack	1	9000	9000
-4004	SKILL_NAME_0004	SKILL_DESC_0004	OnActive	Health	Decrease	2	0	Target	Enemy	0	Self	Attack	1	9000	9000
-4005	SKILL_NAME_0005	SKILL_DESC_0005	OnDeath	Health	Decrease	1	0	SelfAreaOnly	Enemy	1	Self	Attack	1	9000	9000
-4006	SKILL_NAME_0006	SKILL_DESC_0006	OnActive	Health	Decrease	1	0	All	Enemy	0	Self	Attack	1	9000	9000
-4007	SKILL_NAME_0007	SKILL_DESC_0007	OnActive	AbilityPoint	Decrease	1	0	SelfAreaOnly	Enemy	1	Self	Attack	1	9000	9000
-4008	SKILL_NAME_0008	SKILL_DESC_0008	OnAlways	Defense	Increase	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4009	SKILL_NAME_0009	SKILL_DESC_0009	OnAllyDeath	Attack	Increase	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4010	SKILL_NAME_0010	SKILL_DESC_0010	OnAlways	Attack	Increase	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4011	SKILL_NAME_0011	SKILL_DESC_0011	OnActive	Health	Decrease	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4012	SKILL_NAME_0012	SKILL_DESC_0012	OnActive	Attack	Increase	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4013	SKILL_NAME_0013	SKILL_DESC_0013	OnActive	Defense	Decrease	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4014	SKILL_NAME_0014	SKILL_DESC_0014	OnActive	Defense	Increase	1	10	Self	Enemy	0	Self	Attack	1	9000	9000
-4015	SKILL_NAME_0015	SKILL_DESC_0015	OnActive	Health	Decrease	1	0	Self	Enemy	1	Self	Attack	1	9000	9000
-4016	SKILL_NAME_0016	SKILL_DESC_0016	OnActive	Health	Decrease	1	10	Self	Enemy	0	Self	Attack	1	9000	9000
-4017	SKILL_NAME_0017	SKILL_DESC_0017	OnActive	Health	Decrease	1	0	Self	Enemy	2	Self	Attack	1	9000	9000
-4018	SKILL_NAME_0018	SKILL_DESC_0018	OnActive	Health	Decrease	1	3	Self	Enemy	0	Self	Attack	1	9000	9000
-4019	SKILL_NAME_0019	SKILL_DESC_0019	OnActive	Health	Decrease	1	5	Self	Enemy	0	Self	Attack	1	9000	9000
-4020	SKILL_NAME_0020	SKILL_DESC_0020	OnActive	Attack	Decrease	1	3	Self	Enemy	0	Self	Attack	1	9000	9000
-4021	SKILL_NAME_0021	SKILL_DESC_0021	OnActive	Attack	Increase	1	10	Self	Enemy	0	Self	Attack	1	9000	9000
-4022	SKILL_NAME_0022	SKILL_DESC_0022	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4023	SKILL_NAME_0023	SKILL_DESC_0023	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4024	SKILL_NAME_0024	SKILL_DESC_0024	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4025	SKILL_NAME_0025	SKILL_DESC_0025	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4026	SKILL_NAME_0026	SKILL_DESC_0026	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4027	SKILL_NAME_0027	SKILL_DESC_0027	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4028	SKILL_NAME_0028	SKILL_DESC_0028	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4029	SKILL_NAME_0029	SKILL_DESC_0029	OnActive	Attack	Decrease	1	0	Self	Enemy	1	Self	Attack	1	9000	9000
-4030	SKILL_NAME_0030	SKILL_DESC_0030	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4031	SKILL_NAME_0031	SKILL_DESC_0031	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4032	SKILL_NAME_0032	SKILL_DESC_0032	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4033	SKILL_NAME_0033	SKILL_DESC_0033	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4034	SKILL_NAME_0034	SKILL_DESC_0034	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4035	SKILL_NAME_0035	SKILL_DESC_0035	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4036	SKILL_NAME_0036	SKILL_DESC_0036	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4037	SKILL_NAME_0037	SKILL_DESC_0037	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4038	SKILL_NAME_0038	SKILL_DESC_0038	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4039	SKILL_NAME_0039	SKILL_DESC_0039	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4040	SKILL_NAME_0040	SKILL_DESC_0040	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4041	SKILL_NAME_0041	SKILL_DESC_0041	OnActive	Attack	Decrease	1	0	Self	Enemy	1	Self	Attack	1	9000	9000
-4042	SKILL_NAME_0042	SKILL_DESC_0042	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4043	SKILL_NAME_0043	SKILL_DESC_0043	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4044	SKILL_NAME_0044	SKILL_DESC_0044	OnActive	Attack	Decrease	1	0	Self	Enemy	1	Self	Attack	1	9000	9000
-4045	SKILL_NAME_0045	SKILL_DESC_0045	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4046	SKILL_NAME_0046	SKILL_DESC_0046	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
-4047	SKILL_NAME_0047	SKILL_DESC_0047	OnActive	Attack	Decrease	1	0	Self	Enemy	0	Self	Attack	1	9000	9000
+Id	InvokeSkillIndex	Name	Desc	SkillActiveCondition	SkillStatusType	StatusChangeType	InvokeCount	InvokeTime	SkillBound	SkillTargetBound	SkillTarget	SkillValue	SkillValueType	RefSkillValueTarget	RefSkillStatusType	RefSkillValueAmount	BattleStateType	BattleStateSeconds	InvokeParticleIndex	ApplyParticleIndex	AfterParticleIndex
+4000	0	SKILL_NAME_0000	SKILL_DESC_0000	OnActive	Health	Decrease	1	0	Target	0	Enemy	0	Number	Self	Attack	1	None	0	0	0	0
+4001	0	SKILL_NAME_0001	SKILL_DESC_0001	OnActive	Health	Increase	1	0	All	0	Ally	45	Number	Self	AbilityPoint	0.25	None	0	9000	9000	9000
+4002	0	SKILL_NAME_0002	SKILL_DESC_0002	OnActive	Health	Decrease	1	0	Target	0	Enemy	60	Number	Self	Attack	0.15	None	0	9000	9000	9000
+4003	0	SKILL_NAME_0003	SKILL_DESC_0003	OnActive	Health	Increase	1	0	SelfArea	1	Ally	65	Number	Self	AbilityPoint	0.4	None	0	9000	9000	9000
+4004	0	SKILL_NAME_0004	SKILL_DESC_0004	OnActive	Health	Decrease	2	0	FanShape	1	Enemy	35	Number	Self	Attack	0.4	None	0	9000	9000	9000
+4005	0	SKILL_NAME_0005	SKILL_DESC_0005	OnDeath	Health	Decrease	1	0	SelfAreaOnly	1	Enemy	100	Number	Self	MaxHealth	0.05	None	0	9000	9000	9000
+4006	0	SKILL_NAME_0006	SKILL_DESC_0006	OnActive	Health	Decrease	1	0	All	0	Enemy	45	Number	Self	AbilityPoint	0.25	Curse	5	9000	9000	9000
+4007	0	SKILL_NAME_0007	SKILL_DESC_0007	OnActive	Health	Decrease	1	0	Target	0	Enemy	80	Number	Self	AbilityPoint	1	None	0	9000	9000	9000
+4008	0	SKILL_NAME_0008	SKILL_DESC_0008	OnActive	Defense	Increase	1	15	Self	0	Ally	8	Number	Self	LostHealth	0.25	None	0	9000	9000	9000
+4009	40091	SKILL_NAME_0009	SKILL_DESC_0009	OnActive	Health	Decrease	1	0	FanShape	1	Enemy	50	Number	Self	Attack	0.25	None	0	9000	9000	9000
+40091	0	SKILL_NAME_0009	SKILL_DESC_0009	OnActive	AtSpd	Decrease	1	3	FanShape	1	Enemy	15	Percent	Self	None	0	None	0	9000	9000	9000
+4010	0	SKILL_NAME_0010	SKILL_DESC_0010	OnActive	Health	Decrease	1	0	Target	0	Enemy	60	Number	Self	Attack	0.4	Stun	1.5	9000	9000	9000
+4011	40111	SKILL_NAME_0011	SKILL_DESC_0011	OnActive	Health	Decrease	1	0	Target	0	Enemy	60	Number	Self	AbilityPoint	0.6	None	0	9000	9000	9000
+40111	0	SKILL_NAME_0011	SKILL_DESC_0011	OnActive	Health	Decrease	1	0	TargetAreaOnly	1	Enemy	25	Number	Self	AbilityPoint	0.3	None	0	9000	9000	9000
+4012	0	SKILL_NAME_0012	SKILL_DESC_0012	OnActive	Attack	Increase	1	5	All	0	Ally	6	Number	Self	MaxHealth	0.04	None	0	9000	9000	9000
+4013	0	SKILL_NAME_0013	SKILL_DESC_0013	OnActive	Health	Decrease	1	0	TargetDirection	2	Enemy	65	Number	Self	AbilityPoint	0.75	None	0	9000	9000	9000
+40131	40131	SKILL_NAME_0013	SKILL_DESC_0013	OnActive	Defense	Decrease	1	5	TargetDirection	2	Enemy	10	Number	Self	AbilityPoint	0.1	None	0	9000	9000	9000
+4014	0	SKILL_NAME_0014	SKILL_DESC_0014	OnActive	Defense	Increase	1	5	Self	0	Ally	12	Number	Self	MaxHealth	0.005	None	0	9000	9000	9000
+4015	0	SKILL_NAME_0015	SKILL_DESC_0015	OnActive	Health	Decrease	1	0	SelfAreaOnly	1	Enemy	60	Number	Self	Defense	0.35	None	0	9000	9000	9000
+4016	0	SKILL_NAME_0016	SKILL_DESC_0016	OnActive	Health	Decrease	1	0	Self	0	Ally	60	Percent	Self	Defense	0.25	Reflex	10	9000	9000	9000
+4017	0	SKILL_NAME_0017	SKILL_DESC_0017	OnActive	Defense	Increase	1	0	SelfArea	2	Ally	8	Number	Self	Defense	0.02	None	0	9000	9000	9000
+4018	40181	SKILL_NAME_0018	SKILL_DESC_0018	OnActive	Health	Decrease	1	0	Self	0	Enemy	45	Number	Self	AbilityPoint	0.25	None	0	9000	9000	9000
+40181	0	SKILL_NAME_0018	SKILL_DESC_0018	OnActive	Health	Decrease	1	3	Self	0	Enemy	15	Number	Self	AbilityPoint	0.1	None	0	9000	9000	9000
+4019	0	SKILL_NAME_0019	SKILL_DESC_0019	OnActive	Health	Decrease	1	3	SelfAreaOnly	1	Enemy	15	Number	Self	AbilityPoint	0.25	None	0	9000	9000	9000
+4020	0	SKILL_NAME_0020	SKILL_DESC_0020	OnActive	Attack	Decrease	1	0	Target	0	Enemy	45	Number	Self	AbilityPoint	0.1	Stun	2	9000	9000	9000
+4021	0	SKILL_NAME_0021	SKILL_DESC_0021	OnActive	AmountOfShotDamage	Increase	1	10	All	0	Enemy	5	Percent	Self	AbilityPoint	0.01	None	0	9000	9000	9000
+4022	0	SKILL_NAME_0022	SKILL_DESC_0022	OnActive	Health	Decrease	1	0	FanShape	1	Enemy	40	Number	Self	AbilityPoint	0.35	None	0	9000	9000	9000
+4023	0	SKILL_NAME_0022	SKILL_DESC_0022	OnActive	Defense	Decrease	1	5	FanShape	1	Enemy	14	Number	Self	AbilityPoint	0.125	None	0	9000	9000	9000
+4024	0	SKILL_NAME_0023	SKILL_DESC_0023	OnActive	CriticalProb	Increase	1	5	Self	0	Enemy	15	Percent	Self	Attack	0.05	None	0	9000	9000	9000
+4025	0	SKILL_NAME_0024	SKILL_DESC_0024	OnActive	Health	Increase	1	0	Self	0	Enemy	60	Number	Self	MaxHealth	0.05	None	0	9000	9000	9000
+4026	0	SKILL_NAME_0025	SKILL_DESC_0025	OnActive	AtSpd	Decrease	1	5	TargetDirection	1	Enemy	25	Percent	Self	AbilityPoint	0.15	None	0	9000	9000	9000
+4027	40261	SKILL_NAME_0026	SKILL_DESC_0026	OnActive	Attack	Increase	1	10	Self	0	Enemy	0	Number	Self	Defense	1	None	0	9000	9000	9000
+40261	0	SKILL_NAME_0026	SKILL_DESC_0026	OnActive	Defense	Decrease	1	10	Self	0	Enemy	0	Number	Self	Defense	1	None	0	9000	9000	9000
+4028	0	SKILL_NAME_0027	SKILL_DESC_0027	OnActive	Health	Decrease	1	0	Target	0	Enemy	50	Number	Self	AbilityPoint	0.45	None	0	9000	9000	9000
+40271	0	SKILL_NAME_0027	SKILL_DESC_0027	OnActive	Defense	Decrease	1	5	Target	0	Enemy	5	Number	Self	AbilityPoint	0.15	None	0	9000	9000	9000
+4029	0	SKILL_NAME_0028	SKILL_DESC_0028	OnActive	Attack	Decrease	1	0	Self	0	Enemy	50	Number	Self	Attack	1	None	0	9000	9000	9000
+4030	0	SKILL_NAME_0029	SKILL_DESC_0029	OnActive	Attack	Decrease	1	0	Self	1	Enemy	50	Number	Self	Attack	1	None	0	9000	9000	9000
+4031	0	SKILL_NAME_0030	SKILL_DESC_0030	OnActive	Attack	Decrease	1	0	Self	0	Enemy	50	Number	Self	Attack	1	None	0	9000	9000	9000
+4032	0	SKILL_NAME_0031	SKILL_DESC_0031	OnActive	Attack	Decrease	1	0	Self	0	Enemy	50	Number	Self	Attack	1	None	0	9000	9000	9000
+4033	0	SKILL_NAME_0032	SKILL_DESC_0032	OnActive	Attack	Decrease	1	0	Self	0	Enemy	50	Number	Self	Attack	1	None	0	9000	9000	9000
+4034	0	SKILL_NAME_0033	SKILL_DESC_0033	OnActive	Attack	Decrease	1	0	Self	0	Enemy	50	Number	Self	Attack	1	None	0	9000	9000	9000
+4035	0	SKILL_NAME_0034	SKILL_DESC_0034	OnActive	Attack	Decrease	1	0	Self	0	Enemy	50	Number	Self	Attack	1	None	0	9000	9000	9000
+4036	0	SKILL_NAME_0035	SKILL_DESC_0035	OnActive	Attack	Decrease	1	0	Self	0	Enemy	50	Number	Self	Attack	1	None	0	9000	9000	9000
+4037	0	SKILL_NAME_0036	SKILL_DESC_0036	OnActive	Attack	Decrease	1	0	Self	0	Enemy	50	Number	Self	Attack	1	None	0	9000	9000	9000
+4038	0	SKILL_NAME_0037	SKILL_DESC_0037	OnActive	Attack	Decrease	1	0	Self	0	Enemy	50	Number	Self	Attack	1	None	0	9000	9000	9000
+4039	0	SKILL_NAME_0038	SKILL_DESC_0038	OnActive	Attack	Decrease	1	0	Self	0	Enemy	50	Number	Self	Attack	1	None	0	9000	9000	9000
+4040	0	SKILL_NAME_0039	SKILL_DESC_0039	OnActive	Attack	Decrease	1	0	Self	0	Enemy	50	Number	Self	Attack	1	None	0	9000	9000	9000
+4041	0	SKILL_NAME_0040	SKILL_DESC_0040	OnActive	Attack	Decrease	1	0	Self	0	Enemy	50	Number	Self	Attack	1	None	0	9000	9000	9000
+4042	0	SKILL_NAME_0041	SKILL_DESC_0041	OnActive	Attack	Decrease	1	0	Self	1	Enemy	50	Number	Self	Attack	1	None	0	9000	9000	9000
+4043	0	SKILL_NAME_0042	SKILL_DESC_0042	OnActive	Attack	Decrease	1	0	Self	0	Enemy	50	Number	Self	Attack	1	None	0	9000	9000	9000
+4044	0	SKILL_NAME_0043	SKILL_DESC_0043	OnActive	Attack	Decrease	1	0	Self	0	Enemy	50	Number	Self	Attack	1	None	0	9000	9000	9000
+4045	0	SKILL_NAME_0044	SKILL_DESC_0044	OnActive	Attack	Decrease	1	0	Self	1	Enemy	50	Number	Self	Attack	1	None	0	9000	9000	9000
+4046	0	SKILL_NAME_0045	SKILL_DESC_0045	OnActive	Attack	Decrease	1	0	Self	0	Enemy	50	Number	Self	Attack	1	None	0	9000	9000	9000
+4047	0	SKILL_NAME_0046	SKILL_DESC_0046	OnActive	Attack	Decrease	1	0	Self	0	Enemy	50	Number	Self	Attack	1	None	0	9000	9000	9000
+4048	0	SKILL_NAME_0047	SKILL_DESC_0047	OnActive	Attack	Decrease	1	0	Self	0	Enemy	50	Number	Self	Attack	1	None	0	9000	9000	9000

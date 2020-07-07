@@ -4,6 +4,7 @@ using DG.Tweening;
 using UniRx.Async;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace AutoChess
 {
@@ -16,16 +17,17 @@ namespace AutoChess
         public Image characterImage;
 
         public Image flashImage;
-        
+
         public GageElement hpGageElement;
 
         public GageElement skillGageElement;
 
-        public Color playerHealthGageColor;
-
-        public Color aiHealthGageColor;
+        public Transform directionTransform;
 
 #pragma warning disable CS0649
+
+        [Inject]
+        private GameSetting _gameSetting;
 
 #pragma warning restore CS0649
 
@@ -56,7 +58,7 @@ namespace AutoChess
             characterImage.sprite = sprite;
         }
 
-        
+
         /// <summary>
         /// 플래시 이미지 처리.
         /// </summary>
@@ -72,7 +74,8 @@ namespace AutoChess
         /// </summary>
         public void SetHealthGageColor (CharacterSideType characterSideType)
         {
-            hpGageElement.SetGageColor (characterSideType == CharacterSideType.Player ? playerHealthGageColor : aiHealthGageColor);
+            hpGageElement.SetGageColor (characterSideType == CharacterSideType.Player
+                ? _gameSetting.playerHealthGageColor : _gameSetting.aiHealthGageColor);
         }
 
 
@@ -80,8 +83,8 @@ namespace AutoChess
         {
             characterAniamtor.runtimeAnimatorController = animatorController;
         }
-        
-        
+
+
         public void ChangeSide (bool isLeft)
         {
             characterImage.transform.localScale = isLeft ? Vector3.one : new Vector3 (-1, 1, 1);
@@ -90,28 +93,33 @@ namespace AutoChess
         public async UniTask PlayAnimation (string animationName, CancellationToken cancellationToken)
         {
             characterAniamtor.Play (animationName);
-            await UniTask.Delay (TimeSpan.FromSeconds (0.5f), cancellationToken:cancellationToken);
+            await UniTask.Delay (TimeSpan.FromSeconds (0.5f), cancellationToken: cancellationToken);
         }
 
-
-        public void SetHealthGageColor (Color color)
-        {
-            hpGageElement.SetGageColor (color);
-        }
-        
 
         public void SetValueOnlyHealthGageValue (float now, float max)
         {
-            hpGageElement.SetValueOnlyGageValue ((int)now, (int)max);
+            hpGageElement.SetValueOnlyGageValueAsync ((int) now, (int) max);
         }
-        
+
 
         public void SetSkillSliderValue (float skillValue)
         {
             skillGageElement.SetSliderValue (skillValue);
         }
+
+
+        public void SetActiveDirection (bool isActive)
+        {
+            directionTransform.gameObject.SetActive (isActive);
+        }
+
+        public void SetDirection (float rotationValue)
+        {
+            directionTransform.localEulerAngles = new Vector3 (0, 0, rotationValue);
+        }
         
-        
+
         #endregion
 
 

@@ -23,6 +23,8 @@ namespace AutoChess
 
         public Transform upperCharacterParents;
 
+        public BattleViewParticleManagingModule particleManagingModule;
+
 #pragma warning disable CS0649
 
         [Inject]
@@ -50,8 +52,11 @@ namespace AutoChess
 
         #region UnityMethods
 
-        private void Awake ()
+        public override void Initialize ()
         {
+            ProjectContext.Instance.Container.BindInstance (this);
+            ProjectContext.Instance.Container.BindInstance (particleManagingModule);
+            
             startButton.onClick.AddListener (ClickStartButton);
         }
 
@@ -69,8 +74,6 @@ namespace AutoChess
 
         public override async UniTask ActiveLayout ()
         {
-            ProjectContext.Instance.Container.BindInstance (this);
-
             battleCharacterListArea.SetCharacterList (_characterViewmodel.BattleCharacterModels);
             verticalLayoutGroups.Foreach (x => x.SetLayoutVertical ());
             await SummonPlayerCharacter ();
@@ -144,8 +147,6 @@ namespace AutoChess
         {
             _lastBattleIndex = _battleViewmodel.LastStageIndex;
 
-            // _playerBattleCharacterElements.First().transform.SetParent (characterParents);
-            // _playerBattleCharacterElements.First().StartBattle ();
             _playerBattleCharacterElements.Foreach (element =>
             {
                 element.transform.SetParent (characterParents);

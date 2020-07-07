@@ -86,7 +86,9 @@ public enum SkillBound
 	TargetArea = 3,
 	SelfAreaOnly = 4,
 	TargetAreaOnly = 5,
-	All = 6,
+	TargetDirection = 6,
+	FanShape = 7,
+	All = 8,
 
 }
 
@@ -119,17 +121,36 @@ public enum StatusGrade
 
 public enum StatusType
 {
-	Health = 0,
-	HealthRegen = 1,
-	SkillGageRegen = 2,
-	Attack = 3,
-	AbilityPoint = 4,
-	Defense = 5,
-	AtSpd = 6,
-	CriticalProb = 7,
-	CriticalDmg = 8,
-	EvadeProb = 9,
-	AmountOfAttackDamage = 10,
-	AmountOfShotDamage = 11,
+	None = 0,
+	Health = 1,
+	LostHealth = 2,
+	MaxHealth = 3,
+	HealthRegen = 4,
+	SkillGageRegen = 5,
+	Attack = 6,
+	AbilityPoint = 7,
+	Defense = 8,
+	AtSpd = 9,
+	CriticalProb = 10,
+	CriticalDmg = 11,
+	EvadeProb = 12,
+	AmountOfAttackDamage = 13,
+	AmountOfShotDamage = 14,
+
+}
+
+public enum BattleStateType
+{
+	None = 0,
+	Curse = 1,
+	Stun = 2,
+	Reflex = 3,
+
+}
+
+public enum SkillValueType
+{
+	Number = 0,
+	Percent = 1,
 
 }

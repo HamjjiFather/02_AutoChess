@@ -17,6 +17,7 @@ public class TableDataManager : Singleton<TableDataManager>
 	public Dictionary<int, Stage> StageDict = new Dictionary<int, Stage> ();
 	public Dictionary<int, Particle> ParticleDict = new Dictionary<int, Particle> ();
 	public Dictionary<int, Combination> CombinationDict = new Dictionary<int, Combination> ();
+	public Dictionary<int, BattleState> BattleStateDict = new Dictionary<int, BattleState> ();
 
 
     public async UniTask LoadTableDatas ()
@@ -31,6 +32,7 @@ public class TableDataManager : Singleton<TableDataManager>
 		StageDict = (await ReadCSVData.Instance.LoadCSVData<Stage> (nameof (Stage))).ToDictionary (x => x.Id, x => x);
 		ParticleDict = (await ReadCSVData.Instance.LoadCSVData<Particle> (nameof (Particle))).ToDictionary (x => x.Id, x => x);
 		CombinationDict = (await ReadCSVData.Instance.LoadCSVData<Combination> (nameof (Combination))).ToDictionary (x => x.Id, x => x);
+		BattleStateDict = (await ReadCSVData.Instance.LoadCSVData<BattleState> (nameof (BattleState))).ToDictionary (x => x.Id, x => x);
 
     }
 }

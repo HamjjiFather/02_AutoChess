@@ -67,7 +67,7 @@ namespace AutoChess
             {
                 var rectT = hpGageElement.GetComponent<RectTransform> ();
                 rectT.sizeDelta = new Vector2 (Mathf.Clamp (hp, 0, 760), rectT.sizeDelta.y);
-                hpGageElement.SetValue ((int)hp, (int)hp);
+                hpGageElement.SetValueAsync ((int)hp, (int)hp);
             });
 
             _expDisposable = ElementData.Exp.Subscribe (exp =>

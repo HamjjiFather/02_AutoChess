@@ -1,3 +1,3 @@
-Id	String
-9000	ASD
-9001	FGH
+Id	PrefabName	BoundArea	ParticleSize
+9000	Heal	0	35
+9001	Heal	0	35

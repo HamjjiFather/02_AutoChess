@@ -1,8 +1,10 @@
+using UniRx.Async;
 using UnityEngine;
+using Zenject;
 
 namespace AutoChess
 {
-    public enum CharacterParticleType
+    public enum CharacterBuiltInParticleType
     {
         Death = 0,
         Hit,
@@ -17,6 +19,9 @@ namespace AutoChess
 
 #pragma warning disable CS0649
 
+        [Inject]
+        private BattleViewParticleManagingModule _battleViewParticleManagingModule;
+
 #pragma warning restore CS0649
 
         #endregion
@@ -29,10 +34,15 @@ namespace AutoChess
 
         #region Methods
 
-        public void PlayParticle (CharacterParticleType particleType)
+        public void PlayParticle (CharacterBuiltInParticleType builtInParticleType)
         {
-            Debug.Log ($"Play Particle : {particleType}");
-            characterParticles[(int)particleType].Play();
+            Debug.Log ($"Play Particle : {builtInParticleType}");
+            characterParticles[(int)builtInParticleType].Play();
+        }
+
+        public void GenerateParticle (int particleDataIndex)
+        {
+            _battleViewParticleManagingModule.GenerateParticlePrefab (particleDataIndex, transform).Forget();
         }
 
         #endregion

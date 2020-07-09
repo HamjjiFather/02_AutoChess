@@ -17,6 +17,11 @@ public class Skill : TableDataBase
     public int InvokeSkillIndex;
 
     /// <summary>
+    /// 발동 이후에 발동되는 스킬 인덱스
+    /// </summary>
+    public int AfterSkillIndex;
+
+    /// <summary>
     /// 스킬 이름 로컬 키값
     /// </summary>
     public string Name;
@@ -92,6 +97,11 @@ public class Skill : TableDataBase
     public float RefSkillValueAmount;
 
     /// <summary>
+    /// 참조 체력 타입
+    /// </summary>
+    public RefHealthType RefHealthType;
+
+    /// <summary>
     /// 부여할 상태
     /// </summary>
     public BattleStateType BattleStateType;
@@ -128,6 +138,7 @@ public class Skill : TableDataBase
         var rowIndex = 0;
 		Id = int.Parse(myData[rowIndex++]);
 		InvokeSkillIndex = int.Parse(myData[rowIndex++]);
+		AfterSkillIndex = int.Parse(myData[rowIndex++]);
 		Name = myData[rowIndex++];
 		Desc = myData[rowIndex++];
 		SkillActiveCondition = (SkillActiveCondition)Enum.Parse (typeof(SkillActiveCondition), myData[rowIndex++]);
@@ -143,6 +154,7 @@ public class Skill : TableDataBase
 		RefSkillValueTarget = (RefSkillValueTarget)Enum.Parse (typeof(RefSkillValueTarget), myData[rowIndex++]);
 		RefSkillStatusType = (StatusType)Enum.Parse (typeof(StatusType), myData[rowIndex++]);
 		RefSkillValueAmount = float.Parse(myData[rowIndex++]);
+		RefHealthType = (RefHealthType)Enum.Parse (typeof(RefHealthType), myData[rowIndex++]);
 		BattleStateType = (BattleStateType)Enum.Parse (typeof(BattleStateType), myData[rowIndex++]);
 		BattleStateSeconds = float.Parse(myData[rowIndex++]);
 		InvokeParticleIndex = int.Parse(myData[rowIndex++]);

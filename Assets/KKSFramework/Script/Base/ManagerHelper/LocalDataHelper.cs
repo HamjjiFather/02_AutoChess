@@ -7,6 +7,8 @@ namespace KKSFramework.LocalData
     public class GameBundle : Bundle
     {
         public int LastCharacterUniqueId;
+
+        public int LastEquipmentUniqueId;
     }
 
 

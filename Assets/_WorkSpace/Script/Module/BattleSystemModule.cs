@@ -18,17 +18,17 @@ namespace AutoChess
         Behave,
         Death
     }
-    
+
     public class BattleSystemModule : MonoBehaviour
     {
         #region Fields & Property
-        
+
         public MovingSystemModule movingSystemModule;
 
         public BehaviourSystemModule behaviourSystemModule;
 
         public Transform damageElementParents;
-        
+
 #pragma warning disable CS0649
 
         [Inject]
@@ -40,12 +40,14 @@ namespace AutoChess
         /// 캐릭터 모델.
         /// </summary>
         private CharacterModel _characterModel;
+
         public CharacterModel CharacterModel => _characterModel;
-        
+
         /// <summary>
         /// 전투 상태.
         /// </summary>
         private BattleState _battleState;
+
         public BattleState BattleState => _battleState;
 
         /// <summary>
@@ -57,7 +59,7 @@ namespace AutoChess
         /// 애니메이션 액션.
         /// </summary>
         private Func<BattleState, CancellationToken, UniTask> _playAnimationAction;
-        
+
         /// <summary>
         /// 체력 이벤트.
         /// </summary>
@@ -67,8 +69,9 @@ namespace AutoChess
         /// 체력.
         /// </summary>
         private FloatReactiveProperty _health;
+
         public FloatReactiveProperty Health => _health;
-        
+
         /// <summary>
         /// 체력
         /// </summary>
@@ -78,7 +81,7 @@ namespace AutoChess
         /// 지속 상태.
         /// </summary>
         private List<IDisposable> _registeredDisposables;
-        
+
         /// <summary>
         /// 생성된 데미지 표시 엘리먼트.
         /// </summary>
@@ -88,7 +91,7 @@ namespace AutoChess
         /// 컴포넌트 패키지.
         /// </summary>
         private BattleCharacterPackage _battleCharacterPackage;
-        
+
         #endregion
 
 
@@ -104,34 +107,34 @@ namespace AutoChess
             _battleCharacterPackage = characterPackage;
         }
 
-        
+
         public void SetCharacterData (CharacterModel characterModel)
         {
             _characterModel = characterModel;
         }
 
-        
+
         public void StartBattle (UnityAction<float> gageAction)
         {
-            _cancellationToken = new CancellationTokenSource();
+            _cancellationToken = new CancellationTokenSource ();
             _health = new FloatReactiveProperty (_characterModel.GetTotalStatusValue (StatusType.Health));
             _battleState = BattleState.Idle;
-            
+
             _healthDisposable = _health.Subscribe (hp =>
             {
-                _healthEvent.Invoke ((int)hp);
+                _healthEvent.Invoke ((int) hp);
                 if (hp <= 0)
                 {
                     Debug.Log ($"{_characterModel} Death");
                     EndBattle ();
                 }
             });
-            
+
             _registeredDisposables = new List<IDisposable> ();
-            
+
             behaviourSystemModule.Initialize (gageAction);
-            
-            CheckNextBehaviour ().Forget();
+
+            CheckNextBehaviour ().Forget ();
         }
 
 
@@ -141,28 +144,26 @@ namespace AutoChess
         private void EndBattle ()
         {
             _battleState = BattleState.Death;
-            
+
             behaviourSystemModule.Dispose ();
-            _cancellationToken.Cancel();
+            _cancellationToken.Cancel ();
             _cancellationToken.DisposeSafe ();
             _healthDisposable.DisposeSafe ();
             _registeredDisposables.Foreach (x => x.DisposeSafe ());
             _registeredDisposables.Clear ();
-            
-            _spawnedDamageElements.Foreach (element =>
-            {
-                element.PoolingObject ();
-            });
+
+            _spawnedDamageElements.Foreach (element => { element.PoolingObject (); });
             _spawnedDamageElements.Clear ();
         }
 
 
-        public void SetCallbacks (UnityAction<int> healthAction, Func<BattleState, CancellationToken, UniTask> animationCallback)
+        public void SetCallbacks (UnityAction<int> healthAction,
+            Func<BattleState, CancellationToken, UniTask> animationCallback)
         {
             _healthEvent.AddListener (healthAction);
             _playAnimationAction = animationCallback;
         }
-        
+
 
         public async UniTask CheckNextBehaviour ()
         {
@@ -177,11 +178,11 @@ namespace AutoChess
                     break;
                 case BattleState.Moving:
                     await Move (targetPosition);
-                    CheckNextBehaviour ().Forget();
+                    CheckNextBehaviour ().Forget ();
                     break;
                 case BattleState.Behave:
                     await Behaviour (targetPosition);
-                    CheckNextBehaviour ().Forget();
+                    CheckNextBehaviour ().Forget ();
                     break;
                 case BattleState.Death:
                     break;
@@ -190,7 +191,7 @@ namespace AutoChess
             }
         }
 
-        
+
         /// <summary>
         /// 이동.
         /// </summary>
@@ -210,19 +211,20 @@ namespace AutoChess
         private async UniTask Behaviour (PositionModel positionModel)
         {
             await _playAnimationAction (BattleState.Behave, _cancellationToken.Token);
-            await behaviourSystemModule.Behaviour (_characterModel, positionModel, _cancellationToken.Token, ApplyAfterSkill);
+            await behaviourSystemModule.Behaviour (_characterModel, positionModel, _cancellationToken.Token,
+                ApplyAfterSkill);
         }
-        
-        
+
+
         /// <summary>
         /// 스킬 적용.
         /// </summary>
-        public void ApplySkill (SkillModel skillModel, float skillValue)
+        public void ApplySkill (SkillModel skillModel, SkillValueModel skillValueModel)
         {
             if (_battleState == BattleState.Death)
                 return;
-            
-            CheckStatus (skillModel, skillValue);
+
+            CheckStatus (skillModel, skillValueModel);
             PlayCommonParticle (skillModel.SkillData.ApplyParticleIndex);
         }
 
@@ -230,46 +232,68 @@ namespace AutoChess
         /// <summary>
         /// 스킬 사용 후 처리.
         /// </summary>
-        public void ApplyAfterSkill (SkillModel skillModel)
+        public void ApplyAfterSkill (SkillModel nowSkillModel)
         {
-            
+            var afterSkillIndex = nowSkillModel.SkillData.AfterSkillIndex;
+            if (afterSkillIndex == Constant.InvalidIndex)
+                return;
+
+            behaviourSystemModule.skillModule.InvokeAfterSkill (nowSkillModel);
         }
 
-        
+
         /// <summary>
         /// 스킬 적용 처리.
         /// </summary>
-        public void CheckStatus (SkillModel skillModel, float skillValue)
+        public void CheckStatus (SkillModel skillModel, SkillValueModel skillValueModel)
         {
             // 체력을 증감시키는 스킬이라면.
             if (skillModel.SkillData.SkillStatusType == StatusType.Health)
             {
-                if(skillModel.DamageType == DamageType.Damage)
+                // 피해를 입음.
+                if (skillModel.DamageType == DamageType.Damage)
+                {
                     behaviourSystemModule.AddSkillValue (Constant.RestoreSkillGageOnHit);
-                
-                DamageElement (Math.Abs (skillValue), skillModel.DamageType);
+                    
+                    // 방어력.
+                    var defenseValue = _characterModel.GetTotalStatusValue (StatusType.Defense);
+                    var calcedDefenseValue = EasingDefenseValue (defenseValue * 1 / Constant.MaxDefenseValue);
+                    var appliedValue = skillValueModel.PreApplyValue - skillValueModel.PreApplyValue * calcedDefenseValue;
+
+                    skillValueModel.SetAppliedValue ((float) appliedValue);
+                    Debug.Log (
+                        $"DamageValue = {skillValueModel.PreApplyValue}, DefenseValue = {defenseValue}, CalcedValue = {calcedDefenseValue}, AppliedValue = {appliedValue}");
+                    
+                    
+
+                    double EasingDefenseValue (float value)
+                    {
+                        return 1 - Math.Pow (1 - value, 3);
+                    }
+                }
+
+                DamageElement (Math.Abs (skillValueModel.AppliedValue), skillModel.DamageType);
                 SetApplyParticle (skillModel.DamageType);
-                
-                var calcedValue = _health.Value + skillValue;
+
+                var calcedValue = _health.Value + skillValueModel.AppliedValue;
                 _health.Value = Mathf.Clamp (calcedValue, 0, _characterModel.GetTotalStatusValue (StatusType.Health));
                 return;
             }
-            
+
             // 지속 시간이 존재함.
             if (skillModel.SkillData.InvokeTime > 0)
             {
                 _characterModel.SkillStatusModel.AddStatus (skillModel.SkillData.SkillStatusType, new BaseStatusModel
                 {
-                    StatusData = TableDataManager.Instance.StatusDict[(int)DataType.Status + (int)skillModel.SkillData.SkillStatusType],
-                    StatusValue = skillValue
+                    StatusData =
+                        TableDataManager.Instance.StatusDict[
+                            (int) DataType.Status + (int) skillModel.SkillData.SkillStatusType],
+                    StatusValue = skillValueModel.PreApplyValue
                 });
-                
-                var disposable = Observable.Timer (TimeSpan.FromSeconds (skillModel.SkillData.InvokeTime)).Subscribe (
-                    _ =>
-                    {
 
-                    });
-                
+                var disposable = Observable.Timer (TimeSpan.FromSeconds (skillModel.SkillData.InvokeTime)).Subscribe (
+                    _ => { });
+
                 _registeredDisposables.Add (disposable);
             }
         }
@@ -282,14 +306,14 @@ namespace AutoChess
         {
             var damageModel = new BattleDamageModel
             {
-                Amount = (int)skillValue,
+                Amount = (int) skillValue,
                 DamageType = damageType
             };
             var damageElement = ObjectPoolingHelper.GetResources<BattleDamageElement> (ResourceRoleType._Prefab,
                 ResourcesType.Element, nameof (BattleDamageElement), damageElementParents);
             damageElement.GetComponent<RectTransform> ().SetInstantiateTransform ();
             damageElement.SetElement (damageModel);
-            damageElement.SetDespawn (DespawnDamageElement, _cancellationToken.Token).Forget();
+            damageElement.SetDespawn (DespawnDamageElement, _cancellationToken.Token).Forget ();
             _spawnedDamageElements.Add (damageElement);
 
             void DespawnDamageElement (BattleDamageElement battleDamageElement)
@@ -308,24 +332,24 @@ namespace AutoChess
             {
                 case DamageType.Heal:
                     break;
-                    
+
                 case DamageType.Damage:
                     PlayBuiltInParticle (CharacterBuiltInParticleType.Hit);
                     _battleCharacterPackage.characterAppearanceModule.DoFlashImageTween ();
                     break;
-                    
+
                 case DamageType.CriticalHeal:
                     break;
-                    
+
                 case DamageType.CriticalDamage:
                     PlayBuiltInParticle (CharacterBuiltInParticleType.CriticalHit);
                     break;
-                    
+
                 default:
                     throw new ArgumentOutOfRangeException ();
             }
         }
-        
+
         /// <summary>
         /// 파티클 실행.
         /// </summary>
@@ -339,7 +363,7 @@ namespace AutoChess
         {
             _battleCharacterPackage.characterParticleModule.GenerateParticle (index);
         }
-        
+
         #endregion
     }
 }

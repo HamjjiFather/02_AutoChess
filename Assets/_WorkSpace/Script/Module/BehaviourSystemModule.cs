@@ -81,25 +81,19 @@ namespace AutoChess
         {
             if (_canBehaviour)
             {
-                SkillModel skillModel;
-                
                 if (_isFullSkillGage)
                 {
                     Debug.Log ("Skill behaviour");
-                    skillModel = skillModule.ProgressSkillEffect (characterModel, positionModel,
-                        characterModel.CharacterData.SkillIndex);
-                    CheckAttackSpeed (characterModel, cancellationToken).Forget ();
-                    skillCallback.Invoke (skillModel);
+                    UseSkill (characterModel, positionModel, cancellationToken, characterModel.CharacterData.SkillIndex,
+                        skillCallback);
                     _skillGageValue.Value = 0;
                     _isFullSkillGage = false;
                     return;
                 }
 
                 Debug.Log ("Attack behaviour");
-                skillModel = skillModule.ProgressSkillEffect (characterModel, positionModel,
-                    characterModel.CharacterData.AttackIndex);
-                CheckAttackSpeed (characterModel, cancellationToken).Forget ();
-                skillCallback.Invoke (skillModel);
+                UseSkill (characterModel, positionModel, cancellationToken, characterModel.CharacterData.AttackIndex,
+                    skillCallback);
                 AddSkillValue (Constant.RestoreSkillGageOnAttack);
                 return;
             }
@@ -109,12 +103,24 @@ namespace AutoChess
 
 
         /// <summary>
+        /// 스킬 사용.
+        /// </summary>
+        public void UseSkill (CharacterModel characterModel, PositionModel positionModel,
+            CancellationToken cancellationToken, int index, UnityAction<SkillModel> skillCallback)
+        {
+            var skillModel = skillModule.InvokeSkill (characterModel, positionModel, index);
+            CheckAttackSpeed (characterModel, cancellationToken).Forget ();
+            skillCallback.Invoke (skillModel);
+        }
+
+
+        /// <summary>
         /// 공격 속도 대기.
         /// </summary>
         private async UniTask CheckAttackSpeed (CharacterModel characterModel, CancellationToken cancellationToken)
         {
             _canBehaviour = false;
-            var attackDelay = 1 / characterModel.GetTotalStatusValue (StatusType.AtSpd);
+            var attackDelay = 1 / characterModel.GetTotalStatusValue (StatusType.AttackSpeed);
             Debug.Log ($"Attack Delay = {attackDelay}");
             await UniTask.Delay (TimeSpan.FromSeconds (attackDelay), cancellationToken: cancellationToken);
             _canBehaviour = true;

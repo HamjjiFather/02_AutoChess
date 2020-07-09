@@ -57,7 +57,7 @@ public class Character : TableDataBase
     public float[] Ap;
 
     /// <summary>
-    /// 공격력 증가값
+    /// 주문력 증가값
     /// </summary>
     public float ApInc;
 
@@ -74,7 +74,7 @@ public class Character : TableDataBase
     /// <summary>
     /// 공격 속도
     /// </summary>
-    public float AtSpd;
+    public float AttackSpeed;
 
     /// <summary>
     /// 기본 공격 인덱스
@@ -119,7 +119,7 @@ public class Character : TableDataBase
 		ApInc = float.Parse(myData[rowIndex++]);
 		Df = Array.ConvertAll (myData[rowIndex++].Split ('/'), float.Parse);
 		DfInc = float.Parse(myData[rowIndex++]);
-		AtSpd = float.Parse(myData[rowIndex++]);
+		AttackSpeed = float.Parse(myData[rowIndex++]);
 		AttackIndex = int.Parse(myData[rowIndex++]);
 		SkillIndex = int.Parse(myData[rowIndex++]);
 		SpriteResName = myData[rowIndex++];

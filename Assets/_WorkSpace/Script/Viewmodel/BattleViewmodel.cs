@@ -94,6 +94,7 @@ namespace AutoChess
 
                 characterModel.GetBaseStatusModel (StatusType.Health).SetGradeValue (statusGrade.HealthStatusGrade);
                 characterModel.GetBaseStatusModel (StatusType.Attack).SetGradeValue (statusGrade.AttackStatusGrade);
+                characterModel.GetBaseStatusModel (StatusType.AbilityPoint).SetGradeValue (statusGrade.AbilityPointStatusGrade);
                 characterModel.GetBaseStatusModel (StatusType.Defense).SetGradeValue (statusGrade.DefenseStatusGrade);
                 characterModel.StartBattle ();
                 
@@ -112,6 +113,7 @@ namespace AutoChess
             {
                 HealthStatusGrade = Constant.MonsterStatusGradeValue,
                 AttackStatusGrade = Constant.MonsterStatusGradeValue,
+                AbilityPointStatusGrade = Constant.MonsterStatusGradeValue,
                 DefenseStatusGrade = Constant.MonsterStatusGradeValue
             };
         }

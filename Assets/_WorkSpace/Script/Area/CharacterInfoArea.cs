@@ -70,8 +70,9 @@ namespace AutoChess
 
             baseStatusElements[0].SetElement (characterModel.GetBaseStatusModel (StatusType.Health));
             baseStatusElements[1].SetElement (characterModel.GetBaseStatusModel (StatusType.Attack));
-            baseStatusElements[2].SetElement (characterModel.GetBaseStatusModel (StatusType.Defense));
-            baseStatusElements[3].SetElement (characterModel.GetBaseStatusModel (StatusType.AtSpd));
+            baseStatusElements[2].SetElement (characterModel.GetBaseStatusModel (StatusType.AbilityPoint));
+            baseStatusElements[3].SetElement (characterModel.GetBaseStatusModel (StatusType.Defense));
+            baseStatusElements[4].SetElement (characterModel.GetBaseStatusModel (StatusType.AttackSpeed));
         }
 
         #endregion

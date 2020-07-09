@@ -95,64 +95,63 @@ CHARACTER_DESC_0045	공허 뱀/공허 뱀
 CHARACTER_DESC_0046	좀비/좀비
 STATUS_NAME_0000	체력/Health
 STATUS_NAME_0001	체력 재생/Health Regeneration
-STATUS_NAME_0002	스킬 게이지 재생/SkillGage Regeneration
-STATUS_NAME_0003	공격/Attack
-STATUS_NAME_0004	주문력/Ability Point
-STATUS_NAME_0005	방어/Defense
-STATUS_NAME_0006	공격 속도/Attack Speed
-STATUS_NAME_0007	치명타 확률/Critical Probability
-STATUS_NAME_0008	치명타 데미지 배율/Critical Value
-STATUS_NAME_0009	회피 확률/Evade Probability
-STATUS_NAME_0010	가하는 피해량/회피 확률
-STATUS_NAME_0011	받는 피해량/회피 확률
+STATUS_NAME_0002	스킬 게이지/SkillGage
+STATUS_NAME_0003	스킬 게이지 재생/SkillGage Regeneration
+STATUS_NAME_0004	공격/Attack
+STATUS_NAME_0005	주문력/Ability Point
+STATUS_NAME_0006	방어/Defense
+STATUS_NAME_0007	공격 속도/Attack Speed
+STATUS_NAME_0008	치명타 확률/Critical Probability
+STATUS_NAME_0009	치명타 데미지 배율/Critical Value
+STATUS_NAME_0010	회피 확률/Evade Probability
 SKILL_NAME_0000	기본 공격/기본 공격
-SKILL_NAME_0001	소원/기본 공격
-SKILL_NAME_0002	흡혈/기본 공격
-SKILL_NAME_0003	축복/기본 공격
-SKILL_NAME_0004	할퀴기/기본 공격
-SKILL_NAME_0005	사후 폭발/기본 공격
-SKILL_NAME_0006	악몽/기본 공격
-SKILL_NAME_0007	빙의술/기본 공격
-SKILL_NAME_0008	중량화/기본 공격
-SKILL_NAME_0009	하울링/기본 공격
-SKILL_NAME_0010	불굴/기본 공격
-SKILL_NAME_0011	파이어볼/기본 공격
-SKILL_NAME_0012	고무/기본 공격
-SKILL_NAME_0013	공포의 주시/기본 공격
-SKILL_NAME_0014	기본 공격/기본 공격
-SKILL_NAME_0015	기본 공격/기본 공격
-SKILL_NAME_0016	기본 공격/기본 공격
-SKILL_NAME_0017	기본 공격/기본 공격
-SKILL_NAME_0018	기본 공격/기본 공격
-SKILL_NAME_0019	기본 공격/기본 공격
-SKILL_NAME_0020	기본 공격/기본 공격
-SKILL_NAME_0021	기본 공격/기본 공격
-SKILL_NAME_0022	기본 공격/기본 공격
-SKILL_NAME_0023	기본 공격/기본 공격
-SKILL_NAME_0024	기본 공격/기본 공격
-SKILL_NAME_0025	기본 공격/기본 공격
-SKILL_NAME_0026	기본 공격/기본 공격
-SKILL_NAME_0027	기본 공격/기본 공격
-SKILL_NAME_0028	기본 공격/기본 공격
-SKILL_NAME_0029	기본 공격/기본 공격
-SKILL_NAME_0030	기본 공격/기본 공격
-SKILL_NAME_0031	기본 공격/기본 공격
-SKILL_NAME_0032	기본 공격/기본 공격
-SKILL_NAME_0033	기본 공격/기본 공격
-SKILL_NAME_0034	기본 공격/기본 공격
-SKILL_NAME_0035	기본 공격/기본 공격
-SKILL_NAME_0036	기본 공격/기본 공격
-SKILL_NAME_0037	기본 공격/기본 공격
-SKILL_NAME_0038	기본 공격/기본 공격
-SKILL_NAME_0039	기본 공격/기본 공격
-SKILL_NAME_0040	기본 공격/기본 공격
-SKILL_NAME_0041	기본 공격/기본 공격
-SKILL_NAME_0042	기본 공격/기본 공격
-SKILL_NAME_0043	기본 공격/기본 공격
-SKILL_NAME_0044	기본 공격/기본 공격
-SKILL_NAME_0045	기본 공격/기본 공격
-SKILL_NAME_0046	기본 공격/기본 공격
-SKILL_NAME_0047	기본 공격/기본 공격
+SKILL_NAME_0001	소원/Pray
+SKILL_NAME_0002	흡혈/BloodThirst
+SKILL_NAME_0003	축복/Blessing
+SKILL_NAME_0004	마구 할퀴기/Scratch
+SKILL_NAME_0005	사후 폭발/Explosion
+SKILL_NAME_0006	야상곡/Nocturnal song
+SKILL_NAME_0007	구마의식/Exorcism
+SKILL_NAME_0008	탈피/Molting
+SKILL_NAME_0009	하울링/Howling
+SKILL_NAME_0010	강타/Smash
+SKILL_NAME_0011	화염구/Fireball
+SKILL_NAME_0012	고무/Encourage
+SKILL_NAME_0013	공포의 주시/Watch of fear
+SKILL_NAME_0014	중량화/Heavy weighting
+SKILL_NAME_0015	잔재/잔재
+SKILL_NAME_0016	반사광/Reflective light
+SKILL_NAME_0017	수호령/Guardian
+SKILL_NAME_0018	점화/Ignition
+SKILL_NAME_0019	독방출/Release poison
+SKILL_NAME_0020	마비독/Paralysis poison
+SKILL_NAME_0021	전령/전령
+SKILL_NAME_0022	기괴함/기괴함
+SKILL_NAME_0023	사냥본능/사냥본능
+SKILL_NAME_0024	자가진단/자가진단
+SKILL_NAME_0025	쇠약/쇠약
+SKILL_NAME_0026	불장난/불장난
+SKILL_NAME_0027	고대 질병/고대 질병
+SKILL_NAME_0028	전송/전송
+SKILL_NAME_0029	수호장/수호장
+SKILL_NAME_0030	수확/수확
+SKILL_NAME_0031	전류 방출/전류 방출
+SKILL_NAME_0032	치명독/치명독
+SKILL_NAME_0033	방위/방위
+SKILL_NAME_0034	이지스/이지스
+SKILL_NAME_0035	무적의 방패/무적의 방패
+SKILL_NAME_0036	이계의 강타/이계의 강타
+SKILL_NAME_0037	작열광선/작열광선
+SKILL_NAME_0038	젤리/젤리
+SKILL_NAME_0039	탄성/탄성
+SKILL_NAME_0040	신경독/신경독
+SKILL_NAME_0041	역장/역장
+SKILL_NAME_0042	꿰뚫는 광선/꿰뚫는 광선
+SKILL_NAME_0043	마구 휘두르기/마구 휘두르기
+SKILL_NAME_0044	이중 물방울/이중 물방울
+SKILL_NAME_0045	악령주입/악령주입
+SKILL_NAME_0046	또아리 틀기/또아리 틀기
+SKILL_NAME_0047	전염/전염
 SKILL_DESC_0000	기본 공격이다/기본 공격이다
 SKILL_DESC_0001	기본 공격이다/기본 공격이다
 SKILL_DESC_0002	기본 공격이다/기본 공격이다

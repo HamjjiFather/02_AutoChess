@@ -172,9 +172,9 @@ namespace AutoChess
         /// <summary>
         /// 스킬 적용.
         /// </summary>
-        public void ApplySkill (SkillModel skillModel, float skillValue)
+        public void ApplySkill (SkillModel skillModel, SkillValueModel skillValueModel)
         {
-            battleCharacterPackage.battleSystemModule.ApplySkill (skillModel, skillValue);
+            battleCharacterPackage.battleSystemModule.ApplySkill (skillModel, skillValueModel);
         }
 
         #endregion

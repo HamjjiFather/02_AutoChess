@@ -22,9 +22,9 @@ public class Equipment : TableDataBase
     public EquipmentType EquipmentType;
 
     /// <summary>
-    /// 장비 등급
+    /// 부여 가능 능력치 1
     /// </summary>
-    public EquipmentGrade EquipmentGrade;
+    public int[] AvailEquipmentTypeIndex;
 
 
 
@@ -39,7 +39,7 @@ public class Equipment : TableDataBase
 		Id = int.Parse(myData[rowIndex++]);
 		Name = myData[rowIndex++];
 		EquipmentType = (EquipmentType)Enum.Parse (typeof(EquipmentType), myData[rowIndex++]);
-		EquipmentGrade = (EquipmentGrade)Enum.Parse (typeof(EquipmentGrade), myData[rowIndex++]);
+		AvailEquipmentTypeIndex = Array.ConvertAll (myData[rowIndex++].Split ('/'), int.Parse);
 
     }
 }

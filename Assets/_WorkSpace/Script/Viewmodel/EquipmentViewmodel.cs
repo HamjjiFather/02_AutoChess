@@ -11,17 +11,22 @@ namespace AutoChess
 
 #pragma warning restore CS0649
 
-        private Dictionary<int, EquipmentModel> _equipmentModels = new Dictionary<int, EquipmentModel> ();
+        private readonly Dictionary<int, EquipmentModel> _equipmentModels = new Dictionary<int, EquipmentModel> ();
         
         private static EquipmentModel _emptyEquipmentModel = new EquipmentModel ();
         public static EquipmentModel EmptyEquipmentModel => _emptyEquipmentModel;
 
         #endregion
-
-
+        
+        
         public override void Initialize ()
         {
+        }
 
+
+        public override void InitTableData ()
+        {
+            base.InitTableData ();
         }
 
 

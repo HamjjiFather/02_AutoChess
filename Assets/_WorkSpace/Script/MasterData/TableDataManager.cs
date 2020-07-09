@@ -12,12 +12,13 @@ public class TableDataManager : Singleton<TableDataManager>
 	public Dictionary<int, CharacterLevel> CharacterLevelDict = new Dictionary<int, CharacterLevel> ();
 	public Dictionary<int, Skill> SkillDict = new Dictionary<int, Skill> ();
 	public Dictionary<int, Equipment> EquipmentDict = new Dictionary<int, Equipment> ();
+	public Dictionary<int, EquipmentStatus> EquipmentStatusDict = new Dictionary<int, EquipmentStatus> ();
 	public Dictionary<int, Status> StatusDict = new Dictionary<int, Status> ();
 	public Dictionary<int, StatusGradeRange> StatusGradeRangeDict = new Dictionary<int, StatusGradeRange> ();
 	public Dictionary<int, Stage> StageDict = new Dictionary<int, Stage> ();
 	public Dictionary<int, Particle> ParticleDict = new Dictionary<int, Particle> ();
-	public Dictionary<int, Combination> CombinationDict = new Dictionary<int, Combination> ();
 	public Dictionary<int, BattleState> BattleStateDict = new Dictionary<int, BattleState> ();
+	public Dictionary<int, Combination> CombinationDict = new Dictionary<int, Combination> ();
 
 
     public async UniTask LoadTableDatas ()
@@ -27,12 +28,13 @@ public class TableDataManager : Singleton<TableDataManager>
 		CharacterLevelDict = (await ReadCSVData.Instance.LoadCSVData<CharacterLevel> (nameof (CharacterLevel))).ToDictionary (x => x.Id, x => x);
 		SkillDict = (await ReadCSVData.Instance.LoadCSVData<Skill> (nameof (Skill))).ToDictionary (x => x.Id, x => x);
 		EquipmentDict = (await ReadCSVData.Instance.LoadCSVData<Equipment> (nameof (Equipment))).ToDictionary (x => x.Id, x => x);
+		EquipmentStatusDict = (await ReadCSVData.Instance.LoadCSVData<EquipmentStatus> (nameof (EquipmentStatus))).ToDictionary (x => x.Id, x => x);
 		StatusDict = (await ReadCSVData.Instance.LoadCSVData<Status> (nameof (Status))).ToDictionary (x => x.Id, x => x);
 		StatusGradeRangeDict = (await ReadCSVData.Instance.LoadCSVData<StatusGradeRange> (nameof (StatusGradeRange))).ToDictionary (x => x.Id, x => x);
 		StageDict = (await ReadCSVData.Instance.LoadCSVData<Stage> (nameof (Stage))).ToDictionary (x => x.Id, x => x);
 		ParticleDict = (await ReadCSVData.Instance.LoadCSVData<Particle> (nameof (Particle))).ToDictionary (x => x.Id, x => x);
-		CombinationDict = (await ReadCSVData.Instance.LoadCSVData<Combination> (nameof (Combination))).ToDictionary (x => x.Id, x => x);
 		BattleStateDict = (await ReadCSVData.Instance.LoadCSVData<BattleState> (nameof (BattleState))).ToDictionary (x => x.Id, x => x);
+		CombinationDict = (await ReadCSVData.Instance.LoadCSVData<Combination> (nameof (Combination))).ToDictionary (x => x.Id, x => x);
 
     }
 }

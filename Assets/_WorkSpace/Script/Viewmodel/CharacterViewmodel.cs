@@ -94,6 +94,7 @@ namespace AutoChess
 
                 characterModel.GetBaseStatusModel (StatusType.Health).SetGradeValue (statusGrade.HealthStatusGrade);
                 characterModel.GetBaseStatusModel (StatusType.Attack).SetGradeValue (statusGrade.AttackStatusGrade);
+                characterModel.GetBaseStatusModel (StatusType.AbilityPoint).SetGradeValue (statusGrade.AbilityPointStatusGrade);
                 characterModel.GetBaseStatusModel (StatusType.Defense).SetGradeValue (statusGrade.DefenseStatusGrade);
 
                 var equipment = _equipmentViewmodel.GetEquipmentModel (characterBundle.EquipmentUIds[index]);
@@ -174,6 +175,7 @@ namespace AutoChess
                 {
                     HealthStatusGrade = Random.Range (0, 1f),
                     AttackStatusGrade = Random.Range (0, 1f),
+                    AbilityPointStatusGrade = Random.Range (0, 1f),
                     DefenseStatusGrade = Random.Range (0, 1f)
                 };
             }
@@ -182,6 +184,7 @@ namespace AutoChess
             {
                 characterStatus.SetNewStatusGradeValue (StatusType.Health, gradeStatusValues.HealthStatusGrade);
                 characterStatus.SetNewStatusGradeValue (StatusType.Attack, gradeStatusValues.AttackStatusGrade);
+                characterStatus.SetNewStatusGradeValue (StatusType.AbilityPoint, gradeStatusValues.AbilityPointStatusGrade);
                 characterStatus.SetNewStatusGradeValue (StatusType.Defense, gradeStatusValues.DefenseStatusGrade);
             }
         }
@@ -261,9 +264,9 @@ namespace AutoChess
             dict[StatusType.Attack].SetStatusValue (attackValue);
             dict[StatusType.AbilityPoint].SetStatusValue (apValue);
             dict[StatusType.Defense].SetStatusValue (defenseValue);
-            dict[StatusType.AtSpd].SetStatusValue (character.AtSpd);
-            dict[StatusType.CriticalDmg].SetStatusValue (Constant.CriticalDamage);
-            dict[StatusType.CriticalProb].SetStatusValue (Constant.CriticalProbability);
+            dict[StatusType.AttackSpeed].SetStatusValue (character.AttackSpeed);
+            dict[StatusType.CriticalDamage].SetStatusValue (Constant.CriticalDamage);
+            dict[StatusType.CriticalProbability].SetStatusValue (Constant.CriticalProbability);
 
             return dict;
         }

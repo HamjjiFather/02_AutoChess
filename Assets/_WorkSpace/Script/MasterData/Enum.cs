@@ -7,11 +7,12 @@ public enum DataType
 	CharacterLevel = 3000,
 	Skill = 4000,
 	Equipment = 5000,
-	Status = 6000,
-	StatusGrade = 7000,
-	Stage = 8000,
-	Particle = 9000,
-	Combination = 10000,
+	EquipmentStatus = 6000,
+	Status = 7000,
+	StatusGrade = 8000,
+	Stage = 9000,
+	Particle = 10000,
+	Combination = 11000,
 
 }
 
@@ -68,6 +69,7 @@ public enum SkillActiveCondition
 	OnDeath = 6,
 	OnAllyDeath = 7,
 	OnEnemyDeath = 8,
+	OnAfter = 9,
 
 }
 
@@ -103,6 +105,7 @@ public enum RefSkillValueTarget
 {
 	Self = 0,
 	Target = 1,
+	Damage = 2,
 
 }
 
@@ -123,19 +126,27 @@ public enum StatusType
 {
 	None = 0,
 	Health = 1,
-	LostHealth = 2,
-	MaxHealth = 3,
-	HealthRegen = 4,
-	SkillGageRegen = 5,
-	Attack = 6,
-	AbilityPoint = 7,
-	Defense = 8,
-	AtSpd = 9,
-	CriticalProb = 10,
-	CriticalDmg = 11,
-	EvadeProb = 12,
-	AmountOfAttackDamage = 13,
-	AmountOfShotDamage = 14,
+	HealthRegen = 2,
+	SkillGage = 3,
+	SkillGageRegen = 4,
+	Attack = 5,
+	AbilityPoint = 6,
+	Defense = 7,
+	AttackSpeed = 8,
+	CriticalProbability = 9,
+	CriticalDamage = 10,
+	EvadeProbability = 11,
+	AttackDamage = 12,
+	ShotDamage = 13,
+
+}
+
+public enum RefHealthType
+{
+	None = 0,
+	MaxHealth = 1,
+	NowHealth = 2,
+	LostHealth = 3,
 
 }
 

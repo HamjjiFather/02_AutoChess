@@ -84,6 +84,12 @@ namespace AutoChess
         {
             gageImage.color = color;
         }
+
+
+        public void SetCustomText (string text)
+        {
+            sliderText.text = text;
+        }
         
 
         #endregion

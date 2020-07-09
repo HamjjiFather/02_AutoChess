@@ -30,12 +30,22 @@ public class Constant
     /// <summary>
     /// 공격시 스킬게이지 회복량
     /// </summary>
-    public const float RestoreSkillGageOnAttack = 10f;
+    public const float RestoreSkillGageOnAttack = 5f;
 
     /// <summary>
     /// 피격시 스킬게이지 회복량
     /// </summary>
-    public const float RestoreSkillGageOnHit = 5f;
+    public const float RestoreSkillGageOnHit = 2f;
+
+    /// <summary>
+    /// 최대 방어계수
+    /// </summary>
+    public const float MaxDefenseValue = 1000f;
+
+    /// <summary>
+    /// 방어 보정 계수
+    /// </summary>
+    public const float DefenseCoeffValue = 6f;
 
 
 }

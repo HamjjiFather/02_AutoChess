@@ -47,7 +47,7 @@ namespace AutoChess
 
         public void SetElement (CharacterInfoListElementModel characterInfoListElementModel)
         {
-            starGradeArea.SetGrade (characterInfoListElementModel.CharacterModel.StarGrade);
+            starGradeArea.SetArea (characterInfoListElementModel.CharacterModel.StarGrade);
             characterImage.sprite = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
                 ResourcesType.Monster, characterInfoListElementModel.CharacterModel.CharacterData.SpriteResName);
             characterNameText.GetTranslatedString (characterInfoListElementModel.CharacterModel.CharacterData.Name);

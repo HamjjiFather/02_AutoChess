@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace KKSFramework.Navigation
 {
-    public class AreaBase : MonoBehaviour
+    public abstract class AreaBase<T> : MonoBehaviour
     {
-        
+        public abstract void SetArea (T areaData);
     }
 }

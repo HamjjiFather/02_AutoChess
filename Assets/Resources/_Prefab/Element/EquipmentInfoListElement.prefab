@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 2627302854088127704}
   - component: {fileID: 7084318749118504705}
   - component: {fileID: 5747817229845417121}
-  - component: {fileID: 3831837522688959433}
+  - component: {fileID: 5151994398886522647}
   - component: {fileID: 5819650681719877853}
   m_Layer: 5
-  m_Name: CharacterInfoListElement
+  m_Name: EquipmentInfoListElement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3831837522688959433
+--- !u!114 &5151994398886522647
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,14 +86,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 158478672635307380}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a4338cc360a4fedb65c0b4934ae3250, type: 3}
+  m_Script: {fileID: 11500000, guid: f8419c7b9bce49f2bfd896fa1188dd73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   starGradeArea: {fileID: 9209283008377003727}
-  characterImage: {fileID: 5755435748277840767}
-  characterNameText: {fileID: 6831325788430074681}
+  equipmentImage: {fileID: 5755435748277840767}
+  equipmentNameText: {fileID: 6831325788430074681}
   elementButton: {fileID: 5819650681719877853}
-  inBattleObj: {fileID: 0}
+  equippedObj: {fileID: 6119276564715080571}
 --- !u!114 &5819650681719877853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,7 +188,7 @@ GameObject:
   - component: {fileID: 8267541029297000074}
   - component: {fileID: 5755435748277840767}
   m_Layer: 5
-  m_Name: CharacterImage
+  m_Name: EquipmentImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -240,7 +240,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6d0df163110ae424f909acf887f94f27, type: 3}
+  m_Sprite: {fileID: 21300000, guid: da47b6f5e1e57f84da8f2a426e970345, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -262,7 +262,7 @@ GameObject:
   - component: {fileID: 5563791353170523084}
   - component: {fileID: 6831325788430074681}
   m_Layer: 5
-  m_Name: CharacterNameText
+  m_Name: EquipmentNameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -327,7 +327,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uBBF8\uBBF9"
+  m_Text: "\uC544\uC774\uD15C \uC774\uB984"
 --- !u!1 &6119276564715080571
 GameObject:
   m_ObjectHideFlags: 0

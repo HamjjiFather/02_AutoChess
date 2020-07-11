@@ -23,7 +23,7 @@ public enum GlobalLanguageType
 
 }
 
-public enum CharacterGrade
+public enum StarGrade
 {
 	None = -1,
 	Grade1 = 0,
@@ -136,8 +136,11 @@ public enum StatusType
 	CriticalProbability = 9,
 	CriticalDamage = 10,
 	EvadeProbability = 11,
-	AttackDamage = 12,
+	HitDamage = 12,
 	ShotDamage = 13,
+	HitHeal = 14,
+	ShotHeal = 15,
+	MoveSpeed = 16,
 
 }
 

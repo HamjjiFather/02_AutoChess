@@ -28,6 +28,7 @@ namespace KKSFramework.ResourcesLoad
         
         Food,
         Monster,
+        Equipment,
         Item
     }
 

@@ -31,7 +31,7 @@ namespace AutoChess
         private readonly List<CharacterModel> _battleCharacterModels = new List<CharacterModel> (5);
         public List<CharacterModel> BattleCharacterModels => _battleCharacterModels;
 
-        private readonly int[] StartCharacterIndexes =
+        private readonly int[] _startCharacterIndexes =
         {
             2000,
             2001,
@@ -64,7 +64,7 @@ namespace AutoChess
 
             if (!characterBundle.CharacterUniqueIds.Any ())
             {
-                StartCharacterIndexes.Foreach (index =>
+                _startCharacterIndexes.Foreach (index =>
                 {
                     var characterModel = NewCharacter (index);
                     _battleCharacterModels.Add (characterModel);
@@ -231,7 +231,7 @@ namespace AutoChess
         public int NewUniqueId ()
         {
             _lastUniqueId++;
-            LocalDataHelper.SaveGameUniqueIdData (_lastUniqueId);
+            LocalDataHelper.SaveCharacterUniqueIdData (_lastUniqueId);
             return _gameSetting.baseCharacterUniqueId + _lastUniqueId;
         }
 
@@ -249,7 +249,7 @@ namespace AutoChess
                     new BaseStatusModel (TableDataManager.Instance.StatusDict[(int) DataType.Status + index]));
             });
 
-            var healthValue = Mathf.Lerp (character.Hp[1], character.Hp[1], characterStatusGrade.HealthStatusGrade) +
+            var healthValue = Mathf.Lerp (character.Hp[0], character.Hp[1], characterStatusGrade.HealthStatusGrade) +
                               character.HpInc * characterLevel.Level;
             var attackValue = Mathf.Lerp (character.At[0], character.At[1], characterStatusGrade.AttackStatusGrade) +
                               character.AtInc * characterLevel.Level;

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,7 +8,7 @@ using Zenject;
 
 namespace AutoChess
 {
-    public class CharacterListArea : MonoBehaviour
+    public class CharacterListArea : AreaBase<UnityAction<CharacterModel>>
     {
         #region Fields & Property
 
@@ -32,7 +33,7 @@ namespace AutoChess
 
         #region Methods
 
-        public void SetChracterList (UnityAction<CharacterModel> clickElement)
+        public override void SetArea (UnityAction<CharacterModel> areaData)
         {
             if (!_characterViewmodel.IsDataChanged) return;
             _characterViewmodel.IsDataChanged = false;
@@ -48,7 +49,7 @@ namespace AutoChess
                 element.SetElement (new CharacterInfoListElementModel
                 {
                     CharacterModel =characterModel,
-                    ElementClick = clickElement
+                    ElementClick = areaData
                 });
                 _listElements.Add (element);
             });

@@ -1,12 +1,13 @@
 using BaseFrame;
 using KKSFramework.GameSystem.GlobalText;
+using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace AutoChess
 {
-    public class CharacterInfoArea : MonoBehaviour
+    public class CharacterInfoArea : AreaBase<CharacterModel>
     {
         #region Fields & Property
         
@@ -25,14 +26,8 @@ namespace AutoChess
         public Text LevelText;
                                                   
         public GageElement expGageElement;
-                                                  
-        public Image skillIconImage;
-                                                  
-        public Text skillLevelText;
-                                                  
-        public Text skillNameText;
-                                                  
-        public Text skillDescText;
+
+        public SkillInfoArea skillInfoArea;
                                                   
         public StatusElement[] baseStatusElements;
 
@@ -49,37 +44,40 @@ namespace AutoChess
 
 
         #region Methods
-        
-        public void SetCharacter (CharacterModel characterModel)
+
+        public override void SetArea (CharacterModel areaData)
         {
-            characterNameText.GetTranslatedString (characterModel.CharacterData.Name);
-            starGradeArea.SetGrade (characterModel.StarGrade);
+            characterNameText.GetTranslatedString (areaData.CharacterData.Name);
+            starGradeArea.SetArea (areaData.StarGrade);
             characterImage.sprite = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
-                ResourcesType.Monster, characterModel.CharacterData.SpriteResName);
+                ResourcesType.Monster, areaData.CharacterData.SpriteResName);
             characterAnimator.runtimeAnimatorController =
                 ResourcesLoadHelper.GetResources<RuntimeAnimatorController> (ResourceRoleType._Animation,
-                    characterModel.CharacterData.AnimatorResName);
+                    areaData.CharacterData.AnimatorResName);
 
-            var healthValue = (int)characterModel.GetTotalStatusValue (StatusType.Health);
+            var healthValue = (int)areaData.GetTotalStatusValue (StatusType.Health);
             hpGageElement.SetValue (healthValue, healthValue);
 
-            var levelData = characterModel.GetLevelData ();
+            var levelData = areaData.GetLevelData ();
             LevelText.text = $"Lv. {levelData.LevelString}";
             
-            expGageElement.SetValue (characterModel.NowExp (), levelData.ReqExp);
+            expGageElement.SetValue (areaData.NowExp (), levelData.ReqExp);
 
-            baseStatusElements[0].SetElement (characterModel.GetBaseStatusModel (StatusType.Health));
-            baseStatusElements[1].SetElement (characterModel.GetBaseStatusModel (StatusType.Attack));
-            baseStatusElements[2].SetElement (characterModel.GetBaseStatusModel (StatusType.AbilityPoint));
-            baseStatusElements[3].SetElement (characterModel.GetBaseStatusModel (StatusType.Defense));
-            baseStatusElements[4].SetElement (characterModel.GetBaseStatusModel (StatusType.AttackSpeed));
+            baseStatusElements[0].SetElement (areaData.GetBaseStatusModel (StatusType.Health));
+            baseStatusElements[1].SetElement (areaData.GetBaseStatusModel (StatusType.Attack));
+            baseStatusElements[2].SetElement (areaData.GetBaseStatusModel (StatusType.AbilityPoint));
+            baseStatusElements[3].SetElement (areaData.GetBaseStatusModel (StatusType.Defense));
+            baseStatusElements[4].SetElement (areaData.GetBaseStatusModel (StatusType.AttackSpeed));
         }
-
+        
         #endregion
 
 
         #region EventMethods
 
         #endregion
+
+
+        
     }
 }

@@ -17,7 +17,7 @@ namespace AutoChess
         /// <summary>
         /// 등급.
         /// </summary>
-        public CharacterGrade StarGrade;
+        public StarGrade StarGrade;
         
         public readonly IntReactiveProperty Exp = new IntReactiveProperty ();
         

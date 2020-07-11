@@ -1,10 +1,11 @@
 using BaseFrame;
+using KKSFramework.Navigation;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace AutoChess
 {
-    public class StarGradeArea : MonoBehaviour
+    public class StarGradeArea : AreaBase<StarGrade>
     {
         #region Fields & Property
 
@@ -24,7 +25,7 @@ namespace AutoChess
 
         #region Methods
 
-        public void SetGrade (CharacterGrade grade)
+        public override void SetArea (StarGrade grade)
         {
             onStarObj.Foreach ((obj, index) =>
             {

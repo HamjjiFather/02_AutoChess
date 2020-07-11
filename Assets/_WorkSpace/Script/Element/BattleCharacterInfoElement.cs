@@ -52,7 +52,7 @@ namespace AutoChess
         {
             ElementData = characterModel;
 
-            starGradeArea.SetGrade (CharacterGrade.Grade1);
+            starGradeArea.SetArea (StarGrade.Grade1);
             
             characterNameText.GetTranslatedString (ElementData.CharacterData.Name);
             

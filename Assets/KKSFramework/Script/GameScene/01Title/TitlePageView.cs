@@ -17,6 +17,9 @@ namespace KKSFramework.Navigation
         [Inject]
         private CharacterViewmodel _characterViewmodel;
 
+        [Inject]
+        private EquipmentViewmodel _equipmentViewmodel;
+
 #pragma warning restore CS0649
 
         private bool _isLoaded; 
@@ -45,6 +48,7 @@ namespace KKSFramework.Navigation
         private void SetViewmodel ()
         {
             _characterViewmodel.InitLocalData ();
+            _equipmentViewmodel.InitLocalData ();
         }
 
         private void ClickTitle ()

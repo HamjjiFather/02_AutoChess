@@ -26,6 +26,11 @@ public class Equipment : TableDataBase
     /// </summary>
     public int[] AvailEquipmentTypeIndex;
 
+    /// <summary>
+    /// 스프라이트 이름
+    /// </summary>
+    public string SpriteResName;
+
 
 
     public Equipment ()
@@ -40,6 +45,7 @@ public class Equipment : TableDataBase
 		Name = myData[rowIndex++];
 		EquipmentType = (EquipmentType)Enum.Parse (typeof(EquipmentType), myData[rowIndex++]);
 		AvailEquipmentTypeIndex = Array.ConvertAll (myData[rowIndex++].Split ('/'), int.Parse);
+		SpriteResName = myData[rowIndex++];
 
     }
 }

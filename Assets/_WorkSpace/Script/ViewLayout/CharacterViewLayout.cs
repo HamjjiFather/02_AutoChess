@@ -32,8 +32,8 @@ namespace AutoChess
 
         public override UniTask ActiveLayout ()
         {
-            characterListArea.SetChracterList (ClickCharacterElement);
-            battleCharacterListArea.SetCharacterList (_characterViewmodel.BattleCharacterModels);
+            characterListArea.SetArea (ClickCharacterElement);
+            battleCharacterListArea.SetArea (_characterViewmodel.BattleCharacterModels);
             return base.ActiveLayout ();
         }
         
@@ -44,7 +44,7 @@ namespace AutoChess
 
         private void ClickCharacterElement (CharacterModel characterModel)
         {
-            characterInfoArea.SetCharacter (characterModel);
+            characterInfoArea.SetArea (characterModel);
         }
 
         #endregion

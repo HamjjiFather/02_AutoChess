@@ -74,7 +74,7 @@ namespace AutoChess
 
         public override async UniTask ActiveLayout ()
         {
-            battleCharacterListArea.SetCharacterList (_characterViewmodel.BattleCharacterModels);
+            battleCharacterListArea.SetArea (_characterViewmodel.BattleCharacterModels);
             verticalLayoutGroups.Foreach (x => x.SetLayoutVertical ());
             await SummonPlayerCharacter ();
             await SummonEnemyCharacter ();

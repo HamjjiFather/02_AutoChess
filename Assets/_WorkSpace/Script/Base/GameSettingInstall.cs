@@ -12,6 +12,8 @@ namespace AutoChess
         public Color aiHealthGageColor;
 
         public int baseCharacterUniqueId = 100000;
+        
+        public int baseEquipmentUniqueId = 200000;
 
         public readonly string[] PlayerCharacterPosition =
         {

@@ -13,12 +13,6 @@ namespace KKSFramework.LocalData
 
 
     [Serializable]
-    public class SpecialPuzzleBundle : Bundle
-    {
-        public List<int> Exps = new List<int> ();
-    }
-
-    [Serializable]
     public class CharacterBundle : Bundle
     {
         public List<CharacterStatusGrade> CharacterStatusGrades = new List<CharacterStatusGrade> ();
@@ -50,7 +44,8 @@ namespace KKSFramework.LocalData
             }
 
 
-            public CharacterStatusGrade (float healthStatusGrade, float attackStatusGrade, float abilityPointStatusGrade, float defenseStatusGrade)
+            public CharacterStatusGrade (float healthStatusGrade, float attackStatusGrade,
+                float abilityPointStatusGrade, float defenseStatusGrade)
             {
                 HealthStatusGrade = healthStatusGrade;
                 AttackStatusGrade = attackStatusGrade;
@@ -60,11 +55,28 @@ namespace KKSFramework.LocalData
         }
     }
 
+
     [Serializable]
     public class EquipmentBundle : Bundle
     {
         public List<int> EquipmentUniqueIds = new List<int> ();
+
+        public List<int> EquipmentIds = new List<int> ();
+
+        public List<StarGrade> EquipmentGrades = new List<StarGrade> ();
+
+        public List<EquipmentData> EquipmentDatas = new List<EquipmentData> ();
+
+
+        [Serializable]
+        public class EquipmentData
+        {
+            public List<int> EquipmentStatusIndexes = new List<int> ();
+
+            public List<float> EquipmentStatusGrades = new List<float> ();
+        }
     }
+
 
     [Serializable]
     public class StageBundle : Bundle
@@ -84,27 +96,27 @@ namespace KKSFramework.LocalData
         /// </summary>
         public static void LoadAllGameData ()
         {
-            var specialPuzzleBundle =
-                LocalDataManager.Instance.LoadGameData<SpecialPuzzleBundle> (LocalDataClass.SpecialPuzzleBundle);
-            LocalDataClass.SpecialPuzzleBundle = specialPuzzleBundle;
-
             var characterBundle =
                 LocalDataManager.Instance.LoadGameData<CharacterBundle> (LocalDataClass.CharacterBundle);
             LocalDataClass.CharacterBundle = characterBundle;
+
+            var equipmentBundle =
+                LocalDataManager.Instance.LoadGameData<EquipmentBundle> (LocalDataClass.EquipmentBundle);
+            LocalDataClass.EquipmentBundle = equipmentBundle;
 
             var gameBundle = LocalDataManager.Instance.LoadGameData<GameBundle> (LocalDataClass.GameBundle);
             LocalDataClass.GameBundle = gameBundle;
         }
 
 
-        public static SpecialPuzzleBundle GetSpecialPuzzleBundle ()
-        {
-            return LocalDataClass.SpecialPuzzleBundle;
-        }
-
         public static CharacterBundle GetCharacterBundle ()
         {
             return LocalDataClass.CharacterBundle;
+        }
+
+        public static EquipmentBundle GetEquipmentBundle ()
+        {
+            return LocalDataClass.EquipmentBundle;
         }
 
         public static GameBundle GetGameBundle ()
@@ -122,21 +134,14 @@ namespace KKSFramework.LocalData
         /// </summary>
         public static void SaveAllGameData ()
         {
-            LocalDataManager.Instance.SaveGameData (LocalDataClass.SpecialPuzzleBundle);
             LocalDataManager.Instance.SaveGameData (LocalDataClass.CharacterBundle);
+            LocalDataManager.Instance.SaveGameData (LocalDataClass.EquipmentBundle);
         }
 
 
-        public static void SaveGameUniqueIdData (int uniqueId)
+        public static void SaveCharacterUniqueIdData (int uniqueId)
         {
             LocalDataClass.GameBundle.LastCharacterUniqueId = uniqueId;
-        }
-
-
-        public static void SaveSpecialPuzzleData (List<int> exps)
-        {
-            LocalDataClass.SpecialPuzzleBundle.Exps = exps;
-            LocalDataManager.Instance.SaveGameData (LocalDataClass.SpecialPuzzleBundle);
         }
 
 
@@ -151,7 +156,8 @@ namespace KKSFramework.LocalData
         }
 
 
-        public static void SaveCharacterStatusGradeData (List<float> hp, List<float> attack, List<float> ap, List<float> defense)
+        public static void SaveCharacterStatusGradeData (List<float> hp, List<float> attack, List<float> ap,
+            List<float> defense)
         {
             for (var i = 0; i < hp.Count; i++)
             {
@@ -165,6 +171,32 @@ namespace KKSFramework.LocalData
         {
             LocalDataClass.CharacterBundle.BattleCharacterUniqueIds = characterUids;
             LocalDataManager.Instance.SaveGameData (LocalDataClass.CharacterBundle);
+        }
+
+
+        public static void SaveEquipmentUniqueIdData (int uniqueId)
+        {
+            LocalDataClass.GameBundle.LastEquipmentUniqueId = uniqueId;
+        }
+
+
+        public static void SaveEquipmentStatusData (List<int> equipmentUids, List<int> equipmentIds, List<StarGrade> equipmentGrades, 
+            List<List<int>> indexes, List<List<float>> statusGrades)
+        { 
+            LocalDataClass.EquipmentBundle.EquipmentUniqueIds = equipmentUids;
+            LocalDataClass.EquipmentBundle.EquipmentIds = equipmentIds;
+            LocalDataClass.EquipmentBundle.EquipmentGrades = equipmentGrades;
+            LocalDataClass.EquipmentBundle.EquipmentDatas.Clear ();
+            
+            for (var i = 0; i < equipmentUids.Count; i++)
+            {
+                var equipmentData = new EquipmentBundle.EquipmentData
+                {
+                    EquipmentStatusIndexes = indexes[i], EquipmentStatusGrades = statusGrades[i]
+                };
+
+                LocalDataClass.EquipmentBundle.EquipmentDatas.Add (equipmentData);
+            }
         }
 
         #endregion
@@ -183,9 +215,9 @@ namespace KKSFramework.LocalData
         {
             public GameBundle GameBundle = new GameBundle ();
 
-            public SpecialPuzzleBundle SpecialPuzzleBundle = new SpecialPuzzleBundle ();
-
             public CharacterBundle CharacterBundle = new CharacterBundle ();
+
+            public EquipmentBundle EquipmentBundle = new EquipmentBundle ();
         }
     }
 }

@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using KKSFramework.Navigation;
 using UnityEngine;
 
 namespace AutoChess
 {
-    public class BattleCharacterListArea : MonoBehaviour
+    public class BattleCharacterListArea : AreaBase<IEnumerable<CharacterModel>>
     {
         #region Fields & Property
 
@@ -23,9 +24,9 @@ namespace AutoChess
 
         #region Methods
 
-        public void SetCharacterList (IEnumerable<CharacterModel> characterModels)
+        public override void SetArea (IEnumerable<CharacterModel> areaData)
         {
-            characterModels.ZipForEach (battleCharacterInfoElements, (model, element)  =>
+            areaData.ZipForEach (battleCharacterInfoElements, (model, element)  =>
             {
                 element.SetElement (model);
             });
@@ -37,5 +38,8 @@ namespace AutoChess
         #region EventMethods
 
         #endregion
+
+
+
     }
 }

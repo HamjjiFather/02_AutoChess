@@ -19,6 +19,8 @@ public class ProjectInstall : MonoInstaller
         ViewModelTypes.Add (typeof(BattleViewmodel));
         ViewModelTypes.Add (typeof(CharacterViewmodel));
         ViewModelTypes.Add (typeof(EquipmentViewmodel));
+        ViewModelTypes.Add (typeof(SkillViewmodel));
+        ViewModelTypes.Add (typeof(StatusViewmodel));
         ViewModelTypes.ForEach (type => { Container.Bind (type).AsSingle (); });
     }
 

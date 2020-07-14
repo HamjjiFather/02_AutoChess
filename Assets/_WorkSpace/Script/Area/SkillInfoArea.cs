@@ -1,22 +1,22 @@
+using KKSFramework.GameSystem.GlobalText;
 using KKSFramework.Navigation;
-using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace AutoChess
 {
-    public class SkillInfoArea : AreaBase<SkillModel>
+    public class SkillInfoArea : AreaBase<CharacterModel>
     {
         #region Fields & Property
         
-        public Image skillIconImage;
-                                                  
-        public Text skillLevelText;
-                                                  
         public Text skillNameText;
                                                   
         public Text skillDescText;
 
 #pragma warning disable CS0649
+
+        [Inject]
+        private SkillViewmodel _skillViewmodel;
 
 #pragma warning restore CS0649
 
@@ -30,9 +30,10 @@ namespace AutoChess
 
         #region Methods
 
-        public override void SetArea (SkillModel areaData)
+        public override void SetArea (CharacterModel areaData)
         {
-            throw new System.NotImplementedException ();
+            skillNameText.GetTranslatedString (areaData.SkillData.Name);
+            skillDescText.text = _skillViewmodel.ToSkillDescriptionString (areaData);
         }
 
         #endregion
@@ -41,8 +42,5 @@ namespace AutoChess
         #region EventMethods
 
         #endregion
-
-
-
     }
 }

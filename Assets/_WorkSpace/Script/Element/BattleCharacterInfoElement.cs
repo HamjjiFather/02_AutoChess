@@ -28,6 +28,10 @@ namespace AutoChess
 
         public GageElement skillGageElement;
 
+        public Button elementButton;
+
+        public Transform inductSelectImage;
+
 #pragma warning disable CS0649
 
         [Inject]
@@ -37,13 +41,19 @@ namespace AutoChess
 
         public override CharacterModel ElementData { get; set; }
 
-        private UnityAction _clickInfoElement;
+        private UnityEvent _clickInfoEvent = new UnityEvent ();
 
         private IDisposable _healthDisposable;
 
         private IDisposable _expDisposable;
 
         #endregion
+
+
+        private void Awake ()
+        {
+            elementButton.onClick.AddListener (ClickElementButton);
+        }
 
 
         #region Methods
@@ -81,11 +91,32 @@ namespace AutoChess
         }
 
 
-        public void RegistActiveAction (UnityAction unityAction)
+        public void RegistActiveAction (Action<CharacterModel> unityAction)
         {
-            _clickInfoElement = unityAction;
+            _clickInfoEvent.AddListener (() =>
+            {
+                unityAction.Invoke (ElementData);
+            });
+            
+            inductSelectImage.gameObject.SetActive (true);
         }
 
+
+        /// <summary>
+        /// 선택 이벤트 삭제.
+        /// </summary>
+        public void RemoveAllEvents ()
+        {
+            _clickInfoEvent?.RemoveAllListeners ();
+            inductSelectImage.gameObject.SetActive (false);
+        }
+        
         #endregion
+
+
+        private void ClickElementButton ()
+        {
+            _clickInfoEvent?.Invoke ();
+        }
     }
 }

@@ -52,8 +52,7 @@ namespace AutoChess
         public void SetElement (EquipmentInfoListElementModel elementData)
         {
             starGradeArea.SetArea (elementData.EquipmentModel.StarGrade);
-            equipmentImage.sprite = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
-                ResourcesType.Equipment, elementData.EquipmentModel.EquipmentData.SpriteResName);
+            equipmentImage.sprite = elementData.EquipmentModel.IconImageResources;
             equipmentNameText.GetTranslatedString (elementData.EquipmentModel.EquipmentData.Name);
             
             elementButton.onClick.RemoveAllListeners ();

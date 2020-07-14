@@ -9,8 +9,6 @@ namespace AutoChess
 
         public CharacterInfoArea characterInfoArea;
 
-        public BattleCharacterListArea battleCharacterListArea;
-
         public CharacterListArea characterListArea;
 
 #pragma warning disable CS0649
@@ -33,7 +31,6 @@ namespace AutoChess
         public override UniTask ActiveLayout ()
         {
             characterListArea.SetArea (ClickCharacterElement);
-            battleCharacterListArea.SetArea (_characterViewmodel.BattleCharacterModels);
             return base.ActiveLayout ();
         }
         

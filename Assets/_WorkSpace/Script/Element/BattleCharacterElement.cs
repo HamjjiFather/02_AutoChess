@@ -93,10 +93,6 @@ namespace AutoChess
         public void SetInfoElement (BattleCharacterInfoElement infoElement)
         {
             _battleCharacterInfoElement = infoElement;
-            _battleCharacterInfoElement.RegistActiveAction (() =>
-            {
-                
-            });
         }
 
 
@@ -162,8 +158,8 @@ namespace AutoChess
         private void SkillGageCallback (float skillValue)
         {
             var sliderValue = skillValue / Constant.MaxSkillGageValue;
-            
             battleCharacterPackage.characterAppearanceModule.SetSkillSliderValue (sliderValue);
+            
             if (ElementData.CharacterSideType == CharacterSideType.Player)
                 _battleCharacterInfoElement.skillGageElement.SetSliderValue (sliderValue);
         }

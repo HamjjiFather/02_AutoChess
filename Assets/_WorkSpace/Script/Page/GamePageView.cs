@@ -2,23 +2,27 @@
 using AutoChess;
 using KKSFramework.Navigation;
 using UniRx.Async;
-using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace KKSFramework
 {
     public class GamePageView : PageViewBase
     {
         #region Fields & Property
-
+        
         public ViewLayoutBase[] subViewObjs;
 
         public Button[] buttons;
         
         public StatusView statusView;
         
+        public BattleCharacterListArea battleCharacterListArea;
 
 #pragma warning disable CS0649
+
+        [Inject]
+        private CharacterViewmodel _characterViewmodel;
 
 #pragma warning restore CS0649
 
@@ -29,6 +33,9 @@ namespace KKSFramework
 
         private void Awake ()
         {
+            ProjectContext.Instance.Container.BindInstance (battleCharacterListArea);
+            battleCharacterListArea.SetArea (_characterViewmodel.BattleCharacterModels);
+            
             buttons.Foreach ((button, index) =>
             {
                 button.onClick.AddListener (() => SetSubView(index));
@@ -39,6 +46,7 @@ namespace KKSFramework
                 x.Initialize ();
                 x.gameObject.SetActive (false);
             });
+            
         }
 
         #endregion
@@ -64,6 +72,7 @@ namespace KKSFramework
             
             subViewObjs[index].ActiveLayout ().Forget();
         }
+
 
         #endregion
 

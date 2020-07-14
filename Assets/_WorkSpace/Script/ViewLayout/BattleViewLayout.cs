@@ -13,7 +13,6 @@ namespace AutoChess
 
         public LineElement[] lineElements;
 
-        public BattleCharacterListArea battleCharacterListArea;
 
         public Button startButton;
 
@@ -46,6 +45,10 @@ namespace AutoChess
         /// 적 캐릭터.
         /// </summary>
         private List<BattleCharacterElement> _monsterBattleCharacterElements = new List<BattleCharacterElement> ();
+        
+        
+        private BattleCharacterListArea _battleCharacterListArea;
+
 
         #endregion
 
@@ -56,6 +59,7 @@ namespace AutoChess
         {
             ProjectContext.Instance.Container.BindInstance (this);
             ProjectContext.Instance.Container.BindInstance (particleManagingModule);
+            _battleCharacterListArea = ProjectContext.Instance.Container.Resolve<BattleCharacterListArea> ();
             
             startButton.onClick.AddListener (ClickStartButton);
         }
@@ -74,7 +78,6 @@ namespace AutoChess
 
         public override async UniTask ActiveLayout ()
         {
-            battleCharacterListArea.SetArea (_characterViewmodel.BattleCharacterModels);
             verticalLayoutGroups.Foreach (x => x.SetLayoutVertical ());
             await SummonPlayerCharacter ();
             await SummonEnemyCharacter ();
@@ -103,7 +106,7 @@ namespace AutoChess
                 var characterElement = ObjectPoolingHelper.GetResources<BattleCharacterElement> (ResourceRoleType._Prefab,
                     ResourcesType.Element, nameof (BattleCharacterElement), landElement.characterPositionTransform);
                 
-                characterElement.SetInfoElement (battleCharacterListArea.battleCharacterInfoElements[index]);
+                characterElement.SetInfoElement (_battleCharacterListArea.battleCharacterInfoElements[index]);
                 characterElement.SetElement (battlePlayer);
 
                 _playerBattleCharacterElements.Add (characterElement);

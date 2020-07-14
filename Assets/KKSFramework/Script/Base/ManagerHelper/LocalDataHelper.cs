@@ -136,6 +136,7 @@ namespace KKSFramework.LocalData
         {
             LocalDataManager.Instance.SaveGameData (LocalDataClass.CharacterBundle);
             LocalDataManager.Instance.SaveGameData (LocalDataClass.EquipmentBundle);
+            LocalDataManager.Instance.SaveGameData (LocalDataClass.GameBundle);
         }
 
 

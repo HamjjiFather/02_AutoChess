@@ -75,7 +75,7 @@ namespace AutoChess
             return sideType == CharacterSideType.Player && skillTarget == SkillTarget.Enemy ||
                    sideType == CharacterSideType.AI && skillTarget == SkillTarget.Ally
                 ? BattleMonsterModels
-                : _characterViewmodel.BattleCharacterModels;
+                : _characterViewmodel.BattleCharacterModels.ToList ();
         }
 
 
@@ -83,14 +83,14 @@ namespace AutoChess
         {
             return sideType == CharacterSideType.Player
                 ? BattleMonsterModels
-                : _characterViewmodel.BattleCharacterModels;
+                : _characterViewmodel.BattleCharacterModels.ToList ();
         }
 
 
         public List<CharacterModel> GetSameSideCharacters (CharacterSideType sideType)
         {
             return sideType == CharacterSideType.Player
-                ? _characterViewmodel.BattleCharacterModels
+                ? _characterViewmodel.BattleCharacterModels.ToList ()
                 : BattleMonsterModels;
         }
 

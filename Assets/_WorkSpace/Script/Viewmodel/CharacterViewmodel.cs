@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using KKSFramework.DesignPattern;
 using KKSFramework.LocalData;
+using UniRx;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -28,8 +29,8 @@ namespace AutoChess
         private readonly List<CharacterModel> _allCharacterModels = new List<CharacterModel> ();
         public List<CharacterModel> AllCharacterModels => _allCharacterModels;
 
-        private readonly List<CharacterModel> _battleCharacterModels = new List<CharacterModel> (5);
-        public List<CharacterModel> BattleCharacterModels => _battleCharacterModels;
+        private readonly ReactiveCollection<CharacterModel> _battleCharacterModels = new ReactiveCollection<CharacterModel> ();
+        public  ReactiveCollection<CharacterModel> BattleCharacterModels => _battleCharacterModels;
 
         private readonly int[] _startCharacterIndexes =
         {
@@ -41,6 +42,8 @@ namespace AutoChess
         };
 
         public bool IsDataChanged { get; set; }
+        
+        public static BaseStatusModel EmptyStatusModel = new BaseStatusModel();
 
         #endregion
 
@@ -64,10 +67,11 @@ namespace AutoChess
 
             if (!characterBundle.CharacterUniqueIds.Any ())
             {
-                _startCharacterIndexes.Foreach (index =>
+                _startCharacterIndexes.Foreach ((index, arrayIndex) =>
                 {
                     var characterModel = NewCharacter (index);
                     _battleCharacterModels.Add (characterModel);
+                    characterModel.SetPositionModel (new PositionModel (_gameSetting.PlayerCharacterPosition[arrayIndex]));
                 });
 
                 SaveCharacterData ();
@@ -85,9 +89,10 @@ namespace AutoChess
                 var characterLevel = GameExtension.GetCharacterLevel (characterBundle.CharacterExps[index]);
                 var statusModel = GetBaseStatusModel (characterData, characterLevel,
                     characterBundle.CharacterStatusGrades[index]);
+                var skillData = TableDataManager.Instance.SkillDict[characterData.SkillIndex];
 
-                characterModel.SetUniqueData (CombineUniqueId (uid), characterBundle.CharacterExps[index]);
-                characterModel.SetCharacterData (characterData);
+                characterModel.SetUniqueData (uid, characterBundle.CharacterExps[index]);
+                characterModel.SetBaseData (characterData, skillData);
                 characterModel.SetStatusModel (statusModel);
                 characterModel.SetPositionModel (new PositionModel (_gameSetting.PlayerCharacterPosition[index]));
                 characterModel.SetSide (CharacterSideType.Player);
@@ -158,10 +163,11 @@ namespace AutoChess
             var gradeStatusValues = NewStatusGradeValue ();
             var characterStatus = GetBaseStatusModel (characterData,
                 TableDataManager.Instance.CharacterLevelDict.Values.First (), gradeStatusValues);
+            var skillData = TableDataManager.Instance.SkillDict[characterData.SkillIndex];
             var equipmentModel = _equipmentViewmodel.GetEquipmentModel (Constant.InvalidIndex);
 
             characterModel.SetUniqueData (NewUniqueId (), 0);
-            characterModel.SetCharacterData (characterData);
+            characterModel.SetBaseData (characterData, skillData);
             characterModel.SetStatusModel (characterStatus);
             characterModel.SetEquipmentModel (equipmentModel);
             SetStatusGradeValue ();
@@ -243,10 +249,10 @@ namespace AutoChess
         {
             var dict = new Dictionary<StatusType, BaseStatusModel> ();
             var enums = Enum.GetValues (typeof (StatusType)) as StatusType[];
-            enums?.Skip (1).Foreach ((statustype, index) =>
+            enums?.Skip (1).Foreach (statustype =>
             {
                 dict.Add (statustype,
-                    new BaseStatusModel (TableDataManager.Instance.StatusDict[(int) DataType.Status + index]));
+                    new BaseStatusModel (TableDataManager.Instance.StatusDict[(int) DataType.Status + (int) statustype]));
             });
 
             var healthValue = Mathf.Lerp (character.Hp[0], character.Hp[1], characterStatusGrade.HealthStatusGrade) +

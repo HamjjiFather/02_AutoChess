@@ -47,8 +47,8 @@ namespace KKSFramework.Navigation
 
         private void SetViewmodel ()
         {
-            _characterViewmodel.InitLocalData ();
             _equipmentViewmodel.InitLocalData ();
+            _characterViewmodel.InitLocalData ();
         }
 
         private void ClickTitle ()

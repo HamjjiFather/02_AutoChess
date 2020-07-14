@@ -27,6 +27,55 @@ public static class BaseExtension
     #endregion
 
 
+    #region Nullable
+
+    public static bool IsNull (this object nullable)
+    {
+        return nullable == null;
+    }
+
+    #endregion
+
+
+    #region Float
+
+    public static bool IsZero (this float floatValue)
+    {
+        return floatValue < float.Epsilon;
+    }
+
+    #endregion
+
+
+    #region Boolean
+
+    public static void TrueFlagAction (this bool boolean, params object[] flags)
+    {
+        flags.Foreach (flag =>
+        {
+            if (flag is Action<bool> flagAction)
+            {    
+                flagAction.Invoke (boolean);
+            }
+        });
+    }
+
+
+    public static void FalseFlagAction (this bool boolean, params object[] flags)
+    {
+        flags.Foreach (flag =>
+        {
+            if (flag is Action<bool> flagAction)
+            {    
+                flagAction.Invoke (!boolean);
+            }
+        });
+    }
+    
+
+    #endregion
+    
+
     #region Action
 
     /// <summary>

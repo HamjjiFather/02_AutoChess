@@ -74,7 +74,7 @@ namespace GooglePlayGames.BasicApi
         private readonly bool mRequestIdToken;
 
         /// <summary>
-        /// The account name to attempt to use when signing in.  Null indicates use the default.
+        /// The account name to attempt to use when signing in.  IsNull indicates use the default.
         /// </summary>
         private readonly string mAccountName;
 

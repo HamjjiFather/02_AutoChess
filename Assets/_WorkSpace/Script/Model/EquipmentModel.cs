@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using KKSFramework.DesignPattern;
+using KKSFramework.ResourcesLoad;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace AutoChess
 {
@@ -25,6 +28,13 @@ namespace AutoChess
         /// 능력치.
         /// </summary>
         public List<float> StatusGrades = new List<float> ();
+
+        /// <summary>
+        /// 아이콘 이미지 리소스.
+        /// </summary>
+        public Sprite IconImageResources => ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
+            ResourcesType.Equipment, EquipmentData.SpriteResName);
+            
        
 
 #pragma warning disable CS0649

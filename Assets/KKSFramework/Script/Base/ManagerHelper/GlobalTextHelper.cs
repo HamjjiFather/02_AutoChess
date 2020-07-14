@@ -4,12 +4,21 @@ namespace KKSFramework.GameSystem.GlobalText
 {
     public static class GlobalTextHelper
     {
+        
+        
+        
         /// <summary>
         /// Change Language.
         /// </summary>
         public static void ChangeLanguage (GlobalLanguageType languageType)
         {
             GlobalTextManager.Instance.ChangeLanguage ((int)languageType);
+        }
+
+
+        public static string GetTranslatedString (string key)
+        {
+            return GlobalTextManager.Instance.GetTranslatedString (key, GlobalTextManager.Instance.LanguageType);
         }
         
 

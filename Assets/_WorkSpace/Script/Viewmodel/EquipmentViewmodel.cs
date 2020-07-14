@@ -84,7 +84,7 @@ namespace AutoChess
 
                 equipmentModel.SetStatusGrade (equipmentBundleData.EquipmentStatusIndexes,
                     equipmentBundleData.EquipmentStatusGrades);
-                equipmentModel.SetUniqueData (CombineUniqueId (uid));
+                equipmentModel.SetUniqueData (uid);
                 equipmentModel.SetEquipmentData (equipmentData);
                 equipmentModel.SetStarGrade (starGrade);
                 equipmentModel.SetStatus (statusModel);
@@ -167,7 +167,7 @@ namespace AutoChess
 
         public int CombineUniqueId (int uniqueIndex)
         {
-            return _gameSetting.baseEquipmentUniqueId + uniqueIndex;
+            return _lastUniqueId + uniqueIndex;
         }
 
         public int NewUniqueId ()

@@ -28,6 +28,9 @@ namespace AutoChess
 
         #region Methods
 
+        /// <summary>
+        /// 기본 능력치 표시.
+        /// </summary>
         public override void SetElement (BaseStatusModel baseStatusModel)
         {
             ElementData = baseStatusModel;
@@ -38,6 +41,32 @@ namespace AutoChess
             statusGradeText.text = grade.GradeString;
             statusNameText.GetTranslatedString (ElementData.StatusData.NameKey);
             statusValueText.text = ElementData.DisplayValue;
+        }
+        
+        
+        /// <summary>
+        /// 캐릭터 능력치 표시.
+        /// </summary>
+        public void SetCharacterElement (BaseStatusModel baseStatusModel, BaseStatusModel equipmentStatusModel)
+        {
+            ElementData = baseStatusModel;
+
+            var grade = TableDataManager.Instance.StatusGradeRangeDict.Values.Last (statusGrade =>
+                statusGrade.Min <= baseStatusModel.GradeValue && statusGrade.Max > baseStatusModel.GradeValue);
+            var totalValue = baseStatusModel.CombinedDisplayValue (equipmentStatusModel.StatusValue);
+            var displayValueString = equipmentStatusModel.StatusValue.IsZero ()
+                ? ElementData.DisplayValue : $"{totalValue} + ({equipmentStatusModel.DisplayValue})";
+
+            statusGradeText.text = grade.GradeString;
+            statusNameText.GetTranslatedString (ElementData.StatusData.NameKey);
+            statusValueText.text = displayValueString;
+        }
+        
+        
+        
+        public void SetSubValueText (string subValueText)
+        {
+            statusValueText.text += subValueText;
         }
 
         #endregion

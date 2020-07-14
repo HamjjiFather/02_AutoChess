@@ -1,5 +1,9 @@
+using System;
 using KKSFramework.DesignPattern;
+using KKSFramework.LocalData;
+using KKSFramework.ResourcesLoad;
 using UniRx;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace AutoChess
@@ -19,12 +23,20 @@ namespace AutoChess
         /// </summary>
         public StarGrade StarGrade;
         
+        /// <summary>
+        /// 경험치.
+        /// </summary>
         public readonly IntReactiveProperty Exp = new IntReactiveProperty ();
         
         /// <summary>
         /// 캐릭터 데이터.
         /// </summary>
         public Character CharacterData;
+
+        /// <summary>
+        /// 스킬 데이터.
+        /// </summary>
+        public Skill SkillData;
 
         /// <summary>
         /// 캐릭터 기본 능력치.
@@ -61,11 +73,18 @@ namespace AutoChess
         /// </summary>
         public bool IsExcuted;
         
+        /// <summary>
+        /// 아이콘 이미지 리소스.
+        /// </summary>
+        public Sprite IconImageResources => ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
+            ResourcesType.Monster, CharacterData.SpriteResName);
+        
         
 #pragma warning disable CS0649
 
 #pragma warning restore CS0649
 
+        public Subject<CharacterModel> _valueChangeSubject;
 
         #endregion
 
@@ -95,21 +114,16 @@ namespace AutoChess
         }
 
         
-        public void SetCharacterData (Character character)
+        public void SetBaseData (Character character, Skill skill)
         {
             CharacterData = character;
+            SkillData = skill;
         }
         
         
         public void SetStatusModel (StatusModel statusModel)
         {
             StatusModel = statusModel;
-        }
-
-        
-        public void SetEquipmentModel (EquipmentModel equipmentModel)
-        {
-            EquipmentModel = equipmentModel;
         }
 
 
@@ -133,7 +147,38 @@ namespace AutoChess
         {
             return Exp.Value - (int)GetLevelData ().CoExp;
         }
+
+
+        public void AddExp (int exp)
+        {
+            Exp.Value += exp;
+            _valueChangeSubject?.OnNext (this);
+        }
         
+        #endregion
+
+
+        #region Equipment
+
+        /// <summary>
+        /// 장비 장착.
+        /// </summary>
+        public void SetEquipmentModel (EquipmentModel equipmentModel)
+        {
+            EquipmentModel = equipmentModel;
+            _valueChangeSubject?.OnNext (this);
+        }
+
+
+        /// <summary>
+        /// 장비 장착 여부.
+        /// </summary>
+        public bool IsExistEquipment ()
+        {
+            return !EquipmentModel.Equals (EquipmentViewmodel.EmptyEquipmentModel);
+        }
+        
+
         #endregion
 
 
@@ -142,6 +187,12 @@ namespace AutoChess
         public BaseStatusModel GetBaseStatusModel (StatusType statusType)
         {
             return StatusModel.GetBaseStatusModel (statusType);
+        }
+        
+        
+        public BaseStatusModel GetEquipmnetStatusModel (StatusType statusType)
+        {
+            return EquipmentModel.GetBaseStatusModel (statusType);
         }
         
         
@@ -188,6 +239,23 @@ namespace AutoChess
         public void RemovePredicatePosition ()
         {
             PredicatedPositionModel = PositionModel.Empty;
+        }
+
+        #endregion
+
+
+        #region Util
+
+        public void CharacterInfoSubscribe (Action<CharacterModel> onNextAction)
+        {
+            _valueChangeSubject = new Subject<CharacterModel> ();
+            _valueChangeSubject.Subscribe (onNextAction);
+        }
+
+        public void DisposeSubscribe ()
+        {
+            _valueChangeSubject.DisposeSafe ();
+            _valueChangeSubject = null;
         }
 
         #endregion

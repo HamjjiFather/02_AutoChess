@@ -84,6 +84,7 @@ namespace KKSFramework.GameSystem.GlobalText
         /// 글로벌 텍스트 언어 타입.
         /// </summary>
         private GlobalLanguageType _languageType;
+        public GlobalLanguageType LanguageType => _languageType;
 
         /// <summary>
         /// 글로벌 텍스트 언어 넘버.
@@ -187,6 +188,14 @@ namespace KKSFramework.GameSystem.GlobalText
                 return;
 
             _translatedInfos.Remove (textComp);
+        }
+
+
+        public string GetTranslatedString (string key, GlobalLanguageType globalLanguageType)
+        {
+            return TableDataManager.Instance.GlobalTextDict.ContainsKey (key)
+                ? TableDataManager.Instance.GlobalTextDict[key].GlobalTexts[(int) globalLanguageType]
+                : string.Empty;
         }
 
         #endregion

@@ -85,8 +85,9 @@ namespace AutoChess
                 var characterLevel = GameExtension.GetCharacterLevel (stage.MonsterLevels[index]);
                 var statusGrade = MonsterStatusGradeValue ();
                 var statusModel = _characterViewmodel.GetBaseStatusModel (characterData, characterLevel, statusGrade);
+                var skillData = TableDataManager.Instance.SkillDict[characterData.SkillIndex];
 
-                characterModel.SetCharacterData (characterData);
+                characterModel.SetBaseData (characterData, skillData);
                 characterModel.SetStatusModel (statusModel);
                 characterModel.SetPositionModel (new PositionModel (stage.MonsterPosition[index]));
                 characterModel.SetEquipmentModel (EquipmentViewmodel.EmptyEquipmentModel);

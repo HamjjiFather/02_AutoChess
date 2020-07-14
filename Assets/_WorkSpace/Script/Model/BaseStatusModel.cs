@@ -1,3 +1,4 @@
+using System;
 using KKSFramework.DesignPattern;
 
 namespace AutoChess
@@ -16,12 +17,18 @@ namespace AutoChess
 
 #pragma warning restore CS0649
         
-        public string DisplayValue => StatusValue.ToString (StatusData.Format);
+        public string DisplayValue => StatusValue.ToString (StatusData.IsNull () ? string.Empty : StatusData.Format);
 
+        public string CombinedDisplayValue (float secondsStatusValue)
+        {
+            return (StatusValue + secondsStatusValue).ToString (StatusData.IsNull () ? string.Empty : StatusData.Format);
+        }
+        
         #endregion
 
 
         #region Methods
+
 
         public BaseStatusModel ()
         {

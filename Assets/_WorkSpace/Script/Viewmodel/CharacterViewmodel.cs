@@ -89,10 +89,11 @@ namespace AutoChess
                 var characterLevel = GameExtension.GetCharacterLevel (characterBundle.CharacterExps[index]);
                 var statusModel = GetBaseStatusModel (characterData, characterLevel,
                     characterBundle.CharacterStatusGrades[index]);
+                var attackData = TableDataManager.Instance.SkillDict[characterData.AttackIndex];
                 var skillData = TableDataManager.Instance.SkillDict[characterData.SkillIndex];
 
                 characterModel.SetUniqueData (uid, characterBundle.CharacterExps[index]);
-                characterModel.SetBaseData (characterData, skillData);
+                characterModel.SetBaseData (characterData, attackData, skillData);
                 characterModel.SetStatusModel (statusModel);
                 characterModel.SetPositionModel (new PositionModel (_gameSetting.PlayerCharacterPosition[index]));
                 characterModel.SetSide (CharacterSideType.Player);
@@ -163,11 +164,12 @@ namespace AutoChess
             var gradeStatusValues = NewStatusGradeValue ();
             var characterStatus = GetBaseStatusModel (characterData,
                 TableDataManager.Instance.CharacterLevelDict.Values.First (), gradeStatusValues);
+            var attackData = TableDataManager.Instance.SkillDict[characterData.AttackIndex];
             var skillData = TableDataManager.Instance.SkillDict[characterData.SkillIndex];
             var equipmentModel = _equipmentViewmodel.GetEquipmentModel (Constant.InvalidIndex);
 
             characterModel.SetUniqueData (NewUniqueId (), 0);
-            characterModel.SetBaseData (characterData, skillData);
+            characterModel.SetBaseData (characterData, attackData, skillData);
             characterModel.SetStatusModel (characterStatus);
             characterModel.SetEquipmentModel (equipmentModel);
             SetStatusGradeValue ();

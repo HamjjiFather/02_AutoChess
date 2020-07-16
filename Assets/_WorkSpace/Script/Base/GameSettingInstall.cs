@@ -5,12 +5,24 @@ using Zenject;
 namespace AutoChess
 {
     [Serializable]
-    public class GameSetting
+    public class CommonColorSetting
     {
         public Color playerHealthGageColor;
 
         public Color aiHealthGageColor;
 
+        public Color[] statusColor;
+
+        public Color GetStatusColor (StatusType statusType)
+        {
+            var arrayIndex = (int) statusType - 1;
+            return arrayIndex <= statusColor.Length ? statusColor[(int) statusType - 1] : Color.white;
+        }
+    }
+    
+    [Serializable]
+    public class GameSetting
+    {
         public int baseCharacterUniqueId = 100000;
         
         public int baseEquipmentUniqueId = 200000;
@@ -18,9 +30,9 @@ namespace AutoChess
         public readonly string[] PlayerCharacterPosition =
         {
             "1,1",
-            "2,1",
-            "3,2",
-            "4,1",
+            "2,0",
+            "3,1",
+            "4,0",
             "5,1"
         };
     }
@@ -30,9 +42,12 @@ namespace AutoChess
     {
         public GameSetting gameSetting;
 
+        public CommonColorSetting commonColorSetting;
+
         public override void InstallBindings ()
         {
             Container.BindInstance (gameSetting).AsSingle ();
+            Container.BindInstance (commonColorSetting).AsSingle ();
         }
     }
 }

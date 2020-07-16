@@ -32,14 +32,16 @@ namespace AutoChess
 
         #region Methods
 
-        public SkillModel InvokeSkill (CharacterModel user, PositionModel positionModel, int skillIndex)
+        public SkillModel InvokeSkill (CharacterModel user, BehaviourResultModel behaviourResultModel, int skillIndex)
         {
             var skillModel = new SkillModel
             {
                 UseCharacterModel = user,
-                TargetPosition = positionModel,
                 SkillData = TableDataManager.Instance.SkillDict[skillIndex],
             };
+            
+            skillModel.TargetCharacters.AddRange (
+                behaviourResultModel.TargetBattleCharacterElements.Select (x => x.ElementData));
 
             CheckSkillStatus (skillModel);
             return skillModel;
@@ -105,69 +107,8 @@ namespace AutoChess
 
         private void ProgressSkill (SkillModel skillModel)
         {
-            CheckSkillTarget (skillModel);
             CheckSkillValue (skillModel);
             ApplySkills (skillModel);
-        }
-
-
-        /// <summary>
-        /// 스킬 대상을 체크함.
-        /// </summary>
-        private void CheckSkillTarget (SkillModel skillModel)
-        {
-            var skillTarget = skillModel.SkillData.SkillTarget;
-            switch (skillModel.SkillData.SkillBound)
-            {
-                case SkillBound.Self:
-                    skillModel.TargetCharacters.Add (skillModel.UseCharacterModel);
-                    break;
-
-                case SkillBound.Target:
-                    var character = _battleViewmodel.FindClosestMonster (skillModel.UseCharacterModel.CharacterSideType,
-                        skillModel.UseCharacterModel.PositionModel);
-                    skillModel.TargetCharacters.Add (character);
-
-                    break;
-
-                case SkillBound.SelfArea:
-                    var characterModels = _battleViewmodel.GetCharacterElementsAtNearby (
-                        skillModel.UseCharacterModel.CharacterSideType, skillModel.UseCharacterModel.PositionModel,
-                        skillTarget, true);
-                    skillModel.TargetCharacters.AddRange (characterModels);
-
-                    break;
-
-                case SkillBound.TargetArea:
-                    characterModels = _battleViewmodel.GetCharacterElementsAtNearby (
-                        skillModel.UseCharacterModel.CharacterSideType, skillModel.TargetPosition, skillTarget, true);
-                    skillModel.TargetCharacters.AddRange (characterModels);
-                    break;
-
-                case SkillBound.SelfAreaOnly:
-                    characterModels = _battleViewmodel.GetCharacterElementsAtNearby (
-                        skillModel.UseCharacterModel.CharacterSideType, skillModel.UseCharacterModel.PositionModel,
-                        skillTarget);
-                    skillModel.TargetCharacters.AddRange (characterModels);
-
-                    break;
-
-                case SkillBound.TargetAreaOnly:
-                    characterModels = _battleViewmodel.GetCharacterElementsAtNearby (
-                        skillModel.UseCharacterModel.CharacterSideType, skillModel.TargetPosition, skillTarget);
-                    skillModel.TargetCharacters.AddRange (characterModels);
-                    break;
-
-                case SkillBound.All:
-                    characterModels =
-                        _battleViewmodel.GetCharacterModels (skillModel.UseCharacterModel.CharacterSideType,
-                            skillTarget);
-                    skillModel.TargetCharacters.AddRange (characterModels);
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException ();
-            }
         }
 
 

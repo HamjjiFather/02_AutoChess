@@ -33,7 +33,7 @@ namespace AutoChess
         public override void SetArea (CharacterModel areaData)
         {
             skillNameText.GetTranslatedString (areaData.SkillData.Name);
-            skillDescText.text = _skillViewmodel.ToSkillDescriptionString (areaData);
+            skillDescText.text = SkillViewHelper.Instance.ToSkillDescriptionString (areaData);
         }
 
         #endregion

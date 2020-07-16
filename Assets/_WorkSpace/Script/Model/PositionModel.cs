@@ -41,11 +41,8 @@ namespace AutoChess
         
         public void Clear ()
         {
-            this = Empty;
+            this = BattleViewmodel.EmptyPosition;
         }
-
-
-        public static PositionModel Empty { get; } = new PositionModel(-1, -1);
 
         public override bool Equals (object obj)
         {

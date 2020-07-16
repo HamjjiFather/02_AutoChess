@@ -34,6 +34,11 @@ namespace AutoChess
         public Character CharacterData;
 
         /// <summary>
+        /// 기본 공격 스킬 데이터.
+        /// </summary>
+        public Skill AttackData;
+
+        /// <summary>
         /// 스킬 데이터.
         /// </summary>
         public Skill SkillData;
@@ -61,7 +66,7 @@ namespace AutoChess
         /// <summary>
         /// 이동 예정 위치.
         /// </summary>
-        public PositionModel PredicatedPositionModel = PositionModel.Empty;
+        public PositionModel PredicatedPositionModel = BattleViewmodel.EmptyPosition;
 
         /// <summary>
         /// 캐릭터 진영(플레이어, AI).
@@ -114,9 +119,10 @@ namespace AutoChess
         }
 
         
-        public void SetBaseData (Character character, Skill skill)
+        public void SetBaseData (Character character, Skill attackSkill, Skill skill)
         {
             CharacterData = character;
+            AttackData = attackSkill;
             SkillData = skill;
         }
         
@@ -222,6 +228,11 @@ namespace AutoChess
         #endregion
 
 
+        #region Skill
+
+        #endregion
+
+
         #region Position
         
         public void SetPositionModel (PositionModel positionModel)
@@ -238,7 +249,7 @@ namespace AutoChess
         
         public void RemovePredicatePosition ()
         {
-            PredicatedPositionModel = PositionModel.Empty;
+            PredicatedPositionModel = BattleViewmodel.EmptyPosition;
         }
 
         #endregion

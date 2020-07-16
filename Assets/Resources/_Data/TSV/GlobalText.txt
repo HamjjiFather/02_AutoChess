@@ -97,9 +97,9 @@ STATUS_NAME_0000	체력/Health
 STATUS_NAME_0001	체력 재생/Health Regen
 STATUS_NAME_0002	스킬 게이지/Skill Gage
 STATUS_NAME_0003	스킬 게이지 재생/Skill Gage Regen
-STATUS_NAME_0004	공격/Attack
+STATUS_NAME_0004	공격력/Attack
 STATUS_NAME_0005	주문력/Ability Point
-STATUS_NAME_0006	방어/Defense
+STATUS_NAME_0006	방어력/Defense
 STATUS_NAME_0007	공격 속도/Attack Speed
 STATUS_NAME_0008	치명타 확률/Critical Probability
 STATUS_NAME_0009	치명타 데미지 배율/Critical Damage
@@ -158,11 +158,11 @@ SKILL_NAME_0045	악령주입/악령주입
 SKILL_NAME_0046	또아리 틀기/또아리 틀기
 SKILL_NAME_0047	전염/전염
 SKILL_DESC_0000	기본 공격이다/Basic Attack
-SKILL_DESC_0001	아군 전체를 #VALUE만큼 회복시킨다./기본 공격이다
-SKILL_DESC_0002	대상을 공격하여 #VALUE만큼 피해를 입히고, 피해량만큼 자신이 회복합니다./기본 공격이다
-SKILL_DESC_0003	자신을 포함한 주변 1칸에 #VALUE만큼 회복시킨다./기본 공격이다
-SKILL_DESC_0004	전방 부채꼴에 위치한 적을 2회 공격해 각 공격당 #VALUE만큼 피해를 입힌다./기본 공격이다
-SKILL_DESC_0005	자신이 사망할 경우 자신을 제외한 주변 1칸에 위치한 적을 #VALUE만큼 피해를 입힌다./기본 공격이다
+SKILL_DESC_0001	아군 전체를 #VALUE 만큼 회복시킨다./기본 공격이다
+SKILL_DESC_0002	대상을 공격하여 #VALUE 만큼 피해를 입히고, 피해량 만큼 자신이 회복합니다./기본 공격이다
+SKILL_DESC_0003	자신을 포함한 주변 1칸에 #VALUE 만큼 회복시킨다./기본 공격이다
+SKILL_DESC_0004	전방 부채꼴에 위치한 적을 2회 공격해 각 공격당 #VALUE 만큼 피해를 입힌다./기본 공격이다
+SKILL_DESC_0005	자신이 사망할 경우 자신을 제외한 주변 1칸에 위치한 적을 #VALUE 만큼 피해를 입힌다./기본 공격이다
 SKILL_DESC_0006	기본 공격이다/기본 공격이다
 SKILL_DESC_0007	기본 공격이다/기본 공격이다
 SKILL_DESC_0008	기본 공격이다/기본 공격이다

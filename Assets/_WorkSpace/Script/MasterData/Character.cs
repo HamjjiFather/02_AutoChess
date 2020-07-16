@@ -22,9 +22,9 @@ public class Character : TableDataBase
     public string Desc;
 
     /// <summary>
-    /// 사정거리
+    /// 원거리 공격 유형
     /// </summary>
-    public int AttackDistance;
+    public bool IsRangeAttack;
 
     /// <summary>
     /// 몬스터 위치
@@ -109,7 +109,7 @@ public class Character : TableDataBase
 		Id = int.Parse(myData[rowIndex++]);
 		Name = myData[rowIndex++];
 		Desc = myData[rowIndex++];
-		AttackDistance = int.Parse(myData[rowIndex++]);
+		IsRangeAttack = bool.Parse(myData[rowIndex++]);
 		GroundType = (CharacterGroundType)Enum.Parse (typeof(CharacterGroundType), myData[rowIndex++]);
 		Hp = Array.ConvertAll (myData[rowIndex++].Split ('/'), float.Parse);
 		HpInc = float.Parse(myData[rowIndex++]);

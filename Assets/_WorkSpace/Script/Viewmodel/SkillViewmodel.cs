@@ -14,6 +14,9 @@ namespace AutoChess
         [Inject]
         private StatusViewmodel _statusViewmodel;
 
+        [Inject]
+        private CommonColorSetting _commonColorSetting;
+
 #pragma warning restore CS0649
 
         #endregion
@@ -25,28 +28,6 @@ namespace AutoChess
 
 
         #region Methods
-
-        public string ToSkillDescriptionString (CharacterModel characterModel)
-        {
-            var originDesc = GlobalTextHelper.GetTranslatedString (characterModel.SkillData.Desc);
-
-            if (!originDesc.Contains ("#VALUE")) return originDesc;
-
-            var valueString = ToValueString (characterModel, characterModel.SkillData);
-            return originDesc.Replace ("#VALUE", valueString);
-        }
-
-
-        private string ToValueString (CharacterModel characterModel, Skill skillData)
-        {
-            var statusName = TableDataHelper.GetStatus (skillData.RefSkillStatusType).NameKey;
-            var translatedName = GlobalTextHelper.GetTranslatedString (statusName);
-            var selfRef = skillData.RefSkillValueTarget == RefSkillValueTarget.Self;
-            var addedValueString = selfRef
-                ? $"{characterModel.GetTotalStatusValue (skillData.RefSkillStatusType) * skillData.RefSkillValueAmount:F0} ({skillData.RefSkillValueAmount:F2}{translatedName})"
-                : string.Empty;
-            return $"{skillData.SkillValue} + {addedValueString}";
-        }
 
         #endregion
 

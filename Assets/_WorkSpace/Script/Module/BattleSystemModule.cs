@@ -14,6 +14,7 @@ namespace AutoChess
     {
         None,
         Idle,
+        Blocked,
         Moving,
         Behave,
         Death
@@ -36,12 +37,7 @@ namespace AutoChess
 
 #pragma warning restore CS0649
 
-        /// <summary>
-        /// 캐릭터 모델.
-        /// </summary>
-        private CharacterModel _characterModel;
-
-        public CharacterModel CharacterModel => _characterModel;
+        public CharacterModel CharacterModel => _battleCharacterPackage.battleCharacterElement.ElementData;
 
         /// <summary>
         /// 전투 상태.
@@ -92,6 +88,7 @@ namespace AutoChess
         /// </summary>
         private BattleCharacterPackage _battleCharacterPackage;
 
+
         #endregion
 
 
@@ -108,16 +105,10 @@ namespace AutoChess
         }
 
 
-        public void SetCharacterData (CharacterModel characterModel)
-        {
-            _characterModel = characterModel;
-        }
-
-
         public void StartBattle (UnityAction<float> gageAction)
         {
             _cancellationToken = new CancellationTokenSource ();
-            _health = new FloatReactiveProperty (_characterModel.GetTotalStatusValue (StatusType.Health));
+            _health = new FloatReactiveProperty (CharacterModel.GetTotalStatusValue (StatusType.Health));
             _battleState = BattleState.Idle;
 
             _healthDisposable = _health.Subscribe (hp =>
@@ -125,7 +116,7 @@ namespace AutoChess
                 _healthEvent.Invoke ((int) hp);
                 if (hp <= 0)
                 {
-                    Debug.Log ($"{_characterModel} Death");
+                    Debug.Log ($"{CharacterModel} Death");
                     EndBattle ();
                 }
             });
@@ -167,25 +158,36 @@ namespace AutoChess
 
         public async UniTask CheckNextBehaviour ()
         {
-            _battleState = _battleViewmodel.CheckCharacterBattleState (_characterModel.CharacterSideType,
-                _characterModel.PositionModel, out var targetPosition);
+            var result = _battleViewmodel.CheckBehaviour (_battleCharacterPackage.battleCharacterElement);
+            _battleState = result.ResultState;
 
             switch (_battleState)
             {
                 case BattleState.None:
                     break;
+                
                 case BattleState.Idle:
                     break;
+                
+                // 사방이 막힌 상태.
+                case BattleState.Blocked:
+                    await UniTask.Delay (TimeSpan.FromSeconds (0.5f));
+                    CheckNextBehaviour ().Forget ();
+                    break;
+                
                 case BattleState.Moving:
-                    await Move (targetPosition);
+                    await Move (result);
                     CheckNextBehaviour ().Forget ();
                     break;
+                
                 case BattleState.Behave:
-                    await Behaviour (targetPosition);
+                    await Behaviour (result);
                     CheckNextBehaviour ().Forget ();
                     break;
+                
                 case BattleState.Death:
                     break;
+                
                 default:
                     throw new ArgumentOutOfRangeException ();
             }
@@ -195,12 +197,13 @@ namespace AutoChess
         /// <summary>
         /// 이동.
         /// </summary>
-        private async UniTask Move (PositionModel positionModel)
+        private async UniTask Move (BehaviourResultModel behaviourResultModel)
         {
-            Debug.Log ($"{_characterModel} move to {positionModel}");
-            _characterModel.SetPredicatePosition (positionModel);
-            await movingSystemModule.Moving (positionModel, _cancellationToken.Token);
-            _battleViewmodel.CompleteMovement (_characterModel, positionModel);
+            var position = behaviourResultModel.TargetPosition;
+            Debug.Log ($"{CharacterModel} move to {position}");
+            CharacterModel.SetPredicatePosition (position);
+            await movingSystemModule.Moving (position, _cancellationToken.Token);
+            _battleViewmodel.CompleteMovement (CharacterModel, position);
             Debug.Log ("complete movement");
         }
 
@@ -208,10 +211,10 @@ namespace AutoChess
         /// <summary>
         /// 공격/스킬 행동.
         /// </summary>
-        private async UniTask Behaviour (PositionModel positionModel)
+        private async UniTask Behaviour (BehaviourResultModel behaviourResultModel)
         {
             await _playAnimationAction (BattleState.Behave, _cancellationToken.Token);
-            await behaviourSystemModule.Behaviour (_characterModel, positionModel, _cancellationToken.Token,
+            await behaviourSystemModule.Behaviour (CharacterModel, behaviourResultModel, _cancellationToken.Token,
                 ApplyAfterSkill);
         }
 
@@ -256,7 +259,7 @@ namespace AutoChess
                     behaviourSystemModule.AddSkillValue (Constant.RestoreSkillGageOnHit);
                     
                     // 방어력.
-                    var defenseValue = _characterModel.GetTotalStatusValue (StatusType.Defense);
+                    var defenseValue = CharacterModel.GetTotalStatusValue (StatusType.Defense);
                     var calcedDefenseValue = EasingDefenseValue (defenseValue * 1 / Constant.MaxDefenseValue);
                     var appliedValue = skillValueModel.PreApplyValue - skillValueModel.PreApplyValue * calcedDefenseValue;
 
@@ -276,14 +279,14 @@ namespace AutoChess
                 SetApplyParticle (skillModel.DamageType);
 
                 var calcedValue = _health.Value + skillValueModel.AppliedValue;
-                _health.Value = Mathf.Clamp (calcedValue, 0, _characterModel.GetTotalStatusValue (StatusType.Health));
+                _health.Value = Mathf.Clamp (calcedValue, 0, CharacterModel.GetTotalStatusValue (StatusType.Health));
                 return;
             }
 
             // 지속 시간이 존재함.
             if (skillModel.SkillData.InvokeTime > 0)
             {
-                _characterModel.SkillStatusModel.AddStatus (skillModel.SkillData.SkillStatusType, new BaseStatusModel
+                CharacterModel.SkillStatusModel.AddStatus (skillModel.SkillData.SkillStatusType, new BaseStatusModel
                 {
                     StatusData =
                         TableDataManager.Instance.StatusDict[

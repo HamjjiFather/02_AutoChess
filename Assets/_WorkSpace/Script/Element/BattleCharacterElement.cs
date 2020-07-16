@@ -11,15 +11,18 @@ namespace AutoChess
     [Serializable]
     public class BattleCharacterPackage
     {
+        public BattleCharacterElement battleCharacterElement;
+        
         public CharacterAppearanceModule characterAppearanceModule;
 
         public CharacterParticleModule characterParticleModule;
         
         public BattleSystemModule battleSystemModule;
 
-        public void InitPackage ()
+        public void InitPackage (BattleCharacterElement element)
         {
             battleSystemModule.InitModule (this);
+            battleCharacterElement = element;
         }
     }
     
@@ -55,6 +58,11 @@ namespace AutoChess
         /// 캐릭터 정보 엘리먼트.
         /// </summary>
         private BattleCharacterInfoElement _battleCharacterInfoElement;
+        
+        public bool CanBehaviour => battleCharacterPackage.battleSystemModule.behaviourSystemModule.CanBehaviour;
+
+        public bool IsFullSkillGage => battleCharacterPackage.battleSystemModule.behaviourSystemModule.IsFullSkillGage;
+        
 
         #endregion
 
@@ -63,7 +71,7 @@ namespace AutoChess
 
         private void Awake ()
         {
-            battleCharacterPackage.InitPackage ();
+            battleCharacterPackage.InitPackage (this);
         }
 
         #endregion
@@ -99,7 +107,6 @@ namespace AutoChess
         public void StartBattle ()
         {
             battleCharacterPackage.battleSystemModule.SetCallbacks (SetHealth, WaitAnimation);
-            battleCharacterPackage.battleSystemModule.SetCharacterData (ElementData);
             battleCharacterPackage.battleSystemModule.StartBattle (SkillGageCallback);
 
             // 체력 증감 처리.
@@ -121,7 +128,6 @@ namespace AutoChess
             {
                 var animationName = AnimationNameByState ();
                 await battleCharacterPackage.characterAppearanceModule.PlayAnimation (animationName, token);
-                await UniTask.Delay (TimeSpan.FromSeconds (0.5f), cancellationToken: token);
 
                 string AnimationNameByState ()
                 {

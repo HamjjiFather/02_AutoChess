@@ -27,7 +27,7 @@ namespace AutoChess
 #pragma warning disable CS0649
 
         [Inject]
-        private GameSetting _gameSetting;
+        private CommonColorSetting _commonColorSetting;
 
 #pragma warning restore CS0649
 
@@ -75,7 +75,7 @@ namespace AutoChess
         public void SetHealthGageColor (CharacterSideType characterSideType)
         {
             hpGageElement.SetGageColor (characterSideType == CharacterSideType.Player
-                ? _gameSetting.playerHealthGageColor : _gameSetting.aiHealthGageColor);
+                ? _commonColorSetting.playerHealthGageColor : _commonColorSetting.aiHealthGageColor);
         }
 
 
@@ -90,10 +90,11 @@ namespace AutoChess
             characterImage.transform.localScale = isLeft ? Vector3.one : new Vector3 (-1, 1, 1);
         }
 
+        
         public async UniTask PlayAnimation (string animationName, CancellationToken cancellationToken)
         {
             characterAniamtor.Play (animationName);
-            await UniTask.Delay (TimeSpan.FromSeconds (0.5f), cancellationToken: cancellationToken);
+            await UniTask.Delay (TimeSpan.FromSeconds (0.15f), cancellationToken: cancellationToken);
         }
 
 

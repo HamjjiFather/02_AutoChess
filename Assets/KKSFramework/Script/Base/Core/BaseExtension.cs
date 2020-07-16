@@ -34,6 +34,11 @@ public static class BaseExtension
         return nullable == null;
     }
 
+    public static bool NotNull (this object nullable)
+    {
+        return nullable != null;
+    }
+
     #endregion
 
 
@@ -274,8 +279,7 @@ public static class BaseExtension
     /// <summary>
     /// Convert color code to color.
     /// </summary>
-    /// <param name="code"> example code = "FFFFFFFF" or "131313" </param>
-    public static Color HexadecimalToColor (string code)
+    public static Color ToColor (string code)
     {
         var r = code.Substring (0, 2);
         var g = code.Substring (2, 2);

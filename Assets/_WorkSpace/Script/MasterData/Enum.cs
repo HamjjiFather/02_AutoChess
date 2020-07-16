@@ -90,7 +90,9 @@ public enum SkillBound
 	TargetAreaOnly = 5,
 	TargetDirection = 6,
 	FanShape = 7,
-	All = 8,
+	Nearest = 8,
+	Furthest = 9,
+	All = 10,
 
 }
 

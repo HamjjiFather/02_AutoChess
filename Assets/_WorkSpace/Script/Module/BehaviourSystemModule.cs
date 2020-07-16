@@ -23,9 +23,18 @@ namespace AutoChess
 
         private readonly FloatReactiveProperty _skillGageValue = new FloatReactiveProperty ();
 
+        
+        /// <summary>
+        /// 행동 가능 여부.
+        /// </summary>
         private bool _canBehaviour;
+        public bool CanBehaviour => _canBehaviour;
 
+        /// <summary>
+        /// 스킬 게이지 충전 여부.
+        /// </summary>
         private bool _isFullSkillGage;
+        public bool IsFullSkillGage => _isFullSkillGage;
 
         private IDisposable _skillValueAddDisposable;
 
@@ -76,7 +85,7 @@ namespace AutoChess
         /// <summary>
         /// 공격 / 스킬
         /// </summary>
-        public async UniTask Behaviour (CharacterModel characterModel, PositionModel positionModel,
+        public async UniTask Behaviour (CharacterModel characterModel, BehaviourResultModel behaviourResultModel,
             CancellationToken cancellationToken, UnityAction<SkillModel> skillCallback)
         {
             if (_canBehaviour)
@@ -84,31 +93,35 @@ namespace AutoChess
                 if (_isFullSkillGage)
                 {
                     Debug.Log ("Skill behaviour");
-                    UseSkill (characterModel, positionModel, cancellationToken, characterModel.CharacterData.SkillIndex,
+                    UseSkill (characterModel, behaviourResultModel, cancellationToken, characterModel.CharacterData.SkillIndex,
                         skillCallback);
                     _skillGageValue.Value = 0;
                     _isFullSkillGage = false;
+                    await WaitForCanBehaveState ();
                     return;
                 }
 
                 Debug.Log ("Attack behaviour");
-                UseSkill (characterModel, positionModel, cancellationToken, characterModel.CharacterData.AttackIndex,
+                UseSkill (characterModel, behaviourResultModel, cancellationToken, characterModel.CharacterData.AttackIndex,
                     skillCallback);
                 AddSkillValue (Constant.RestoreSkillGageOnAttack);
-                return;
+                await WaitForCanBehaveState ();
             }
 
-            await UniTask.WaitUntil (() => _canBehaviour, cancellationToken: cancellationToken);
+            async UniTask WaitForCanBehaveState ()
+            {
+                await UniTask.WaitUntil (() => _canBehaviour, cancellationToken: cancellationToken);
+            }
         }
 
 
         /// <summary>
         /// 스킬 사용.
         /// </summary>
-        public void UseSkill (CharacterModel characterModel, PositionModel positionModel,
+        public void UseSkill (CharacterModel characterModel, BehaviourResultModel behaviourResultModel,
             CancellationToken cancellationToken, int index, UnityAction<SkillModel> skillCallback)
         {
-            var skillModel = skillModule.InvokeSkill (characterModel, positionModel, index);
+            var skillModel = skillModule.InvokeSkill (characterModel, behaviourResultModel, index);
             CheckAttackSpeed (characterModel, cancellationToken).Forget ();
             skillCallback.Invoke (skillModel);
         }
@@ -121,8 +134,8 @@ namespace AutoChess
         {
             _canBehaviour = false;
             var attackDelay = 1 / characterModel.GetTotalStatusValue (StatusType.AttackSpeed);
-            Debug.Log ($"Attack Delay = {attackDelay}");
             await UniTask.Delay (TimeSpan.FromSeconds (attackDelay), cancellationToken: cancellationToken);
+            Debug.Log ($"{characterModel} Attack Delay = {attackDelay}");
             _canBehaviour = true;
         }
 

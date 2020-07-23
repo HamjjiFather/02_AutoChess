@@ -41,7 +41,7 @@ namespace AutoChess
         
         public void Clear ()
         {
-            this = BattleViewmodel.EmptyPosition;
+            this = PositionHelper.Instance.EmptyPosition;
         }
 
         public override bool Equals (object obj)

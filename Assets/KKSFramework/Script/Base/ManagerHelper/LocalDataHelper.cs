@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace KKSFramework.LocalData
 {
@@ -9,6 +10,8 @@ namespace KKSFramework.LocalData
         public int LastCharacterUniqueId;
 
         public int LastEquipmentUniqueId;
+
+        public int LastStageIndex;
     }
 
 
@@ -23,9 +26,20 @@ namespace KKSFramework.LocalData
 
         public List<int> CharacterExps = new List<int> ();
 
-        public List<int> EquipmentUIds = new List<int> ();
+        public List<CharacterEquipmentUIds> EquipmentUIds = new List<CharacterEquipmentUIds> ();
 
         public List<int> BattleCharacterUniqueIds = new List<int> ();
+
+        [Serializable]
+        public class CharacterEquipmentUIds
+        {
+            public List<int> EquipmentUIds = new List<int> ();
+
+            public CharacterEquipmentUIds (IEnumerable<int> uids)
+            {
+                EquipmentUIds = uids.ToList ();
+            }
+        }
 
         [Serializable]
         public class CharacterStatusGrade
@@ -143,16 +157,24 @@ namespace KKSFramework.LocalData
         public static void SaveCharacterUniqueIdData (int uniqueId)
         {
             LocalDataClass.GameBundle.LastCharacterUniqueId = uniqueId;
+            LocalDataManager.Instance.SaveGameData (LocalDataClass.GameBundle);
         }
 
 
         public static void SaveCharacterIdData (List<int> characterUids, List<int> characterIds,
-            List<int> characterExps, List<int> equipmentUid)
+            List<int> characterExps, List<CharacterBundle.CharacterEquipmentUIds> equipmentUid)
         {
             LocalDataClass.CharacterBundle.CharacterUniqueIds = characterUids;
             LocalDataClass.CharacterBundle.CharacterIds = characterIds;
             LocalDataClass.CharacterBundle.CharacterExps = characterExps;
             LocalDataClass.CharacterBundle.EquipmentUIds = equipmentUid;
+            LocalDataManager.Instance.SaveGameData (LocalDataClass.CharacterBundle);
+        }
+
+
+        public static void SaveCharacterExpData (List<int> characterExps)
+        {
+            LocalDataClass.CharacterBundle.CharacterExps = characterExps;
             LocalDataManager.Instance.SaveGameData (LocalDataClass.CharacterBundle);
         }
 
@@ -178,6 +200,7 @@ namespace KKSFramework.LocalData
         public static void SaveEquipmentUniqueIdData (int uniqueId)
         {
             LocalDataClass.GameBundle.LastEquipmentUniqueId = uniqueId;
+            LocalDataManager.Instance.SaveGameData (LocalDataClass.GameBundle);
         }
 
 
@@ -198,6 +221,13 @@ namespace KKSFramework.LocalData
 
                 LocalDataClass.EquipmentBundle.EquipmentDatas.Add (equipmentData);
             }
+        }
+
+
+        public static void SaveStageIndex (int index)
+        {
+            LocalDataClass.GameBundle.LastStageIndex = index;
+            LocalDataManager.Instance.SaveGameData (LocalDataClass.GameBundle);
         }
 
         #endregion

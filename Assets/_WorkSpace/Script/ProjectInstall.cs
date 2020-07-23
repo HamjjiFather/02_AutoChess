@@ -21,15 +21,37 @@ public class ProjectInstall : MonoInstaller
         ViewModelTypes.Add (typeof(EquipmentViewmodel));
         ViewModelTypes.Add (typeof(SkillViewmodel));
         ViewModelTypes.Add (typeof(StatusViewmodel));
+        ViewModelTypes.Add (typeof(StageViewmodel));
+        ViewModelTypes.Add (typeof(FieldViewmodel));
         ViewModelTypes.ForEach (type => { Container.Bind (type).AsSingle (); });
     }
 
-    public static void InstallViewmodel ()
+    public static void InitViewmodel ()
     {
         ViewModelTypes.ForEach (type =>
         {
             var viewmodel = (ViewModelBase) ProjectContext.Instance.Container.Resolve (type);
             viewmodel.Initialize ();
+        });
+    }
+
+
+    public static void InitLocalDataViewmodel ()
+    {
+        ViewModelTypes.ForEach (type =>
+        {
+            var viewmodel = (ViewModelBase) ProjectContext.Instance.Container.Resolve (type);
+            viewmodel.InitAfterLoadLocalData ();
+        });
+    }
+    
+    
+    public static void InitTableDataViewmodel ()
+    {
+        ViewModelTypes.ForEach (type =>
+        {
+            var viewmodel = (ViewModelBase) ProjectContext.Instance.Container.Resolve (type);
+            viewmodel.InitAfterLoadTableData ();
         });
     }
 }

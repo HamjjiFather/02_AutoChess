@@ -6,10 +6,8 @@ namespace KKSFramework.Navigation
     {
         public TitlePageView titlePageView;
 
-
         protected override UniTask InitializeAsync ()
         {
-            ProjectInstall.InstallViewmodel ();
             titlePageView.Push ().Forget();
             return base.InitializeAsync ();
         }

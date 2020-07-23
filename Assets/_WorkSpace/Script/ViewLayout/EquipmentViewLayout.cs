@@ -1,4 +1,8 @@
+using KKSFramework;
+using KKSFramework.Navigation;
 using UniRx.Async;
+using UnityEngine.UI;
+using Zenject;
 
 namespace AutoChess
 {
@@ -10,14 +14,30 @@ namespace AutoChess
 
         public EquipmentListArea equipmentListArea;
 
-#pragma warning disable CS0649
+        public Button backButton;
 
+#pragma warning disable CS0649
+        
 #pragma warning restore CS0649
+        
+        private GamePageView _gamePageView;
 
         #endregion
+        
+        
+        private void Awake ()
+        {
+            backButton.onClick.AddListener (ClickBackButton);
+        }
 
 
         #region Methods
+        
+        public override void Initialize ()
+        {
+            _gamePageView = ProjectContext.Instance.Container.Resolve<GamePageView> ();
+            base.Initialize ();
+        }
         
         public override UniTask ActiveLayout ()
         {
@@ -29,6 +49,11 @@ namespace AutoChess
 
 
         #region EventMethods
+        
+        private void ClickBackButton ()
+        {
+            _gamePageView.BackToMain ();
+        }
         
         private void ClickEquipmentElement (EquipmentModel equipmentModel)
         {

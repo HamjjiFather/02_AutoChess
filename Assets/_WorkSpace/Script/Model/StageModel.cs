@@ -14,7 +14,7 @@ namespace AutoChess
 
         #endregion
 
-        public void SetStageData (Stage stage)
+        public StageModel (Stage stage)
         {
             StageData = stage;
         }

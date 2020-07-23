@@ -19,10 +19,9 @@ namespace AutoChess
         
         public BattleSystemModule battleSystemModule;
 
-        public void InitPackage (BattleCharacterElement element)
+        public void InitPackage ()
         {
             battleSystemModule.InitModule (this);
-            battleCharacterElement = element;
         }
     }
     
@@ -69,11 +68,6 @@ namespace AutoChess
 
         #region UnityMethods
 
-        private void Awake ()
-        {
-            battleCharacterPackage.InitPackage (this);
-        }
-
         #endregion
 
 
@@ -88,11 +82,11 @@ namespace AutoChess
             var sprite = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
                 ResourcesType.Monster, ElementData.CharacterData.SpriteResName);
             var aniamtorController = ResourcesLoadHelper.GetResources<RuntimeAnimatorController> (
-                ResourceRoleType._Animation, characterModel.CharacterData.AnimatorResName);
+                ResourceRoleType._Animation, ElementData.CharacterData.AnimatorResName);
             battleCharacterPackage.characterAppearanceModule.SetSprite (sprite);
             battleCharacterPackage.characterAppearanceModule.SetRuntimeAnimatorContoller (aniamtorController);
 
-            _maxHealth = (int) ElementData.GetTotalStatusValue (StatusType.Health);
+            _maxHealth = ElementData.GetTotalStatusValue (StatusType.Health).FloatToInt ();
             battleCharacterPackage.characterAppearanceModule.SetValueOnlyHealthGageValue (_maxHealth, _maxHealth);
             battleCharacterPackage.characterAppearanceModule.SetHealthGageColor (ElementData.CharacterSideType);
             SkillGageCallback (0);
@@ -115,6 +109,8 @@ namespace AutoChess
                 if (hp == 0)
                 {
                     EndBattle ();
+                    _battleViewmodel.CheckCharacters (ElementData.CharacterSideType);
+                    battleCharacterPackage.characterParticleModule.PlayParticle (CharacterBuiltInParticleType.Death);
                 }
 
                 battleCharacterPackage.characterAppearanceModule.SetValueOnlyHealthGageValue(hp, _maxHealth);
@@ -150,11 +146,11 @@ namespace AutoChess
         /// <summary>
         /// 전투 종료.
         /// </summary>
-        private void EndBattle ()
+        public void EndBattle ()
         {
             ElementData.EndBattle ();
+            battleCharacterPackage.battleSystemModule.EndBattle ();
             battleCharacterPackage.characterAppearanceModule.SetActive (false);
-            battleCharacterPackage.characterParticleModule.PlayParticle (CharacterBuiltInParticleType.Death);
         }
 
 

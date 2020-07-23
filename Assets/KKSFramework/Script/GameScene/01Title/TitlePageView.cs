@@ -41,15 +41,9 @@ namespace KKSFramework.Navigation
         protected override void Showed ()
         {
             base.Showed ();
-            SetViewmodel ();
             _isLoaded = true;
         }
 
-        private void SetViewmodel ()
-        {
-            _equipmentViewmodel.InitLocalData ();
-            _characterViewmodel.InitLocalData ();
-        }
 
         private void ClickTitle ()
         {

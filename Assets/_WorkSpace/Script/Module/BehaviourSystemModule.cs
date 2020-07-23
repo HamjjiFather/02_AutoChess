@@ -12,12 +12,13 @@ namespace AutoChess
     {
         #region Fields & Property
 
-        public SkillModule skillModule;
-
 #pragma warning disable CS0649
 
         [Inject]
         private BattleViewmodel _battleViewmodel;
+
+        [Inject]
+        private SkillViewmodel _skillViewmodel;
 
 #pragma warning restore CS0649
 
@@ -121,7 +122,7 @@ namespace AutoChess
         public void UseSkill (CharacterModel characterModel, BehaviourResultModel behaviourResultModel,
             CancellationToken cancellationToken, int index, UnityAction<SkillModel> skillCallback)
         {
-            var skillModel = skillModule.InvokeSkill (characterModel, behaviourResultModel, index);
+            var skillModel = _skillViewmodel.InvokeSkill (characterModel, behaviourResultModel, index);
             CheckAttackSpeed (characterModel, cancellationToken).Forget ();
             skillCallback.Invoke (skillModel);
         }

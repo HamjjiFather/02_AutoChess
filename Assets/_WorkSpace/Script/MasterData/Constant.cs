@@ -47,5 +47,10 @@ public class Constant
     /// </summary>
     public const float DefenseCoeffValue = 6f;
 
+    /// <summary>
+    /// 장비 수량
+    /// </summary>
+    public const int EquipmentCapacity = 3;
+
 
 }

@@ -26,6 +26,11 @@ public class Stage : TableDataBase
     /// </summary>
     public string[] MonsterPosition;
 
+    /// <summary>
+    /// 보상 경험치
+    /// </summary>
+    public int RewardExp;
+
 
 
     public Stage ()
@@ -40,6 +45,7 @@ public class Stage : TableDataBase
 		MonsterIndexes = Array.ConvertAll (myData[rowIndex++].Split ('/'), int.Parse);
 		MonsterLevels = Array.ConvertAll (myData[rowIndex++].Split ('/'), int.Parse);
 		MonsterPosition = myData[rowIndex++].Split ('/');
+		RewardExp = int.Parse(myData[rowIndex++]);
 
     }
 }

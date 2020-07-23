@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -20,15 +21,9 @@ namespace AutoChess
         #endregion
 
 
-        public static CharacterLevel GetCharacterLevel (float exp)
+        public static int FloatToInt (this float value)
         {
-            return TableDataManager.Instance.CharacterLevelDict.Values.FirstOrDefault (x => x.AccReqExp > exp);
-        }
-
-        
-        public static CharacterLevel GetCharacterLevel (int level)
-        {
-            return TableDataManager.Instance.CharacterLevelDict[(int) DataType.CharacterLevel + level];
+            return Mathf.RoundToInt (value);
         }
 
         

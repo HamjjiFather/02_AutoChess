@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using KKSFramework.TableData;
 using KKSFramework.UI;
 using UnityEngine;
 using UnityEngine.Events;
@@ -639,30 +640,6 @@ public static class BaseExtension
     }
 
 
-    public static TSource Overlap<TSource> (this IEnumerable<TSource> source, IEnumerable<TSource> target)
-    {
-        if(source == null || target == null || !source.Any() || !target.Any())
-            throw new ArgumentException (nameof (source), nameof(target));
-
-        using (var enumerator = target.GetEnumerator ())
-        {
-            while (enumerator.MoveNext ())
-            {
-                var cur = enumerator.Current;
-
-                if (source.Contains (cur))
-                {
-                    return cur;
-                }
-
-                enumerator.MoveNext ();
-            }
-        }
-
-        return default;
-    }
-
-
     public static IEnumerable<TSource> MinSources<TSource> (this IEnumerable<TSource> sources, Func<TSource, int> selector)
     {
         var minValue = sources.Min (selector);
@@ -817,6 +794,26 @@ public static class BaseExtension
         else
             dict[key] = value;
     }
+
+
+    /// <summary>
+    /// If not a Key exists, add the Key Value to Dictionary.
+    /// </summary>
+    public static void ContainAndAdd<TK, TV> (this Dictionary<TK, TV> dict, TK key, TV value)
+    {
+        if(!dict.ContainsKey (key))
+            dict.Add (key, value);
+    }
+
+
+    public static void AddRange<TK, TV> (this Dictionary<TK, TV> dict, Dictionary<TK, TV> targetDict)
+    {
+        targetDict.Foreach (target =>
+        {
+            dict.ContainAndAdd (target.Key, target.Value);
+        });
+    }
+
 
     #endregion
 }

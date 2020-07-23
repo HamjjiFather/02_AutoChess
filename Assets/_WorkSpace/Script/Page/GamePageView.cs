@@ -2,7 +2,6 @@
 using AutoChess;
 using KKSFramework.Navigation;
 using UniRx.Async;
-using UnityEngine.UI;
 using Zenject;
 
 namespace KKSFramework
@@ -10,15 +9,11 @@ namespace KKSFramework
     public class GamePageView : PageViewBase
     {
         #region Fields & Property
-        
-        public ViewLayoutBase[] subViewObjs;
 
-        public Button[] buttons;
+        public ViewLayoutLoader viewLayoutLoader;
         
         public StatusView statusView;
         
-        public BattleCharacterListArea battleCharacterListArea;
-
 #pragma warning disable CS0649
 
         [Inject]
@@ -33,20 +28,8 @@ namespace KKSFramework
 
         private void Awake ()
         {
-            ProjectContext.Instance.Container.BindInstance (battleCharacterListArea);
-            battleCharacterListArea.SetArea (_characterViewmodel.BattleCharacterModels);
-            
-            buttons.Foreach ((button, index) =>
-            {
-                button.onClick.AddListener (() => SetSubView(index));
-            });
-            
-            subViewObjs.Foreach (x =>
-            {
-                x.Initialize ();
-                x.gameObject.SetActive (false);
-            });
-            
+            ProjectContext.Instance.Container.BindInstance (this);
+            viewLayoutLoader.Initialize ();
         }
 
         #endregion
@@ -57,20 +40,15 @@ namespace KKSFramework
         protected override UniTask OnPush (object pushValue = null)
         {
             statusView.InitializeStatusView ();
-            SetSubView (0);
+            BackToMain ();
             
             return base.OnPush (pushValue);
         }
 
 
-        public void SetSubView (int index)
+        public void BackToMain ()
         {
-            subViewObjs.Where (x => x.gameObject.activeSelf).Foreach (x =>
-            {
-                x.DisableLayout ().Forget();
-            });
-            
-            subViewObjs[index].ActiveLayout ().Forget();
+            viewLayoutLoader.SetSubView (0);
         }
 
 

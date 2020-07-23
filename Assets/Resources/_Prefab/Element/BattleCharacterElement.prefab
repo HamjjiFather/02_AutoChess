@@ -384,6 +384,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleCharacterPackage:
+    battleCharacterElement: {fileID: 1173955865626873013}
     characterAppearanceModule: {fileID: 5397131724286604946}
     characterParticleModule: {fileID: 3791442625298626198}
     battleSystemModule: {fileID: 1995216762413429683}
@@ -61903,7 +61904,6 @@ GameObject:
   - component: {fileID: 1995216762413429683}
   - component: {fileID: 4202434734156142411}
   - component: {fileID: 717174650442928941}
-  - component: {fileID: 6019592186685816710}
   m_Layer: 5
   m_Name: BattleSystemModule
   m_TagString: Untagged
@@ -61968,19 +61968,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13fa1b1c0b044ae1bca3dea16ce8cc98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skillModule: {fileID: 6019592186685816710}
---- !u!114 &6019592186685816710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7103508117169077982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58e32209e29a477589bffe6e42212934, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8261798566606380739
@@ -62254,12 +62241,6 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6811136f0b70a11489be5dcdf0466f48, type: 3}
---- !u!224 &5129018362088368577 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 7137272069332250782, guid: 6811136f0b70a11489be5dcdf0466f48,
-    type: 3}
-  m_PrefabInstance: {fileID: 2603432597378177375}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2698311334622935323 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 95441988194279492, guid: 6811136f0b70a11489be5dcdf0466f48,
@@ -62272,6 +62253,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92269f8137494ca5bd6577442facc4c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &5129018362088368577 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7137272069332250782, guid: 6811136f0b70a11489be5dcdf0466f48,
+    type: 3}
+  m_PrefabInstance: {fileID: 2603432597378177375}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5751998229127375461
 PrefabInstance:
   m_ObjectHideFlags: 0

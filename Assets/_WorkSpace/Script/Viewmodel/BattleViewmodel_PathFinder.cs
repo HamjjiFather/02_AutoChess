@@ -1,25 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 
 namespace AutoChess
 {
-    /// <summary>
-    /// 라인 체크 방향.
-    /// </summary>
-    public enum CheckDirectionTypes
-    {
-        ToUpward = 180,
-        ToUpRight = 240,
-        ToDownRight = 300,
-        ToDownward = 0,
-        ToDownLeft = 60,
-        ToUpLeft = 120,
-    }
-
-
     public partial class BattleViewmodel
     {
         #region Fields & Property
@@ -31,8 +16,8 @@ namespace AutoChess
         private IEnumerable<CharacterModel> AllOfCharacterModels =>
             BattleMonsterModels.Concat (_characterViewmodel.BattleCharacterModels).ToList ();
 
-        private IEnumerable<BattleCharacterElement> allOfBattleCharacterElements =>
-            _playerCharacterElements.Concat (_aiCharacterElements);
+        private IEnumerable<BattleCharacterElement> AllOfBattleCharacterElements =>
+            PlayerCharacterElements.Concat (AiCharacterElements);
 
         private readonly Dictionary<int, List<LandModel>> _allLineModels = new Dictionary<int, List<LandModel>> ();
 
@@ -40,8 +25,6 @@ namespace AutoChess
         {
             7, 8, 7, 8, 7, 8, 7
         };
-
-        public static PositionModel EmptyPosition { get; } = new PositionModel (-1, -1);
 
         #endregion
 
@@ -66,7 +49,7 @@ namespace AutoChess
             out BattleCharacterElement battleCharacterElement)
         {
             var foundCharacterElement =
-                allOfBattleCharacterElements.SingleOrDefault (x => x.ElementData.PositionModel.Equals (positionModel));
+                AllOfBattleCharacterElements.SingleOrDefault (x => x.ElementData.PositionModel.Equals (positionModel));
             if (foundCharacterElement is default (BattleCharacterElement) ||
                 foundCharacterElement.ElementData.CharacterSideType.Equals (characterSideType))
             {
@@ -107,7 +90,8 @@ namespace AutoChess
         public List<BattleCharacterElement> GetCharacterElementsAtNearby (CharacterSideType sideType,
             PositionModel positionModel, SkillTarget skillTarget, bool containSelf = false)
         {
-            var nearPositions = GetAroundPositionModel (positionModel).ToList ();
+            var nearPositions = PositionHelper.Instance.GetAroundPositionModel (_allLineModels, positionModel)
+                .ToList ();
             var foundedCharacterElements = skillTarget == SkillTarget.Ally
                 ? GetAllOfEqualElements (sideType)
                 : GetAllOfOtherElements (sideType);
@@ -183,16 +167,16 @@ namespace AutoChess
             var myPosition = characterModel.PositionModel;
 
             var allOfCheckedPositions = new List<PositionModel> {myPosition};
-            var findTargetModels = GetAroundPositionModel (myPosition)
-                .Where (IsMovablePosition).Select ((x, i) => new FindTargetResultModel (x)).ToList ();
+            var findTargetModels = PositionHelper.Instance.GetAroundPositionModel (_allLineModels, myPosition)
+                .Where (IsMovablePosition).Select ((x, i) => new BattleTargetResultModel (x)).ToList ();
 
-            var checkedPosition = EmptyPosition;
+            var checkedPosition = PositionHelper.Instance.EmptyPosition;
             var isCheckAround = CheckArounds ();
 
             // 적이 없거나 주변이 막힘.
             if (!isCheckAround)
             {
-                positionModel = EmptyPosition;
+                positionModel = PositionHelper.Instance.EmptyPosition;
                 return false;
             }
 
@@ -208,8 +192,8 @@ namespace AutoChess
                 {
                     foreach (var findModel in findTargetModels)
                     {
-                        var aroundPositions = findModel.AroundPositionModels.SelectMany (GetAroundPositionModel)
-                            .ToList ();
+                        var aroundPositions = findModel.AroundPositionModels.SelectMany (model =>
+                            PositionHelper.Instance.GetAroundPositionModel (_allLineModels, model)).ToList ();
 
                         if (CheckPosition (aroundPositions))
                         {
@@ -263,8 +247,8 @@ namespace AutoChess
                 battleCharacterElement.ElementData.SkillData.SkillTarget);
 
             var foundModel = targetElements
-                .MinSources (x => Distance (battleCharacterElement.ElementData.PositionModel,
-                    x.ElementData.PositionModel)).First ();
+                .MinSources (x => PositionHelper.Instance.Distance (_allLineModels,
+                    battleCharacterElement.ElementData.PositionModel, x.ElementData.PositionModel)).First ();
             targetElement = foundModel;
             return foundModel.NotNull ();
         }
@@ -280,8 +264,8 @@ namespace AutoChess
                 GetAllCharacterElements (battleCharacterElement.ElementData.CharacterSideType, SkillTarget.Enemy);
 
             var foundModel = targetElements
-                .MinSources (x =>
-                    Distance (battleCharacterElement.ElementData.PositionModel, x.ElementData.PositionModel)).First ();
+                .MinSources (x => PositionHelper.Instance.Distance (_allLineModels,
+                    battleCharacterElement.ElementData.PositionModel, x.ElementData.PositionModel)).First ();
             targetElement = foundModel;
             return foundModel.NotNull ();
         }
@@ -378,112 +362,13 @@ namespace AutoChess
         }
 
 
-        /// <summary>
-        /// 해당 enum 타입 방향에 있는 바로 옆 퍼즐의 키 값을 리턴.
-        /// </summary>
-        private PositionModel GetPositionByDirectionType (PositionModel positionModel,
-            CheckDirectionTypes checkDirectionTypes)
-        {
-            return GetKeyByAngle (positionModel, (float) checkDirectionTypes);
-        }
-
-
-        /// <summary>
-        /// 해당 방향에 있는 바로 옆 퍼즐의 키 값을 리턴. 
-        /// </summary>
-        private PositionModel GetKeyByAngle (PositionModel positionModel, float angle)
-        {
-            if (!_allLineModels.ContainsKey (positionModel.Column))
-            {
-                return EmptyPosition;
-            }
-
-            // To upper direction.
-            if (Enumerable.Range (150, 60).Contains ((int) angle))
-            {
-                return new PositionModel (positionModel.Column, positionModel.Row + 1);
-            }
-
-            // To upper right direction.
-            if (Enumerable.Range (210, 60).Contains ((int) angle))
-            {
-                return GetPuzzlePosition (false);
-            }
-
-            // To lower right direction.
-            if (Enumerable.Range (270, 60).Contains ((int) angle))
-            {
-                return GetPuzzlePosition (false, false);
-            }
-
-            // To upper left direction.
-            if (Enumerable.Range (90, 60).Contains ((int) angle))
-            {
-                return GetPuzzlePosition ();
-            }
-
-            // To lower left direction.
-            if (Enumerable.Range (30, 60).Contains ((int) angle))
-            {
-                return GetPuzzlePosition (toUpper: false);
-            }
-
-            // To lower direction.
-            return new PositionModel (positionModel.Column, positionModel.Row - 1);
-
-            PositionModel GetPuzzlePosition (bool toLeft = true, bool toUpper = true)
-            {
-                var checkColumn = positionModel.Column + (toLeft ? -1 : 1);
-
-                if (!_allLineModels.ContainsKey (checkColumn))
-                    return EmptyPosition;
-
-                var isLargeColumn = _allLineModels[positionModel.Column].Count > _allLineModels[checkColumn].Count;
-                var posCoeff = isLargeColumn && toUpper ? 0 : isLargeColumn ? -1 : toUpper ? 1 : 0;
-
-                return new PositionModel (checkColumn, positionModel.Row + posCoeff);
-            }
-        }
-
-
-        /// <summary>
-        /// 해당 위치에서 6방향의 위치를 리턴.
-        /// </summary>
-        private IEnumerable<PositionModel> GetAroundPositionModel (PositionModel positionModel)
-        {
-            return new[]
-            {
-                GetPositionByDirectionType (positionModel, CheckDirectionTypes.ToUpward),
-                GetPositionByDirectionType (positionModel, CheckDirectionTypes.ToDownward),
-                GetPositionByDirectionType (positionModel, CheckDirectionTypes.ToUpLeft),
-                GetPositionByDirectionType (positionModel, CheckDirectionTypes.ToUpRight),
-                GetPositionByDirectionType (positionModel, CheckDirectionTypes.ToDownLeft),
-                GetPositionByDirectionType (positionModel, CheckDirectionTypes.ToDownRight)
-            };
-        }
-
-
         public bool IsMovablePosition (PositionModel positionModel)
         {
             return _allLineModels.ContainsKey (positionModel.Column) &&
                    _allLineModels[positionModel.Column].ContainIndex (positionModel.Row) &&
-                   !positionModel.Equals (EmptyPosition) &&
+                   !positionModel.Equals (PositionHelper.Instance.EmptyPosition) &&
                    AllOfCharacterModels.All (x => !x.PositionModel.Equals (positionModel)) &&
                    AllOfCharacterModels.All (x => !x.PredicatedPositionModel.Equals (positionModel));
-        }
-
-
-        public float Distance (PositionModel checkPosition, PositionModel targetPosition)
-        {
-            if (!(_allLineModels.ContainsKey (targetPosition.Column) &&
-                  _allLineModels[targetPosition.Column].ContainIndex (targetPosition.Row)))
-            {
-                return float.MaxValue;
-            }
-
-            var coeffValue = Mathf.Min (_allLineModels[checkPosition.Column].Count % 2, 0.5f);
-            return Math.Abs (checkPosition.Row - targetPosition.Row) +
-                Math.Abs (checkPosition.Column - targetPosition.Column) - coeffValue;
         }
 
 

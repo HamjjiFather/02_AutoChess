@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoChess.Helper;
 using KKSFramework.DesignPattern;
 using KKSFramework.LocalData;
 using UniRx;
+using UniRx.Async;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -29,8 +31,10 @@ namespace AutoChess
         private readonly List<CharacterModel> _allCharacterModels = new List<CharacterModel> ();
         public List<CharacterModel> AllCharacterModels => _allCharacterModels;
 
-        private readonly ReactiveCollection<CharacterModel> _battleCharacterModels = new ReactiveCollection<CharacterModel> ();
-        public  ReactiveCollection<CharacterModel> BattleCharacterModels => _battleCharacterModels;
+        private readonly ReactiveCollection<CharacterModel> _battleCharacterModels =
+            new ReactiveCollection<CharacterModel> ();
+
+        public ReactiveCollection<CharacterModel> BattleCharacterModels => _battleCharacterModels;
 
         private readonly int[] _startCharacterIndexes =
         {
@@ -42,8 +46,8 @@ namespace AutoChess
         };
 
         public bool IsDataChanged { get; set; }
-        
-        public static BaseStatusModel EmptyStatusModel = new BaseStatusModel();
+
+        public static BaseStatusModel EmptyStatusModel = new BaseStatusModel ();
 
         #endregion
 
@@ -53,13 +57,13 @@ namespace AutoChess
         }
 
 
-        public override void InitTableData ()
+        public override void InitAfterLoadTableData ()
         {
-            base.InitTableData ();
+            base.InitAfterLoadTableData ();
         }
 
 
-        public override void InitLocalData ()
+        public override void InitAfterLoadLocalData ()
         {
             _lastUniqueId = LocalDataHelper.GetGameBundle ().LastCharacterUniqueId;
 
@@ -71,7 +75,8 @@ namespace AutoChess
                 {
                     var characterModel = NewCharacter (index);
                     _battleCharacterModels.Add (characterModel);
-                    characterModel.SetPositionModel (new PositionModel (_gameSetting.PlayerCharacterPosition[arrayIndex]));
+                    characterModel.SetPositionModel (
+                        new PositionModel (_gameSetting.PlayerCharacterPosition[arrayIndex]));
                 });
 
                 SaveCharacterData ();
@@ -86,25 +91,27 @@ namespace AutoChess
                 var characterModel = new CharacterModel ();
                 var statusGrade = characterBundle.CharacterStatusGrades[index];
                 var characterData = TableDataManager.Instance.CharacterDict[characterBundle.CharacterIds[index]];
-                var characterLevel = GameExtension.GetCharacterLevel (characterBundle.CharacterExps[index]);
-                var statusModel = GetBaseStatusModel (characterData, characterLevel,
-                    characterBundle.CharacterStatusGrades[index]);
+                var characterLevel = TableDataHelper.Instance.GetCharacterLevelByExp (characterBundle.CharacterExps[index]);
+                var statusModel = GetBaseStatusModel (characterData, characterLevel, statusGrade);
                 var attackData = TableDataManager.Instance.SkillDict[characterData.AttackIndex];
                 var skillData = TableDataManager.Instance.SkillDict[characterData.SkillIndex];
 
                 characterModel.SetUniqueData (uid, characterBundle.CharacterExps[index]);
                 characterModel.SetBaseData (characterData, attackData, skillData);
-                characterModel.SetStatusModel (statusModel);
+                characterModel.SetStatusModel (statusModel, statusGrade);
                 characterModel.SetPositionModel (new PositionModel (_gameSetting.PlayerCharacterPosition[index]));
                 characterModel.SetSide (CharacterSideType.Player);
 
                 characterModel.GetBaseStatusModel (StatusType.Health).SetGradeValue (statusGrade.HealthStatusGrade);
                 characterModel.GetBaseStatusModel (StatusType.Attack).SetGradeValue (statusGrade.AttackStatusGrade);
-                characterModel.GetBaseStatusModel (StatusType.AbilityPoint).SetGradeValue (statusGrade.AbilityPointStatusGrade);
+                characterModel.GetBaseStatusModel (StatusType.AbilityPoint)
+                    .SetGradeValue (statusGrade.AbilityPointStatusGrade);
                 characterModel.GetBaseStatusModel (StatusType.Defense).SetGradeValue (statusGrade.DefenseStatusGrade);
 
-                var equipment = _equipmentViewmodel.GetEquipmentModel (characterBundle.EquipmentUIds[index]);
-                characterModel.SetEquipmentModel (equipment);
+                var equipmentIds = characterBundle.EquipmentUIds[index];
+                var equipmentModels =
+                    equipmentIds.EquipmentUIds.Select (x => _equipmentViewmodel.GetEquipmentModel (x));
+                characterModel.SetEquipmentModel (equipmentModels);
 
                 _allCharacterModels.Add (characterModel);
                 _battleCharacterModels.Add (characterModel);
@@ -122,9 +129,25 @@ namespace AutoChess
             _battleCharacterModels[index] = characterModel;
         }
 
-        public void SetEquipment (int characterUid, EquipmentModel equipmentModel)
+
+        public void ResetBattleCharacters (int exp)
         {
-            GetCharacterModel (characterUid).SetEquipmentModel (equipmentModel);
+            _battleCharacterModels.Foreach ((model, index) =>
+            {
+                model.AddExp (exp);
+                var characterLevel = TableDataHelper.Instance.GetCharacterLevelByExp (model.Exp.Value);
+                var statusGrade = model.StatusGrade;
+                var statusModel = GetBaseStatusModel (model.CharacterData, characterLevel, statusGrade);
+                model.SetPositionModel (new PositionModel (_gameSetting.PlayerCharacterPosition[index]));
+                model.SetStatusModel (statusModel);
+
+                model.GetBaseStatusModel (StatusType.Health).SetGradeValue (statusGrade.HealthStatusGrade);
+                model.GetBaseStatusModel (StatusType.Attack).SetGradeValue (statusGrade.AttackStatusGrade);
+                model.GetBaseStatusModel (StatusType.AbilityPoint).SetGradeValue (statusGrade.AbilityPointStatusGrade);
+                model.GetBaseStatusModel (StatusType.Defense).SetGradeValue (statusGrade.DefenseStatusGrade);
+            });
+
+            LocalDataHelper.SaveCharacterExpData (_allCharacterModels.Select (x => x.Exp.Value).ToList ());
         }
 
 
@@ -134,7 +157,9 @@ namespace AutoChess
                 _allCharacterModels.Select (x => x.UniqueCharacterId).ToList (),
                 _allCharacterModels.Select (x => x.CharacterData.Id).ToList (),
                 _allCharacterModels.Select (x => x.Exp.Value).ToList (),
-                _allCharacterModels.Select (x => x.EquipmentModel.UniqueEquipmentId).ToList ());
+                _allCharacterModels.Select (x =>
+                        new CharacterBundle.CharacterEquipmentUIds (x.EquipmentStatusModel.EquipmentUId.ToList ()))
+                    .ToList ());
         }
 
         public void SaveCharacterStatusGradeData ()
@@ -166,12 +191,11 @@ namespace AutoChess
                 TableDataManager.Instance.CharacterLevelDict.Values.First (), gradeStatusValues);
             var attackData = TableDataManager.Instance.SkillDict[characterData.AttackIndex];
             var skillData = TableDataManager.Instance.SkillDict[characterData.SkillIndex];
-            var equipmentModel = _equipmentViewmodel.GetEquipmentModel (Constant.InvalidIndex);
 
             characterModel.SetUniqueData (NewUniqueId (), 0);
             characterModel.SetBaseData (characterData, attackData, skillData);
             characterModel.SetStatusModel (characterStatus);
-            characterModel.SetEquipmentModel (equipmentModel);
+            characterModel.SetEmptyEquipmentModel ();
             SetStatusGradeValue ();
             _allCharacterModels.Add (characterModel);
 
@@ -192,7 +216,8 @@ namespace AutoChess
             {
                 characterStatus.SetNewStatusGradeValue (StatusType.Health, gradeStatusValues.HealthStatusGrade);
                 characterStatus.SetNewStatusGradeValue (StatusType.Attack, gradeStatusValues.AttackStatusGrade);
-                characterStatus.SetNewStatusGradeValue (StatusType.AbilityPoint, gradeStatusValues.AbilityPointStatusGrade);
+                characterStatus.SetNewStatusGradeValue (StatusType.AbilityPoint,
+                    gradeStatusValues.AbilityPointStatusGrade);
                 characterStatus.SetNewStatusGradeValue (StatusType.Defense, gradeStatusValues.DefenseStatusGrade);
             }
         }
@@ -254,7 +279,8 @@ namespace AutoChess
             enums?.Skip (1).Foreach (statustype =>
             {
                 dict.Add (statustype,
-                    new BaseStatusModel (TableDataManager.Instance.StatusDict[(int) DataType.Status + (int) statustype]));
+                    new BaseStatusModel (
+                        TableDataManager.Instance.StatusDict[(int) DataType.Status + (int) statustype]));
             });
 
             var healthValue = Mathf.Lerp (character.Hp[0], character.Hp[1], characterStatusGrade.HealthStatusGrade) +

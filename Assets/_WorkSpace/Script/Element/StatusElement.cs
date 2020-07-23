@@ -47,15 +47,16 @@ namespace AutoChess
         /// <summary>
         /// 캐릭터 능력치 표시.
         /// </summary>
-        public void SetCharacterElement (BaseStatusModel baseStatusModel, BaseStatusModel equipmentStatusModel)
+        public void SetCharacterElement (StatusType statusType, CharacterModel characterModel)
         {
-            ElementData = baseStatusModel;
-
+            ElementData = characterModel.GetBaseStatusModel (statusType);
+            
+            var equipmentStatusValue  = characterModel.EquipmentStatusModel.GetStatusValue (statusType);
             var grade = TableDataManager.Instance.StatusGradeRangeDict.Values.Last (statusGrade =>
-                statusGrade.Min <= baseStatusModel.GradeValue && statusGrade.Max > baseStatusModel.GradeValue);
-            var totalValue = baseStatusModel.CombinedDisplayValue (equipmentStatusModel.StatusValue);
-            var displayValueString = equipmentStatusModel.StatusValue.IsZero ()
-                ? ElementData.DisplayValue : $"{totalValue} + ({equipmentStatusModel.DisplayValue})";
+                statusGrade.Min <= ElementData.GradeValue && statusGrade.Max > ElementData.GradeValue);
+            var totalValue = ElementData.CombinedDisplayValue (equipmentStatusValue);
+            var displayValueString = equipmentStatusValue.IsZero ()
+                ? ElementData.DisplayValue : $"{totalValue} + ({characterModel.EquipmentStatusModel.DisplayValue (statusType)})";
 
             statusGradeText.text = grade.GradeString;
             statusNameText.GetTranslatedString (ElementData.StatusData.NameKey);

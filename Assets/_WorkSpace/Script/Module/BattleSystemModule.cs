@@ -35,6 +35,12 @@ namespace AutoChess
         [Inject]
         private BattleViewmodel _battleViewmodel;
 
+        [Inject]
+        private SkillViewmodel _skillViewmodel;
+        
+        [Inject]
+        private BattleViewLayout _battleViewLayout;
+
 #pragma warning restore CS0649
 
         public CharacterModel CharacterModel => _battleCharacterPackage.battleCharacterElement.ElementData;
@@ -114,11 +120,6 @@ namespace AutoChess
             _healthDisposable = _health.Subscribe (hp =>
             {
                 _healthEvent.Invoke ((int) hp);
-                if (hp <= 0)
-                {
-                    Debug.Log ($"{CharacterModel} Death");
-                    EndBattle ();
-                }
             });
 
             _registeredDisposables = new List<IDisposable> ();
@@ -132,13 +133,18 @@ namespace AutoChess
         /// <summary>
         /// 전투 종료(사망 처리).
         /// </summary>
-        private void EndBattle ()
+        public void EndBattle ()
         {
+            // 이미 종료처리가 되어있음.
+            if (_battleState == BattleState.Death)
+                return;
+            
             _battleState = BattleState.Death;
 
             behaviourSystemModule.Dispose ();
-            _cancellationToken.Cancel ();
-            _cancellationToken.DisposeSafe ();
+            movingSystemModule.Dispose ();
+            _cancellationToken?.Cancel ();
+            _cancellationToken?.DisposeSafe ();
             _healthDisposable.DisposeSafe ();
             _registeredDisposables.Foreach (x => x.DisposeSafe ());
             _registeredDisposables.Clear ();
@@ -202,7 +208,7 @@ namespace AutoChess
             var position = behaviourResultModel.TargetPosition;
             Debug.Log ($"{CharacterModel} move to {position}");
             CharacterModel.SetPredicatePosition (position);
-            await movingSystemModule.Moving (position, _cancellationToken.Token);
+            await movingSystemModule.Moving (_battleViewLayout.GetLandElement (position), _cancellationToken.Token);
             _battleViewmodel.CompleteMovement (CharacterModel, position);
             Debug.Log ("complete movement");
         }
@@ -241,7 +247,7 @@ namespace AutoChess
             if (afterSkillIndex == Constant.InvalidIndex)
                 return;
 
-            behaviourSystemModule.skillModule.InvokeAfterSkill (nowSkillModel);
+            _skillViewmodel.InvokeAfterSkill (nowSkillModel);
         }
 
 

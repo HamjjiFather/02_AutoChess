@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using AutoChess.Helper;
 using KKSFramework.DesignPattern;
 using KKSFramework.LocalData;
 using KKSFramework.ResourcesLoad;
@@ -48,11 +50,14 @@ namespace AutoChess
         /// </summary>
         public StatusModel StatusModel;
 
-        /// <summary>
-        /// 장비 능력치.
-        /// </summary>
-        public EquipmentModel EquipmentModel;
 
+        public CharacterBundle.CharacterStatusGrade StatusGrade;
+
+        /// <summary>
+        /// 장비 능력치 모델.
+        /// </summary>
+        public EquipmentStatusModel EquipmentStatusModel;
+        
         /// <summary>
         /// 스킬로 인해 변동된 능력치.
         /// </summary>
@@ -66,7 +71,7 @@ namespace AutoChess
         /// <summary>
         /// 이동 예정 위치.
         /// </summary>
-        public PositionModel PredicatedPositionModel = BattleViewmodel.EmptyPosition;
+        public PositionModel PredicatedPositionModel = PositionHelper.Instance.EmptyPosition;
 
         /// <summary>
         /// 캐릭터 진영(플레이어, AI).
@@ -83,6 +88,11 @@ namespace AutoChess
         /// </summary>
         public Sprite IconImageResources => ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
             ResourcesType.Monster, CharacterData.SpriteResName);
+
+
+        public RuntimeAnimatorController CharacterAnimatorResources =>
+            ResourcesLoadHelper.GetResources<RuntimeAnimatorController> (ResourceRoleType._Animation,
+                CharacterData.AnimatorResName);
         
         
 #pragma warning disable CS0649
@@ -97,7 +107,7 @@ namespace AutoChess
         #region Methods
 
 
-        public void StartBattle ()
+        public void ResetState ()
         {
             IsExcuted = false;
         }
@@ -131,6 +141,13 @@ namespace AutoChess
         {
             StatusModel = statusModel;
         }
+        
+        
+        public void SetStatusModel (StatusModel statusModel, CharacterBundle.CharacterStatusGrade statusGrade)
+        {
+            StatusModel = statusModel;
+            StatusGrade = statusGrade;
+        }
 
 
         public void SetSide (CharacterSideType sideType)
@@ -145,7 +162,7 @@ namespace AutoChess
 
         public CharacterLevel GetLevelData ()
         {
-            return GameExtension.GetCharacterLevel (Exp.Value);
+            return TableDataHelper.Instance.GetCharacterLevelByExp (Exp.Value);
         }
 
 
@@ -166,12 +183,29 @@ namespace AutoChess
 
         #region Equipment
 
+        
+        public void SetEmptyEquipmentModel ()
+        {
+            EquipmentStatusModel = new EquipmentStatusModel ();
+            _valueChangeSubject?.OnNext (this);
+        }
+        
+        
+        
+        public void SetEquipmentModel (IEnumerable<EquipmentModel> equipmentModels)
+        {
+            EquipmentStatusModel = new EquipmentStatusModel ();
+            EquipmentStatusModel.SetEquipmentModel (equipmentModels);
+            _valueChangeSubject?.OnNext (this);
+        }
+        
+        
         /// <summary>
         /// 장비 장착.
         /// </summary>
-        public void SetEquipmentModel (EquipmentModel equipmentModel)
+        public void ChangeEquipmentModel (int index, EquipmentModel equipmentModel)
         {
-            EquipmentModel = equipmentModel;
+            EquipmentStatusModel.ChangeEquipmentModel (index, equipmentModel);
             _valueChangeSubject?.OnNext (this);
         }
 
@@ -181,7 +215,7 @@ namespace AutoChess
         /// </summary>
         public bool IsExistEquipment ()
         {
-            return !EquipmentModel.Equals (EquipmentViewmodel.EmptyEquipmentModel);
+            return EquipmentStatusModel.ExistEquipment;
         }
         
 
@@ -196,12 +230,6 @@ namespace AutoChess
         }
         
         
-        public BaseStatusModel GetEquipmnetStatusModel (StatusType statusType)
-        {
-            return EquipmentModel.GetBaseStatusModel (statusType);
-        }
-        
-        
         public float GetBaseStatusValue (StatusType statusType)
         {
             return StatusModel.GetStatusValue (statusType);
@@ -210,7 +238,7 @@ namespace AutoChess
         
         public float GetEquipmentStatusValue (StatusType statusType)
         {
-            return EquipmentModel.GetStatusValue (statusType);
+            return EquipmentStatusModel.GetStatusValue (statusType);
         }
 
 
@@ -249,7 +277,7 @@ namespace AutoChess
         
         public void RemovePredicatePosition ()
         {
-            PredicatedPositionModel = BattleViewmodel.EmptyPosition;
+            PredicatedPositionModel = PositionHelper.Instance.EmptyPosition;
         }
 
         #endregion

@@ -10,6 +10,7 @@ namespace KKSFramework.Navigation
         TitlePage,
         HomePage = 1000,
         GamePage,
+        FieldPage,
         QuitPopup,
     }
 

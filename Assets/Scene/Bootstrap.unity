@@ -508,6 +508,11 @@ PrefabInstance:
       propertyPath: m_ReferenceResolution.y
       value: 1920
       objectReference: {fileID: 0}
+    - target: {fileID: 4419613397222109501, guid: 490b23c9f0f451a4ba462374e67eb2f3,
+        type: 3}
+      propertyPath: m_ClearFlags
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5265065397938707330, guid: 490b23c9f0f451a4ba462374e67eb2f3,
         type: 3}
       propertyPath: ShowEffectModel.viewEffectType

@@ -7,6 +7,11 @@ namespace KKSFramework
     {
         protected override async UniTask InitializeAsync()
         {
+            ProjectInstall.InitViewmodel ();
+            await TableDataManager.Instance.LoadTableDatas ();
+            ProjectInstall.InitLocalDataViewmodel ();
+            ProjectInstall.InitTableDataViewmodel ();
+            
             CreateCommonView ();
             await NavigationHelper.OpenPage (NavigationViewState.HomePage, NavigationTriggerState.First, actionOnFirst:OpenQuitPopup);
             base.InitializeAsync ().Forget();

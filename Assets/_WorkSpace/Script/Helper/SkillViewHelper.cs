@@ -44,14 +44,11 @@ namespace AutoChess
         /// <summary>
         /// 스킬 값 설명란 출력.
         /// 값 + 계수 추가치 (계수 계수 능력치 이름)
-        /// ex) 50 + 25(0.5 공격력)
+        /// ex) 50 + 25 (0.5 공격력)
         /// </summary>
-        /// <param name="characterModel"></param>
-        /// <param name="skillData"></param>
-        /// <returns></returns>
         private string ToValueString (CharacterModel characterModel, Skill skillData)
         {
-            var statusName = TableDataHelper.GetStatus (skillData.RefSkillStatusType).NameKey;
+            var statusName = TableDataHelper.Instance.GetStatus (skillData.RefSkillStatusType).NameKey;
             var translatedName = GlobalTextHelper.GetTranslatedString (statusName);
             var selfRef = skillData.RefSkillValueTarget == RefSkillValueTarget.Self;
             var color = _commonColorSetting.GetStatusColor (skillData.RefSkillStatusType);

@@ -35,15 +35,12 @@ namespace AutoChess
 
         #endregion
 
-        private BattleCharacterListArea _battleCharacterListArea;
-        
 
         #region UnityMethods
 
         private void Awake ()
         {
             equipButton.onClick.AddListener (ClickEquipButton);
-            _battleCharacterListArea = ProjectContext.Instance.Container.Resolve<BattleCharacterListArea> ();
         }
 
         #endregion
@@ -88,11 +85,11 @@ namespace AutoChess
 
         private void ClickEquipButton ()
         {
-            _battleCharacterListArea.SetElementClickActions (ClickCharacter);
+            // battleCharacterListArea.SetElementClickActions (ClickCharacter);
             
             void ClickCharacter (CharacterModel characterModel)
             {
-                characterModel.SetEquipmentModel (_equipmentModel);
+                characterModel.ChangeEquipmentModel (0, _equipmentModel);
                 _characterViewmodel.SaveCharacterData ();
                 SetEquipState (false);
             }

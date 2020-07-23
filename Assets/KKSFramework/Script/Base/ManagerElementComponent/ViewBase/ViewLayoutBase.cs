@@ -1,7 +1,7 @@
 using UniRx.Async;
 using UnityEngine;
 
-namespace AutoChess
+namespace KKSFramework.Navigation
 {
     public class ViewLayoutBase : MonoBehaviour
     {
@@ -15,10 +15,10 @@ namespace AutoChess
 
 
         #region Methods
-
-
+        
         public virtual void Initialize ()
         {
+            gameObject.SetActive (false);
         }
         
 

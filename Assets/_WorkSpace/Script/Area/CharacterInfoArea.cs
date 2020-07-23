@@ -21,19 +21,13 @@ namespace AutoChess
 
         public Animator characterAnimator;
 
-        public Image equipmentImage;
-
-        public StarGradeArea equipmentStarGradeArea;
-
-        public GameObject equipmentInfoObj;
-
-        public GameObject emptyEquipmentObj;
-
         public Text LevelText;
 
         public GageElement expGageElement;
 
         public SkillInfoArea skillInfoArea;
+
+        public EquipmentInfoElement[] equipmentInfoElement;
 
         public StatusElement[] baseStatusElements;
 
@@ -75,21 +69,16 @@ namespace AutoChess
 
             void ChangeCharacterInfo (CharacterModel characterModel)
             {
-                var levelData = areaData.GetLevelData ();
+                var levelData = characterModel.GetLevelData ();
                 LevelText.text = $"Lv. {levelData.LevelString}";
-                expGageElement.SetValue (areaData.NowExp (), levelData.ReqExp);
+                expGageElement.SetValue (characterModel.NowExp (), levelData.ReqExp);
                 starGradeArea.SetArea (characterModel.StarGrade);
 
-                baseStatusElements[0].SetCharacterElement (characterModel.GetBaseStatusModel (StatusType.Health),
-                    characterModel.GetEquipmnetStatusModel (StatusType.Health));
-                baseStatusElements[1].SetCharacterElement (characterModel.GetBaseStatusModel (StatusType.Attack),
-                    characterModel.GetEquipmnetStatusModel (StatusType.Attack));
-                baseStatusElements[2].SetCharacterElement (characterModel.GetBaseStatusModel (StatusType.AbilityPoint),
-                    characterModel.GetEquipmnetStatusModel (StatusType.AbilityPoint));
-                baseStatusElements[3].SetCharacterElement (characterModel.GetBaseStatusModel (StatusType.Defense),
-                    characterModel.GetEquipmnetStatusModel (StatusType.Defense));
-                baseStatusElements[4].SetCharacterElement (characterModel.GetBaseStatusModel (StatusType.AttackSpeed),
-                    characterModel.GetEquipmnetStatusModel (StatusType.AttackSpeed));
+                baseStatusElements[0].SetCharacterElement (StatusType.Health, characterModel);
+                baseStatusElements[1].SetCharacterElement (StatusType.Attack, characterModel);
+                baseStatusElements[2].SetCharacterElement (StatusType.AbilityPoint, characterModel);
+                baseStatusElements[3].SetCharacterElement (StatusType.Defense, characterModel);
+                baseStatusElements[4].SetCharacterElement (StatusType.AttackSpeed, characterModel);
                 
                 skillInfoArea.SetArea (characterModel);
                 
@@ -97,16 +86,10 @@ namespace AutoChess
                 
                 void SetEquipment ()
                 {
-                    var isExist = areaData.IsExistEquipment ();
-                    emptyEquipmentObj.SetActive (!isExist);
-                    equipmentInfoObj.SetActive (isExist);
-
-                    if (isExist)
+                    characterModel.EquipmentStatusModel.EquipmentModels.Foreach ((model, index) =>
                     {
-                        var equipmentModel = areaData.EquipmentModel;
-                        starGradeArea.SetArea (equipmentModel.StarGrade);
-                        equipmentImage.sprite = equipmentModel.IconImageResources;
-                    }
+                        equipmentInfoElement[index].SetElement (model);
+                    });
                 }
             }
         }

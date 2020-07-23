@@ -35,10 +35,10 @@ RectTransform:
   m_Father: {fileID: 4064000838797854956}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 180, y: 39.25}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -19.625}
+  m_SizeDelta: {x: 0, y: 39.25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8177299411597144732
 MonoBehaviour:
@@ -118,10 +118,10 @@ RectTransform:
   m_Father: {fileID: 4064000838797854956}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 180, y: 1.5}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 80, y: -40}
+  m_SizeDelta: {x: 160, y: 1.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8594309243880159111
 CanvasRenderer:
@@ -312,9 +312,9 @@ RectTransform:
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 180, y: 39.25}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 19.625}
+  m_SizeDelta: {x: 0, y: 39.25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5119312779842910174
 MonoBehaviour:
@@ -460,7 +460,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4064000838797854956}
   - component: {fileID: 7416496103941120187}
-  - component: {fileID: 5348396006697158073}
   - component: {fileID: 8641985326100419787}
   m_Layer: 5
   m_Name: StatusElement
@@ -489,7 +488,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 180, y: 80}
+  m_SizeDelta: {x: 160, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7416496103941120187
 MonoBehaviour:
@@ -507,31 +506,6 @@ MonoBehaviour:
   statusNameText: {fileID: 1105651093435056000}
   statusValueText: {fileID: 5236530920131234777}
   statusGradeText: {fileID: 7929000580681479542}
---- !u!114 &5348396006697158073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6602972519875953660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 4
-  m_Spacing: 0
-  m_ChildForceExpandWidth: 0
-  m_ChildForceExpandHeight: 0
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
 --- !u!114 &8641985326100419787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -545,9 +519,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
-  m_MinWidth: 180
+  m_MinWidth: 160
   m_MinHeight: 80
-  m_PreferredWidth: 180
+  m_PreferredWidth: 160
   m_PreferredHeight: 80
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1

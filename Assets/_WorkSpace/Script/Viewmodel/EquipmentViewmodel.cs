@@ -48,13 +48,13 @@ namespace AutoChess
         }
 
 
-        public override void InitTableData ()
+        public override void InitAfterLoadTableData ()
         {
-            base.InitTableData ();
+            base.InitAfterLoadTableData ();
         }
 
 
-        public override void InitLocalData ()
+        public override void InitAfterLoadLocalData ()
         {
             _lastUniqueId = LocalDataHelper.GetGameBundle ().LastEquipmentUniqueId;
 
@@ -176,6 +176,11 @@ namespace AutoChess
             LocalDataHelper.SaveEquipmentUniqueIdData (_lastUniqueId);
             return _gameSetting.baseEquipmentUniqueId + _lastUniqueId;
         }
+
+        #endregion
+
+
+        #region Get Equipment Info
 
         #endregion
 

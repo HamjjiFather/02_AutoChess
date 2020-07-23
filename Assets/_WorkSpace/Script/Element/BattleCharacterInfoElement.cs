@@ -1,4 +1,5 @@
 using System;
+using AutoChess.Helper;
 using KKSFramework.GameSystem.GlobalText;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
@@ -69,20 +70,20 @@ namespace AutoChess
             characterImage.sprite = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
                 ResourcesType.Monster, characterModel.CharacterData.SpriteResName);
 
-            var health = ElementData.GetTotalStatusValue (StatusType.Health);
-            hpGageElement.SetValue (ElementData.GetTotalStatusValue (StatusType.Health), ElementData.StatusModel.MaxHealth);
+            var health = ElementData.GetTotalStatusValue (StatusType.Health).FloatToInt ();
+            hpGageElement.SetValue (health, ElementData.StatusModel.MaxHealth.FloatToInt ());
 
             var valueReactive = new FloatReactiveProperty (health); 
             _healthDisposable = valueReactive.Subscribe (hp =>
             {
                 var rectT = hpGageElement.GetComponent<RectTransform> ();
                 rectT.sizeDelta = new Vector2 (Mathf.Clamp (hp, 0, 760), rectT.sizeDelta.y);
-                hpGageElement.SetValueAsync ((int)hp, (int)hp);
+                hpGageElement.SetValueAsync (hp.FloatToInt (), hp.FloatToInt ());
             });
 
             _expDisposable = ElementData.Exp.Subscribe (exp =>
             {
-                var level = GameExtension.GetCharacterLevel (exp);
+                var level = TableDataHelper.Instance.GetCharacterLevelByExp (exp);
                 var nowExp = (int) (exp - level.CoExp);
 
                 expGageElement.SetValue (nowExp, (int) level.ReqExp);

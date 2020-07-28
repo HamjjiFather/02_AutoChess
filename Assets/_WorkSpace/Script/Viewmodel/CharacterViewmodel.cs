@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoChess.Helper;
 using KKSFramework.DesignPattern;
 using KKSFramework.LocalData;
 using UniRx;
-using UniRx.Async;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -31,10 +29,10 @@ namespace AutoChess
         private readonly List<CharacterModel> _allCharacterModels = new List<CharacterModel> ();
         public List<CharacterModel> AllCharacterModels => _allCharacterModels;
 
-        private readonly ReactiveCollection<CharacterModel> _battleCharacterModels =
-            new ReactiveCollection<CharacterModel> ();
-
-        public ReactiveCollection<CharacterModel> BattleCharacterModels => _battleCharacterModels;
+        /// <summary>
+        /// 전투 참여 캐릭터 모델.
+        /// </summary>
+        public ReactiveCollection<CharacterModel> BattleCharacterModels { get; } = new ReactiveCollection<CharacterModel> ();
 
         private readonly int[] _startCharacterIndexes =
         {
@@ -74,9 +72,7 @@ namespace AutoChess
                 _startCharacterIndexes.Foreach ((index, arrayIndex) =>
                 {
                     var characterModel = NewCharacter (index);
-                    _battleCharacterModels.Add (characterModel);
-                    characterModel.SetPositionModel (
-                        new PositionModel (_gameSetting.PlayerCharacterPosition[arrayIndex]));
+                    BattleCharacterModels.Add (characterModel);
                 });
 
                 SaveCharacterData ();
@@ -99,7 +95,6 @@ namespace AutoChess
                 characterModel.SetUniqueData (uid, characterBundle.CharacterExps[index]);
                 characterModel.SetBaseData (characterData, attackData, skillData);
                 characterModel.SetStatusModel (statusModel, statusGrade);
-                characterModel.SetPositionModel (new PositionModel (_gameSetting.PlayerCharacterPosition[index]));
                 characterModel.SetSide (CharacterSideType.Player);
 
                 characterModel.GetBaseStatusModel (StatusType.Health).SetGradeValue (statusGrade.HealthStatusGrade);
@@ -114,7 +109,7 @@ namespace AutoChess
                 characterModel.SetEquipmentModel (equipmentModels);
 
                 _allCharacterModels.Add (characterModel);
-                _battleCharacterModels.Add (characterModel);
+                BattleCharacterModels.Add (characterModel);
             });
 
             IsDataChanged = true;
@@ -123,22 +118,20 @@ namespace AutoChess
 
         #region Methods
 
-        public void SetBattleCharacter (int index, CharacterModel characterModel)
+        public void ResetCharacterPosition (int index, CharacterModel characterModel)
         {
             characterModel.SetPositionModel (new PositionModel (_gameSetting.PlayerCharacterPosition[index]));
-            _battleCharacterModels[index] = characterModel;
         }
 
 
-        public void ResetBattleCharacters (int exp)
+        public void AddCharacterExps (int exp)
         {
-            _battleCharacterModels.Foreach ((model, index) =>
+            BattleCharacterModels.Foreach ((model, index) =>
             {
                 model.AddExp (exp);
                 var characterLevel = TableDataHelper.Instance.GetCharacterLevelByExp (model.Exp.Value);
                 var statusGrade = model.StatusGrade;
                 var statusModel = GetBaseStatusModel (model.CharacterData, characterLevel, statusGrade);
-                model.SetPositionModel (new PositionModel (_gameSetting.PlayerCharacterPosition[index]));
                 model.SetStatusModel (statusModel);
 
                 model.GetBaseStatusModel (StatusType.Health).SetGradeValue (statusGrade.HealthStatusGrade);
@@ -174,7 +167,7 @@ namespace AutoChess
 
         public void SaveBattleCharacterData ()
         {
-            LocalDataHelper.SaveBattleCharacterUidData (_battleCharacterModels.Select (x => x.UniqueCharacterId)
+            LocalDataHelper.SaveBattleCharacterUidData (BattleCharacterModels.Select (x => x.UniqueCharacterId)
                 .ToList ());
         }
 
@@ -225,7 +218,7 @@ namespace AutoChess
 
         public void InBattleCharacter (int index, CharacterModel characterModel)
         {
-            _battleCharacterModels[index] = characterModel;
+            BattleCharacterModels[index] = characterModel;
             SaveBattleCharacterData ();
         }
 
@@ -236,7 +229,7 @@ namespace AutoChess
 
         public CharacterModel GetBattleCharacterModel (int index)
         {
-            return _battleCharacterModels.Count > index ? _battleCharacterModels[index] : default;
+            return BattleCharacterModels.Count > index ? BattleCharacterModels[index] : default;
         }
 
 

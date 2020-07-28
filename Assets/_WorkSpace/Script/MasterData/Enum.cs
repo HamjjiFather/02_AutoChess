@@ -2,6 +2,7 @@
 
 public enum DataType
 {
+	None = 0,
 	GlobalText = 1000,
 	Character = 2000,
 	CharacterLevel = 3000,
@@ -10,9 +11,11 @@ public enum DataType
 	EquipmentStatus = 6000,
 	Status = 7000,
 	StatusGrade = 8000,
-	Stage = 9000,
+	BattleStage = 9000,
 	Particle = 10000,
-	Combination = 11000,
+	BattleState = 11000,
+	Combination = 12000,
+	Currency = 13000,
 
 }
 
@@ -168,5 +171,12 @@ public enum SkillValueType
 {
 	Number = 0,
 	Percent = 1,
+
+}
+
+public enum CurrencyType
+{
+	Gold = 0,
+	SoulStone = 1,
 
 }

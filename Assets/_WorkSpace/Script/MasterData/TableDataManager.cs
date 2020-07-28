@@ -17,10 +17,11 @@ public class TableDataManager : Singleton<TableDataManager>
 	public Dictionary<int, EquipmentStatus> EquipmentStatusDict = new Dictionary<int, EquipmentStatus> ();
 	public Dictionary<int, Status> StatusDict = new Dictionary<int, Status> ();
 	public Dictionary<int, StatusGradeRange> StatusGradeRangeDict = new Dictionary<int, StatusGradeRange> ();
-	public Dictionary<int, Stage> StageDict = new Dictionary<int, Stage> ();
+	public Dictionary<int, BattleStage> BattleStageDict = new Dictionary<int, BattleStage> ();
 	public Dictionary<int, Particle> ParticleDict = new Dictionary<int, Particle> ();
 	public Dictionary<int, BattleState> BattleStateDict = new Dictionary<int, BattleState> ();
 	public Dictionary<int, Combination> CombinationDict = new Dictionary<int, Combination> ();
+	public Dictionary<int, Currency> CurrencyDict = new Dictionary<int, Currency> ();
 
 
     public async UniTask LoadTableDatas ()
@@ -33,10 +34,11 @@ public class TableDataManager : Singleton<TableDataManager>
 		EquipmentStatusDict = (await ReadCSVData.Instance.LoadCSVData<EquipmentStatus> (nameof (EquipmentStatus))).ToDictionary (x => x.Id, x => x);
 		StatusDict = (await ReadCSVData.Instance.LoadCSVData<Status> (nameof (Status))).ToDictionary (x => x.Id, x => x);
 		StatusGradeRangeDict = (await ReadCSVData.Instance.LoadCSVData<StatusGradeRange> (nameof (StatusGradeRange))).ToDictionary (x => x.Id, x => x);
-		StageDict = (await ReadCSVData.Instance.LoadCSVData<Stage> (nameof (Stage))).ToDictionary (x => x.Id, x => x);
+		BattleStageDict = (await ReadCSVData.Instance.LoadCSVData<BattleStage> (nameof (BattleStage))).ToDictionary (x => x.Id, x => x);
 		ParticleDict = (await ReadCSVData.Instance.LoadCSVData<Particle> (nameof (Particle))).ToDictionary (x => x.Id, x => x);
 		BattleStateDict = (await ReadCSVData.Instance.LoadCSVData<BattleState> (nameof (BattleState))).ToDictionary (x => x.Id, x => x);
 		CombinationDict = (await ReadCSVData.Instance.LoadCSVData<Combination> (nameof (Combination))).ToDictionary (x => x.Id, x => x);
+		CurrencyDict = (await ReadCSVData.Instance.LoadCSVData<Currency> (nameof (Currency))).ToDictionary (x => x.Id, x => x);
 
 
 		TotalDataDict.AddRange (CharacterDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
@@ -46,10 +48,11 @@ public class TableDataManager : Singleton<TableDataManager>
 		TotalDataDict.AddRange (EquipmentStatusDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (StatusDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (StatusGradeRangeDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
-		TotalDataDict.AddRange (StageDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
+		TotalDataDict.AddRange (BattleStageDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (ParticleDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (BattleStateDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (CombinationDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
+		TotalDataDict.AddRange (CurrencyDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 
     }
 }

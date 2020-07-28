@@ -58,7 +58,7 @@ namespace AutoChess
         
         private void ClickFieldButton ()
         {
-            NavigationHelper.OpenPage (NavigationViewState.FieldPage).Forget();
+            NavigationHelper.OpenPage (NavigationViewState.AdventurePage).Forget();
         }
 
         #endregion

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using AutoChess.Helper;
 using KKSFramework.DesignPattern;
 using KKSFramework.LocalData;
 using KKSFramework.ResourcesLoad;
@@ -107,18 +106,11 @@ namespace AutoChess
         #region Methods
 
 
-        public void ResetState ()
-        {
-            IsExcuted = false;
-        }
-
-
         public void EndBattle ()
         {
             PositionModel.Clear ();
             PredicatedPositionModel.Clear ();
             SkillStatusModel.Clear ();
-            IsExcuted = true;
         }
         
         

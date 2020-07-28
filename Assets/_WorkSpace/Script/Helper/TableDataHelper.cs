@@ -1,13 +1,25 @@
+using System;
 using System.Linq;
 using KKSFramework.TableData;
 
-namespace AutoChess.Helper
+namespace AutoChess
 {
     public class TableDataHelper : Singleton<TableDataHelper>
     {
         public T GetTableData<T> (DataType dataType, int index) where T : TableDataBase
         {
             return TableDataManager.Instance.TotalDataDict[(int) dataType + index] as T;
+        }
+
+
+        public DataType GetDataTypeByItemIndex (int index)
+        {
+            if (Enum.GetValues (typeof (DataType)) is DataType[] dataTypes)
+            {
+                return dataTypes.Last (x => (int) x <= index);
+            }
+
+            return DataType.None;
         }
         
         

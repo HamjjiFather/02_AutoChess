@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using AutoChess.Helper;
 using KKSFramework.DesignPattern;
-using KKSFramework.GameSystem.GlobalText;
 using UnityEngine;
 using Zenject;
 

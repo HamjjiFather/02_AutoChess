@@ -1,0 +1,3 @@
+Id	CurrencyType
+13000	Gold
+13001	SoulStone

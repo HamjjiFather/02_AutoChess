@@ -24,12 +24,12 @@ namespace GooglePlayGames.BasicApi
     /// <remarks>
     /// There are 3 states an achievement can be in:
     /// <para>
-    ///Hidden - indicating the name and description of the achievement is
-    /// not visible to the player.
+    ///    Hidden - indicating the name and description of the achievement is
+    ///     not visible to the player.
     /// </para><para>
-    ///Revealed - indicating the name and description of the achievement is
-    /// visible to the player.
-    ///Unlocked - indicating the player has unlocked, or achieved, the achievment.
+    ///    Revealed - indicating the name and description of the achievement is
+    ///     visible to the player.
+    ///    Unlocked - indicating the player has unlocked, or achieved, the achievment.
     /// </para><para>
     /// Achievements has two types, standard which is unlocked in one step,
     /// and incremental, which require multiple steps to unlock.

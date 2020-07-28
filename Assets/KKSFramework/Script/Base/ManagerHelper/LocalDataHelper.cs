@@ -10,8 +10,6 @@ namespace KKSFramework.LocalData
         public int LastCharacterUniqueId;
 
         public int LastEquipmentUniqueId;
-
-        public int LastStageIndex;
     }
 
 
@@ -221,13 +219,6 @@ namespace KKSFramework.LocalData
 
                 LocalDataClass.EquipmentBundle.EquipmentDatas.Add (equipmentData);
             }
-        }
-
-
-        public static void SaveStageIndex (int index)
-        {
-            LocalDataClass.GameBundle.LastStageIndex = index;
-            LocalDataManager.Instance.SaveGameData (LocalDataClass.GameBundle);
         }
 
         #endregion

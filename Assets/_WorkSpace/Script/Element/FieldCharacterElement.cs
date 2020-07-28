@@ -23,7 +23,7 @@ namespace AutoChess
 #pragma warning disable CS0649
 
         [Inject]
-        private FieldViewmodel _fieldViewmodel;
+        private AdventureViewmodel _adventureViewmodel;
 
 #pragma warning restore CS0649
 
@@ -50,7 +50,6 @@ namespace AutoChess
             characterImage.sprite = elementData.IconImageResources;
             characterAnimator.runtimeAnimatorController = elementData.CharacterAnimatorResources;
             _cancellationToken = new CancellationTokenSource();
-
             _fieldViewLayout = ProjectContext.Instance.Container.Resolve<FieldViewLayout> ();
         }
 
@@ -65,7 +64,7 @@ namespace AutoChess
         public async UniTask MoveTo (FieldTargetResultModel resultModel)
         {
             var elements = resultModel.FoundPositions.Select (position => _fieldViewLayout.GetLandElement (position));
-            await movingSystem.Moving (elements, _fieldViewmodel.SetSight, _cancellationToken.Token);
+            await movingSystem.Moving (elements, _adventureViewmodel.SetSight, _cancellationToken.Token);
         }
 
         #endregion

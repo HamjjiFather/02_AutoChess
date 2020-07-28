@@ -106,7 +106,7 @@ namespace GooglePlayGames.Editor
         /// The manifest path, relative to the plugin root directory.
         /// </summary>
         /// <remarks>The Games SDK requires additional metadata in the AndroidManifest.xml
-        /// file. </remarks>
+        ///     file. </remarks>
         private const string ManifestRelativePath =
             "Plugins/Android/GooglePlayGamesManifest.plugin/AndroidManifest.xml";
 
@@ -169,7 +169,7 @@ namespace GooglePlayGames.Editor
         /// The manifest path.
         /// </summary>
         /// <remarks>The Games SDK requires additional metadata in the AndroidManifest.xml
-        /// file. </remarks>
+        ///     file. </remarks>
         private static string ManifestPath
         {
             get { return SlashesToPlatformSeparator(Path.Combine(RootPath, ManifestRelativePath)); }

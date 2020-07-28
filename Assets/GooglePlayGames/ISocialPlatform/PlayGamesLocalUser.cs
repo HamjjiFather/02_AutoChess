@@ -148,9 +148,9 @@ namespace GooglePlayGames
         /// Gets the user's Google id.
         /// </summary>
         /// <remarks> This id is persistent and uniquely identifies the user
-        /// across all games that use Google Play Game Services.  It is
-        /// the preferred method of uniquely identifying a player instead
-        /// of email address.
+        ///     across all games that use Google Play Game Services.  It is
+        ///     the preferred method of uniquely identifying a player instead
+        ///     of email address.
         /// </remarks>
         /// <returns>
         /// The user's Google id.

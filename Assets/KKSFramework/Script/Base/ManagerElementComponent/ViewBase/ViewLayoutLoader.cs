@@ -1,3 +1,4 @@
+using System;
 using UniRx.Async;
 using UnityEngine;
 using UnityEngine.UI;
@@ -47,6 +48,17 @@ namespace KKSFramework.Navigation
             {
                 x.Initialize ();
             });
+        }
+        
+        
+        public ViewLayoutBase GetViewLayout (int index)
+        {
+            if (viewLayoutObjs.Length <= index)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            return viewLayoutObjs[index];
         }
         
         

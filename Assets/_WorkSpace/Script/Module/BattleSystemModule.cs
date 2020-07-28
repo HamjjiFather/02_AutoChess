@@ -37,7 +37,7 @@ namespace AutoChess
 
         [Inject]
         private SkillViewmodel _skillViewmodel;
-        
+
         [Inject]
         private BattleViewLayout _battleViewLayout;
 
@@ -94,7 +94,8 @@ namespace AutoChess
         /// </summary>
         private BattleCharacterPackage _battleCharacterPackage;
 
-
+        private bool _atFirst;
+        
         #endregion
 
 
@@ -113,17 +114,16 @@ namespace AutoChess
 
         public void StartBattle (UnityAction<float> gageAction)
         {
-            _cancellationToken = new CancellationTokenSource ();
-            _health = new FloatReactiveProperty (CharacterModel.GetTotalStatusValue (StatusType.Health));
-            _battleState = BattleState.Idle;
-
-            _healthDisposable = _health.Subscribe (hp =>
+            if (BattleState == BattleState.Death)
             {
-                _healthEvent.Invoke ((int) hp);
-            });
-
+                return;
+            }
+            
+            _cancellationToken = new CancellationTokenSource ();
+            _health = _health ?? new FloatReactiveProperty (CharacterModel.GetTotalStatusValue (StatusType.Health));
+            _battleState = BattleState.Idle;
+            _healthDisposable = _health.Subscribe (hp => { _healthEvent.Invoke ((int) hp); });
             _registeredDisposables = new List<IDisposable> ();
-
             behaviourSystemModule.Initialize (gageAction);
 
             CheckNextBehaviour ().Forget ();
@@ -138,19 +138,23 @@ namespace AutoChess
             // 이미 종료처리가 되어있음.
             if (_battleState == BattleState.Death)
                 return;
-            
-            _battleState = BattleState.Death;
 
             behaviourSystemModule.Dispose ();
             movingSystemModule.Dispose ();
             _cancellationToken?.Cancel ();
             _cancellationToken?.DisposeSafe ();
-            _healthDisposable.DisposeSafe ();
             _registeredDisposables.Foreach (x => x.DisposeSafe ());
             _registeredDisposables.Clear ();
 
             _spawnedDamageElements.Foreach (element => { element.PoolingObject (); });
             _spawnedDamageElements.Clear ();
+        }
+
+        
+        public void Dead ()
+        {
+            EndBattle ();
+            _battleState = BattleState.Death;
         }
 
 
@@ -171,29 +175,29 @@ namespace AutoChess
             {
                 case BattleState.None:
                     break;
-                
+
                 case BattleState.Idle:
                     break;
-                
+
                 // 사방이 막힌 상태.
                 case BattleState.Blocked:
                     await UniTask.Delay (TimeSpan.FromSeconds (0.5f));
                     CheckNextBehaviour ().Forget ();
                     break;
-                
+
                 case BattleState.Moving:
                     await Move (result);
                     CheckNextBehaviour ().Forget ();
                     break;
-                
+
                 case BattleState.Behave:
                     await Behaviour (result);
                     CheckNextBehaviour ().Forget ();
                     break;
-                
+
                 case BattleState.Death:
                     break;
-                
+
                 default:
                     throw new ArgumentOutOfRangeException ();
             }
@@ -263,17 +267,16 @@ namespace AutoChess
                 if (skillModel.DamageType == DamageType.Damage)
                 {
                     behaviourSystemModule.AddSkillValue (Constant.RestoreSkillGageOnHit);
-                    
+
                     // 방어력.
                     var defenseValue = CharacterModel.GetTotalStatusValue (StatusType.Defense);
                     var calcedDefenseValue = EasingDefenseValue (defenseValue * 1 / Constant.MaxDefenseValue);
-                    var appliedValue = skillValueModel.PreApplyValue - skillValueModel.PreApplyValue * calcedDefenseValue;
+                    var appliedValue = skillValueModel.PreApplyValue -
+                                       skillValueModel.PreApplyValue * calcedDefenseValue;
 
                     skillValueModel.SetAppliedValue ((float) appliedValue);
                     Debug.Log (
                         $"DamageValue = {skillValueModel.PreApplyValue}, DefenseValue = {defenseValue}, CalcedValue = {calcedDefenseValue}, AppliedValue = {appliedValue}");
-                    
-                    
 
                     double EasingDefenseValue (float value)
                     {
@@ -283,9 +286,7 @@ namespace AutoChess
 
                 DamageElement (Math.Abs (skillValueModel.AppliedValue), skillModel.DamageType);
                 SetApplyParticle (skillModel.DamageType);
-
-                var calcedValue = _health.Value + skillValueModel.AppliedValue;
-                _health.Value = Mathf.Clamp (calcedValue, 0, CharacterModel.GetTotalStatusValue (StatusType.Health));
+                SetHealth (skillValueModel.AppliedValue);
                 return;
             }
 
@@ -305,6 +306,27 @@ namespace AutoChess
 
                 _registeredDisposables.Add (disposable);
             }
+        }
+
+
+        /// <summary>
+        /// 체력 설정.
+        /// </summary>
+        public void SetHealth (float applyValue)
+        {
+            var calcedValue = _health.Value + applyValue;
+            _health.Value = Mathf.Clamp (calcedValue, 0, CharacterModel.GetTotalStatusValue (StatusType.Health));
+        }
+
+
+        /// <summary>
+        /// 전체 체력 대비 체력 설정.
+        /// </summary>
+        /// <param name="perValue"> between 0 to 1 </param>
+        public void SetHealthByPercent (float perValue)
+        {
+            var applyValue = CharacterModel.GetTotalStatusValue (StatusType.Health) * perValue;
+            SetHealth (applyValue);
         }
 
 

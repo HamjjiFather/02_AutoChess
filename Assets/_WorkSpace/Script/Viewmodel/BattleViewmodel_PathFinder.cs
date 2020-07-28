@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -14,7 +13,7 @@ namespace AutoChess
 #pragma warning restore CS0649
 
         private IEnumerable<CharacterModel> AllOfCharacterModels =>
-            BattleMonsterModels.Concat (_characterViewmodel.BattleCharacterModels).ToList ();
+            BattleAiCharacterModels.Concat (_characterViewmodel.BattleCharacterModels).ToList ();
 
         private IEnumerable<BattleCharacterElement> AllOfBattleCharacterElements =>
             PlayerCharacterElements.Concat (AiCharacterElements);
@@ -72,13 +71,13 @@ namespace AutoChess
         }
 
 
-        private List<BattleCharacterElement> GetAllOfOtherElements (CharacterSideType sideType)
+        public List<BattleCharacterElement> GetAllOfOtherElements (CharacterSideType sideType)
         {
             return sideType == CharacterSideType.Player ? AiCharacterElements : PlayerCharacterElements;
         }
 
 
-        private List<BattleCharacterElement> GetAllOfEqualElements (CharacterSideType sideType)
+        public List<BattleCharacterElement> GetAllOfEqualElements (CharacterSideType sideType)
         {
             return sideType == CharacterSideType.Player ? PlayerCharacterElements : AiCharacterElements;
         }

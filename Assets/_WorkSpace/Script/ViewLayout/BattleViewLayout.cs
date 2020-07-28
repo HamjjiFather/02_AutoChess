@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
+using UniRx;
 using UniRx.Async;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,11 +28,6 @@ namespace AutoChess
 
         public BattleViewParticleManagingModule particleManagingModule;
         
-        /// <summary>
-        /// 출전 캐릭터 디스플레이 영역.
-        /// </summary>
-        public BattleCharacterListArea battleCharacterListArea;
-
 #pragma warning disable CS0649
 
         [Inject]
@@ -39,21 +36,27 @@ namespace AutoChess
         [Inject]
         private BattleViewmodel _battleViewmodel;
 
-        [Inject]
-        private StageViewmodel _stageViewmodel;
-
 #pragma warning restore CS0649
 
         /// <summary>
         /// 플레이어 캐릭터.
         /// </summary>
-        private List<BattleCharacterElement> _playerBattleCharacterElements = new List<BattleCharacterElement> ();
+        private readonly List<BattleCharacterElement> _playerBattleCharacterElements = new List<BattleCharacterElement> ();
 
         /// <summary>
         /// 적 캐릭터.
         /// </summary>
-        private List<BattleCharacterElement> _aiBattleCharacterElements = new List<BattleCharacterElement> ();
+        private readonly List<BattleCharacterElement> _aiBattleCharacterElements = new List<BattleCharacterElement> ();
+        
+        /// <summary>
+        /// 전투 참여 캐릭터.
+        /// </summary>
+        private BattleCharacterListArea _battleCharacterListArea;
+        
+        private bool _atAfterSummon;
 
+        private IDisposable _endBattleDisposable;
+        
         #endregion
 
 
@@ -63,14 +66,7 @@ namespace AutoChess
         {
             ProjectContext.Instance.Container.BindInstance (this);
             ProjectContext.Instance.Container.BindInstance (particleManagingModule);
-            
-            _stageViewmodel.RegistReactiveCommand (async stageModel =>
-            {
-                SetStageText ();
-                _battleViewmodel.SetBattleAiCharacter (stageModel);
-                await SummonPlayerCharacter(true);
-                await SummonEnemyCharacter ();
-            });
+            _battleCharacterListArea = ProjectContext.Instance.Container.Resolve<BattleCharacterListArea> ();
 
             startButton.onClick.AddListener (ClickStartButton);
             base.Initialize ();
@@ -80,19 +76,7 @@ namespace AutoChess
 
 
         #region Methods
-
-        private void SetStageText ()
-        {
-            stageText.text = $"{_stageViewmodel.LastStageIndex / 10 + 1} - {_stageViewmodel.LastStageIndex % 10 + 1}";
-        }
         
-
-        public LandElement GetLandElement (PositionModel positionModel)
-        {
-            return lineElements[positionModel.Column].landElements[positionModel.Row];
-        }
-
-
         public override async UniTask ActiveLayout ()
         {
             verticalLayoutGroups.Foreach (x => x.SetLayoutVertical ());
@@ -100,32 +84,44 @@ namespace AutoChess
         }
 
 
+        public async UniTask StartBattle ()
+        {
+            SummonPlayerCharacter();
+            await SummonEnemyCharacter ();
+        }
+        
+        
+        private void EndBattle (bool isWin)
+        {
+            startButton.gameObject.SetActive (true);
+            _endBattleDisposable.DisposeSafe ();
+        }
+        
+        
         /// <summary>
         /// 플레이어 캐릭터 소환.
         /// </summary>
-        public async UniTask SummonPlayerCharacter (bool isNextStage = false)
+        public void SummonPlayerCharacter ()
         {
-            if (!_characterViewmodel.IsDataChanged)
+            if (_atAfterSummon)
             {
-                if (!isNextStage)
+                _playerBattleCharacterElements.Foreach (element =>
                 {
-                    await UniTask.CompletedTask;
-                    return;
-                }
+                    var landElement = GetLandElement (element.ElementData.PositionModel);
+                    element.transform.position = landElement.characterPositionTransform.position;
+                });
+                return;
             }
 
-            _playerBattleCharacterElements.Foreach (x => x.PoolingObject ());
-            _playerBattleCharacterElements.Clear ();
-
+            _atAfterSummon = true;
             _characterViewmodel.BattleCharacterModels.Foreach ((battlePlayer, index) =>
             {
-                var landElement = lineElements[battlePlayer.PositionModel.Column]
-                    .landElements[battlePlayer.PositionModel.Row];
+                var landElement = GetLandElement (battlePlayer.PositionModel);
                 var characterElement = ObjectPoolingHelper.GetResources<BattleCharacterElement> (
                     ResourceRoleType._Prefab,
                     ResourcesType.Element, nameof (BattleCharacterElement), landElement.characterPositionTransform);
 
-                characterElement.SetInfoElement (battleCharacterListArea.battleCharacterInfoElements[index]);
+                characterElement.SetInfoElement (_battleCharacterListArea.battleCharacterInfoElements[index]);
                 characterElement.SetElement (battlePlayer);
 
                 _playerBattleCharacterElements.Add (characterElement);
@@ -139,13 +135,7 @@ namespace AutoChess
         /// </summary>
         public async UniTask SummonEnemyCharacter ()
         {
-            if (!_stageViewmodel.IsClearStage)
-            {
-                await UniTask.CompletedTask;
-                return;
-            }
-            
-            _battleViewmodel.BattleMonsterModels.Foreach (battleMonster =>
+            _battleViewmodel.BattleAiCharacterModels.Foreach (battleMonster =>
             {
                 var landElement = lineElements[battleMonster.PositionModel.Column]
                     .landElements[battleMonster.PositionModel.Row];
@@ -160,12 +150,6 @@ namespace AutoChess
             });
         }
 
-
-        private void ExcuteBattle ()
-        {
-            startButton.gameObject.SetActive (true);
-        }
-
         #endregion
 
 
@@ -173,7 +157,8 @@ namespace AutoChess
 
         private void ClickStartButton ()
         {
-            _battleViewmodel.SetExcuteBattleAction (ExcuteBattle);
+            _endBattleDisposable = _battleViewmodel.EndBattleCommand.Subscribe (EndBattle);
+            
             _playerBattleCharacterElements.Foreach (element =>
             {
                 element.transform.SetParent (characterParents);
@@ -189,5 +174,11 @@ namespace AutoChess
         }
 
         #endregion
+        
+        
+        public LandElement GetLandElement (PositionModel positionModel)
+        {
+            return lineElements[positionModel.Column].landElements[positionModel.Row];
+        }
     }
 }

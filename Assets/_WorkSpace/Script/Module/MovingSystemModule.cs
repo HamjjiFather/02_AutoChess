@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UniRx;
 using UniRx.Async;
-using UniRx.Triggers;
 using UnityEngine;
-using Zenject;
 
 namespace AutoChess
 {
@@ -62,34 +60,27 @@ namespace AutoChess
             var landQueue = new Queue<LandElement> ();
             landQueue.Enqueues (landElements);
 
-            IsMoving = true;
-
             var element = landQueue.Dequeue ();
+            IsMoving = true;
             
-            _movingDisposable = Observable.EveryUpdate ().Subscribe (async _ =>
+            _movingDisposable = Observable.EveryUpdate ().Subscribe (_ =>
             {
-                await CheckMove ();
+                var elementPosition = element.characterPositionTransform.position;
+                movingTarget.MoveTowards (movingTarget.position, elementPosition, Time.deltaTime);
+                if (!(Vector2.Distance (movingTarget.position, elementPosition) < float.Epsilon)) return;
                 
-                if (landQueue.Count != 0)
+                onArriveAction.CallSafe (element.PositionModel);
+                if (landQueue.Count == 0)
                 {
-                    onArriveAction.CallSafe (element.PositionModel);
-                    element = landQueue.Dequeue ();
-                    await CheckMove ();
+                    IsMoving = false;
+                    _movingDisposable.DisposeSafe ();
                     return;
                 }
-
-                onArriveAction.CallSafe (element.PositionModel);
-                _movingDisposable.DisposeSafe ();
-                IsMoving = false;
-                
-                async UniTask CheckMove ()
-                {
-                    movingTarget.MoveTowards (movingTarget.position, element.characterPositionTransform.position, Time.deltaTime);
-                    await UniTask.WaitWhile (() =>
-                            Vector2.Distance (movingTarget.position, element.characterPositionTransform.position) > float.Epsilon,
-                        cancellationToken: cancellationToken);
-                }
+                    
+                element = landQueue.Dequeue ();
             });
+
+            await UniTask.WaitWhile (() => IsMoving, cancellationToken: cancellationToken);
         }
 
         #endregion

@@ -1,5 +1,4 @@
 using System;
-using AutoChess.Helper;
 using KKSFramework.GameSystem.GlobalText;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;

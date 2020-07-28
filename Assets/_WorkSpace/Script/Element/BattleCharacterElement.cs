@@ -68,6 +68,11 @@ namespace AutoChess
 
         #region UnityMethods
 
+        private void Awake ()
+        {
+            battleCharacterPackage.InitPackage ();
+        }
+
         #endregion
 
 
@@ -98,8 +103,14 @@ namespace AutoChess
         }
 
 
+        /// <summary>
+        /// 전투 시작.
+        /// </summary>
         public void StartBattle ()
         {
+            if (BattleState == BattleState.Death)
+                return;
+            
             battleCharacterPackage.battleSystemModule.SetCallbacks (SetHealth, WaitAnimation);
             battleCharacterPackage.battleSystemModule.StartBattle (SkillGageCallback);
 
@@ -108,7 +119,8 @@ namespace AutoChess
             {
                 if (hp == 0)
                 {
-                    EndBattle ();
+                    Dead ();
+                    ElementData.IsExcuted = true;
                     _battleViewmodel.CheckCharacters (ElementData.CharacterSideType);
                     battleCharacterPackage.characterParticleModule.PlayParticle (CharacterBuiltInParticleType.Death);
                 }
@@ -150,6 +162,16 @@ namespace AutoChess
         {
             ElementData.EndBattle ();
             battleCharacterPackage.battleSystemModule.EndBattle ();
+        }
+
+        
+        /// <summary>
+        /// 사망.
+        /// </summary>
+        public void Dead ()
+        {
+            ElementData.EndBattle ();
+            battleCharacterPackage.battleSystemModule.Dead ();
             battleCharacterPackage.characterAppearanceModule.SetActive (false);
         }
 

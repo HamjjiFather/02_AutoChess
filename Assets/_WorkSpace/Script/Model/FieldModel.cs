@@ -1,3 +1,4 @@
+using System;
 using KKSFramework.DesignPattern;
 using UniRx;
 
@@ -8,9 +9,14 @@ namespace AutoChess
         None,
         Battle,
         BossBattle,
+        MapOpen,
         Event,
         Reward,
-        CampSite,
+        FakeReward,
+        RecoverSmall,
+        RecoverMedium,
+        RecoverLarge,
+        Knowledge,
     }
 
 
@@ -37,11 +43,11 @@ namespace AutoChess
     {
         #region Fields & Property
 
-        public FieldType FieldType;
+        public ReactiveProperty<FieldType> FieldType = new ReactiveProperty<FieldType> (AutoChess.FieldType.None);
 
         public ReactiveProperty<FieldRevealState> RevealState =
             new ReactiveProperty<FieldRevealState> (FieldRevealState.Sealed);
-        
+
         public PositionModel LandPosition;
 
 #pragma warning disable CS0649
@@ -51,7 +57,8 @@ namespace AutoChess
         private bool _isRevealed;
 
         #endregion
-        
+
+
         public FieldModel (PositionModel landPosition)
         {
             LandPosition = landPosition;
@@ -63,6 +70,11 @@ namespace AutoChess
         public void ChangeState (FieldRevealState state)
         {
             RevealState.Value = state;
+        }
+
+        public void ChangeFieldType (FieldType fieldType)
+        {
+            FieldType.Value = fieldType;
         }
 
         #endregion

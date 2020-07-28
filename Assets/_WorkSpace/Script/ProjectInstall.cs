@@ -18,11 +18,11 @@ public class ProjectInstall : MonoInstaller
         ViewModelTypes.Add (typeof(GameViewmodel));
         ViewModelTypes.Add (typeof(BattleViewmodel));
         ViewModelTypes.Add (typeof(CharacterViewmodel));
+        ViewModelTypes.Add (typeof(ItemViewmodel));
         ViewModelTypes.Add (typeof(EquipmentViewmodel));
         ViewModelTypes.Add (typeof(SkillViewmodel));
         ViewModelTypes.Add (typeof(StatusViewmodel));
-        ViewModelTypes.Add (typeof(StageViewmodel));
-        ViewModelTypes.Add (typeof(FieldViewmodel));
+        ViewModelTypes.Add (typeof(AdventureViewmodel));
         ViewModelTypes.ForEach (type => { Container.Bind (type).AsSingle (); });
     }
 

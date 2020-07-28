@@ -1,7 +1,9 @@
+using System;
 using System.Linq;
 using KKSFramework.Navigation;
 using UniRx.Async;
 using Zenject;
+using EnumActionToDict = System.Collections.Generic.Dictionary<System.Enum, System.Action>;
 
 namespace AutoChess
 {
@@ -16,18 +18,32 @@ namespace AutoChess
 #pragma warning disable CS0649
 
         [Inject]
-        private FieldViewmodel _fieldViewmodel;
+        private AdventureViewmodel _adventureViewmodel;
 
         [Inject]
         private CharacterViewmodel _characterViewmodel;
 
+        [Inject]
+        private BattleViewmodel _battleViewmodel;
+
 #pragma warning restore CS0649
 
+        private BattleCharacterListArea _battleCharacterListArea;
+
+        private readonly EnumActionToDict _fieldTypeAction = new EnumActionToDict();
+
+        private bool _isMoving;
 
         #endregion
 
 
         #region UnityMethods
+
+        private void Awake ()
+        {
+            _fieldTypeAction.Add (FieldType.Battle, () => { _battleViewmodel.StartBattle (); });
+            _fieldTypeAction.Add (FieldType.BossBattle, () => { _battleViewmodel.StartBattle (); });
+        }
 
         #endregion
 
@@ -37,9 +53,10 @@ namespace AutoChess
         public override void Initialize ()
         {
             ProjectContext.Instance.Container.BindInstance (this);
+            _battleCharacterListArea = ProjectContext.Instance.Container.Resolve<BattleCharacterListArea> ();
             
             var fieldModels =
-                _fieldViewmodel.SetFieldSizes (lineElements.Select (x => x.landElements.Length).ToArray ());
+                _adventureViewmodel.SetFieldSizes (lineElements.Select (x => x.landElements.Length).ToArray ());
             
             fieldModels.SelectMany (x => x.Value)
                 .ZipForEach (lineElements.SelectMany (x => x.landElements),
@@ -51,11 +68,28 @@ namespace AutoChess
 
             var characterModel = _characterViewmodel.BattleCharacterModels.First ();
             fieldCharacterElement.SetElement (characterModel);
-            var startElement = GetLandElement (_fieldViewmodel.StartPosition);
-            fieldCharacterElement.transform.position = startElement.characterPositionTransform.transform.position;
+            var startElement = GetLandElement (_adventureViewmodel.StartPosition);
+            fieldCharacterElement.transform.position = startElement.characterPositionTransform.position;
 
-            _fieldViewmodel.StartGame ();
+            _adventureViewmodel.StartAdventure ();
             base.Initialize ();
+        }
+
+
+        public void EndBattle (bool isWin)
+        {
+            
+        }
+
+
+        public void SetFieldType (FieldModel fieldModel)
+        {
+            var fieldType = fieldModel.FieldType.Value;
+            if (fieldType == FieldType.None)
+                return;
+            
+            _adventureViewmodel.SetFieldType (fieldModel);
+            _fieldTypeAction[fieldType]();
         }
         
         
@@ -65,10 +99,19 @@ namespace AutoChess
         }
 
 
-        public void ChangePosition (PositionModel targetPosition)
+        public async UniTask ChangePosition (PositionModel targetPosition)
         {
-            var result = _fieldViewmodel.FindMovingPositions (targetPosition);
-            fieldCharacterElement.MoveTo (result).Forget();
+            if (_isMoving)
+                return;
+            
+            _isMoving = true;
+            var result = _adventureViewmodel.FindMovingPositions (targetPosition);
+            await fieldCharacterElement.MoveTo (result);
+            var lastPositionModel = result.FoundPositions.Last ();
+            var fieldModel = _adventureViewmodel.GetFieldModel (lastPositionModel);
+            SetFieldType (fieldModel);
+            
+            _isMoving = false;
         }
 
         #endregion

@@ -2,11 +2,11 @@ using KKSFramework.DesignPattern;
 
 namespace AutoChess
 {
-    public class StageModel : ModelBase
+    public struct BattleStageModel
     {
         #region Fields & Property
 
-        public Stage StageData;
+        public BattleStage StageData;
 
 #pragma warning disable CS0649
 
@@ -14,7 +14,7 @@ namespace AutoChess
 
         #endregion
 
-        public StageModel (Stage stage)
+        public BattleStageModel (BattleStage stage)
         {
             StageData = stage;
         }

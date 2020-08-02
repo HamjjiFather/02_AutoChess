@@ -16,6 +16,7 @@ public enum DataType
 	BattleState = 11000,
 	Combination = 12000,
 	Currency = 13000,
+	AdventureField = 14000,
 
 }
 

@@ -66,8 +66,12 @@ namespace AutoChess
             _movingDisposable = Observable.EveryUpdate ().Subscribe (_ =>
             {
                 var elementPosition = element.characterPositionTransform.position;
-                movingTarget.MoveTowards (movingTarget.position, elementPosition, Time.deltaTime);
-                if (!(Vector2.Distance (movingTarget.position, elementPosition) < float.Epsilon)) return;
+                var movingTargetPosition = movingTarget.position;
+                movingTarget.MoveTowards (movingTargetPosition, elementPosition, Time.deltaTime);
+                
+                var distance = Vector2.Distance (movingTargetPosition, elementPosition);
+                var dist = Math.Truncate (distance * 100) * 0.01f;
+                if (dist > 0) return;
                 
                 onArriveAction.CallSafe (element.PositionModel);
                 if (landQueue.Count == 0)

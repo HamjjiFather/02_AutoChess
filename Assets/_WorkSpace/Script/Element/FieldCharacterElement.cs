@@ -64,7 +64,7 @@ namespace AutoChess
         public async UniTask MoveTo (FieldTargetResultModel resultModel)
         {
             var elements = resultModel.FoundPositions.Select (position => _fieldViewLayout.GetLandElement (position));
-            await movingSystem.Moving (elements, _adventureViewmodel.SetSight, _cancellationToken.Token);
+            await movingSystem.Moving (elements, _adventureViewmodel.CompleteMove, _cancellationToken.Token);
         }
 
         #endregion

@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UniRx;
 using UniRx.Async;
 using UnityEngine;
@@ -14,6 +17,8 @@ namespace AutoChess
 
         public GameObject[] fieldTypeObjs;
 
+        public GameObject[] fieldGroundTypeObjs;
+
         public GameObject sealedObj;
 
         public GameObject revealedObj;
@@ -28,8 +33,11 @@ namespace AutoChess
 #pragma warning restore CS0649
 
         private FieldModel _fieldModel;
-        
+        public FieldModel FieldModel => _fieldModel;
+
         private FieldViewLayout _fieldViewLayout;
+
+        private List<IDisposable> _fieldTypeDisposables;
 
         #endregion
 
@@ -49,23 +57,52 @@ namespace AutoChess
         public void SetElement (FieldModel fieldModel)
         {
             _fieldModel = fieldModel;
+            _fieldTypeDisposables = new List<IDisposable> ();
 
-            _fieldModel.RevealState.Subscribe (state =>
+            var stateDisposable = _fieldModel.FieldRevealState.Subscribe (state =>
             {
                 sealedObj.SetActive (state == FieldRevealState.Sealed);
                 revealedObj.SetActive (state == FieldRevealState.Revealed);
+
+                if (state != FieldRevealState.Sealed)
+                {
+                    SetFieldSpecialType ();
+                    SetFieldGroundType ();
+                }
                 // fieldObj.SetActive (state != FieldRevealState.Sealed);
             });
 
             fieldTypeObjs.Foreach (x => x.SetActive (false));
-            fieldTypeObjs[(int) fieldModel.FieldType.Value].SetActive (true);
-            _fieldModel.FieldType.Subscribe (type =>
+            fieldTypeObjs[(int) fieldModel.FieldSpecialType.Value].SetActive (true);
+            var specialTypeDisposable = _fieldModel.FieldSpecialType.Subscribe (type =>
             {
-                fieldTypeObjs[(int) type].SetActive (true);
+                fieldTypeObjs.Where (x => x.activeSelf).Foreach (x => x.SetActive (false));
+                fieldTypeObjs[(int) type].SetActive (_fieldModel.FieldRevealState.Value != FieldRevealState.Sealed);
             });
 
+            fieldGroundTypeObjs.Foreach (x => x.SetActive (false));
+            var groundTypeDisposable = _fieldModel.FieldGroundType.Subscribe (type =>
+            {
+                fieldGroundTypeObjs.Where (x => x.activeSelf).Foreach (x => x.SetActive (false));
+                fieldGroundTypeObjs[(int) type].SetActive (_fieldModel.FieldRevealState.Value != FieldRevealState.Sealed);
+            });
+
+            _fieldTypeDisposables.AddRange (new[]
+            {
+                stateDisposable, specialTypeDisposable, groundTypeDisposable
+            });
             _fieldViewLayout = ProjectContext.Instance.Container.Resolve<FieldViewLayout> ();
             PositionModel = fieldModel.LandPosition;
+
+            void SetFieldSpecialType ()
+            {
+                fieldTypeObjs[(int) _fieldModel.FieldSpecialType.Value].SetActive (true);
+            }
+
+            void SetFieldGroundType ()
+            {
+                fieldGroundTypeObjs[(int)_fieldModel.FieldGroundType.Value].SetActive (true);
+            }
         }
 
         #endregion
@@ -75,8 +112,8 @@ namespace AutoChess
 
         private void ClickElement ()
         {
-            if(_fieldModel.RevealState.Value != FieldRevealState.Sealed)
-                _fieldViewLayout.ChangePosition (_fieldModel.LandPosition).Forget();
+            if (_fieldModel.FieldRevealState.Value != FieldRevealState.Sealed)
+                _fieldViewLayout.ChangePosition (this).Forget ();
         }
 
         #endregion

@@ -22,6 +22,7 @@ public class TableDataManager : Singleton<TableDataManager>
 	public Dictionary<int, BattleState> BattleStateDict = new Dictionary<int, BattleState> ();
 	public Dictionary<int, Combination> CombinationDict = new Dictionary<int, Combination> ();
 	public Dictionary<int, Currency> CurrencyDict = new Dictionary<int, Currency> ();
+	public Dictionary<int, AdventureField> AdventureFieldDict = new Dictionary<int, AdventureField> ();
 
 
     public async UniTask LoadTableDatas ()
@@ -39,6 +40,7 @@ public class TableDataManager : Singleton<TableDataManager>
 		BattleStateDict = (await ReadCSVData.Instance.LoadCSVData<BattleState> (nameof (BattleState))).ToDictionary (x => x.Id, x => x);
 		CombinationDict = (await ReadCSVData.Instance.LoadCSVData<Combination> (nameof (Combination))).ToDictionary (x => x.Id, x => x);
 		CurrencyDict = (await ReadCSVData.Instance.LoadCSVData<Currency> (nameof (Currency))).ToDictionary (x => x.Id, x => x);
+		AdventureFieldDict = (await ReadCSVData.Instance.LoadCSVData<AdventureField> (nameof (AdventureField))).ToDictionary (x => x.Id, x => x);
 
 
 		TotalDataDict.AddRange (CharacterDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
@@ -53,6 +55,7 @@ public class TableDataManager : Singleton<TableDataManager>
 		TotalDataDict.AddRange (BattleStateDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (CombinationDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (CurrencyDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
+		TotalDataDict.AddRange (AdventureFieldDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 
     }
 }

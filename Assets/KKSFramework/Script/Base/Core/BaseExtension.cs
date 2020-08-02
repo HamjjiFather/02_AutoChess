@@ -613,12 +613,10 @@ public static class BaseExtension
     
     public static TSource RandomSource<TSource> (this IEnumerable<TSource> source)
     {
-        if (source == null)
+        if (source == null || !source.Any())
             throw new ArgumentException (nameof (source));
 
-        var sourceArray = source.ToArray ();
-        var randValue = Random.Range (0, sourceArray.Length);
-        var result = sourceArray[randValue];
+        var result = source.Shuffle ().First ();
         return result;
     }
 

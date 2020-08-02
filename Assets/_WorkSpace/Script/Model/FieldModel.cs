@@ -4,12 +4,19 @@ using UniRx;
 
 namespace AutoChess
 {
-    public enum FieldType
+    public enum FieldGroundType
+    {
+        None,
+        Forest,
+        Rock,
+    }
+
+    public enum FieldSpecialType
     {
         None,
         Battle,
         BossBattle,
-        MapOpen,
+        InsightFull,
         Event,
         Reward,
         FakeReward,
@@ -43,10 +50,14 @@ namespace AutoChess
     {
         #region Fields & Property
 
-        public ReactiveProperty<FieldType> FieldType = new ReactiveProperty<FieldType> (AutoChess.FieldType.None);
+        public ReactiveProperty<FieldGroundType> FieldGroundType =
+            new ReactiveProperty<FieldGroundType> (AutoChess.FieldGroundType.None);
 
-        public ReactiveProperty<FieldRevealState> RevealState =
-            new ReactiveProperty<FieldRevealState> (FieldRevealState.Sealed);
+        public ReactiveProperty<FieldSpecialType> FieldSpecialType =
+            new ReactiveProperty<FieldSpecialType> (AutoChess.FieldSpecialType.None);
+
+        public ReactiveProperty<FieldRevealState> FieldRevealState =
+            new ReactiveProperty<FieldRevealState> (AutoChess.FieldRevealState.Sealed);
 
         public PositionModel LandPosition;
 
@@ -69,12 +80,19 @@ namespace AutoChess
 
         public void ChangeState (FieldRevealState state)
         {
-            RevealState.Value = state;
+            FieldRevealState.Value = state;
         }
 
-        public void ChangeFieldType (FieldType fieldType)
+
+        public void ChangeFieldGroundType (FieldGroundType fieldGroundType)
         {
-            FieldType.Value = fieldType;
+            FieldGroundType.Value = fieldGroundType;
+        }
+
+
+        public void ChangeFieldSpecialType (FieldSpecialType fieldSpecialType)
+        {
+            FieldSpecialType.Value = fieldSpecialType;
         }
 
         #endregion

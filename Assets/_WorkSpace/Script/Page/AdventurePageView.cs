@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using KKSFramework.Navigation;
 using UniRx;
 using UniRx.Async;
@@ -18,9 +19,12 @@ namespace AutoChess
 
         [Inject]
         private BattleViewmodel _battleViewmodel;
-        
+
         [Inject]
         private CharacterViewmodel _characterViewmodel;
+
+        [Inject]
+        private AdventureViewmodel _adventureViewmodel;
 
 #pragma warning restore CS0649
 
@@ -28,7 +32,7 @@ namespace AutoChess
         /// 전투 시작 구독.
         /// </summary>
         private IDisposable _startBattleDisposable;
-        
+
         /// <summary>
         /// 전투 종료 구독.
         /// </summary>
@@ -51,20 +55,24 @@ namespace AutoChess
 
         #region Methods
 
-        protected override UniTask OnPush (object pushValue = null)
+        protected override async UniTask OnPush (object pushValue = null)
         {
+            var fieldViewLayout = viewLayoutLoader.GetViewLayout (0) as FieldViewLayout;
+            var battleViewLayout = viewLayoutLoader.GetViewLayout (1) as BattleViewLayout;
+
+            if (fieldViewLayout == null || battleViewLayout == null)
+                return;
+
+            var landElements = fieldViewLayout.lineElements.Select (x => x.landElements.Length).ToArray ();
+            var adventureModel = await _adventureViewmodel.StartAdventure (landElements);
             viewLayoutLoader.SetSubView (0);
             SubscribeBattleCommand ();
-            return base.OnPush (pushValue);
+            await base.OnPush (pushValue);
 
             void SubscribeBattleCommand ()
             {
-                var fieldViewLayout = viewLayoutLoader.GetViewLayout (0) as FieldViewLayout;
-                var battleViewLayout = viewLayoutLoader.GetViewLayout (1) as BattleViewLayout;
+                fieldViewLayout.StartAdventure (adventureModel);
 
-                if (fieldViewLayout == null || battleViewLayout == null)
-                    return;
-                
                 _startBattleDisposable = _battleViewmodel.StartBattleCommand.Subscribe (stageModel =>
                 {
                     viewLayoutLoader.SetSubView (1);

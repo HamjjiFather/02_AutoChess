@@ -52,5 +52,15 @@ public class Constant
     /// </summary>
     public const int EquipmentCapacity = 3;
 
+    /// <summary>
+    /// 기본 모험 횟수
+    /// </summary>
+    public const int MaxAdventureCount = 40;
+
+    /// <summary>
+    /// 천리안 시야 범위
+    /// </summary>
+    public const int InsightFullRange = 1;
+
 
 }

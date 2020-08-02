@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using ModestTree;
 using UnityEngine;
 
 namespace AutoChess
@@ -16,11 +17,11 @@ namespace AutoChess
         ToDownLeft = 60,
         ToUpLeft = 120
     }
-    
+
     public class PositionHelper : Singleton<PositionHelper>
     {
         #region Fields & Property
-        
+
         public PositionModel EmptyPosition { get; } = new PositionModel (-1, -1);
 
 #pragma warning disable CS0649
@@ -36,14 +37,14 @@ namespace AutoChess
 
 
         #region Methods
-        
-        
+
         /// <summary>
         /// 해당 위치를 포함한 6방향의 위치를 리턴.
         /// </summary>
-        public IEnumerable<PositionModel> GetAroundPositionModelWith (Dictionary<int, List<LandModel>> landDict, PositionModel positionModel)
+        public IEnumerable<PositionModel> GetAroundPositionModelWith<T> (Dictionary<int, List<T>> landDict,
+            PositionModel positionModel) where T : LandModel
         {
-            return new[]
+            var aroundPosition = new List<PositionModel>
             {
                 positionModel,
                 GetPositionByDirectionType (landDict, positionModel, CheckDirectionTypes.ToUpward),
@@ -53,15 +54,38 @@ namespace AutoChess
                 GetPositionByDirectionType (landDict, positionModel, CheckDirectionTypes.ToDownLeft),
                 GetPositionByDirectionType (landDict, positionModel, CheckDirectionTypes.ToDownRight)
             };
+
+            aroundPosition.RemoveAll (x => x.Equals (EmptyPosition));
+            return aroundPosition;
         }
-        
-        
+
+
+        public IEnumerable<PositionModel> GetAroundPositionModel<T> (Dictionary<int, List<T>> landDict,
+            PositionModel positionModel, int range = 1) where T : LandModel
+        {
+            var resultPositions = new List<PositionModel> {positionModel};
+
+            for (var i = 0; i < range; i++)
+            {
+                var aroundPosition = resultPositions
+                    .SelectMany (x => GetAroundPositionModel (landDict, x))
+                    .Distinct ()
+                    .Except (resultPositions)
+                    .Except (EmptyPosition).ToList ();
+                resultPositions.AddRange (aroundPosition);
+            }
+
+            return resultPositions;
+        }
+
+
         /// <summary>
         /// 해당 위치에서 6방향의 위치를 리턴.
         /// </summary>
-        public IEnumerable<PositionModel> GetAroundPositionModel (Dictionary<int, List<LandModel>> landDict, PositionModel positionModel)
+        public IEnumerable<PositionModel> GetAroundPositionModel<T> (Dictionary<int, List<T>> landDict,
+            PositionModel positionModel) where T : LandModel
         {
-            return new[]
+            var aroundPosition = new List<PositionModel>
             {
                 GetPositionByDirectionType (landDict, positionModel, CheckDirectionTypes.ToUpward),
                 GetPositionByDirectionType (landDict, positionModel, CheckDirectionTypes.ToDownward),
@@ -70,14 +94,18 @@ namespace AutoChess
                 GetPositionByDirectionType (landDict, positionModel, CheckDirectionTypes.ToDownLeft),
                 GetPositionByDirectionType (landDict, positionModel, CheckDirectionTypes.ToDownRight)
             };
+
+            aroundPosition.RemoveAll (x => x.Equals (EmptyPosition));
+            return aroundPosition;
         }
-        
-        
+
+
         /// <summary>
         /// 해당 enum 타입 방향에 있는 바로 옆 퍼즐의 키 값을 리턴.
         /// </summary>
-        public PositionModel GetPositionByDirectionType (Dictionary<int, List<LandModel>> landDict, PositionModel positionModel,
-            CheckDirectionTypes checkDirectionTypes)
+        public PositionModel GetPositionByDirectionType<T> (Dictionary<int, List<T>> landDict,
+            PositionModel positionModel,
+            CheckDirectionTypes checkDirectionTypes) where T : LandModel
         {
             return GetKeyByAngle (landDict, positionModel, (float) checkDirectionTypes);
         }
@@ -86,47 +114,46 @@ namespace AutoChess
         /// <summary>
         /// 해당 방향에 있는 바로 옆 퍼즐의 키 값을 리턴. 
         /// </summary>
-        public PositionModel GetKeyByAngle (Dictionary<int, List<LandModel>> landDict, PositionModel positionModel, float angle)
+        public PositionModel GetKeyByAngle<T> (Dictionary<int, List<T>> landDict, PositionModel positionModel,
+            float angle) where T : LandModel
         {
             if (!landDict.ContainsKey (positionModel.Column))
             {
                 return EmptyPosition;
             }
 
-            // To upper direction.
-            if (Enumerable.Range (150, 60).Contains ((int) angle))
+            PositionModel returnPositionModel;
+
+            switch ((int)angle)
             {
-                return new PositionModel (positionModel.Column, positionModel.Row + 1);
+                case var _ when Enumerable.Range (150, 60).Contains ((int) angle):
+                    returnPositionModel = new PositionModel (positionModel.Column, positionModel.Row + 1);
+                    break;
+                
+                case var _ when Enumerable.Range (210, 60).Contains ((int) angle):
+                    returnPositionModel = GetFieldPosition (false);
+                    break;
+                
+                case var _ when Enumerable.Range (270, 60).Contains ((int) angle):
+                    returnPositionModel = GetFieldPosition (false, false);
+                    break;
+                
+                case var _ when Enumerable.Range (90, 60).Contains ((int) angle):
+                    returnPositionModel = GetFieldPosition ();
+                    break;
+                
+                case var _ when Enumerable.Range (30, 60).Contains ((int) angle):
+                    returnPositionModel = GetFieldPosition (toUpper: false);
+                    break;
+                
+                default:
+                    returnPositionModel = new PositionModel (positionModel.Column, positionModel.Row - 1);
+                    break;
             }
 
-            // To upper right direction.
-            if (Enumerable.Range (210, 60).Contains ((int) angle))
-            {
-                return GetPuzzlePosition (false);
-            }
+            return ContainPosition (landDict, returnPositionModel) ? returnPositionModel : EmptyPosition;
 
-            // To lower right direction.
-            if (Enumerable.Range (270, 60).Contains ((int) angle))
-            {
-                return GetPuzzlePosition (false, false);
-            }
-
-            // To upper left direction.
-            if (Enumerable.Range (90, 60).Contains ((int) angle))
-            {
-                return GetPuzzlePosition ();
-            }
-
-            // To lower left direction.
-            if (Enumerable.Range (30, 60).Contains ((int) angle))
-            {
-                return GetPuzzlePosition (toUpper: false);
-            }
-
-            // To lower direction.
-            return new PositionModel (positionModel.Column, positionModel.Row - 1);
-
-            PositionModel GetPuzzlePosition (bool toLeft = true, bool toUpper = true)
+            PositionModel GetFieldPosition (bool toLeft = true, bool toUpper = true)
             {
                 var checkColumn = positionModel.Column + (toLeft ? -1 : 1);
 
@@ -139,9 +166,20 @@ namespace AutoChess
                 return new PositionModel (checkColumn, positionModel.Row + posCoeff);
             }
         }
-        
-        
-        public float Distance (Dictionary<int, List<LandModel>> landDict, PositionModel checkPosition, PositionModel targetPosition)
+
+
+        /// <summary>
+        /// 해당 필드에 포함이 되는 포지션인지 여부.
+        /// </summary>
+        private bool ContainPosition<T> (IReadOnlyDictionary<int, List<T>> landDict, PositionModel positionModel)
+        {
+            return landDict.ContainsKey (positionModel.Column) &&
+                   landDict[positionModel.Column].ContainIndex (positionModel.Row);
+        }
+
+
+        public float Distance<T> (Dictionary<int, List<T>> landDict, PositionModel checkPosition,
+            PositionModel targetPosition) where T : LandModel
         {
             if (!(landDict.ContainsKey (targetPosition.Column) &&
                   landDict[targetPosition.Column].ContainIndex (targetPosition.Row)))
@@ -153,7 +191,6 @@ namespace AutoChess
             return Mathf.Abs (checkPosition.Row - targetPosition.Row) +
                 Mathf.Abs (checkPosition.Column - targetPosition.Column) - coeffValue;
         }
-        
 
         #endregion
 

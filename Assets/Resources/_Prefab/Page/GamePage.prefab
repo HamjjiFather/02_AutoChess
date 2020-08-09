@@ -100,6 +100,7 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!114 &3759178318627453311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,7 +110,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 804895193754559563}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 923bd9ee65944670afba4259b34c96a3, type: 3}
+  m_Script: {fileID: 11500000, guid: 38d3a3ed582c44e8bf5757310a375ce5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   viewLayoutObjs:
@@ -157,6 +158,7 @@ MonoBehaviour:
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &7121812462242046667
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
-using KKSFramework.GameSystem.GlobalText;
+using KKSFramework;
+using KKSFramework.Localization;
 using Zenject;
 
 namespace AutoChess

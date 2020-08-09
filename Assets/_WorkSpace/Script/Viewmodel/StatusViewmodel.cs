@@ -15,7 +15,6 @@ namespace AutoChess
 
         public override void Initialize ()
         {
-
         }
 
 
@@ -25,8 +24,8 @@ namespace AutoChess
         {
             return string.Empty;
         }
-        
-        
+
+
         public string ValueString (StatusType statusType, float value)
         {
             var statusData = TableDataManager.Instance.StatusDict[(int) DataType.Status + (int) statusType];

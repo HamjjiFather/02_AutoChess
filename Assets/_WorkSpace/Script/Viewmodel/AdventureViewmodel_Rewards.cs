@@ -9,7 +9,7 @@ namespace AutoChess
 #pragma warning disable CS0649
 
 #pragma warning restore CS0649
-        
+
         private readonly List<ItemModel> _rewardItems = new List<ItemModel> ();
 
         #endregion
@@ -25,8 +25,7 @@ namespace AutoChess
                 ItemAmount = amount
             });
         }
-        
-        
+
         #endregion
 
 

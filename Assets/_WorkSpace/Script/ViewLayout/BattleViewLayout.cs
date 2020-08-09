@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
 using UniRx;
-using UniRx.Async;
+using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
+using KKSFramework;
 
 namespace AutoChess
 {

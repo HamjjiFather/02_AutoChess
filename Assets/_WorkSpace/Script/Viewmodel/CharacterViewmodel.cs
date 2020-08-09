@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using KKSFramework;
 using KKSFramework.DesignPattern;
 using KKSFramework.LocalData;
 using UniRx;
@@ -32,15 +33,16 @@ namespace AutoChess
         /// <summary>
         /// 전투 참여 캐릭터 모델.
         /// </summary>
-        public ReactiveCollection<CharacterModel> BattleCharacterModels { get; } = new ReactiveCollection<CharacterModel> ();
+        public ReactiveCollection<CharacterModel> BattleCharacterModels { get; } =
+            new ReactiveCollection<CharacterModel> ();
 
         private readonly int[] _startCharacterIndexes =
         {
-            2000,
-            2001,
-            2002,
-            2003,
-            2004
+            1000,
+            1001,
+            1002,
+            1003,
+            1004
         };
 
         public bool IsDataChanged { get; set; }
@@ -87,7 +89,8 @@ namespace AutoChess
                 var characterModel = new CharacterModel ();
                 var statusGrade = characterBundle.CharacterStatusGrades[index];
                 var characterData = TableDataManager.Instance.CharacterDict[characterBundle.CharacterIds[index]];
-                var characterLevel = TableDataHelper.Instance.GetCharacterLevelByExp (characterBundle.CharacterExps[index]);
+                var characterLevel =
+                    TableDataHelper.Instance.GetCharacterLevelByExp (characterBundle.CharacterExps[index]);
                 var statusModel = GetBaseStatusModel (characterData, characterLevel, statusGrade);
                 var attackData = TableDataManager.Instance.SkillDict[characterData.AttackIndex];
                 var skillData = TableDataManager.Instance.SkillDict[characterData.SkillIndex];

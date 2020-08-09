@@ -1,6 +1,6 @@
-using BaseFrame.DoTween.Async.Triggers;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using UniRx.Async;
+using KKSFramework;
 using UnityEngine;
 using UnityEngine.UI;
 

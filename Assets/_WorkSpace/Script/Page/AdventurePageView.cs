@@ -2,7 +2,8 @@ using System;
 using System.Linq;
 using KKSFramework.Navigation;
 using UniRx;
-using UniRx.Async;
+using Cysharp.Threading.Tasks;
+using KKSFramework;
 using Zenject;
 
 namespace AutoChess
@@ -57,8 +58,8 @@ namespace AutoChess
 
         protected override async UniTask OnPush (object pushValue = null)
         {
-            var fieldViewLayout = viewLayoutLoader.GetViewLayout (0) as FieldViewLayout;
-            var battleViewLayout = viewLayoutLoader.GetViewLayout (1) as BattleViewLayout;
+            var fieldViewLayout = viewLayoutLoader.viewLayoutObjs[0] as FieldViewLayout;
+            var battleViewLayout = viewLayoutLoader.viewLayoutObjs[1] as BattleViewLayout;
 
             if (fieldViewLayout == null || battleViewLayout == null)
                 return;

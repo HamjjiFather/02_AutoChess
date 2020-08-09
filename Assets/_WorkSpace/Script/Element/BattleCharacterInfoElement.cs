@@ -1,5 +1,5 @@
 using System;
-using KKSFramework.GameSystem.GlobalText;
+using KKSFramework.Localization;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
 using UniRx;
@@ -15,7 +15,7 @@ namespace AutoChess
         #region Fields & Property
 
         public StarGradeArea starGradeArea;
-        
+
         public Image characterImage;
 
         public Text characterLevelText;
@@ -63,16 +63,16 @@ namespace AutoChess
             ElementData = characterModel;
 
             starGradeArea.SetArea (StarGrade.Grade1);
-            
+
             characterNameText.GetTranslatedString (ElementData.CharacterData.Name);
-            
+
             characterImage.sprite = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
                 ResourcesType.Monster, characterModel.CharacterData.SpriteResName);
 
             var health = ElementData.GetTotalStatusValue (StatusType.Health).FloatToInt ();
             hpGageElement.SetValue (health, ElementData.StatusModel.MaxHealth.FloatToInt ());
 
-            var valueReactive = new FloatReactiveProperty (health); 
+            var valueReactive = new FloatReactiveProperty (health);
             _healthDisposable = valueReactive.Subscribe (hp =>
             {
                 var rectT = hpGageElement.GetComponent<RectTransform> ();
@@ -93,11 +93,8 @@ namespace AutoChess
 
         public void RegistActiveAction (Action<CharacterModel> unityAction)
         {
-            _clickInfoEvent.AddListener (() =>
-            {
-                unityAction.Invoke (ElementData);
-            });
-            
+            _clickInfoEvent.AddListener (() => { unityAction.Invoke (ElementData); });
+
             inductSelectImage.gameObject.SetActive (true);
         }
 
@@ -110,7 +107,7 @@ namespace AutoChess
             _clickInfoEvent?.RemoveAllListeners ();
             inductSelectImage.gameObject.SetActive (false);
         }
-        
+
         #endregion
 
 

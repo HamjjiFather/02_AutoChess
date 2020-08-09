@@ -1,5 +1,5 @@
 using KKSFramework.Navigation;
-using UniRx.Async;
+using Cysharp.Threading.Tasks;
 using UnityEngine.UI;
 
 namespace AutoChess
@@ -38,7 +38,7 @@ namespace AutoChess
 
         private void ClickStartButton ()
         {
-            NavigationHelper.OpenPage (NavigationViewState.GamePage, pushValue:stageInputField.text).Forget();
+            NavigationHelper.OpenPage (NavigationViewType.GamePage, pushValue:stageInputField.text).Forget();
         }
 
         #endregion

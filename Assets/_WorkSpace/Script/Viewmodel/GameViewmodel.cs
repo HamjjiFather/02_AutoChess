@@ -16,7 +16,7 @@ namespace AutoChess
 
         private readonly SummonResultModel _summonResultModel = new SummonResultModel ();
         public SummonResultModel SummonResultModel => _summonResultModel;
-            
+
 
         private readonly List<CurrencyModel> _currencyModels = new List<CurrencyModel> ();
         public List<CurrencyModel> CurrencyModels => _currencyModels;
@@ -34,7 +34,7 @@ namespace AutoChess
         #region Subscribe
 
         #endregion
-        
+
 
         #region Methods
 

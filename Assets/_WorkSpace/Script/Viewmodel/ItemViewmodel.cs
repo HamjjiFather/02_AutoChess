@@ -15,7 +15,6 @@ namespace AutoChess
 
         public override void Initialize ()
         {
-
         }
 
 

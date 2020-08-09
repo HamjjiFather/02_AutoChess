@@ -1,4 +1,4 @@
-using KKSFramework.GameSystem.GlobalText;
+using KKSFramework.Localization;
 using KKSFramework.Navigation;
 using UnityEngine.UI;
 using Zenject;

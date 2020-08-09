@@ -1,7 +1,6 @@
-using BaseFrame;
+using KKSFramework;
 using KKSFramework.Navigation;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace AutoChess
 {

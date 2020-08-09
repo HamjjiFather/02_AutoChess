@@ -1,8 +1,9 @@
 using System;
 using System.Linq;
+using Cysharp.Threading.Tasks;
+using KKSFramework;
 using KKSFramework.DesignPattern;
 using UniRx;
-using UniRx.Async;
 using Zenject;
 
 namespace AutoChess
@@ -48,11 +49,13 @@ namespace AutoChess
         public async UniTask<AdventureModel> StartAdventure (int[] sizes)
         {
             _adventureModel = new AdventureModel (Constant.MaxAdventureCount);
-            
+
             var (forestField, startField) = CreateAllFields (sizes);
             _adventureModel.SetField (forestField, startField);
 
-            var newAroundPosition = PositionHelper.Instance.GetAroundPositionModelWith (_adventureModel.AllFieldModel, startField.LandPosition);
+            var newAroundPosition =
+                PositionHelper.Instance.GetAroundPositionModelWith (_adventureModel.AllFieldModel,
+                    startField.LandPosition);
             _nowPosition.Value = startField.LandPosition;
 
             newAroundPosition.Foreach (x =>
@@ -98,7 +101,8 @@ namespace AutoChess
         {
             var originAroundPosition =
                 PositionHelper.Instance.GetAroundPositionModel (_adventureModel.AllFieldModel, _nowPosition.Value);
-            var newAroundPosition = PositionHelper.Instance.GetAroundPositionModelWith (_adventureModel.AllFieldModel, newPosition);
+            var newAroundPosition =
+                PositionHelper.Instance.GetAroundPositionModelWith (_adventureModel.AllFieldModel, newPosition);
             var revealedPositions = originAroundPosition.Except (newAroundPosition);
             revealedPositions
                 .Where (ContainPosition)
@@ -128,7 +132,8 @@ namespace AutoChess
             PositionModel targetPosition)
         {
             var fieldTargetResult = new FieldTargetResultModel ();
-            var aroundPositions = PositionHelper.Instance.GetAroundPositionModel (_adventureModel.AllFieldModel, nowPositionModel);
+            var aroundPositions =
+                PositionHelper.Instance.GetAroundPositionModel (_adventureModel.AllFieldModel, nowPositionModel);
 
             while (true)
             {
@@ -145,7 +150,8 @@ namespace AutoChess
                     .First ();
 
                 fieldTargetResult.FoundPositions.Add (foundPosition);
-                aroundPositions = PositionHelper.Instance.GetAroundPositionModel (_adventureModel.AllFieldModel, foundPosition);
+                aroundPositions =
+                    PositionHelper.Instance.GetAroundPositionModel (_adventureModel.AllFieldModel, foundPosition);
             }
 
             return fieldTargetResult;
@@ -168,7 +174,9 @@ namespace AutoChess
 
         public FieldModel GetFieldModel (PositionModel positionModel)
         {
-            return ContainPosition (positionModel) ? _adventureModel.AllFieldModel[positionModel.Column][positionModel.Row] : default;
+            return ContainPosition (positionModel)
+                ? _adventureModel.AllFieldModel[positionModel.Column][positionModel.Row]
+                : default;
         }
 
         #endregion

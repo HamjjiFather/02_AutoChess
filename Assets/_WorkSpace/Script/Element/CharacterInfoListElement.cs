@@ -1,4 +1,4 @@
-using KKSFramework.GameSystem.GlobalText;
+using KKSFramework.Localization;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
 using UnityEngine;
@@ -14,7 +14,7 @@ namespace AutoChess
         public UnityAction<CharacterModel> ElementClick;
     }
     
-    public class CharacterInfoListElement : PooledObjectComponent, IElementBase<CharacterInfoListElementModel>
+    public class CharacterInfoListElement : PooingComponent, IElementBase<CharacterInfoListElementModel>
     {
         #region Fields & Property
 

@@ -1,5 +1,5 @@
-using BaseFrame;
-using KKSFramework.GameSystem.GlobalText;
+using KKSFramework;
+using KKSFramework.Localization;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
 using UnityEngine;

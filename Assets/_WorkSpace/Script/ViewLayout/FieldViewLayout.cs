@@ -1,8 +1,9 @@
 using System;
 using System.Linq;
+using KKSFramework;
 using KKSFramework.Navigation;
 using UniRx;
-using UniRx.Async;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -59,9 +60,9 @@ namespace AutoChess
             _fieldTypeActionAfter.Add (FieldSpecialType.RecoverSmall, _ => { Debug.Log ("체력이 회복되었습니다."); });
             _fieldTypeActionAfter.Add (FieldSpecialType.RecoverMedium, _ => { Debug.Log ("체력이 회복되었습니다."); });
             _fieldTypeActionAfter.Add (FieldSpecialType.RecoverLarge, _ => { Debug.Log ("체력이 회복되었습니다."); });
-            _fieldTypeActionAfter.Add (FieldSpecialType.InsightFull, fieldLandElement =>
+            _fieldTypeActionAfter.Add (FieldSpecialType.Insightful, fieldLandElement =>
             {
-                var insightFulPosition = _adventureViewmodel.GetInsightFulPosition ();
+                var insightFulPosition = _adventureViewmodel.GetInsightfulPosition ();
                 var insightFulLand = GetLandElement (insightFulPosition.First());
                 snap.SnapToAsync (insightFulLand.rectTransform).Forget();
             });

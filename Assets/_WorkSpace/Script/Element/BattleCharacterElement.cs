@@ -1,8 +1,8 @@
 using System;
 using System.Threading;
+using Cysharp.Threading.Tasks;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
-using UniRx.Async;
 using UnityEngine;
 using Zenject;
 
@@ -25,7 +25,7 @@ namespace AutoChess
         }
     }
     
-    public class BattleCharacterElement : PooledObjectComponent, IElementBase<CharacterModel>
+    public class BattleCharacterElement : PooingComponent, IElementBase<CharacterModel>
     {
         #region Fields & Property
 

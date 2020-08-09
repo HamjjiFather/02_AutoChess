@@ -1,13 +1,13 @@
 using System;
 using System.Threading;
+using Cysharp.Threading.Tasks;
 using KKSFramework.ResourcesLoad;
-using UniRx.Async;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace AutoChess
 {
-    public class ParticlePrefab : PooledObjectComponent
+    public class ParticlePrefab : PooingComponent
     {
         #region Fields & Property
 

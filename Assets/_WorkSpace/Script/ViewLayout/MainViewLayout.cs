@@ -1,6 +1,6 @@
 using KKSFramework;
 using KKSFramework.Navigation;
-using UniRx.Async;
+using Cysharp.Threading.Tasks;
 using UnityEngine.UI;
 using Zenject;
 
@@ -58,7 +58,7 @@ namespace AutoChess
         
         private void ClickFieldButton ()
         {
-            NavigationHelper.OpenPage (NavigationViewState.AdventurePage).Forget();
+            NavigationHelper.OpenPage (NavigationViewType.AdventurePage).Forget();
         }
 
         #endregion

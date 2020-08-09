@@ -1,16 +1,16 @@
 using System;
 using System.Linq;
 using System.Threading;
+using Cysharp.Threading.Tasks;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
-using UniRx.Async;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace AutoChess
 {
-    public class BattleDamageElement : PooledObjectComponent, IElementBase<BattleDamageModel>
+    public class BattleDamageElement : PooingComponent, IElementBase<BattleDamageModel>
     {
         #region Fields & Property
 

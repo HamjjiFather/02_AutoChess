@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using KKSFramework;
 using KKSFramework.DesignPattern;
 using KKSFramework.LocalData;
 using UniRx;
-using UnityEngine.Events;
 using Zenject;
 
 namespace AutoChess
@@ -60,14 +60,13 @@ namespace AutoChess
 
         #region Methods
 
-
         public void StartAdventure ()
         {
             StartBattleCommand = new ReactiveCommand<BattleStageModel> ();
             EndBattleCommand = new ReactiveCommand<bool> ();
         }
 
-        
+
         public void EndAdventure ()
         {
             StartBattleCommand.DisposeSafe ();
@@ -79,14 +78,14 @@ namespace AutoChess
         {
             var stageData = TableDataManager.Instance.BattleStageDict.First ().Value;
             var stageModel = new BattleStageModel (stageData);
-            
+
             BattleStageModel = stageModel;
             _characterViewmodel.BattleCharacterModels.Foreach ((model, index) =>
             {
                 _characterViewmodel.ResetCharacterPosition (index, model);
             });
             SetBattleAiCharacter (BattleStageModel);
-            
+
             StartBattleCommand.Execute (BattleStageModel);
         }
 
@@ -98,19 +97,19 @@ namespace AutoChess
             ResetCharacter ();
             EndBattleCommand.Execute (isWin);
         }
-        
-        
+
+
         public bool CheckCharacters (CharacterSideType sideType)
         {
             var allDead = GetAllOfEqualElements (sideType).All (x => x.BattleState == BattleState.Death);
 
             if (!allDead) return false;
-            
+
             EndBattle (sideType == CharacterSideType.AI);
             return true;
         }
 
-        
+
         /// <summary>
         /// AI 캐릭터 세팅.
         /// </summary>

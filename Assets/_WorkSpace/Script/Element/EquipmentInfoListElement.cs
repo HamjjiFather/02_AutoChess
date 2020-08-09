@@ -1,4 +1,4 @@
-using KKSFramework.GameSystem.GlobalText;
+using KKSFramework.Localization;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
 using UnityEngine;
@@ -14,7 +14,7 @@ namespace AutoChess
         public UnityAction<EquipmentModel> ElementClick;
     }
     
-    public class EquipmentInfoListElement : PooledObjectComponent, IElementBase<EquipmentInfoListElementModel>
+    public class EquipmentInfoListElement : PooingComponent, IElementBase<EquipmentInfoListElementModel>
     {
         #region Fields & Property
         

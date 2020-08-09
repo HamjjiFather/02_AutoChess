@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using KKSFramework;
 using Random = UnityEngine.Random;
 using EnumActionToDict = System.Collections.Generic.Dictionary<System.Enum, System.Action<AutoChess.FieldModel>>;
 
@@ -39,7 +40,7 @@ namespace AutoChess
                 fieldModel => RecoverHealth (CharacterSideType.Player, 0.25f));
             _fieldTypeAction.Add (FieldSpecialType.RecoverLarge,
                 fieldModel => RecoverHealth (CharacterSideType.Player, 0.5f));
-            _fieldTypeAction.Add (FieldSpecialType.InsightFull, _ => { });
+            _fieldTypeAction.Add (FieldSpecialType.Insightful, _ => { });
         }
 
 
@@ -141,7 +142,7 @@ namespace AutoChess
                 var randomField = allField.SelectMany (x => x.Value)
                     .Where (x => x.FieldSpecialType.Value == FieldSpecialType.None)
                     .RandomSource ();
-                randomField.ChangeFieldSpecialType (FieldSpecialType.InsightFull);
+                randomField.ChangeFieldSpecialType (FieldSpecialType.Insightful);
             }
         }
 
@@ -168,8 +169,10 @@ namespace AutoChess
             fieldModel.ChangeFieldSpecialType (FieldSpecialType.None);
         }
 
-
-        public IEnumerable<PositionModel> GetInsightFulPosition ()
+        /// <summary>
+        /// 천리안 타입.
+        /// </summary>
+        public IEnumerable<PositionModel> GetInsightfulPosition ()
         {
             var randomField = _adventureModel.AllFieldModel.SelectMany (x => x.Value)
                 .RandomSource (x => x.FieldRevealState.Value == FieldRevealState.Sealed);
@@ -178,10 +181,15 @@ namespace AutoChess
             {
                 return default;
             }
+
             var position = randomField.LandPosition;
-                
+
             var insightPosition =
                 PositionHelper.Instance.GetAroundPositionModel (_adventureModel.AllFieldModel, position, 2);
+
+            insightPosition.Select (GetFieldModel)
+                .Where (fieldModel => fieldModel.FieldRevealState.Value == FieldRevealState.Sealed)
+                .Foreach (fieldModel => { fieldModel.ChangeState (FieldRevealState.Revealed); });
 
             return insightPosition;
         }

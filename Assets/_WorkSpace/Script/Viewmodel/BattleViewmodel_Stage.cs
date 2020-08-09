@@ -10,7 +10,7 @@ namespace AutoChess
 #pragma warning disable CS0649
 
 #pragma warning restore CS0649
-        
+
         /// <summary>
         /// 전투 스테이지 모델.
         /// </summary>
@@ -20,8 +20,6 @@ namespace AutoChess
 
 
         #region Methods
-
-
 
         #endregion
 

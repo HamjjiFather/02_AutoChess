@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
 using DG.Tweening;
-using UniRx.Async;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;

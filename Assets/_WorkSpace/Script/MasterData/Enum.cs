@@ -3,20 +3,19 @@
 public enum DataType
 {
 	None = 0,
-	GlobalText = 1000,
-	Character = 2000,
-	CharacterLevel = 3000,
-	Skill = 4000,
-	Equipment = 5000,
-	EquipmentStatus = 6000,
-	Status = 7000,
-	StatusGrade = 8000,
-	BattleStage = 9000,
-	Particle = 10000,
-	BattleState = 11000,
-	Combination = 12000,
-	Currency = 13000,
-	AdventureField = 14000,
+	Character = 1000,
+	CharacterLevel = 2000,
+	Skill = 3000,
+	Equipment = 4000,
+	EquipmentStatus = 5000,
+	Status = 6000,
+	StatusGrade = 7000,
+	BattleStage = 8000,
+	Particle = 9000,
+	BattleState = 10000,
+	Combination = 11000,
+	Currency = 12000,
+	AdventureField = 13000,
 
 }
 

@@ -16,7 +16,7 @@ namespace AutoChess
         None,
         Battle,
         BossBattle,
-        InsightFull,
+        Insightful,
         Event,
         Reward,
         FakeReward,

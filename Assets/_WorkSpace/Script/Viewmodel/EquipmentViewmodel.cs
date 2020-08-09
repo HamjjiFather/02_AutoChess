@@ -1,12 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using KKSFramework;
 using KKSFramework.DesignPattern;
 using KKSFramework.LocalData;
-using UniRx.Async;
 using UnityEngine;
 using Zenject;
-using Random = UnityEngine.Random;
 
 namespace AutoChess
 {
@@ -31,11 +29,11 @@ namespace AutoChess
 
         private readonly int[] _startEquipmentIndexes =
         {
-            5000,
-            5001,
-            5002,
-            5003,
-            5004
+            4000,
+            4001,
+            4002,
+            4003,
+            4004
         };
 
         public bool IsDataChanged { get; set; }

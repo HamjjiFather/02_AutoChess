@@ -1,7 +1,6 @@
-﻿using System.Linq;
-using AutoChess;
+﻿using AutoChess;
+using Cysharp.Threading.Tasks;
 using KKSFramework.Navigation;
-using UniRx.Async;
 using Zenject;
 
 namespace KKSFramework

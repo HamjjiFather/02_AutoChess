@@ -1,3 +1,4 @@
+using KKSFramework;
 using UnityEngine;
 using Zenject;
 

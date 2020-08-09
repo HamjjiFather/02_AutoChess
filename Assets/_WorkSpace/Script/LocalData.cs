@@ -1,4 +1,3 @@
-using BaseFrame;
 using KKSFramework.LocalData;
 using UnityEngine;
 using UnityEngine.UI;

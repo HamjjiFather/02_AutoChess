@@ -1,3 +1,0 @@
-Id	ForestCount	TreeCount	RewardCount	BattleCount	BossBattleCount	EventCount	OtherCount
-14000	2/3	8/20	3/5	4/7	1/2	0/2	0/3
-14001	1/2	8/16	2/4	3/6	0/1	0/1	0/2

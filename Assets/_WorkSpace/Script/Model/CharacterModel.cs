@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using KKSFramework;
 using KKSFramework.DesignPattern;
 using KKSFramework.LocalData;
 using KKSFramework.ResourcesLoad;

@@ -1,4 +1,4 @@
-using System;
+using KKSFramework;
 using KKSFramework.DesignPattern;
 
 namespace AutoChess

@@ -1,6 +1,8 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using AutoChess;
+using Cysharp.Threading.Tasks;
 using KKSFramework.Navigation;
 using KKSFramework.SceneLoad;
+using UnityEngine;
 
 
 namespace KKSFramework.InGame
@@ -25,7 +27,12 @@ namespace KKSFramework.InGame
             
             void OpenQuitPopup ()
             {
-                NavigationHelper.OpenPopup (NavigationViewType.QuitPopup).Forget();
+                var popupStruct = new MessagePopupStruct
+                {
+                    ConfirmAction = Application.Quit,
+                    Message = "?게임을 나가시겠습니까?"
+                };
+                NavigationHelper.OpenPopup (NavigationViewType.MessagePopup, popupStruct).Forget();
             }
         }
     }

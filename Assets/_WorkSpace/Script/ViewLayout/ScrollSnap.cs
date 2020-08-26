@@ -42,7 +42,7 @@ namespace AutoChess
         }
 
 
-        public async UniTask SnapToAsync (RectTransform target, float duration = 1f)
+        public async UniTask SnapToAsync (Transform target, float duration = 1f)
         {
             if (_isMoving) return;
 

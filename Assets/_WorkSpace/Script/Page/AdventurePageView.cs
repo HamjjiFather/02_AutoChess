@@ -64,16 +64,13 @@ namespace AutoChess
             if (fieldViewLayout == null || battleViewLayout == null)
                 return;
 
-            var landElements = fieldViewLayout.lineElements.Select (x => x.landElements.Length).ToArray ();
-            var adventureModel = await _adventureViewmodel.StartAdventure (landElements);
             viewLayoutLoader.SetSubView (0);
+            await fieldViewLayout.StartAdventure ();
             SubscribeBattleCommand ();
             await base.OnPush (pushValue);
 
             void SubscribeBattleCommand ()
             {
-                fieldViewLayout.StartAdventure (adventureModel);
-
                 _startBattleDisposable = _battleViewmodel.StartBattleCommand.Subscribe (stageModel =>
                 {
                     viewLayoutLoader.SetSubView (1);

@@ -1,4 +1,5 @@
 using KKSFramework;
+using KKSFramework.DataBind;
 using KKSFramework.Localization;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
@@ -11,27 +12,35 @@ namespace AutoChess
     {
         #region Fields & Property
 
-        public Image characterTypeIcon;
-
-        public Text characterNameText;
-
-        public StarGradeArea starGradeArea;
-
-        public Image characterImage;
-
-        public Animator characterAnimator;
-
-        public Text LevelText;
-
-        public GageElement expGageElement;
-
-        public SkillInfoArea skillInfoArea;
-
         public EquipmentInfoElement[] equipmentInfoElement;
 
         public StatusElement[] baseStatusElements;
 
 #pragma warning disable CS0649
+        
+        [Resolver("TypeImage")]
+        private Image _characterTypeIcon;
+
+        [Resolver("NameText")]
+        private Text _characterNameText;
+
+        [Resolver("StarGradeArea")]
+        private StarGradeArea _starGradeArea;
+
+        [Resolver("CharacterImage")]
+        private Image _characterImage;
+
+        [Resolver("CharacterAnimator")]
+        private Animator _characterAnimator;
+
+        [Resolver("LevelText")]
+        private Text _levelText;
+
+        [Resolver("ExpGageElement")]
+        private GageElement _expGageElement;
+
+        [Resolver("SkillInfoArea")]
+        private SkillInfoArea _skillInfoArea;
 
 #pragma warning restore CS0649
 
@@ -59,10 +68,10 @@ namespace AutoChess
 
             void SetFixedCharacterInfo ()
             {
-                characterNameText.GetTranslatedString (areaData.CharacterData.Name);
-                characterImage.sprite = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
+                _characterNameText.GetTranslatedString (areaData.CharacterData.Name);
+                _characterImage.sprite = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
                     ResourcesType.Monster, areaData.CharacterData.SpriteResName);
-                characterAnimator.runtimeAnimatorController =
+                _characterAnimator.runtimeAnimatorController =
                     ResourcesLoadHelper.GetResources<RuntimeAnimatorController> (ResourceRoleType._Animation,
                         areaData.CharacterData.AnimatorResName);
             }
@@ -70,9 +79,9 @@ namespace AutoChess
             void ChangeCharacterInfo (CharacterModel characterModel)
             {
                 var levelData = characterModel.GetLevelData ();
-                LevelText.text = $"Lv. {levelData.LevelString}";
-                expGageElement.SetValue (characterModel.NowExp (), levelData.ReqExp);
-                starGradeArea.SetArea (characterModel.StarGrade);
+                _levelText.text = $"Lv. {levelData.LevelString}";
+                _expGageElement.SetValue (characterModel.NowExp (), levelData.ReqExp);
+                _starGradeArea.SetArea (characterModel.StarGrade);
 
                 baseStatusElements[0].SetCharacterElement (StatusType.Health, characterModel);
                 baseStatusElements[1].SetCharacterElement (StatusType.Attack, characterModel);
@@ -80,7 +89,7 @@ namespace AutoChess
                 baseStatusElements[3].SetCharacterElement (StatusType.Defense, characterModel);
                 baseStatusElements[4].SetCharacterElement (StatusType.AttackSpeed, characterModel);
                 
-                skillInfoArea.SetArea (characterModel);
+                _skillInfoArea.SetArea (characterModel);
                 
                 SetEquipment ();
                 

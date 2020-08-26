@@ -1,3 +1,4 @@
+using KKSFramework.DataBind;
 using KKSFramework.Localization;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
@@ -10,28 +11,33 @@ namespace AutoChess
     public class CharacterInfoListElementModel
     {
         public CharacterModel CharacterModel;
-        
+
         public UnityAction<CharacterModel> ElementClick;
     }
-    
-    public class CharacterInfoListElement : PooingComponent, IElementBase<CharacterInfoListElementModel>
+
+    public class CharacterInfoListElement : PooingComponent, IElementBase<CharacterInfoListElementModel>, IResolveTarget
     {
         #region Fields & Property
 
-        public StarGradeArea starGradeArea;
-
-        public Image characterImage;
-
-        public Text characterNameText;
-
-        public Button elementButton;
-
-        public GameObject inBattleObj;
-
 #pragma warning disable CS0649
 
+        [Resolver ("StarGradeArea")]
+        private StarGradeArea _starGradeArea;
+
+        [Resolver ("CharacterImage")]
+        private Image _characterImage;
+
+        [Resolver ("CharacterNameText")]
+        private Text _characterNameText;
+
+        [Resolver ("ElementButton")]
+        private Button _elementButton;
+
+        [Resolver ("InBattleObject")]
+        private GameObject _inBattleObj;
+
 #pragma warning restore CS0649
-        
+
         public CharacterInfoListElementModel ElementData { get; set; }
 
         #endregion
@@ -44,15 +50,14 @@ namespace AutoChess
 
         #region Methods
 
-
         public void SetElement (CharacterInfoListElementModel characterInfoListElementModel)
         {
-            starGradeArea.SetArea (characterInfoListElementModel.CharacterModel.StarGrade);
-            characterImage.sprite = characterInfoListElementModel.CharacterModel.IconImageResources;
-            characterNameText.GetTranslatedString (characterInfoListElementModel.CharacterModel.CharacterData.Name);
-            
-            elementButton.onClick.RemoveAllListeners ();
-            elementButton.onClick.AddListener (() =>
+            ElementData = characterInfoListElementModel;
+            _starGradeArea.SetArea (characterInfoListElementModel.CharacterModel.StarGrade);
+            _characterImage.sprite = characterInfoListElementModel.CharacterModel.IconImageResources;
+            _characterNameText.GetTranslatedString (characterInfoListElementModel.CharacterModel.CharacterData.Name);
+            _elementButton.onClick.RemoveAllListeners ();
+            _elementButton.onClick.AddListener (() =>
             {
                 characterInfoListElementModel.ElementClick.Invoke (characterInfoListElementModel.CharacterModel);
             });

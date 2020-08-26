@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 using KKSFramework.Navigation;
 using Zenject;
 
-namespace KKSFramework
+namespace KKSFramework.InGame
 {
     public class GamePageView : PageViewBase
     {

@@ -94,6 +94,7 @@ namespace AutoChess
             _maxHealth = ElementData.GetTotalStatusValue (StatusType.Health).FloatToInt ();
             battleCharacterPackage.characterAppearanceModule.SetValueOnlyHealthGageValue (_maxHealth, _maxHealth);
             battleCharacterPackage.characterAppearanceModule.SetHealthGageColor (ElementData.CharacterSideType);
+            battleCharacterPackage.battleSystemModule.movingSystemModule.SetMovingTarget (transform);
             SkillGageCallback (0);
         }
 

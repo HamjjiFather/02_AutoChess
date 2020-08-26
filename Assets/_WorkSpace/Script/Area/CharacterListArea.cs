@@ -55,7 +55,8 @@ namespace AutoChess
                 _listElements.Add (element);
             });
 
-            _listElements.First ().elementButton.onClick.Invoke ();
+            var firstElementData = _listElements.First ().ElementData;
+            firstElementData.ElementClick.Invoke (firstElementData.CharacterModel);
         }
 
         #endregion

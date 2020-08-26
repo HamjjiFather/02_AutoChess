@@ -110,7 +110,7 @@ namespace AutoChess
                 _playerBattleCharacterElements.Foreach (element =>
                 {
                     var landElement = GetLandElement (element.ElementData.PositionModel);
-                    element.transform.position = landElement.characterPositionTransform.position;
+                    element.transform.position = landElement.transform.position;
                 });
                 return;
             }
@@ -121,7 +121,7 @@ namespace AutoChess
                 var landElement = GetLandElement (battlePlayer.PositionModel);
                 var characterElement = ObjectPoolingHelper.GetResources<BattleCharacterElement> (
                     ResourceRoleType._Prefab,
-                    ResourcesType.Element, nameof (BattleCharacterElement), landElement.characterPositionTransform);
+                    ResourcesType.Element, nameof (BattleCharacterElement), landElement.transform);
 
                 characterElement.SetInfoElement (_battleCharacterListArea.battleCharacterInfoElements[index]);
                 characterElement.SetElement (battlePlayer);
@@ -140,10 +140,10 @@ namespace AutoChess
             _battleViewmodel.BattleAiCharacterModels.Foreach (battleMonster =>
             {
                 var landElement = lineElements[battleMonster.PositionModel.Column]
-                    .landElements[battleMonster.PositionModel.Row];
+                    .GetLandElement(battleMonster.PositionModel.Row);
                 var characterElement = ObjectPoolingHelper.GetResources<BattleCharacterElement> (
                     ResourceRoleType._Prefab,
-                    ResourcesType.Element, nameof (BattleCharacterElement), landElement.characterPositionTransform);
+                    ResourcesType.Element, nameof (BattleCharacterElement), landElement.transform);
 
                 characterElement.SetElement (battleMonster);
 
@@ -180,7 +180,7 @@ namespace AutoChess
         
         public LandElement GetLandElement (PositionModel positionModel)
         {
-            return lineElements[positionModel.Column].landElements[positionModel.Row];
+            return lineElements[positionModel.Column].GetLandElement(positionModel.Row);
         }
     }
 }

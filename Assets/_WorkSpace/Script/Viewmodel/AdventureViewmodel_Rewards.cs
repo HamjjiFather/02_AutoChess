@@ -10,12 +10,21 @@ namespace AutoChess
 
 #pragma warning restore CS0649
 
+        private int _exp;
+
         private readonly List<ItemModel> _rewardItems = new List<ItemModel> ();
 
         #endregion
 
 
         #region Methods
+
+
+        public void AddExp (int value)
+        {
+            _exp += value;
+        }
+        
 
         public void AddDropItem (int itemIndex, int amount = 1)
         {

@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using KKSFramework;
 using KKSFramework.Navigation;
 using UniRx;
 using Cysharp.Threading.Tasks;
+using KKSFramework.DataBind;
+using KKSFramework.ResourcesLoad;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -11,21 +14,31 @@ using EnumActionToDict = System.Collections.Generic.Dictionary<System.Enum, Syst
 
 namespace AutoChess
 {
-    public class FieldViewLayout : ViewLayoutBase
+    public class FieldViewLayout : ViewLayoutBase, IResolveTarget
     {
         #region Fields & Property
 
-        public Text adventureCountText;
-
-        public LineElement[] lineElements;
-
-        public FieldCharacterElement fieldCharacterElement;
-
-        public ScrollRect fieldScroll;
-
-        public ScrollSnap snap;
-
 #pragma warning disable CS0649
+
+        [Resolver]
+        private LineElement[] _lineElements;
+
+        public LineElement[] LineElements => _lineElements;
+
+        [Resolver ("AdventureCountText")]
+        private Text _adventureCountText;
+
+        [Resolver ("InspectButton")]
+        private Button _inspectButton;
+
+        [Resolver ("ScrollSnap")]
+        private ScrollSnap _scrollSnap;
+
+        [Resolver ("Scroll")]
+        private ScrollRect _fieldScroll;
+
+        [Resolver ("FieldCharacterElement")]
+        private FieldCharacterElement _fieldCharacterElement;
 
         [Inject]
         private AdventureViewmodel _adventureViewmodel;
@@ -46,7 +59,8 @@ namespace AutoChess
 
         private bool _isMoving;
 
-        private IDisposable _adventureCountDisposable;
+
+        private List<IDisposable> _disposables = new List<IDisposable> ();
 
         #endregion
 
@@ -55,7 +69,10 @@ namespace AutoChess
 
         private void Awake ()
         {
+            _inspectButton.onClick.AddListener (ClickInspectButton);
+            
             _fieldTypeActionAfter.Add (FieldSpecialType.Battle, _ => { Debug.Log ("전투가 시작되었습니다."); });
+            _fieldTypeActionAfter.Add (FieldSpecialType.Reward, _ => { Debug.Log ("보상을 얻었습니다."); });
             _fieldTypeActionAfter.Add (FieldSpecialType.BossBattle, _ => { Debug.Log ("전투가 시작되었습니다."); });
             _fieldTypeActionAfter.Add (FieldSpecialType.RecoverSmall, _ => { Debug.Log ("체력이 회복되었습니다."); });
             _fieldTypeActionAfter.Add (FieldSpecialType.RecoverMedium, _ => { Debug.Log ("체력이 회복되었습니다."); });
@@ -63,8 +80,17 @@ namespace AutoChess
             _fieldTypeActionAfter.Add (FieldSpecialType.Insightful, fieldLandElement =>
             {
                 var insightFulPosition = _adventureViewmodel.GetInsightfulPosition ();
-                var insightFulLand = GetLandElement (insightFulPosition.First());
-                snap.SnapToAsync (insightFulLand.rectTransform).Forget();
+                var insightFulLand = GetLandElement (insightFulPosition.First ());
+                _scrollSnap.SnapToAsync (insightFulLand.transform).Forget ();
+            });
+            _fieldTypeActionAfter.Add (FieldSpecialType.Exit, _ =>
+            {
+                var msgPopupStruct = new MessagePopupStruct
+                {
+                    ConfirmAction = ExitAdventure,
+                    Message = "?현재까지 얻은 보상을 획득하고 마을로 돌아가시겠습니까?"
+                };
+                NavigationHelper.OpenPopup (NavigationViewType.MessagePopup, msgPopupStruct).Forget();
             });
         }
 
@@ -82,32 +108,71 @@ namespace AutoChess
         }
 
 
-        public void StartAdventure (AdventureModel adventureModel)
+        public async UniTask StartAdventure ()
         {
-            adventureModel.AllFieldModel.SelectMany (x => x.Value)
-                .ZipForEach (lineElements.SelectMany (x => x.landElements),
-                    (model, landElement) => { ((FieldLandElement) landElement).SetElement (model); });
+            var fieldScale = Array.ConvertAll (Constant.FieldScale.Split (','), int.Parse);
+            var adventureModel = await _adventureViewmodel.StartAdventure (fieldScale);
+            Subscribe ();
+
+            await CreateField ();
+            adventureModel.AllFieldModel
+                .SelectMany (x => x.Value)
+                .ZipForEach (_lineElements.SelectMany (x => x.LandElements),
+                    (model, landElement) => { ((FieldLandElement) landElement).Element (model); });
 
             var characterModel = _characterViewmodel.BattleCharacterModels.First ();
-            fieldCharacterElement.SetElement (characterModel);
-
+            _fieldCharacterElement.SetElement (characterModel);
             var startElement = GetLandElement (adventureModel.StartField.LandPosition);
-            fieldCharacterElement.transform.SetParent (startElement.characterPositionTransform);
-            fieldCharacterElement.transform.localPosition = Vector3.zero;
+            _fieldCharacterElement.transform.position = startElement.transform.position;
+            _scrollSnap.SnapTo (startElement.GetComponent<RectTransform> ());
 
-            snap.SnapTo (startElement.GetComponent<RectTransform> ());
-
-            _adventureCountDisposable = _adventureViewmodel.AdventureModel.AdventureCount.Subscribe (count =>
+            void Subscribe ()
             {
-                adventureCountText.text = count.ToString ();
-            });
+                _disposables.Add(_adventureViewmodel.EndAdventureCommand.Subscribe(_ =>
+                {
+                    EndAdventure ();
+                }));
+                _disposables.Add (_adventureViewmodel.AdventureModel.AdventureCount.Subscribe (count =>
+                {
+                    _adventureCountText.text = count.ToString ();
+                }));
+            }
+
+
+            async UniTask CreateField ()
+            {
+                var fieldElement = await ResourcesLoadHelper.GetResourcesAsync<FieldLandElement> (
+                    ResourceRoleType._Prefab, ResourcesType.Element, nameof (FieldLandElement));
+                
+                _lineElements.Foreach ((element, i) =>
+                {
+                    var count = fieldScale[i];
+                    while (count > 0)
+                    {
+                        var obj = fieldElement.InstantiateObject<FieldLandElement> (element.transform);
+                        obj.transform.SetInstantiateTransform ();
+                        element.AddLandElement (obj);
+                        count--;
+                    }
+                });
+            }
         }
 
 
         public void EndAdventure ()
         {
-            _adventureCountDisposable.DisposeSafe ();
+            _disposables.Foreach (x => x.DisposeSafe ());
+            _disposables.Clear ();
+            Debug.Log ("end adventure");
         }
+
+
+        public void ExitAdventure ()
+        {
+            _adventureViewmodel.EndAdventure ();
+            Debug.Log ("exit adventure");
+        }
+        
 
 
         public void EndBattle (bool isWin)
@@ -124,7 +189,7 @@ namespace AutoChess
             if (fieldType == FieldSpecialType.None)
                 return;
 
-            _adventureViewmodel.SetFieldType (fieldLandElement.FieldModel);
+            _adventureViewmodel.FieldType (fieldLandElement.FieldModel);
 
             if (_fieldTypeActionBefore.ContainsKey (fieldType))
                 _fieldTypeActionBefore[fieldType] (fieldLandElement);
@@ -140,7 +205,7 @@ namespace AutoChess
             if (fieldType == FieldSpecialType.None)
                 return;
 
-            _adventureViewmodel.SetFieldType (fieldLandElement.FieldModel);
+            _adventureViewmodel.FieldType (fieldLandElement.FieldModel);
 
             if (_fieldTypeActionAfter.ContainsKey (fieldType))
                 _fieldTypeActionAfter[fieldType] (fieldLandElement);
@@ -149,7 +214,7 @@ namespace AutoChess
 
         public LandElement GetLandElement (PositionModel positionModel)
         {
-            return lineElements[positionModel.Column].landElements[positionModel.Row];
+            return _lineElements[positionModel.Column].GetLandElement (positionModel.Row);
         }
 
 
@@ -160,7 +225,7 @@ namespace AutoChess
 
             _isMoving = true;
             var result = _adventureViewmodel.FindMovingPositions (fieldLandElement.PositionModel);
-            await fieldCharacterElement.MoveTo (result);
+            await _fieldCharacterElement.MoveTo (result);
             Debug.Log ("Complete Movement");
 
             EventByFieldTypeAfterMoving (fieldLandElement);
@@ -172,6 +237,13 @@ namespace AutoChess
 
 
         #region EventMethods
+
+        private void ClickInspectButton ()
+        {
+            var aroundPosition =
+                PositionHelper.Instance.GetAroundPositionModel (_adventureViewmodel.AdventureModel.AllFieldModel,
+                    _adventureViewmodel.NowPosition);
+        }
 
         #endregion
     }

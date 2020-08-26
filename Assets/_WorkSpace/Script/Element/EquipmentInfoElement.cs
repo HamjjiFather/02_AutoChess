@@ -1,24 +1,29 @@
+using KKSFramework.DataBind;
 using KKSFramework.Navigation;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace AutoChess
 {
-    public class EquipmentInfoElement : ElementBase<EquipmentModel>
+    public class EquipmentInfoElement : ElementBase<EquipmentModel>, IResolveTarget
     {
         #region Fields & Property
 
-        public GameObject equipmentObj;
-
-        public GameObject emptyObj;
-        
-        public Image equipmentImage;
-
-        public StarGradeArea equipmentStarGradeArea;
-
         public override EquipmentModel ElementData { get; set; }
-        
+
 #pragma warning disable CS0649
+
+        [Resolver]
+        private GameObject _equipmentObj;
+
+        [Resolver]
+        private GameObject _emptyObj;
+
+        [Resolver]
+        private Image _equipmentImage;
+
+        [Resolver]
+        private StarGradeArea _equipmentStarGradeArea;
 
 #pragma warning restore CS0649
 
@@ -40,15 +45,14 @@ namespace AutoChess
         public override void SetElement (EquipmentModel elementData)
         {
             var isEmpty = elementData.UniqueEquipmentId.Equals (Constant.InvalidIndex);
-            emptyObj.SetActive (isEmpty);
-            equipmentObj.SetActive (!isEmpty);
+            _emptyObj.SetActive (isEmpty);
+            _equipmentObj.SetActive (!isEmpty);
 
             if (isEmpty) return;
-            equipmentStarGradeArea.SetArea (elementData.StarGrade);
-            equipmentImage.sprite = elementData.IconImageResources;
+            _equipmentStarGradeArea.SetArea (elementData.StarGrade);
+            _equipmentImage.sprite = elementData.IconImageResources;
         }
-        
-        
+
         #endregion
     }
 }

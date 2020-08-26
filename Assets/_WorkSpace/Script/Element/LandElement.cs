@@ -1,14 +1,10 @@
-﻿using KKSFramework.ResourcesLoad;
-using UnityEngine;
+﻿using KKSFramework.DataBind;
+using KKSFramework.ResourcesLoad;
 
 namespace AutoChess
 {
-    public class LandElement : PrefabComponent
+    public class LandElement : PrefabComponent, IResolveTarget
     {
-        public RectTransform rectTransform => GetCachedComponent<RectTransform> ();
-        
         public PositionModel PositionModel;
-        
-        public Transform characterPositionTransform;
     }
 }

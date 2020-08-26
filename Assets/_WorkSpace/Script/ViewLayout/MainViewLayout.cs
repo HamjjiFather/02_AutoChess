@@ -1,6 +1,7 @@
-using KKSFramework;
-using KKSFramework.Navigation;
 using Cysharp.Threading.Tasks;
+using KKSFramework;
+using KKSFramework.InGame;
+using KKSFramework.Navigation;
 using UnityEngine.UI;
 using Zenject;
 

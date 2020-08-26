@@ -12,12 +12,13 @@ namespace AutoChess
     {
         #region Fields & Property
 
-        public Transform movingTarget;
 
 #pragma warning disable CS0649
         
 #pragma warning restore CS0649
 
+        private Transform _movingTarget;
+        
         private IDisposable _movingDisposable;
 
         public bool IsMoving { get; private set; }
@@ -43,12 +44,12 @@ namespace AutoChess
             IsMoving = true;
             _movingDisposable = Observable.EveryUpdate ().Subscribe (_ =>
             {
-                var element = landElement.characterPositionTransform;
-                movingTarget.MoveTowards (movingTarget.position, element.position, Time.deltaTime);
+                var element = landElement.transform;
+                _movingTarget.MoveTowards (_movingTarget.position, element.position, Time.deltaTime);
             });
 
             await UniTask.WaitWhile (() =>
-                Vector2.Distance (movingTarget.position, landElement.characterPositionTransform.position) >
+                Vector2.Distance (_movingTarget.position, landElement.transform.position) >
                 float.Epsilon, cancellationToken: cancellationToken);
 
             IsMoving = false;
@@ -66,9 +67,9 @@ namespace AutoChess
             
             _movingDisposable = Observable.EveryUpdate ().Subscribe (_ =>
             {
-                var elementPosition = element.characterPositionTransform.position;
-                var movingTargetPosition = movingTarget.position;
-                movingTarget.MoveTowards (movingTargetPosition, elementPosition, Time.deltaTime);
+                var elementPosition = element.transform.position;
+                var movingTargetPosition = _movingTarget.position;
+                _movingTarget.MoveTowards (movingTargetPosition, elementPosition, Time.deltaTime);
                 
                 var distance = Vector2.Distance (movingTargetPosition, elementPosition);
                 var dist = Math.Truncate (distance * 100) * 0.01f;
@@ -86,6 +87,12 @@ namespace AutoChess
             });
 
             await UniTask.WaitWhile (() => IsMoving, cancellationToken: cancellationToken);
+        }
+
+
+        public void SetMovingTarget (Transform transform)
+        {
+            _movingTarget = transform;
         }
 
         #endregion

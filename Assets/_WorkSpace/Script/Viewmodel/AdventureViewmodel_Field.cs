@@ -57,6 +57,7 @@ namespace AutoChess
             var forestField = CreateForestField (allField);
             CreateSpecialFieldType (allField);
             var startField = CreateStartField (allField);
+            startField.ChangeFieldSpecialType (FieldSpecialType.Exit);
 
             return (forestField, startField);
         }
@@ -133,17 +134,65 @@ namespace AutoChess
         }
 
 
+        private void ForWhile (int cycle, Action invokeAction)
+        {
+            var i = 0;
+            while (i < cycle)
+            {
+                invokeAction.Invoke ();
+                i++;
+            }
+        }
+        
+
+        private void ForWhile (int cycle, Action<int> invokeAction)
+        {
+            var i = 0;
+            while (i < cycle)
+            {
+                invokeAction.Invoke (cycle);
+                i++;
+            }
+        }
+
+
         private void CreateSpecialFieldType (Dictionary<int, List<FieldModel>> allField)
         {
-            var fieldTypeArray = ((FieldSpecialType[]) Enum.GetValues (typeof (FieldSpecialType))).Skip (1).ToList ();
-
-            foreach (var fieldType in fieldTypeArray)
+            var rewardCount = Random.Range (_adventureFieldData.RewardCount[0], _adventureFieldData.RewardCount[1]);
+            ForWhile (rewardCount, () =>
+            {
+                var randomField = allField.SelectMany (x => x.Value)
+                    .Where (x => x.FieldSpecialType.Value == FieldSpecialType.None)
+                    .RandomSource ();
+                randomField.ChangeFieldSpecialType (FieldSpecialType.Reward);
+            });
+            
+            var battleCount = Random.Range (_adventureFieldData.BattleCount[0], _adventureFieldData.BattleCount[1]);
+            ForWhile (battleCount, () =>
+            {
+                var randomField = allField.SelectMany (x => x.Value)
+                    .Where (x => x.FieldSpecialType.Value == FieldSpecialType.None)
+                    .RandomSource ();
+                randomField.ChangeFieldSpecialType (FieldSpecialType.Battle);
+            });
+            
+            var bossBattleCount = Random.Range (_adventureFieldData.BossBattleCount[0], _adventureFieldData.BossBattleCount[1]);
+            ForWhile (bossBattleCount, () =>
+            {
+                var randomField = allField.SelectMany (x => x.Value)
+                    .Where (x => x.FieldSpecialType.Value == FieldSpecialType.None)
+                    .RandomSource ();
+                randomField.ChangeFieldSpecialType (FieldSpecialType.BossBattle);
+            });
+            
+            var insightfulCount = Random.Range (_adventureFieldData.OtherCount[0], _adventureFieldData.OtherCount[1]);
+            ForWhile (insightfulCount, () =>
             {
                 var randomField = allField.SelectMany (x => x.Value)
                     .Where (x => x.FieldSpecialType.Value == FieldSpecialType.None)
                     .RandomSource ();
                 randomField.ChangeFieldSpecialType (FieldSpecialType.Insightful);
-            }
+            });
         }
 
 
@@ -161,11 +210,14 @@ namespace AutoChess
         /// <summary>
         /// 필드 속성 설정.
         /// </summary>
-        public void SetFieldType (FieldModel fieldModel)
+        public void FieldType (FieldModel fieldModel)
         {
             if (_fieldTypeAction.ContainsKey (fieldModel.FieldSpecialType.Value))
                 _fieldTypeAction[fieldModel.FieldSpecialType.Value] (fieldModel);
 
+            if(fieldModel.FieldSpecialType.Value == FieldSpecialType.Exit)
+                return;
+            
             fieldModel.ChangeFieldSpecialType (FieldSpecialType.None);
         }
 

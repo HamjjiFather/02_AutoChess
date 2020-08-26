@@ -7,8 +7,7 @@ namespace KKSFramework.ResourcesLoad
         #region Methods
 
         public static T GetResources<T> (ResourceRoleType roleType, ResourcesType type, string resourceName,
-            Transform parents)
-            where T : PrefabComponent
+            Transform parents) where T : PooingComponent
         {
             T obj;
             var poolingPath = $"{roleType}/{type}/{resourceName}";
@@ -23,6 +22,7 @@ namespace KKSFramework.ResourcesLoad
             var res = ResourcesLoadManager.Instance.GetResources<T> (poolingPath);
             obj = res.InstantiateObject<T> (parents);
             obj.transform.SetInstantiateTransform ();
+            obj.Created<PooingComponent> (poolingPath);
             return obj;
         }
 

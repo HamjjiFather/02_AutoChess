@@ -24,6 +24,7 @@ namespace AutoChess
         RecoverMedium,
         RecoverLarge,
         Knowledge,
+        Exit,
     }
 
 
@@ -44,20 +45,22 @@ namespace AutoChess
         /// </summary>
         OnSight,
     }
-
-
+    
+    
     public class FieldModel : LandModel
     {
         #region Fields & Property
 
-        public ReactiveProperty<FieldGroundType> FieldGroundType =
+        public readonly ReactiveProperty<FieldGroundType> FieldGroundType =
             new ReactiveProperty<FieldGroundType> (AutoChess.FieldGroundType.None);
 
-        public ReactiveProperty<FieldSpecialType> FieldSpecialType =
+        public readonly ReactiveProperty<FieldSpecialType> FieldSpecialType =
             new ReactiveProperty<FieldSpecialType> (AutoChess.FieldSpecialType.None);
 
-        public ReactiveProperty<FieldRevealState> FieldRevealState =
+        public readonly ReactiveProperty<FieldRevealState> FieldRevealState =
             new ReactiveProperty<FieldRevealState> (AutoChess.FieldRevealState.Sealed);
+
+        public readonly BoolReactiveProperty FieldHighlight = new BoolReactiveProperty(false);
 
         public PositionModel LandPosition;
 
@@ -93,6 +96,12 @@ namespace AutoChess
         public void ChangeFieldSpecialType (FieldSpecialType fieldSpecialType)
         {
             FieldSpecialType.Value = fieldSpecialType;
+        }
+
+
+        public void ChangeHighlight (bool isHighlight)
+        {
+            FieldHighlight.Value = isHighlight;
         }
 
         #endregion

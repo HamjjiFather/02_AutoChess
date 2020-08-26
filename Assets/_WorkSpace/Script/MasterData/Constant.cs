@@ -1,4 +1,4 @@
-// ExcelExporter로 자동 생성된 파일.
+// ExcelExporter 로 자동 생성된 파일.
 
 public class Constant
 {
@@ -61,6 +61,11 @@ public class Constant
     /// 천리안 시야 범위
     /// </summary>
     public const int InsightFullRange = 1;
+
+    /// <summary>
+    /// 필드 크기
+    /// </summary>
+    public const string FieldScale = "10,9,10,9,10,9,10,9,10,9,10,9,10,9,10,9,10,9,10,9,10";
 
 
 }

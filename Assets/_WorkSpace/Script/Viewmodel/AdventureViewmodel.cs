@@ -24,6 +24,7 @@ namespace AutoChess
 #pragma warning restore CS0649
 
         private readonly ReactiveProperty<PositionModel> _nowPosition = new ReactiveProperty<PositionModel> ();
+        public PositionModel NowPosition => _nowPosition.Value;
 
         /// <summary>
         /// 모험 모델.
@@ -95,6 +96,7 @@ namespace AutoChess
         {
             AdventureModel.DecreaseAdventureCount ();
             SetSight (completePositionModel);
+            _nowPosition.Value = completePositionModel;
         }
 
         public void SetSight (PositionModel newPosition)
@@ -113,8 +115,6 @@ namespace AutoChess
                 .Where (ContainPosition)
                 .Select (x => _adventureModel.AllFieldModel[x.Column][x.Row])
                 .Foreach (x => x.ChangeState (FieldRevealState.OnSight));
-
-            _nowPosition.Value = newPosition;
         }
 
 

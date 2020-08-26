@@ -4,6 +4,7 @@ using System.Linq;
 using UniRx;
 using Cysharp.Threading.Tasks;
 using KKSFramework;
+using KKSFramework.DataBind;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -14,27 +15,32 @@ namespace AutoChess
     {
         #region Fields & Property
 
-        public GameObject fieldObj;
-
-        public GameObject[] fieldTypeObjs;
-
-        public GameObject[] fieldGroundTypeObjs;
-
-        public GameObject sealedObj;
-
-        public GameObject revealedObj;
-
-        public Button landButton;
-
 #pragma warning disable CS0649
+
+        [Resolver]
+        private GameObject _fieldObj;
+
+        [Resolver]
+        private GameObject[] _fieldTypeObjs;
+
+        [Resolver]
+        private GameObject[] _fieldGroundTypeObjs;
+
+        [Resolver]
+        private GameObject _sealedObj;
+
+        [Resolver]
+        private GameObject _revealedObj;
+
+        [Resolver]
+        private Button _landButton;
 
         [Inject]
         private AdventureViewmodel _adventureViewmodel;
 
 #pragma warning restore CS0649
 
-        private FieldModel _fieldModel;
-        public FieldModel FieldModel => _fieldModel;
+        public FieldModel FieldModel { get; private set; }
 
         private FieldViewLayout _fieldViewLayout;
 
@@ -45,9 +51,9 @@ namespace AutoChess
 
         #region UnityMethods
 
-        private void Awake ()
+        private void Start ()
         {
-            landButton.onClick.AddListener (ClickElement);
+            _landButton.onClick.AddListener (ClickElement);
         }
 
         #endregion
@@ -55,37 +61,37 @@ namespace AutoChess
 
         #region Methods
 
-        public void SetElement (FieldModel fieldModel)
+        public void Element (FieldModel fieldModel)
         {
-            _fieldModel = fieldModel;
+            FieldModel = fieldModel;
             _fieldTypeDisposables = new List<IDisposable> ();
 
-            var stateDisposable = _fieldModel.FieldRevealState.Subscribe (state =>
+            var stateDisposable = FieldModel.FieldRevealState.Subscribe (state =>
             {
-                sealedObj.SetActive (state == FieldRevealState.Sealed);
-                revealedObj.SetActive (state == FieldRevealState.Revealed);
+                _sealedObj.SetActive (state == FieldRevealState.Sealed);
+                _revealedObj.SetActive (state == FieldRevealState.Revealed);
 
-                if (state != FieldRevealState.Sealed)
-                {
-                    SetFieldSpecialType ();
-                    SetFieldGroundType ();
-                }
-                // fieldObj.SetActive (state != FieldRevealState.Sealed);
+                if (state == FieldRevealState.Sealed) return;
+                SetFieldSpecialType ();
+                SetFieldGroundType ();
+
+                // _fieldObj.SetActive (state != FieldRevealState.Sealed);
             });
 
-            fieldTypeObjs.Foreach (x => x.SetActive (false));
-            fieldTypeObjs[(int) fieldModel.FieldSpecialType.Value].SetActive (true);
-            var specialTypeDisposable = _fieldModel.FieldSpecialType.Subscribe (type =>
+            _fieldTypeObjs.Foreach (x => x.SetActive (false));
+            _fieldTypeObjs[(int) fieldModel.FieldSpecialType.Value].SetActive (true);
+            var specialTypeDisposable = FieldModel.FieldSpecialType.Subscribe (type =>
             {
-                fieldTypeObjs.Where (x => x.activeSelf).Foreach (x => x.SetActive (false));
-                fieldTypeObjs[(int) type].SetActive (_fieldModel.FieldRevealState.Value != FieldRevealState.Sealed);
+                _fieldTypeObjs.Where (x => x.activeSelf).Foreach (x => x.SetActive (false));
+                _fieldTypeObjs[(int) type].SetActive (FieldModel.FieldRevealState.Value != FieldRevealState.Sealed);
             });
 
-            fieldGroundTypeObjs.Foreach (x => x.SetActive (false));
-            var groundTypeDisposable = _fieldModel.FieldGroundType.Subscribe (type =>
+            _fieldGroundTypeObjs.Foreach (x => x.SetActive (false));
+            var groundTypeDisposable = FieldModel.FieldGroundType.Subscribe (type =>
             {
-                fieldGroundTypeObjs.Where (x => x.activeSelf).Foreach (x => x.SetActive (false));
-                fieldGroundTypeObjs[(int) type].SetActive (_fieldModel.FieldRevealState.Value != FieldRevealState.Sealed);
+                _fieldGroundTypeObjs.Where (x => x.activeSelf).Foreach (x => x.SetActive (false));
+                _fieldGroundTypeObjs[(int) type]
+                    .SetActive (FieldModel.FieldRevealState.Value != FieldRevealState.Sealed);
             });
 
             _fieldTypeDisposables.AddRange (new[]
@@ -97,12 +103,12 @@ namespace AutoChess
 
             void SetFieldSpecialType ()
             {
-                fieldTypeObjs[(int) _fieldModel.FieldSpecialType.Value].SetActive (true);
+                _fieldTypeObjs[(int) FieldModel.FieldSpecialType.Value].SetActive (true);
             }
 
             void SetFieldGroundType ()
             {
-                fieldGroundTypeObjs[(int)_fieldModel.FieldGroundType.Value].SetActive (true);
+                _fieldGroundTypeObjs[(int) FieldModel.FieldGroundType.Value].SetActive (true);
             }
         }
 
@@ -113,7 +119,7 @@ namespace AutoChess
 
         private void ClickElement ()
         {
-            if (_fieldModel.FieldRevealState.Value != FieldRevealState.Sealed)
+            if (FieldModel.FieldRevealState.Value != FieldRevealState.Sealed)
                 _fieldViewLayout.ChangePosition (this).Forget ();
         }
 

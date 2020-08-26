@@ -1,4 +1,4 @@
-// ExcelExporter로 자동 생성된 파일.
+// ExcelExporter 로 자동 생성된 파일.
 
 using System.Collections.Generic;
 using System.Linq;

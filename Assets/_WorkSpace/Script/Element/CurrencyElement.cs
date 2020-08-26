@@ -1,19 +1,22 @@
 using System;
+using KKSFramework.DataBind;
 using KKSFramework.Navigation;
 using UniRx;
 using UnityEngine.UI;
 
 namespace AutoChess
 {
-    public class CurrencyElement : ElementBase<CurrencyModel>
+    public class CurrencyElement : ElementBase<CurrencyModel>, IResolveTarget
     {
         #region Fields & Property
 
-        public Image icon;
-
-        public Text statusText;
-
 #pragma warning disable CS0649
+        
+        [Resolver("CurrencyImage")]
+        private Image _icon;
+
+        [Resolver("CurrencyText")]
+        private Text _statusText;
 
 #pragma warning restore CS0649
 
@@ -34,7 +37,7 @@ namespace AutoChess
         public override void SetElement (CurrencyModel currencyModel)
         {
             ElementData = currencyModel;
-            ElementData.CurrencyAmount.SubscribeToText (statusText);
+            ElementData.CurrencyAmount.SubscribeToText (_statusText);
         }
 
         #endregion

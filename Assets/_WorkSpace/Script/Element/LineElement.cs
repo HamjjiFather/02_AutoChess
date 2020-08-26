@@ -1,22 +1,22 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace AutoChess
 {
     public class LineElement : MonoBehaviour
     {
-        public LandElement[] landElements;
+        private readonly List<LandElement> _landElements = new List<LandElement> ();
+        public IEnumerable<LandElement> LandElements => _landElements;
 
-
-        public LandElement GetLandElement (int row)
+        public LandElement GetLandElement (int index)
         {
-            return landElements.Reverse ().ToList ()[row];
+            return _landElements[index];
         }
 
 
-        public bool IsContainRow (int row)
+        public void AddLandElement (LandElement landElement)
         {
-            return Enumerable.Range (0, landElements.Length).Contains (row);
+            _landElements.Add (landElement);
         }
     }
 }

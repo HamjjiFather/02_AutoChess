@@ -14,8 +14,9 @@ GameObject:
   - component: {fileID: 3070022550383614943}
   - component: {fileID: 931323908890720738}
   - component: {fileID: 8660367553799267607}
+  - component: {fileID: 3417102843350323582}
   m_Layer: 5
-  m_Name: ExpText
+  m_Name: SliderText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,6 +64,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -125,6 +127,20 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
+--- !u!114 &3417102843350323582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2562648082423595006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  containerPath: _sliderText
+  targetComponent: {fileID: 7767215522148150827}
 --- !u!1 &4478122937785136907
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,6 +151,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2531477813762287703}
   - component: {fileID: 693194798216431717}
+  - component: {fileID: 1296974082510053884}
   m_Layer: 5
   m_Name: EffectGageSlider
   m_TagString: Untagged
@@ -213,6 +230,20 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1296974082510053884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4478122937785136907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  containerPath: _effectSlider
+  targetComponent: {fileID: 693194798216431717}
 --- !u!1 &4965367944046980212
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,6 +254,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7137272069332250782}
   - component: {fileID: 95441988194279492}
+  - component: {fileID: 8334235506325187773}
   m_Layer: 5
   m_Name: GageElement
   m_TagString: Untagged
@@ -268,6 +300,19 @@ MonoBehaviour:
   effectSlider: {fileID: 693194798216431717}
   gageImage: {fileID: 1244909912201196258}
   sliderText: {fileID: 7767215522148150827}
+--- !u!114 &8334235506325187773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4965367944046980212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b79eb51b6ff47cd9fb95df1f4e71705, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  autoRun: 1
 --- !u!1 &5413885089525589940
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,6 +324,7 @@ GameObject:
   - component: {fileID: 725720946857099720}
   - component: {fileID: 6757642250352634210}
   - component: {fileID: 1244909912201196258}
+  - component: {fileID: 5998240286734783583}
   m_Layer: 5
   m_Name: Gage
   m_TagString: Untagged
@@ -328,6 +374,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -342,6 +389,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5998240286734783583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5413885089525589940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  containerPath: _gageImage
+  targetComponent: {fileID: 1244909912201196258}
 --- !u!1 &5440104518295417312
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,6 +413,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1827367449311464336}
   - component: {fileID: 8883811672435362557}
+  - component: {fileID: 5628302583726766368}
   m_Layer: 5
   m_Name: GageSlider
   m_TagString: Untagged
@@ -429,6 +491,20 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5628302583726766368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5440104518295417312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  containerPath: _slider
+  targetComponent: {fileID: 8883811672435362557}
 --- !u!1 &6002568592997319512
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,6 +565,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -563,6 +640,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

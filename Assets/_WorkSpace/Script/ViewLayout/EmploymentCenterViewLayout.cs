@@ -1,7 +1,5 @@
-using KKSFramework;
+using KKSFramework.InGame;
 using KKSFramework.Navigation;
-using UnityEngine;
-using UnityEngine.UI;
 using Zenject;
 
 namespace AutoChess

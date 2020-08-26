@@ -29,6 +29,9 @@ namespace AutoChess
         [Inject]
         private CharacterViewmodel _characterViewmodel;
 
+        [Inject]
+        private AdventureViewmodel _adventureViewmodel;
+
 #pragma warning restore CS0649
 
         /// <summary>
@@ -96,6 +99,9 @@ namespace AutoChess
         {
             ResetCharacter ();
             EndBattleCommand.Execute (isWin);
+            
+            if(isWin)
+                _adventureViewmodel.AddExp (BattleStageModel.StageData.RewardExp);
         }
 
 

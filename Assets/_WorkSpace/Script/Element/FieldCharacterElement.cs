@@ -3,25 +3,29 @@ using System.Threading;
 using KKSFramework.Navigation;
 using Cysharp.Threading.Tasks;
 using KKSFramework;
+using KKSFramework.DataBind;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
 namespace AutoChess
 {
-    public class FieldCharacterElement : ElementBase<CharacterModel>
+    public class FieldCharacterElement : ElementBase<CharacterModel>, IResolveTarget
     {
         #region Fields & Property
         
         public override CharacterModel ElementData { get; set; }
 
-        public MovingSystemModule movingSystem;
-
-        public Animator characterAnimator;
-        
-        public Image characterImage;
-
 #pragma warning disable CS0649
+        
+        [Resolver]
+        private MovingSystemModule _movingSystem;
+
+        [Resolver]
+        private Animator _characterAnimator;
+        
+        [Resolver]
+        private SpriteRenderer _characterSpriteRenderer;
 
         [Inject]
         private AdventureViewmodel _adventureViewmodel;
@@ -48,10 +52,11 @@ namespace AutoChess
         
         public override void SetElement (CharacterModel elementData)
         {
-            characterImage.sprite = elementData.IconImageResources;
-            characterAnimator.runtimeAnimatorController = elementData.CharacterAnimatorResources;
+            _characterSpriteRenderer.sprite = elementData.IconImageResources;
+            _characterAnimator.runtimeAnimatorController = elementData.CharacterAnimatorResources;
             _cancellationToken = new CancellationTokenSource();
             _fieldViewLayout = ProjectContext.Instance.Container.Resolve<FieldViewLayout> ();
+            _movingSystem.SetMovingTarget(transform);
         }
 
 
@@ -65,7 +70,7 @@ namespace AutoChess
         public async UniTask MoveTo (FieldTargetResultModel resultModel)
         {
             var elements = resultModel.FoundPositions.Select (position => _fieldViewLayout.GetLandElement (position));
-            await movingSystem.Moving (elements, _adventureViewmodel.CompleteMove, _cancellationToken.Token);
+            await _movingSystem.Moving (elements, _adventureViewmodel.CompleteMove, _cancellationToken.Token);
         }
 
         #endregion

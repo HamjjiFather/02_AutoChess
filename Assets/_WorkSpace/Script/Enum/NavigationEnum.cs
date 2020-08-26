@@ -8,5 +8,6 @@ namespace KKSFramework.Navigation
         GamePage,
         AdventurePage,
         QuitPopup,
+        MessagePopup,
     }
 }

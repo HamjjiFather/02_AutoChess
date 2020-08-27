@@ -64,7 +64,7 @@ namespace AutoChess
 
             starGradeArea.SetArea (StarGrade.Grade1);
 
-            characterNameText.GetTranslatedString (ElementData.CharacterData.Name);
+            characterNameText.text = LocalizationHelper.GetTranslatedString (ElementData.CharacterData.Name);
 
             characterImage.sprite = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
                 ResourcesType.Monster, characterModel.CharacterData.SpriteResName);

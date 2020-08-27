@@ -25,6 +25,11 @@ namespace AutoChess
             RewardCount.Value += reward;
         }
 
+        public void AddGoldCount (int gold)
+        {
+            GoldCount.Value += gold;
+        }
+
         #endregion
     }
 }

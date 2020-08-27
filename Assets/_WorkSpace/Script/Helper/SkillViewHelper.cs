@@ -32,7 +32,7 @@ namespace AutoChess
 
         public string ToSkillDescriptionString (CharacterModel characterModel)
         {
-            var originDesc = GlobalTextHelper.GetTranslatedString (characterModel.SkillData.Desc);
+            var originDesc = LocalizationHelper.GetTranslatedString (characterModel.SkillData.Desc);
 
             if (!originDesc.Contains ("#VALUE")) return originDesc;
 
@@ -49,7 +49,7 @@ namespace AutoChess
         private string ToValueString (CharacterModel characterModel, Skill skillData)
         {
             var statusName = TableDataHelper.Instance.GetStatus (skillData.RefSkillStatusType).NameKey;
-            var translatedName = GlobalTextHelper.GetTranslatedString (statusName);
+            var translatedName = LocalizationHelper.GetTranslatedString (statusName);
             var selfRef = skillData.RefSkillValueTarget == RefSkillValueTarget.Self;
             var color = _commonColorSetting.GetStatusColor (skillData.RefSkillStatusType);
 

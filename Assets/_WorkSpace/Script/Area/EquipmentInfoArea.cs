@@ -51,7 +51,7 @@ namespace AutoChess
         public override void SetArea (EquipmentModel areaData)
         {
             _equipmentModel = areaData;
-            equipmentNameText.GetTranslatedString (areaData.EquipmentData.Name);
+            equipmentNameText.text = LocalizationHelper.GetTranslatedString (areaData.EquipmentData.Name);
             starGradeArea.SetArea (areaData.StarGrade);
             equipmentImage.sprite = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
                 ResourcesType.Equipment, areaData.EquipmentData.SpriteResName);

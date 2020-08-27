@@ -945,7 +945,6 @@ GameObject:
   - component: {fileID: 7569239759539976323}
   - component: {fileID: 3966597963253738498}
   - component: {fileID: 6162542051405592011}
-  - component: {fileID: 669632808632457386}
   - component: {fileID: 2340468290387344363}
   m_Layer: 5
   m_Name: RewardCountText
@@ -1015,20 +1014,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 0
---- !u!114 &669632808632457386
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1828507704032679593}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  containerPath: _rewardCountText
-  targetComponent: {fileID: 6162542051405592011}
 --- !u!114 &2340468290387344363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1470,7 +1455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  containerPath: InspectButton
+  containerPath: _inspectButton
   targetComponent: {fileID: 7635196283739101257}
 --- !u!1 &3258861350767715499
 GameObject:
@@ -1676,7 +1661,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  containerPath: FieldCharacterElement
+  containerPath: _fieldCharacterElement
   targetComponent: {fileID: 1589184210193599404}
 --- !u!1 &3878236991896613121
 GameObject:
@@ -2107,8 +2092,11 @@ GameObject:
   - component: {fileID: 3752579458874711559}
   - component: {fileID: 6472636716627124895}
   - component: {fileID: 7158928084866155808}
+  - component: {fileID: 4760631388623561232}
+  - component: {fileID: 7529987252760533366}
+  - component: {fileID: 4240415124518954686}
   m_Layer: 5
-  m_Name: Rewards
+  m_Name: FieldViewLayoutRewardArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2183,6 +2171,45 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 2
   m_TargetDisplay: 0
+--- !u!114 &4760631388623561232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4880752446185475085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0093ec2ffa204225a79265157fde4c8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7529987252760533366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4880752446185475085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b79eb51b6ff47cd9fb95df1f4e71705, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  autoRun: 1
+--- !u!114 &4240415124518954686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4880752446185475085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  containerPath: _fieldViewLayoutRewardArea
+  targetComponent: {fileID: 4760631388623561232}
 --- !u!1 &4987861389152483574
 GameObject:
   m_ObjectHideFlags: 0
@@ -2433,7 +2460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  containerPath: ScrollSnap
+  containerPath: _scrollSnap
   targetComponent: {fileID: 1533835550835928918}
 --- !u!114 &5750766466949497407
 MonoBehaviour:
@@ -2447,7 +2474,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  containerPath: Scroll
+  containerPath: _fieldScroll
   targetComponent: {fileID: 691995974791697174}
 --- !u!1 &5374164015298817358
 GameObject:
@@ -2556,10 +2583,10 @@ GameObject:
   - component: {fileID: 6601635119659794108}
   - component: {fileID: 6550213001550107490}
   - component: {fileID: 1036004596886276767}
-  - component: {fileID: 9066184033845154691}
   - component: {fileID: 2181673714250775818}
+  - component: {fileID: 9066184033845154691}
   m_Layer: 5
-  m_Name: RewardCountText
+  m_Name: GoldCountText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2626,20 +2653,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 0
---- !u!114 &9066184033845154691
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5427045594163461924}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  containerPath: _rewardCountText
-  targetComponent: {fileID: 1036004596886276767}
 --- !u!114 &2181673714250775818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2660,6 +2673,20 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1
   m_LayoutPriority: 1
+--- !u!114 &9066184033845154691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5427045594163461924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  containerPath: _goldCountText
+  targetComponent: {fileID: 1036004596886276767}
 --- !u!1 &5769632461558048590
 GameObject:
   m_ObjectHideFlags: 0
@@ -2772,7 +2799,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2991839329354931987
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2789,10 +2816,10 @@ RectTransform:
   m_Father: {fileID: 3752579458874711559}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: -144}
+  m_SizeDelta: {x: 240, y: 48}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &5170815918568282932
 MonoBehaviour:
@@ -3002,7 +3029,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  containerPath: AdventureCountText
+  containerPath: _adventureCountText
   targetComponent: {fileID: 2638287835829375656}
 --- !u!1 &7095990495853889955
 GameObject:
@@ -3111,8 +3138,8 @@ GameObject:
   - component: {fileID: 3842995609029032401}
   - component: {fileID: 2663969857397701347}
   - component: {fileID: 1098953830831826343}
-  - component: {fileID: 2397257112448478413}
   - component: {fileID: 8299424406368099673}
+  - component: {fileID: 5583141520449120012}
   m_Layer: 5
   m_Name: RewardCountText
   m_TagString: Untagged
@@ -3181,20 +3208,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 0
---- !u!114 &2397257112448478413
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7313444558541046719}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  containerPath: _rewardCountText
-  targetComponent: {fileID: 1098953830831826343}
 --- !u!114 &8299424406368099673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3215,6 +3228,20 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1
   m_LayoutPriority: 1
+--- !u!114 &5583141520449120012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7313444558541046719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  containerPath: _rewardCountText
+  targetComponent: {fileID: 1098953830831826343}
 --- !u!1 &7609596947262017794
 GameObject:
   m_ObjectHideFlags: 0

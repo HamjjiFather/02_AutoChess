@@ -53,7 +53,7 @@ namespace AutoChess
         {
             starGradeArea.SetArea (elementData.EquipmentModel.StarGrade);
             equipmentImage.sprite = elementData.EquipmentModel.IconImageResources;
-            equipmentNameText.GetTranslatedString (elementData.EquipmentModel.EquipmentData.Name);
+            equipmentNameText.text = LocalizationHelper.GetTranslatedString (elementData.EquipmentModel.EquipmentData.Name);
             
             elementButton.onClick.RemoveAllListeners ();
             elementButton.onClick.AddListener (() =>

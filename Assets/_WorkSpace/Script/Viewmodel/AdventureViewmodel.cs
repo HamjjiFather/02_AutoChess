@@ -49,6 +49,8 @@ namespace AutoChess
         /// </summary>
         public async UniTask<AdventureModel> StartAdventure (int[] sizes)
         {
+            StartAdventure_Rewards ();
+            
             _adventureModel = new AdventureModel (Constant.MaxAdventureCount);
 
             var (forestField, startField) = CreateAllFields (sizes);

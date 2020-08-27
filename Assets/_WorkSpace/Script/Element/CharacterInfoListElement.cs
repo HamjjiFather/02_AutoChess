@@ -19,21 +19,23 @@ namespace AutoChess
     {
         #region Fields & Property
 
+        private Context _context => GetCachedComponent<Context> ();
+
 #pragma warning disable CS0649
 
-        [Resolver ("StarGradeArea")]
+        [Resolver]
         private StarGradeArea _starGradeArea;
 
-        [Resolver ("CharacterImage")]
+        [Resolver]
         private Image _characterImage;
 
-        [Resolver ("CharacterNameText")]
+        [Resolver]
         private Text _characterNameText;
 
-        [Resolver ("ElementButton")]
+        [Resolver]
         private Button _elementButton;
 
-        [Resolver ("InBattleObject")]
+        [Resolver]
         private GameObject _inBattleObj;
 
 #pragma warning restore CS0649
@@ -52,10 +54,11 @@ namespace AutoChess
 
         public void SetElement (CharacterInfoListElementModel characterInfoListElementModel)
         {
+            _context.Resolve (true);
             ElementData = characterInfoListElementModel;
             _starGradeArea.SetArea (characterInfoListElementModel.CharacterModel.StarGrade);
             _characterImage.sprite = characterInfoListElementModel.CharacterModel.IconImageResources;
-            _characterNameText.GetTranslatedString (characterInfoListElementModel.CharacterModel.CharacterData.Name);
+            _characterNameText.text = LocalizationHelper.GetTranslatedString (characterInfoListElementModel.CharacterModel.CharacterData.Name);
             _elementButton.onClick.RemoveAllListeners ();
             _elementButton.onClick.AddListener (() =>
             {

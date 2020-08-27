@@ -8,38 +8,40 @@ using UnityEngine.UI;
 
 namespace AutoChess
 {
-    public class CharacterInfoArea : AreaBase<CharacterModel>
+    public class CharacterInfoArea : AreaBase<CharacterModel>, IResolveTarget
     {
         #region Fields & Property
 
-        public EquipmentInfoElement[] equipmentInfoElement;
-
-        public StatusElement[] baseStatusElements;
-
 #pragma warning disable CS0649
         
-        [Resolver("TypeImage")]
+        [Resolver]
+        private EquipmentInfoElement[] _equipmentInfoElement;
+
+        [Resolver]
+        private StatusElement[] _baseStatusElements;
+        
+        [Resolver]
         private Image _characterTypeIcon;
 
-        [Resolver("NameText")]
+        [Resolver]
         private Text _characterNameText;
 
-        [Resolver("StarGradeArea")]
+        [Resolver]
         private StarGradeArea _starGradeArea;
 
-        [Resolver("CharacterImage")]
+        [Resolver]
         private Image _characterImage;
 
-        [Resolver("CharacterAnimator")]
+        [Resolver]
         private Animator _characterAnimator;
 
-        [Resolver("LevelText")]
+        [Resolver]
         private Text _levelText;
 
-        [Resolver("ExpGageElement")]
+        [Resolver]
         private GageElement _expGageElement;
 
-        [Resolver("SkillInfoArea")]
+        [Resolver]
         private SkillInfoArea _skillInfoArea;
 
 #pragma warning restore CS0649
@@ -68,7 +70,7 @@ namespace AutoChess
 
             void SetFixedCharacterInfo ()
             {
-                _characterNameText.GetTranslatedString (areaData.CharacterData.Name);
+                _characterNameText.text = LocalizationHelper.GetTranslatedString (areaData.CharacterData.Name);
                 _characterImage.sprite = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
                     ResourcesType.Monster, areaData.CharacterData.SpriteResName);
                 _characterAnimator.runtimeAnimatorController =
@@ -83,11 +85,11 @@ namespace AutoChess
                 _expGageElement.SetValue (characterModel.NowExp (), levelData.ReqExp);
                 _starGradeArea.SetArea (characterModel.StarGrade);
 
-                baseStatusElements[0].SetCharacterElement (StatusType.Health, characterModel);
-                baseStatusElements[1].SetCharacterElement (StatusType.Attack, characterModel);
-                baseStatusElements[2].SetCharacterElement (StatusType.AbilityPoint, characterModel);
-                baseStatusElements[3].SetCharacterElement (StatusType.Defense, characterModel);
-                baseStatusElements[4].SetCharacterElement (StatusType.AttackSpeed, characterModel);
+                _baseStatusElements[0].SetCharacterElement (StatusType.Health, characterModel);
+                _baseStatusElements[1].SetCharacterElement (StatusType.Attack, characterModel);
+                _baseStatusElements[2].SetCharacterElement (StatusType.AbilityPoint, characterModel);
+                _baseStatusElements[3].SetCharacterElement (StatusType.Defense, characterModel);
+                _baseStatusElements[4].SetCharacterElement (StatusType.AttackSpeed, characterModel);
                 
                 _skillInfoArea.SetArea (characterModel);
                 
@@ -97,7 +99,7 @@ namespace AutoChess
                 {
                     characterModel.EquipmentStatusModel.EquipmentModels.Foreach ((model, index) =>
                     {
-                        equipmentInfoElement[index].SetElement (model);
+                        _equipmentInfoElement[index].SetElement (model);
                     });
                 }
             }

@@ -32,7 +32,7 @@ namespace AutoChess
 
         public override void SetArea (CharacterModel areaData)
         {
-            skillNameText.GetTranslatedString (areaData.SkillData.Name);
+            skillNameText.text = LocalizationHelper.GetTranslatedString (areaData.SkillData.Name);
             skillDescText.text = SkillViewHelper.Instance.ToSkillDescriptionString (areaData);
         }
 

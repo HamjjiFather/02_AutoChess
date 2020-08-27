@@ -40,7 +40,7 @@ namespace AutoChess
                 statusGrade.Min <= baseStatusModel.GradeValue && statusGrade.Max > baseStatusModel.GradeValue);
 
             statusGradeText.text = grade.GradeString;
-            statusNameText.GetTranslatedString (ElementData.StatusData.NameKey);
+            statusNameText.text = LocalizationHelper.GetTranslatedString (ElementData.StatusData.NameKey);
             statusValueText.text = ElementData.DisplayValue;
         }
         
@@ -60,7 +60,7 @@ namespace AutoChess
                 ? ElementData.DisplayValue : $"{totalValue} + ({characterModel.EquipmentStatusModel.DisplayValue (statusType)})";
 
             statusGradeText.text = grade.GradeString;
-            statusNameText.GetTranslatedString (ElementData.StatusData.NameKey);
+            statusNameText.text = LocalizationHelper.GetTranslatedString (ElementData.StatusData.NameKey);
             statusValueText.text = displayValueString;
         }
         

@@ -21,23 +21,26 @@ namespace AutoChess
 #pragma warning disable CS0649
 
         [Resolver]
+        private FieldViewLayoutRewardArea _fieldViewLayoutRewardArea;
+        
+        [Resolver]
         private LineElement[] _lineElements;
 
         public LineElement[] LineElements => _lineElements;
 
-        [Resolver ("AdventureCountText")]
+        [Resolver]
         private Text _adventureCountText;
 
-        [Resolver ("InspectButton")]
+        [Resolver]
         private Button _inspectButton;
 
-        [Resolver ("ScrollSnap")]
+        [Resolver]
         private ScrollSnap _scrollSnap;
 
-        [Resolver ("Scroll")]
+        [Resolver]
         private ScrollRect _fieldScroll;
 
-        [Resolver ("FieldCharacterElement")]
+        [Resolver]
         private FieldCharacterElement _fieldCharacterElement;
 
         [Inject]
@@ -119,6 +122,8 @@ namespace AutoChess
                 .SelectMany (x => x.Value)
                 .ZipForEach (_lineElements.SelectMany (x => x.LandElements),
                     (model, landElement) => { ((FieldLandElement) landElement).Element (model); });
+            
+            _fieldViewLayoutRewardArea.SetArea (_adventureViewmodel.AdventureRewardModel);
 
             var characterModel = _characterViewmodel.BattleCharacterModels.First ();
             _fieldCharacterElement.SetElement (characterModel);

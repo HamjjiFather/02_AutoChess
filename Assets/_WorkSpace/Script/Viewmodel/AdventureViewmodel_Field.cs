@@ -34,6 +34,7 @@ namespace AutoChess
         {
             _fieldTypeAction.Add (FieldSpecialType.Battle, fieldModel => _battleViewmodel.StartBattle ());
             _fieldTypeAction.Add (FieldSpecialType.BossBattle, fieldModel => _battleViewmodel.StartBattle ());
+            _fieldTypeAction.Add (FieldSpecialType.Reward, _ => { RewardCheck (); });
             _fieldTypeAction.Add (FieldSpecialType.RecoverSmall,
                 fieldModel => RecoverHealth (CharacterSideType.Player, 0.1f));
             _fieldTypeAction.Add (FieldSpecialType.RecoverMedium,
@@ -41,6 +42,7 @@ namespace AutoChess
             _fieldTypeAction.Add (FieldSpecialType.RecoverLarge,
                 fieldModel => RecoverHealth (CharacterSideType.Player, 0.5f));
             _fieldTypeAction.Add (FieldSpecialType.Insightful, _ => { });
+            
         }
 
 

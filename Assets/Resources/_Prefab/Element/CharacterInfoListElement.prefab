@@ -62,6 +62,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b79eb51b6ff47cd9fb95df1f4e71705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  autoRun: 0
 --- !u!1 &370098380319465652
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,7 +235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  containerPath: ElementButton
+  containerPath: _elementButton
   targetComponent: {fileID: 7035182988872502021}
 --- !u!1 &3676466905503140793
 GameObject:
@@ -324,7 +325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  containerPath: CharacterImage
+  containerPath: _characterImage
   targetComponent: {fileID: 5755435748277840767}
 --- !u!1 &5180093979485532652
 GameObject:
@@ -418,7 +419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  containerPath: CharacterNameText
+  containerPath: _characterNameText
   targetComponent: {fileID: 6831325788430074681}
 --- !u!1 &6119276564715080571
 GameObject:
@@ -512,8 +513,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  containerPath: InBattleObject
-  targetComponent: {fileID: 1773301951093553225}
+  containerPath: _inBattleObj
+  targetComponent: {fileID: 6119276564715080571}
 --- !u!114 &4728719263250492928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -526,7 +527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  containerPath: StarGradeArea
+  containerPath: _starGradeArea
   targetComponent: {fileID: 9209283008377003727}
 --- !u!1001 &997982365799820250
 PrefabInstance:

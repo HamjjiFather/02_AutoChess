@@ -1,4 +1,5 @@
 Id	GlobalTexts
+ADVENTURE_RESULT_MSG	이번 탐험으로 얻은 보상/Rewards in this explore.
 CHARACTER_NAME_0000	지니/Genie/지니/Genie
 CHARACTER_NAME_0001	흡혈박쥐/Blood Bat/흡혈박쥐/Blood Bat
 CHARACTER_NAME_0002	페어리/페어리

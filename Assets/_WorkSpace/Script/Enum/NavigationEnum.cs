@@ -9,5 +9,6 @@ namespace KKSFramework.Navigation
         AdventurePage,
         QuitPopup,
         MessagePopup,
+        AdventureResultPopup
     }
 }

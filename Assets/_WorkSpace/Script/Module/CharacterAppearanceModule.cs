@@ -1,30 +1,32 @@
 using System;
 using System.Threading;
-using DG.Tweening;
 using Cysharp.Threading.Tasks;
+using KKSFramework.DataBind;
 using UnityEngine;
-using UnityEngine.UI;
 using Zenject;
 
 namespace AutoChess
 {
-    public class CharacterAppearanceModule : MonoBehaviour
+    public class CharacterAppearanceModule : MonoBehaviour, IResolveTarget
     {
         #region Fields & Property
 
-        public Animator characterAniamtor;
-
-        public Image characterImage;
-
-        public Image flashImage;
-
-        public GageElement hpGageElement;
-
-        public GageElement skillGageElement;
-
-        public Transform directionTransform;
-
 #pragma warning disable CS0649
+        
+        [Resolver]
+        private Animator _characterAniamtor;
+
+        [Resolver]
+        private SpriteRenderer _characterImage;
+
+        [Resolver]
+        private GageElement _hpGageElement;
+
+        [Resolver]
+        private GageElement _skillGageElement;
+
+        [Resolver]
+        private Transform _directionTransform;
 
         [Inject]
         private CommonColorSetting _commonColorSetting;
@@ -55,7 +57,7 @@ namespace AutoChess
         /// </summary>
         public void SetSprite (Sprite sprite)
         {
-            characterImage.sprite = sprite;
+            _characterImage.sprite = sprite;
         }
 
 
@@ -64,8 +66,8 @@ namespace AutoChess
         /// </summary>
         public void DoFlashImageTween ()
         {
-            flashImage.color = Color.white;
-            flashImage.DOColor (new Color (1, 1, 1, 0), 0.1f);
+            // _flashImage.color = Color.white;
+            // _flashImage.DOColor (new Color (1, 1, 1, 0), 0.1f);
         }
 
 
@@ -74,50 +76,50 @@ namespace AutoChess
         /// </summary>
         public void SetHealthGageColor (CharacterSideType characterSideType)
         {
-            hpGageElement.SetGageColor (characterSideType == CharacterSideType.Player
+            _hpGageElement.SetGageColor (characterSideType == CharacterSideType.Player
                 ? _commonColorSetting.playerHealthGageColor : _commonColorSetting.aiHealthGageColor);
         }
 
 
         public void SetRuntimeAnimatorContoller (RuntimeAnimatorController animatorController)
         {
-            characterAniamtor.runtimeAnimatorController = animatorController;
+            _characterAniamtor.runtimeAnimatorController = animatorController;
         }
 
 
         public void ChangeSide (bool isLeft)
         {
-            characterImage.transform.localScale = isLeft ? Vector3.one : new Vector3 (-1, 1, 1);
+            _characterImage.transform.localScale = isLeft ? Vector3.one : new Vector3 (-1, 1, 1);
         }
 
         
         public async UniTask PlayAnimation (string animationName, CancellationToken cancellationToken)
         {
-            characterAniamtor.Play (animationName);
+            _characterAniamtor.Play (animationName);
             await UniTask.Delay (TimeSpan.FromSeconds (0.15f), cancellationToken: cancellationToken);
         }
 
 
         public void SetValueOnlyHealthGageValue (float now, float max)
         {
-            hpGageElement.SetValueOnlyGageValueAsync ((int) now, (int) max);
+            _hpGageElement.SetValueOnlyGageValueAsync ((int) now, (int) max);
         }
 
 
         public void SetSkillSliderValue (float skillValue)
         {
-            skillGageElement.SetSliderValue (skillValue);
+            _skillGageElement.SetSliderValue (skillValue);
         }
 
 
         public void SetActiveDirection (bool isActive)
         {
-            directionTransform.gameObject.SetActive (isActive);
+            _directionTransform.gameObject.SetActive (isActive);
         }
 
         public void SetDirection (float rotationValue)
         {
-            directionTransform.localEulerAngles = new Vector3 (0, 0, rotationValue);
+            _directionTransform.localEulerAngles = new Vector3 (0, 0, rotationValue);
         }
         
 

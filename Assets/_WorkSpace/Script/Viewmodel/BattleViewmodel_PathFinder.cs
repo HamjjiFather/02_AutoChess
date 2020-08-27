@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using KKSFramework;
@@ -8,6 +9,8 @@ namespace AutoChess
     public partial class BattleViewmodel
     {
         #region Fields & Property
+
+        private int[] _fieldScale;
 
 #pragma warning disable CS0649
 
@@ -21,11 +24,6 @@ namespace AutoChess
 
         private readonly Dictionary<int, List<LandModel>> _allLineModels = new Dictionary<int, List<LandModel>> ();
 
-        private readonly int[] _rowCount =
-        {
-            7, 8, 7, 8, 7, 8, 7
-        };
-
         #endregion
 
 
@@ -33,11 +31,12 @@ namespace AutoChess
 
         private void InitializeLines ()
         {
-            for (var c = 0; c < _rowCount.Length; c++)
+            _fieldScale = Array.ConvertAll (Constant.BattleFieldScale.Split (','), int.Parse);
+            for (var c = 0; c < _fieldScale.Length; c++)
             {
                 _allLineModels.Add (c, new List<LandModel> ());
 
-                for (var r = 0; r < _rowCount[c]; r++)
+                for (var r = 0; r < _fieldScale[c]; r++)
                 {
                     _allLineModels[c].Add (new LandModel ());
                 }
@@ -188,7 +187,7 @@ namespace AutoChess
                 if (findTargetModels.Count == 0)
                     return false;
 
-                while (allOfCheckedPositions.Count < _rowCount.Sum ())
+                while (allOfCheckedPositions.Count < _fieldScale.Sum ())
                 {
                     foreach (var findModel in findTargetModels)
                     {

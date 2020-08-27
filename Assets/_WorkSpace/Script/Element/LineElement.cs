@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace AutoChess
@@ -17,6 +19,18 @@ namespace AutoChess
         public void AddLandElement (LandElement landElement)
         {
             _landElements.Add (landElement);
+        }
+
+
+        public async UniTask Clear ()
+        {
+            _landElements.ForEach (element =>
+            {
+                Destroy (element.gameObject);
+            });
+            _landElements.Clear ();
+
+            await UniTask.WaitWhile (() => _landElements.Any ());
         }
     }
 }

@@ -622,8 +622,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  containerPath: Grid
-  targetComponent: {fileID: 0}
+  containerPath: _contents
+  targetComponent: {fileID: 2177615553004202637}
 --- !u!1 &1352554901198544816
 GameObject:
   m_ObjectHideFlags: 0
@@ -2014,7 +2014,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5492edbee9541c38e220dc7662d1111, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  contents: {fileID: 2177615553004202637}
 --- !u!114 &264308434006304363
 MonoBehaviour:
   m_ObjectHideFlags: 0

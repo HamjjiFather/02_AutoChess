@@ -63,6 +63,13 @@ namespace AutoChess
             return base.OnPush (pushValue);
         }
 
+
+        protected override UniTask Popped ()
+        {
+            _confirmAction = null;
+            return base.Popped ();
+        }
+
         #endregion
 
 
@@ -70,8 +77,8 @@ namespace AutoChess
 
         private void ClickConfirmButton ()
         {
-            _confirmAction.CallSafe ();
             NavigationHelper.GoBackPage ();
+            _confirmAction.CallSafe ();
         }
 
         #endregion

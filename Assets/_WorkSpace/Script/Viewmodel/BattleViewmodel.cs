@@ -159,7 +159,7 @@ namespace AutoChess
         }
 
 
-        CharacterBundle.CharacterStatusGrade MonsterStatusGradeValue ()
+        private CharacterBundle.CharacterStatusGrade MonsterStatusGradeValue ()
         {
             return new CharacterBundle.CharacterStatusGrade
             {

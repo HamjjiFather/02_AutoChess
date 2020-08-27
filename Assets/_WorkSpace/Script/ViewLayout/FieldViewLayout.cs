@@ -90,7 +90,7 @@ namespace AutoChess
             {
                 var msgPopupStruct = new MessagePopupStruct
                 {
-                    ConfirmAction = ExitAdventure,
+                    ConfirmAction = ConfirmRewardAdventure,
                     Message = "?현재까지 얻은 보상을 획득하고 마을로 돌아가시겠습니까?"
                 };
                 NavigationHelper.OpenPopup (NavigationViewType.MessagePopup, msgPopupStruct).Forget();
@@ -122,6 +122,9 @@ namespace AutoChess
                 .SelectMany (x => x.Value)
                 .ZipForEach (_lineElements.SelectMany (x => x.LandElements),
                     (model, landElement) => { ((FieldLandElement) landElement).Element (model); });
+
+            // 레이아웃 배치를 위해 대기.
+            await UniTask.WaitForEndOfFrame ();
             
             _fieldViewLayoutRewardArea.SetArea (_adventureViewmodel.AdventureRewardModel);
 
@@ -164,6 +167,9 @@ namespace AutoChess
         }
 
 
+        /// <summary>
+        /// 탐험 종료.
+        /// </summary>
         public void EndAdventure ()
         {
             _disposables.Foreach (x => x.DisposeSafe ());
@@ -172,10 +178,32 @@ namespace AutoChess
         }
 
 
-        public void ExitAdventure ()
+        /// <summary>
+        /// 보상 확인.
+        /// </summary>
+        private void ConfirmRewardAdventure ()
         {
             _adventureViewmodel.EndAdventure ();
+            Action action = ExitAdventure;
+            NavigationHelper.OpenPopup (NavigationViewType.AdventureResultPopup, action).Forget();
+            Debug.Log ("confirm reward adventure");
+        }
+
+
+        /// <summary>
+        /// 탐험에서 빠져나옴.
+        /// </summary>
+        private void ExitAdventure ()
+        {
             Debug.Log ("exit adventure");
+            NavigationHelper.GoBackPage ();
+        }
+
+
+        public async UniTask DisposeViewLayout ()
+        {
+            var tasks = _lineElements.Select (element => element.Clear ());
+            await UniTask.WhenAll (tasks);
         }
         
 

@@ -67,5 +67,10 @@ public class Constant
     /// </summary>
     public const string FieldScale = "10,9,10,9,10,9,10,9,10,9,10,9,10,9,10,9,10,9,10,9,10";
 
+    /// <summary>
+    /// 전투 필드 크기
+    /// </summary>
+    public const string BattleFieldScale = "7,8,7,8,7,8,7";
+
 
 }

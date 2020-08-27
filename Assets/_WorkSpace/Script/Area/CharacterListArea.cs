@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using KKSFramework;
+using KKSFramework.DataBind;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
 using UnityEngine;
@@ -9,14 +10,15 @@ using Zenject;
 
 namespace AutoChess
 {
-    public class CharacterListArea : AreaBase<UnityAction<CharacterModel>>
+    public class CharacterListArea : AreaBase<UnityAction<CharacterModel>>, IResolveTarget
     {
         #region Fields & Property
 
-        public Transform contents;
-
 #pragma warning disable CS0649
 
+        [Resolver]
+        private Transform _contents;
+        
         [Inject]
         private CharacterViewmodel _characterViewmodel;
 
@@ -45,7 +47,7 @@ namespace AutoChess
             _characterViewmodel.AllCharacterModels.Foreach (characterModel =>
             {
                 var element = ObjectPoolingHelper.GetResources<CharacterInfoListElement> (ResourceRoleType._Prefab,
-                    ResourcesType.Element, nameof(CharacterInfoListElement), contents);
+                    ResourcesType.Element, nameof(CharacterInfoListElement), _contents);
 
                 element.SetElement (new CharacterInfoListElementModel
                 {

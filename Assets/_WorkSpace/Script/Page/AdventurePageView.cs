@@ -1,9 +1,8 @@
 using System;
-using System.Linq;
-using KKSFramework.Navigation;
-using UniRx;
 using Cysharp.Threading.Tasks;
 using KKSFramework;
+using KKSFramework.Navigation;
+using UniRx;
 using Zenject;
 
 namespace AutoChess
@@ -90,6 +89,13 @@ namespace AutoChess
             _startBattleDisposable.DisposeSafe ();
             _endBattleDisposable.DisposeSafe ();
             base.Hid ();
+        }
+        
+        
+        protected override async UniTask Popped ()
+        {
+            await ((FieldViewLayout) viewLayoutLoader.viewLayoutObjs[0]).DisposeViewLayout ();
+            await base.Popped ();
         }
 
         #endregion

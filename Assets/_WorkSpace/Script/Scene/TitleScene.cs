@@ -3,6 +3,7 @@ using BaseFrame;
 using BaseFrame.Navigation;
 using Cysharp.Threading.Tasks;
 using Helper;
+using KKSFramework.LocalData;
 using UnityEngine;
 
 namespace KKSFramework.InGame
@@ -13,6 +14,7 @@ namespace KKSFramework.InGame
         {
             base.InstallBindings ();
 
+            LocalDataHelper.LoadAllGameData ();
             TreeNavigation.Instance.SpawnAsync = SpawnView;
             TreeNavigation.Instance.Despawn = DespawnView;
         }
@@ -20,7 +22,6 @@ namespace KKSFramework.InGame
         
         public override async UniTask InitializeAsync (Parameters parameters)
         {
-            //LocalDataHelper.LoadAllGameData ();
             //LocalDataManager.Instance.SetSaveAction (LocalDataHelper.SaveAllGameData);
             //await NavigationHelper.OpenPage (NavigationViewType.TitlePage, NavigationTriggerState.First);
             await base.InitializeAsync (parameters);

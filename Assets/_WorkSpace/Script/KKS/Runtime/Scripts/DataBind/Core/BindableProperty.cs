@@ -50,11 +50,6 @@ namespace KKSFramework.DataBind
         #endregion
 
 
-        #region UnityMethods
-
-        #endregion
-
-
         #region Methods
 
         public override void Dispose ()
@@ -63,11 +58,6 @@ namespace KKSFramework.DataBind
             targetComponent = null;
             base.Dispose ();
         }
-
-        #endregion
-
-
-        #region EventMethods
 
         #endregion
     }

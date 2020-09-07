@@ -1,8 +1,9 @@
+using System.Collections;
 using UnityEngine;
 
 namespace KKSFramework.DataBind
 {
-    public abstract class BindableProperties<T, TV> : Bindable where T : Object
+    public abstract class BindableProperties<T, TV> : Bindable where T : Object where TV : IEnumerable
     {
         #region Fields & Property
 
@@ -45,7 +46,7 @@ namespace KKSFramework.DataBind
 
         protected abstract TV GetDelegate ();
 
-        protected abstract void SetDelegate (TV value);
+        protected abstract void SetDelegate (TV values);
 
         #endregion
 

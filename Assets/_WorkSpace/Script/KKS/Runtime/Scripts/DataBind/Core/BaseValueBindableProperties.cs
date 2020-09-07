@@ -1,12 +1,13 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using BaseFrame;
 using UnityEngine;
 
 namespace KKSFramework.DataBind
 {
-    public abstract class BaseValueBindableProperties<T, TV> : BindableProperties<T, TV> where T : Component
+    public abstract class BaseValueBindableProperties<T, TV> : BindableProperties<T, TV> where T : Component where TV : IEnumerable
     {
         public IEnumerable<Component> GetComponents =>
             targetComponents.Select (x => x.GetComponent (targetComponent.GetType ())).ToArray ();
@@ -35,13 +36,7 @@ namespace KKSFramework.DataBind
 
         protected override TV GetDelegate ()
         {
-            return (TV) PropertyInfo.First ().GetValue (propertyName);
-        }
-
-
-        protected override void SetDelegate (TV value)
-        {
-            GetComponents.ZipForEach (PropertyInfo, (o, info) => { info.SetValue (o, value); });
+            return (TV) PropertyInfo.Select (info => info.GetValue (propertyName));
         }
     }
 }

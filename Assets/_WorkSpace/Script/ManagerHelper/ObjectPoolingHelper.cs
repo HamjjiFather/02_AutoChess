@@ -26,14 +26,14 @@ public static class ObjectPoolingHelper
         var poolingPath = $"{roleType}/{type}/{resourceName}";
         if (PoolManager.Pools.ContainsKey (poolingPath))
         {
-            obj = PoolManager.Pools[poolingPath].Spawn (poolingPath, parents).GetComponent<T> ();
-            obj.transform.SetLocalReset ();
+            obj = PoolManager.Pools[poolingPath].Spawn (poolingPath).GetComponent<T> ();
+            obj.transform.SetParentLocalReset (parents);
             return obj;
         }
 
         var res = ResourcesLoadHelper.LoadResource<T> (poolingPath);
-        obj = res.InstantiateObject<T> (parents);
-        obj.transform.SetLocalReset ();
+        obj = res.InstantiateObject<T> ();
+        obj.transform.SetParentLocalReset (parents);
         obj.Created<PooingComponent> (poolingPath);
         return obj;
     }

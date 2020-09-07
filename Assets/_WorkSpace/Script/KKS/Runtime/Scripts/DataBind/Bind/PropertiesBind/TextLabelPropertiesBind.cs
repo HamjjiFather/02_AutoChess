@@ -1,13 +1,15 @@
 using System.Linq;
-using BaseFrame;
 using UnityEngine.UI;
+using KKSFramework.DataBind.Extension;
 
 namespace KKSFramework.DataBind
 {
-    public class TextLabelPropertiesBind : BindableProperties<Text, string>
+    public class TextLabelPropertiesBind : BindableProperties<Text, string[]>
     {
-        protected override string GetDelegate () => targetComponents.First ().GetComponent<Text> ().text;
+        protected override string[] GetDelegate () =>
+            targetComponents.Select (x => x.GetComponent<Text> ().text).ToArray ();
 
-        protected override void SetDelegate (string value) => targetComponents.ForEach (x => x.text = value);
+        protected override void SetDelegate (string[] values) =>
+            targetComponents.ZipForEach (values, (comp, value) => { comp.text = value; });
     }
 }

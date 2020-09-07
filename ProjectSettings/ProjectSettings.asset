@@ -7,7 +7,7 @@ PlayerSettings:
   productGUID: fcb0752f13405b541a6e8e4dfac7d154
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
-  AndroidEnableSustainedPerformanceMode: 0
+  AndroidEnableSustainedPerformanceMode: 1
   defaultScreenOrientation: 4
   targetDevice: 2
   useOnDemandResources: 0
@@ -715,7 +715,7 @@ PlayerSettings:
   scriptingDefineSymbols:
     1: 
     4: 
-    7: BF_ZENJECT;UNITASK_DOTWEEN_SUPPORT;MOREMOUNTAINS_NICEVIBRATIONS
+    7: BF_ZENJECT;UNITASK_DOTWEEN_SUPPORT;MOREMOUNTAINS_NICEVIBRATIONS;BF_DEBUG
     13: 
     19: 
     21: 

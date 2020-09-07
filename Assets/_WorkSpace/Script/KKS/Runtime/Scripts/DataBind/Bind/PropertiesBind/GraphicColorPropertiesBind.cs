@@ -1,14 +1,16 @@
 using System.Linq;
-using BaseFrame;
 using UnityEngine;
 using UnityEngine.UI;
+using KKSFramework.DataBind.Extension;
 
 namespace KKSFramework.DataBind
 {
-    public class GraphicColorPropertiesBind : BindableProperties<Graphic, Color>
+    public class GraphicColorPropertiesBind : BindableProperties<Graphic, Color[]>
     {
-        protected override Color GetDelegate () => targetComponents.First ().GetComponent<Graphic> ().color;
+        protected override Color[] GetDelegate () =>
+            targetComponents.Select (x => x.GetComponent<Graphic> ().color).ToArray ();
 
-        protected override void SetDelegate (Color value) => targetComponents.ForEach (x => x.color = value);
+        protected override void SetDelegate (Color[] values) =>
+            targetComponents.ZipForEach (values, (comp, value) => comp.GetComponent<Graphic> ().color = value);
     }
 }

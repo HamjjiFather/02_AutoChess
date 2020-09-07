@@ -7,7 +7,7 @@ namespace KKSFramework.DataBind
         
     }
     
-    [AttributeUsage(AttributeTargets.Field)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Event)]
     public class ResolverAttribute : Attribute
     {
         public readonly string Key;

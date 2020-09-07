@@ -25,6 +25,9 @@ namespace KKSFramework.DataBind
         /// </summary>
         private readonly SetDelegate<TV> _set;
 
+        /// <summary>
+        /// constructor.
+        /// </summary>
         public Property (GetDelegate<TV> get, SetDelegate<TV> set)
         {
             _get = get;

@@ -15,19 +15,18 @@
       "url": "https://unityregistry-pa.googleapis.com"
     },
     "com.malang.baseframe": {
-      "version": "file:D:/Work/Git/000_Baseframe/Assets/Plugins/BaseFrame",
+      "version": "ssh://git@freewill.synology.me:30001/unity-plugins/baseframe.git?path=Assets/Plugins/BaseFrame",
       "depth": 0,
-      "source": "local",
-      "dependencies": {}
+      "source": "git",
+      "dependencies": {},
+      "hash": "913298694a9443e58dbcf598ca4d2236a2c2ab3e"
     },
     "com.malang.sdk": {
       "version": "ssh://git@freewill.synology.me:30001/unity-plugins/malangsdk.git?path=Assets/Plugins/MalangSDK",
       "depth": 0,
       "source": "git",
-      "dependencies": {
-        "com.malang.softmask": "1.0.1"
-      },
-      "hash": "7880f1ae170eb82f9442a3efffd98ea596fa085f"
+      "dependencies": {},
+      "hash": "654a368077c0f734217e00ce80be2b2d413349c3"
     },
     "com.malang.softmask": {
       "version": "ssh://git@freewill.synology.me:30001/unity-plugins/softmask.git",

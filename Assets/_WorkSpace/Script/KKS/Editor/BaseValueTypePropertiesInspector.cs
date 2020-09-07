@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Linq;
 using KKSFramework.DataBind;
 using UnityEditor;
@@ -7,31 +8,31 @@ namespace KKSFramework.Editor
 {
     [CanEditMultipleObjects]
     [CustomEditor (typeof (BooleanPropertiesBind))]
-    public class BooleanPropertiesInspector : BaseValueTypePropertiesInspector<BooleanPropertiesBind, bool>
+    public class BooleanPropertiesInspector : BaseValueTypePropertiesInspector<BooleanPropertiesBind, bool[]>
     {
     }
 
     [CanEditMultipleObjects]
     [CustomEditor (typeof (IntPropertiesBind))]
-    public class IntPropertiesInspector : BaseValueTypePropertiesInspector<IntPropertiesBind, int>
+    public class IntPropertiesInspector : BaseValueTypePropertiesInspector<IntPropertiesBind, int[]>
     {
     }
 
     [CanEditMultipleObjects]
     [CustomEditor (typeof (FloatPropertiesBind))]
-    public class FloatPropertiesInspector : BaseValueTypePropertiesInspector<FloatPropertiesBind, float>
+    public class FloatPropertiesInspector : BaseValueTypePropertiesInspector<FloatPropertiesBind, float[]>
     {
     }
 
     [CanEditMultipleObjects]
     [CustomEditor (typeof (StringPropertiesBind))]
-    public class StringPropertiesInspector : BaseValueTypePropertiesInspector<StringPropertiesBind, string>
+    public class StringPropertiesInspector : BaseValueTypePropertiesInspector<StringPropertiesBind, string[]>
     {
     }
 
 
     public class BaseValueTypePropertiesInspector<T, TV> : UnityEditor.Editor
-        where T : BaseValueBindableProperties<Component, TV>
+        where T : BaseValueBindableProperties<Component, TV> where TV : IEnumerable
     {
         #region Fields & Property
 
@@ -88,13 +89,14 @@ namespace KKSFramework.Editor
 
             _target.targetComponent = comps[_typeArrayIndex];
 
+            var elementType = typeof (TV).GetElementType ();
             var properties = _target.targetComponent.GetType ().GetProperties ()
-                .Where (x => x.PropertyType == typeof (TV) && x.SetMethod == null).ToList ();
+                .Where (x => x.PropertyType == elementType && x.SetMethod != null).ToList ();
             var propertyNames = properties.Select (x => x.Name).ToList ();
 
             if (!propertyNames.Any ())
             {
-                Debug.Log ($"There is no properties that are {typeof (TV)} type");
+                Debug.Log ($"There is no properties that are {elementType} type");
                 return;
             }
 

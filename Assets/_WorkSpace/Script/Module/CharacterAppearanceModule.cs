@@ -1,13 +1,10 @@
-using System;
-using System.Threading;
-using Cysharp.Threading.Tasks;
 using KKSFramework.DataBind;
 using UnityEngine;
 using Zenject;
 
 namespace AutoChess
 {
-    public class CharacterAppearanceModule : MonoBehaviour, IResolveTarget
+    public class CharacterAppearanceModule : CharacterAppearanceModuleBase
     {
         #region Fields & Property
 
@@ -43,23 +40,6 @@ namespace AutoChess
 
         #region Methods
 
-        /// <summary>
-        /// Set Active.
-        /// </summary>
-        public void SetActive (bool isActive)
-        {
-            gameObject.SetActive (isActive);
-        }
-
-
-        /// <summary>
-        /// 캐릭터 이미지.
-        /// </summary>
-        public void SetSprite (Sprite sprite)
-        {
-            _characterImage.sprite = sprite;
-        }
-
 
         /// <summary>
         /// 플래시 이미지 처리.
@@ -81,24 +61,12 @@ namespace AutoChess
         }
 
 
-        public void SetRuntimeAnimatorContoller (RuntimeAnimatorController animatorController)
-        {
-            _characterAniamtor.runtimeAnimatorController = animatorController;
-        }
-
 
         public void ChangeSide (bool isLeft)
         {
             _characterImage.transform.localScale = isLeft ? Vector3.one : new Vector3 (-1, 1, 1);
         }
-
         
-        public async UniTask PlayAnimation (string animationName, CancellationToken cancellationToken)
-        {
-            _characterAniamtor.Play (animationName);
-            await UniTask.Delay (TimeSpan.FromSeconds (0.15f), cancellationToken: cancellationToken);
-        }
-
 
         public void SetValueOnlyHealthGageValue (float now, float max)
         {
@@ -122,11 +90,6 @@ namespace AutoChess
             _directionTransform.localEulerAngles = new Vector3 (0, 0, rotationValue);
         }
         
-
-        #endregion
-
-
-        #region EventMethods
 
         #endregion
     }

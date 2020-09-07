@@ -4,7 +4,6 @@ using System.Linq;
 using BaseFrame;
 using Cysharp.Threading.Tasks;
 using Helper;
-using KKSFramework;
 using KKSFramework.DataBind;
 using KKSFramework.LocalData;
 using KKSFramework.ResourcesLoad;
@@ -25,13 +24,7 @@ namespace AutoChess
         private LineElement[] _lineElements;
 
         [Resolver]
-        private Image[] _characterImages;
-
-        [Resolver ("_characterImages")]
-        private CharacterDragEventElement[] _characterEventTrigger;
-
-        [Resolver ("_characterImages")]
-        private Animator[] _characterAnimators;
+        private Transform _characterParents;
 
         [Resolver]
         private BattleCharacterListArea _battleCharacterListArea;
@@ -40,8 +33,6 @@ namespace AutoChess
         private CharacterViewmodel _characterViewmodel;
 
 #pragma warning restore CS0649
-
-        private bool _isCreated;
 
         private List<string> _positionStrings = new List<string> ();
 
@@ -54,13 +45,6 @@ namespace AutoChess
 
         #region UnityMethods
 
-        protected override void Awake ()
-        {
-            base.Awake ();
-            _characterEventTrigger.ForEach ((element, i) => element.SetElement (i, EndDragAction));
-            _characterImages.ForEach (x => x.gameObject.SetActive (false));
-        }
-
         #endregion
 
 
@@ -68,13 +52,9 @@ namespace AutoChess
 
         protected override async UniTask OnPrepareAsync (Parameters parameters)
         {
-            if (!_isCreated)
-            {
-                await CreateField ();
-                _lineElements.ForEach (x => x.MyVerticalLayoutGroup.SetLayoutVertical ());
-                await UniTask.WaitForEndOfFrame ();
-            }
-
+            await CreateField ();
+            await UniTask.WaitForEndOfFrame ();
+            await CharacterSpawn ();
             await base.OnPrepareAsync (parameters);
 
             // 팝업 생성시 한 번만.
@@ -107,39 +87,36 @@ namespace AutoChess
                         count++;
                     }
                 });
+                
+                _lineElements.ForEach (x => x.MyVerticalLayoutGroup.SetLayoutVertical ());
 
-                _isCreated = true;
             }
 
             await base.OnPrepareAsync (parameters);
         }
 
-        
-        protected override void OnPush (Parameters parameters)
+
+        private async UniTask CharacterSpawn ()
         {
+            var formCharacter = await ResourcesLoadHelper.LoadResourcesAsync<FormationCharacterElement> (
+                ResourceRoleType.Bundles,
+                ResourcesType.Element, "FormationCharacterElement");
+
             var battleCharacters = _characterViewmodel.BattleCharacterModels;
             _battleCharacterListArea.SetArea (battleCharacters);
 
             _positionStrings = LocalDataHelper.GetCharacterBundle ().BattleCharacterPositions.Split ('/').ToList ();
-            battleCharacters.Where (x => x.IsAssigned).ForEach ((model, i) =>
+            battleCharacters.Where (x => x.IsAssigned).ForEach ((x, i) =>
             {
-                _characterImages[i].sprite = model.IconImageResources;
-                _characterAnimators[i].runtimeAnimatorController = model.CharacterAnimatorResources;
+                var formationCharacterElement = Instantiate (formCharacter);
+                formationCharacterElement.transform.SetParentLocalReset (_characterParents);
+                formationCharacterElement.SetElement (x);
+                formationCharacterElement.SetElement (i, EndDragAction);
 
                 var targetPosition = Array.ConvertAll (_positionStrings[i].Split (','), int.Parse);
                 var land = _lineElements[targetPosition[0]].GetLandElement (targetPosition[1]);
-                _characterImages[i].transform.position = land.transform.position;
-                _characterImages[i].gameObject.SetActive (true);
+                formationCharacterElement.transform.position = land.transform.position;
             });
-            base.OnPush (parameters);
-        }
-
-
-
-        protected override void OnPopComplete ()
-        {
-            _characterImages.ForEach (x => x.gameObject.SetActive (false));
-            base.OnPopComplete ();
         }
 
 
@@ -153,7 +130,7 @@ namespace AutoChess
 
         #region EventMethods
 
-        private void EndDragAction (CharacterDragEventElement target, PointerEventData pointerEventData)
+        private void EndDragAction (FormationCharacterElement target, PointerEventData pointerEventData)
         {
             var result = new List<RaycastResult> ();
             GraphicRaycaster.Raycast (pointerEventData, result);

@@ -2,7 +2,7 @@
   "dependencies": {
     "com.cysharp.unitask": "ssh://git@freewill.synology.me:30001/unity-plugins/unitask.git",
     "com.google.external-dependency-manager": "1.2.156",
-    "com.malang.baseframe": "file:D:/Work/Git/000_Baseframe/Assets/Plugins/BaseFrame",
+    "com.malang.baseframe": "ssh://git@freewill.synology.me:30001/unity-plugins/baseframe.git?path=Assets/Plugins/BaseFrame",
     "com.malang.sdk": "ssh://git@freewill.synology.me:30001/unity-plugins/malangsdk.git?path=Assets/Plugins/MalangSDK",
     "com.malang.softmask": "ssh://git@freewill.synology.me:30001/unity-plugins/softmask.git",
     "com.malang.unirx": "ssh://git@freewill.synology.me:30001/unity-plugins/unirx.git",

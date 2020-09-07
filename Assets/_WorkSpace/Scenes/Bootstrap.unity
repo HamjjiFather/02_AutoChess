@@ -4539,7 +4539,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2574955388260631450}
   m_PrefabAsset: {fileID: 0}
---- !u!223 &1699968953
+--- !u!223 &1699968954
 Canvas:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

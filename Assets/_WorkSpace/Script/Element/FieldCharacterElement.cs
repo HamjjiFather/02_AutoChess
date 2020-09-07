@@ -1,10 +1,10 @@
+using System;
 using System.Linq;
 using System.Threading;
 using BaseFrame;
 using Cysharp.Threading.Tasks;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
-using UnityEngine;
 using Zenject;
 
 namespace AutoChess
@@ -21,10 +21,7 @@ namespace AutoChess
         private MovingSystemModule _movingSystem;
 
         [Resolver]
-        private Animator _characterAnimator;
-        
-        [Resolver]
-        private SpriteRenderer _characterSpriteRenderer;
+        private Action<CharacterModel> _setAppearance;
 
         [Inject]
         private AdventureViewmodel _adventureViewmodel;
@@ -51,8 +48,7 @@ namespace AutoChess
         
         public override void SetElement (CharacterModel elementData)
         {
-            _characterSpriteRenderer.sprite = elementData.IconImageResources;
-            _characterAnimator.runtimeAnimatorController = elementData.CharacterAnimatorResources;
+            _setAppearance (elementData);
             _cancellationToken = new CancellationTokenSource();
             _fieldViewLayout = ProjectContext.Instance.Container.Resolve<FieldViewLayout> ();
             _movingSystem.SetMovingTarget(transform);

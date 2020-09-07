@@ -65,7 +65,7 @@ using Zenject;
                 .GetComponent<PrefabComponent> ();
             foreach (var t in types)
             {
-                prefabComp.AddComponent (t);
+                prefabComp.gameObject.AddComponent (t);
             }
 
             return prefabComp;
@@ -77,12 +77,12 @@ using Zenject;
         /// </summary>
         public PrefabComponent InstantiateObject (Transform parents, params Type[] types)
         {
-            var prefabComp = ProjectContext.Instance.Container.InstantiatePrefab (this, parents)
+            var prefabComp = ProjectContext.Instance.Container.InstantiatePrefab (this)
                 .GetComponent<PrefabComponent> ();
-            prefabComp.transform.SetLocalReset ();
+            prefabComp.transform.SetParentLocalReset (parents);
             foreach (var t in types)
             {
-                prefabComp.AddComponent (t);
+                prefabComp.gameObject.AddComponent (t);
             }
 
             return prefabComp;
@@ -96,6 +96,7 @@ using Zenject;
         {
             return InstantiateObject (parents, Vector3.one, localPosition, localEulerAngle, types);
         }
+        
 
         /// <summary>
         /// 오브젝트 생성.
@@ -103,8 +104,12 @@ using Zenject;
         public PrefabComponent InstantiateObject (Transform parents, Vector3 localScale,
             Vector3 localPosition, Vector3 localEulerAngle, params Type[] types)
         {
-            var prefabObj = InstantiateObject (parents, types);
-            prefabObj.transform.SetLocalReset ();
+            var prefabObj = InstantiateObject (types);
+            var target = prefabObj.transform;
+            target.SetParent (parents);
+            target.localScale = localScale;
+            target.localPosition = localPosition;
+            target.localEulerAngles = localEulerAngle;
 
             return prefabObj;
         }

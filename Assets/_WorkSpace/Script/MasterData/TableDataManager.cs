@@ -2,8 +2,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using BaseFrame;
-using KKSFramework;
+using AutoChess;
 using KKSFramework.TableData;
 using Cysharp.Threading.Tasks;
 

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using BaseFrame;
 using KKSFramework;
 using KKSFramework.DesignPattern;
 using KKSFramework.LocalData;
@@ -83,10 +84,8 @@ namespace AutoChess
             var stageModel = new BattleStageModel (stageData);
 
             BattleStageModel = stageModel;
-            _characterViewmodel.BattleCharacterModels.Foreach ((model, index) =>
-            {
-                _characterViewmodel.ResetCharacterPosition (index, model);
-            });
+            _characterViewmodel.BattleCharacterModels.Where (x => x.IsAssigned)
+                .ForEach ((model, index) => { _characterViewmodel.ResetCharacterPosition (index, model); });
             SetBattleAiCharacter (BattleStageModel);
 
             StartBattleCommand.Execute (BattleStageModel);
@@ -99,8 +98,8 @@ namespace AutoChess
         {
             ResetCharacter ();
             EndBattleCommand.Execute (isWin);
-            
-            if(isWin)
+
+            if (isWin)
                 _adventureViewmodel.AddExp (BattleStageModel.StageData.RewardExp);
         }
 
@@ -122,7 +121,7 @@ namespace AutoChess
         public void SetBattleAiCharacter (BattleStageModel battleStageModel)
         {
             // 적 AI 세팅.
-            battleStageModel.StageData.MonsterIndexes.Foreach ((monsterIndex, index) =>
+            battleStageModel.StageData.MonsterIndexes.ForEach ((monsterIndex, index) =>
             {
                 var characterModel = new CharacterModel ();
                 var characterData = TableDataManager.Instance.CharacterDict[monsterIndex];
@@ -152,8 +151,8 @@ namespace AutoChess
 
         public void ResetCharacter ()
         {
-            PlayerCharacterElements.Foreach (x => x.EndBattle ());
-            AiCharacterElements.Foreach (x => x.EndBattle ());
+            PlayerCharacterElements.ForEach (x => x.EndBattle ());
+            AiCharacterElements.ForEach (x => x.EndBattle ());
             _battleAiCharacterModels.Clear ();
             AiCharacterElements.Clear ();
         }

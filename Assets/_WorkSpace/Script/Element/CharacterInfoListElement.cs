@@ -1,5 +1,5 @@
+using Helper;
 using KKSFramework.DataBind;
-using KKSFramework.Localization;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
 using UnityEngine;
@@ -19,7 +19,7 @@ namespace AutoChess
     {
         #region Fields & Property
 
-        private Context _context => GetCachedComponent<Context> ();
+        private Context _context => GetComponent<Context> ();
 
 #pragma warning disable CS0649
 
@@ -58,7 +58,7 @@ namespace AutoChess
             ElementData = characterInfoListElementModel;
             _starGradeArea.SetArea (characterInfoListElementModel.CharacterModel.StarGrade);
             _characterImage.sprite = characterInfoListElementModel.CharacterModel.IconImageResources;
-            _characterNameText.text = LocalizationHelper.GetTranslatedString (characterInfoListElementModel.CharacterModel.CharacterData.Name);
+            _characterNameText.text = LocalizeHelper.FromName (characterInfoListElementModel.CharacterModel.CharacterData.Name);
             _elementButton.onClick.RemoveAllListeners ();
             _elementButton.onClick.AddListener (() =>
             {

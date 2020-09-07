@@ -41,12 +41,12 @@ namespace AutoChess
             if (!_characterViewmodel.IsDataChanged) return;
             _characterViewmodel.IsDataChanged = false;
             
-            _listElements.Foreach (element => element.PoolingObject ());
+            _listElements.ForEach (element => element.Despawn ());
             _listElements.Clear ();
 
-            _characterViewmodel.AllCharacterModels.Foreach (characterModel =>
+            _characterViewmodel.AllCharacterModels.ForEach (characterModel =>
             {
-                var element = ObjectPoolingHelper.GetResources<CharacterInfoListElement> (ResourceRoleType._Prefab,
+                var element = ObjectPoolingHelper.GetResources<CharacterInfoListElement> (ResourceRoleType.Bundles,
                     ResourcesType.Element, nameof(CharacterInfoListElement), _contents);
 
                 element.SetElement (new CharacterInfoListElementModel

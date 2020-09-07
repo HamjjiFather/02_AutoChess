@@ -2,9 +2,7 @@ using System.Collections.Generic;
 using System.Threading;
 using KKSFramework.ResourcesLoad;
 using Cysharp.Threading.Tasks;
-using KKSFramework;
 using UnityEngine;
-using Zenject;
 
 namespace AutoChess
 {
@@ -38,9 +36,9 @@ namespace AutoChess
         private void ResetModule ()
         {
             _cancellationTokenSource.Cancel();
-            _particlePrefabs.Foreach (particle =>
+            _particlePrefabs.ForEach (particle =>
             {
-                particle.PoolingObject ();
+                particle.Despawn ();
             });
         }
         
@@ -50,7 +48,7 @@ namespace AutoChess
             if (!TableDataManager.Instance.ParticleDict.TryGetValue (particleDataIndex, out var particleData)) return;
             
             Debug.Log ($"Generate Particle : {particleDataIndex}");
-            var particlePrefab = ObjectPoolingHelper.GetResources<ParticlePrefab> (ResourceRoleType._Prefab, ResourcesType.Particle,
+            var particlePrefab = ObjectPoolingHelper.GetResources<ParticlePrefab> (ResourceRoleType.Bundles, ResourcesType.Particle,
                 particleData.PrefabName, parents);
             await particlePrefab.PresetParticlePrefab (particleData, _cancellationTokenSource.Token);
             _particlePrefabs.Remove (particlePrefab);

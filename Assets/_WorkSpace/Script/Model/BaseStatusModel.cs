@@ -17,11 +17,11 @@ namespace AutoChess
 
 #pragma warning restore CS0649
         
-        public string DisplayValue => StatusValue.ToString (StatusData.IsNull () ? string.Empty : StatusData.Format);
+        public string DisplayValue => StatusValue.ToString (StatusData == null ? string.Empty : StatusData.Format);
 
         public string CombinedDisplayValue (float secondsStatusValue)
         {
-            return (StatusValue + secondsStatusValue).ToString (StatusData.IsNull () ? string.Empty : StatusData.Format);
+            return (StatusValue + secondsStatusValue).ToString (StatusData == null ? string.Empty : StatusData.Format);
         }
         
         #endregion

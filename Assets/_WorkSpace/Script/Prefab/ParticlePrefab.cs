@@ -36,7 +36,7 @@ namespace AutoChess
             await UniTask.Delay (TimeSpan.FromSeconds (particleSys.main.startLifetime.constantMax),
                 cancellationToken: cancellationToken);
             
-            PoolingObject ();
+            Despawn ();
         }
 
         #endregion

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace KKSFramework.LocalData
 {
@@ -25,6 +26,9 @@ namespace KKSFramework.LocalData
         public List<int> CharacterExps = new List<int> ();
 
         public List<CharacterEquipmentUIds> EquipmentUIds = new List<CharacterEquipmentUIds> ();
+
+        
+        public string BattleCharacterPositions = Constant.PlayerCharacterPosition;
 
         public List<int> BattleCharacterUniqueIds = new List<int> ();
 
@@ -69,6 +73,21 @@ namespace KKSFramework.LocalData
 
 
     [Serializable]
+    public class BattleCharacterPosition
+    {
+        public int Column;
+
+        public int Row;
+
+        public BattleCharacterPosition (int column, int row)
+        {
+            Column = column;
+            Row = row;
+        }
+    }
+
+
+    [Serializable]
     public class EquipmentBundle : Bundle
     {
         public List<int> EquipmentUniqueIds = new List<int> ();
@@ -95,11 +114,12 @@ namespace KKSFramework.LocalData
     {
         public int StageIndex;
     }
-    
-    
+
+
     public static class LocalDataHelper
     {
-        private static readonly LocalData LocalDataClass = new LocalData();
+        private static readonly LocalData LocalDataClass = new LocalData ();
+
 
         #region Load
 
@@ -195,6 +215,13 @@ namespace KKSFramework.LocalData
         }
 
 
+        public static void SaveBattleCharacterPositionData (IEnumerable<string> characterPositions)
+        {
+            var saveResult = string.Join ("/", characterPositions);
+            LocalDataClass.CharacterBundle.BattleCharacterPositions = saveResult;
+        }
+
+
         public static void SaveEquipmentUniqueIdData (int uniqueId)
         {
             LocalDataClass.GameBundle.LastEquipmentUniqueId = uniqueId;
@@ -202,14 +229,15 @@ namespace KKSFramework.LocalData
         }
 
 
-        public static void SaveEquipmentStatusData (List<int> equipmentUids, List<int> equipmentIds, List<StarGrade> equipmentGrades, 
+        public static void SaveEquipmentStatusData (List<int> equipmentUids, List<int> equipmentIds,
+            List<StarGrade> equipmentGrades,
             List<List<int>> indexes, List<List<float>> statusGrades)
-        { 
+        {
             LocalDataClass.EquipmentBundle.EquipmentUniqueIds = equipmentUids;
             LocalDataClass.EquipmentBundle.EquipmentIds = equipmentIds;
             LocalDataClass.EquipmentBundle.EquipmentGrades = equipmentGrades;
             LocalDataClass.EquipmentBundle.EquipmentDatas.Clear ();
-            
+
             for (var i = 0; i < equipmentUids.Count; i++)
             {
                 var equipmentData = new EquipmentBundle.EquipmentData
@@ -222,13 +250,13 @@ namespace KKSFramework.LocalData
         }
 
         #endregion
-        
-        
+
+
         public static void DeleteData ()
         {
             LocalDataManager.Instance.DeleteData ();
         }
-        
+
 
         [Serializable]
         public class LocalData

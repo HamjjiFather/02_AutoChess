@@ -1,6 +1,6 @@
-using KKSFramework;
+using BaseFrame;
+using Helper;
 using KKSFramework.DataBind;
-using KKSFramework.Localization;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
 using UnityEngine;
@@ -24,19 +24,19 @@ namespace AutoChess
         private Image _characterTypeIcon;
 
         [Resolver]
-        private Text _characterNameText;
+        private Property<string> _characterNameText;
 
         [Resolver]
         private StarGradeArea _starGradeArea;
 
         [Resolver]
-        private Image _characterImage;
+        private Property<Sprite> _characterImage;
 
         [Resolver]
         private Animator _characterAnimator;
 
         [Resolver]
-        private Text _levelText;
+        private Property<string> _levelText;
 
         [Resolver]
         private GageElement _expGageElement;
@@ -70,18 +70,18 @@ namespace AutoChess
 
             void SetFixedCharacterInfo ()
             {
-                _characterNameText.text = LocalizationHelper.GetTranslatedString (areaData.CharacterData.Name);
-                _characterImage.sprite = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
+                _characterNameText.Value = LocalizeHelper.FromName (areaData.CharacterData.Name);
+                _characterImage.Value = ResourcesLoadHelper.LoadResource<Sprite> (ResourceRoleType._Image,
                     ResourcesType.Monster, areaData.CharacterData.SpriteResName);
                 _characterAnimator.runtimeAnimatorController =
-                    ResourcesLoadHelper.GetResources<RuntimeAnimatorController> (ResourceRoleType._Animation,
+                    ResourcesLoadHelper.LoadResource<RuntimeAnimatorController> (ResourceRoleType._Animation,
                         areaData.CharacterData.AnimatorResName);
             }
 
             void ChangeCharacterInfo (CharacterModel characterModel)
             {
                 var levelData = characterModel.GetLevelData ();
-                _levelText.text = $"Lv. {levelData.LevelString}";
+                _levelText.Value = $"Lv. {levelData.LevelString}";
                 _expGageElement.SetValue (characterModel.NowExp (), levelData.ReqExp);
                 _starGradeArea.SetArea (characterModel.StarGrade);
 
@@ -97,7 +97,7 @@ namespace AutoChess
                 
                 void SetEquipment ()
                 {
-                    characterModel.EquipmentStatusModel.EquipmentModels.Foreach ((model, index) =>
+                    characterModel.EquipmentStatusModel.EquipmentModels.ForEach ((model, index) =>
                     {
                         _equipmentInfoElement[index].SetElement (model);
                     });

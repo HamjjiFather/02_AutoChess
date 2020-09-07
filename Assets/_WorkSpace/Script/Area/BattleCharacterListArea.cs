@@ -1,18 +1,21 @@
 using System;
-using KKSFramework;
+using System.Linq;
+using BaseFrame;
+using KKSFramework.DataBind;
 using KKSFramework.Navigation;
 using UniRx;
 using UnityEngine;
 
 namespace AutoChess
 {
-    public class BattleCharacterListArea : AreaBase<ReactiveCollection<CharacterModel>>
+    public class BattleCharacterListArea : AreaBase<ReactiveCollection<CharacterModel>>, IResolveTarget
     {
         #region Fields & Property
 
-        public BattleCharacterInfoElement[] battleCharacterInfoElements;
-        
 #pragma warning disable CS0649
+        
+        [Resolver]
+        private BattleCharacterInfoElement[] _battleCharacterInfoElements;
         
 #pragma warning restore CS0649
 
@@ -30,15 +33,21 @@ namespace AutoChess
 
         public override void SetArea (ReactiveCollection<CharacterModel> areaData)
         {
-            areaData.ZipForEach (battleCharacterInfoElements, (model, element) =>
+            areaData.ZipForEach (_battleCharacterInfoElements, (model, element) =>
             {
                 element.SetElement (model);
             });
             
             areaData.ObserveReplace ().Subscribe (area =>
             {
-                battleCharacterInfoElements[area.Index].SetElement (area.NewValue);
+                _battleCharacterInfoElements[area.Index].SetElement (area.NewValue);
             });
+        }
+
+
+        public BattleCharacterInfoElement GetElement (int index)
+        {
+            return _battleCharacterInfoElements[index];
         }
 
         
@@ -48,14 +57,14 @@ namespace AutoChess
         /// <param name="clickActions"></param>
         public void SetElementClickActions (Action<CharacterModel> clickActions)
         {
-            battleCharacterInfoElements.Foreach (element =>
+            _battleCharacterInfoElements.Where (x => x.IsAssigned).ForEach (element =>
             {
                 element.RegistActiveAction (clickActions);
             });
 
             _clickDisposable = Observable.EveryUpdate ().Where (_ => Input.GetMouseButtonUp (0)).Subscribe (_ =>
             {
-                battleCharacterInfoElements.Foreach (x => x.RemoveAllEvents ());
+                _battleCharacterInfoElements.Where (x => x.IsAssigned).ForEach (x => x.RemoveAllEvents ());
                 _clickDisposable.DisposeSafe ();
             });
         }

@@ -1,0 +1,16 @@
+{
+    "name": "DarkTonic.Editor",
+    "references": [
+        "GUID:d5fdf8aef90c24640b4d9cae3152ee2e"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

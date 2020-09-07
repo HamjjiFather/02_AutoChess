@@ -1,3 +1,4 @@
+using BaseFrame;
 using KKSFramework;
 using UnityEngine;
 using Zenject;
@@ -29,7 +30,7 @@ namespace AutoChess
 
         public void InitializeStatusView ()
         {
-            currencyElements.Foreach ((x, index) =>
+            currencyElements.ForEach ((x, index) =>
             {
                 x.SetElement (_gameViewmodel.CurrencyModels[index]);
             });

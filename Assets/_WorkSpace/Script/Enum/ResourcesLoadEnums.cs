@@ -3,7 +3,7 @@ namespace KKSFramework.ResourcesLoad
     public enum ResourceRoleType
     {
         _Data,
-        _Prefab,
+        Bundles,
         _Sound,
         _Image,
         _Animation
@@ -14,8 +14,7 @@ namespace KKSFramework.ResourcesLoad
         TSV,
         Json,
         
-        Page,
-        Popup,
+        View,
         CommonView,
         Element,
         Particle,

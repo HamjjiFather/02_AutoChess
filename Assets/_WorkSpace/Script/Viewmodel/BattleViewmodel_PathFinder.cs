@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BaseFrame;
 using KKSFramework;
 using UnityEngine;
 
@@ -89,7 +90,7 @@ namespace AutoChess
         public List<BattleCharacterElement> GetCharacterElementsAtNearby (CharacterSideType sideType,
             PositionModel positionModel, SkillTarget skillTarget, bool containSelf = false)
         {
-            var nearPositions = PositionHelper.Instance.GetAroundPositionModel (_allLineModels, positionModel)
+            var nearPositions = PathFindingHelper.Instance.GetAroundPositionModel (_allLineModels, positionModel)
                 .ToList ();
             var foundedCharacterElements = skillTarget == SkillTarget.Ally
                 ? GetAllOfEqualElements (sideType)
@@ -166,16 +167,16 @@ namespace AutoChess
             var myPosition = characterModel.PositionModel;
 
             var allOfCheckedPositions = new List<PositionModel> {myPosition};
-            var findTargetModels = PositionHelper.Instance.GetAroundPositionModel (_allLineModels, myPosition)
+            var findTargetModels = PathFindingHelper.Instance.GetAroundPositionModel (_allLineModels, myPosition)
                 .Where (IsMovablePosition).Select ((x, i) => new BattleTargetResultModel (x)).ToList ();
 
-            var checkedPosition = PositionHelper.Instance.EmptyPosition;
+            var checkedPosition = PathFindingHelper.Instance.EmptyPosition;
             var isCheckAround = CheckArounds ();
 
             // 적이 없거나 주변이 막힘.
             if (!isCheckAround)
             {
-                positionModel = PositionHelper.Instance.EmptyPosition;
+                positionModel = PathFindingHelper.Instance.EmptyPosition;
                 return false;
             }
 
@@ -192,7 +193,7 @@ namespace AutoChess
                     foreach (var findModel in findTargetModels)
                     {
                         var aroundPositions = findModel.AroundPositionModels.SelectMany (model =>
-                            PositionHelper.Instance.GetAroundPositionModel (_allLineModels, model)).ToList ();
+                            PathFindingHelper.Instance.GetAroundPositionModel (_allLineModels, model)).ToList ();
 
                         if (CheckPosition (aroundPositions))
                         {
@@ -222,7 +223,7 @@ namespace AutoChess
                     .Where (x => !x.ElementData.IsExcuted)
                     .SingleOrDefault (x => x.ElementData.PositionModel.Equals (targetPositionModel));
 
-                return foundCharacter.NotNull ();
+                return foundCharacter != null;
             }
         }
 
@@ -246,10 +247,10 @@ namespace AutoChess
                 battleCharacterElement.ElementData.SkillData.SkillTarget);
 
             var foundModel = targetElements
-                .MinSources (x => PositionHelper.Instance.Distance (_allLineModels,
+                .MinSources (x => PathFindingHelper.Instance.Distance (_allLineModels,
                     battleCharacterElement.ElementData.PositionModel, x.ElementData.PositionModel)).First ();
             targetElement = foundModel;
-            return foundModel.NotNull ();
+            return foundModel != null;
         }
 
 
@@ -263,10 +264,10 @@ namespace AutoChess
                 GetAllCharacterElements (battleCharacterElement.ElementData.CharacterSideType, SkillTarget.Enemy);
 
             var foundModel = targetElements
-                .MinSources (x => PositionHelper.Instance.Distance (_allLineModels,
+                .MinSources (x => PathFindingHelper.Instance.Distance (_allLineModels,
                     battleCharacterElement.ElementData.PositionModel, x.ElementData.PositionModel)).First ();
             targetElement = foundModel;
-            return foundModel.NotNull ();
+            return foundModel != null;
         }
 
 
@@ -283,7 +284,7 @@ namespace AutoChess
                     battleCharacterElement.ElementData.PositionModel, SkillTarget.Enemy);
             var foundModel = aroundElements.Intersect (allOfOtherElements).FirstOrDefault ();
             targetElement = foundModel;
-            return foundModel.NotNull ();
+            return foundModel != null;
         }
 
 
@@ -365,7 +366,7 @@ namespace AutoChess
         {
             return _allLineModels.ContainsKey (positionModel.Column) &&
                    _allLineModels[positionModel.Column].ContainIndex (positionModel.Row) &&
-                   !positionModel.Equals (PositionHelper.Instance.EmptyPosition) &&
+                   !positionModel.Equals (PathFindingHelper.Instance.EmptyPosition) &&
                    AllOfCharacterModels.All (x => !x.PositionModel.Equals (positionModel)) &&
                    AllOfCharacterModels.All (x => !x.PredicatedPositionModel.Equals (positionModel));
         }

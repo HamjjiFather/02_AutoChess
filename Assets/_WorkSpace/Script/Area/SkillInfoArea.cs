@@ -1,4 +1,4 @@
-using KKSFramework.Localization;
+using Helper;
 using KKSFramework.Navigation;
 using UnityEngine.UI;
 using Zenject;
@@ -32,7 +32,7 @@ namespace AutoChess
 
         public override void SetArea (CharacterModel areaData)
         {
-            skillNameText.text = LocalizationHelper.GetTranslatedString (areaData.SkillData.Name);
+            skillNameText.text = LocalizeHelper.FromName (areaData.SkillData.Name);
             skillDescText.text = SkillViewHelper.Instance.ToSkillDescriptionString (areaData);
         }
 

@@ -1,22 +1,31 @@
 using Cysharp.Threading.Tasks;
-using KKSFramework.InGame;
+using KKSFramework.DataBind;
 using KKSFramework.Navigation;
 using UnityEngine.UI;
 using Zenject;
 
 namespace AutoChess
 {
-    public class EquipmentViewLayout : ViewLayoutBase
+    public class EquipmentViewLayout : ViewLayoutBase, IResolveTarget
     {
         #region Fields & Property
 
-        public EquipmentInfoArea equipmentInfoArea;
-
-        public EquipmentListArea equipmentListArea;
-
-        public Button backButton;
-
 #pragma warning disable CS0649
+        
+        [Resolver]
+        private EquipmentInfoArea _equipmentInfoArea;
+
+        [Resolver]
+        private EquipmentListArea _equipmentListArea;
+
+        [Resolver]
+        private BattleCharacterListArea _battleCharacterListArea;
+
+        [Resolver]
+        private Button _backButton;
+        
+        [Inject]
+        private CharacterViewmodel _characterViewmodel;
         
 #pragma warning restore CS0649
         
@@ -27,7 +36,8 @@ namespace AutoChess
         
         private void Awake ()
         {
-            backButton.onClick.AddListener (ClickBackButton);
+            _backButton.onClick.AddListener (ClickBackButton);
+            _equipmentInfoArea.SetBattleCharacterListComponent (_battleCharacterListArea);
         }
 
 
@@ -41,7 +51,9 @@ namespace AutoChess
         
         public override UniTask ActiveLayout ()
         {
-            equipmentListArea.SetArea (ClickEquipmentElement);
+            _equipmentListArea.SetArea (ClickEquipmentElement);
+            _battleCharacterListArea.SetArea (_characterViewmodel.BattleCharacterModels);
+            // EscapeEventManager.Instance.SetHookingEscapeEvent (ClickBackButton);
             return base.ActiveLayout ();
         }
 
@@ -57,7 +69,7 @@ namespace AutoChess
         
         private void ClickEquipmentElement (EquipmentModel equipmentModel)
         {
-            equipmentInfoArea.SetArea (equipmentModel);
+            _equipmentInfoArea.SetArea (equipmentModel);
         }
 
         #endregion

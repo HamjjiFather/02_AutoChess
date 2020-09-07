@@ -1,5 +1,5 @@
-using KKSFramework;
-using KKSFramework.Localization;
+using BaseFrame;
+using Helper;
 using Zenject;
 
 namespace AutoChess
@@ -32,9 +32,9 @@ namespace AutoChess
 
         public string ToSkillDescriptionString (CharacterModel characterModel)
         {
-            var originDesc = LocalizationHelper.GetTranslatedString (characterModel.SkillData.Desc);
+            var originDesc = LocalizeHelper.FromDescription (characterModel.SkillData.Desc);
 
-            if (!originDesc.Contains ("#VALUE")) return originDesc;
+            if (originDesc == null || !originDesc.Contains ("#VALUE")) return characterModel.SkillData.Desc;
 
             var valueString = ToValueString (characterModel, characterModel.SkillData);
             return originDesc.Replace ("#VALUE", valueString);
@@ -49,7 +49,7 @@ namespace AutoChess
         private string ToValueString (CharacterModel characterModel, Skill skillData)
         {
             var statusName = TableDataHelper.Instance.GetStatus (skillData.RefSkillStatusType).NameKey;
-            var translatedName = LocalizationHelper.GetTranslatedString (statusName);
+            var translatedName = LocalizeHelper.FromName (statusName);
             var selfRef = skillData.RefSkillValueTarget == RefSkillValueTarget.Self;
             var color = _commonColorSetting.GetStatusColor (skillData.RefSkillStatusType);
 

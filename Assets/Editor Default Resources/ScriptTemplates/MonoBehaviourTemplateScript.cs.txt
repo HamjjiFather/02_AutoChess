@@ -1,0 +1,38 @@
+using BaseFrame;
+using UnityEngine;
+using UnityEngine.UI;
+
+
+namespace Malang
+{
+    public class #SCRIPTNAME# : MonoBehaviour
+    {
+        #region Message
+        
+        
+        #endregion
+        
+    
+        #region Binding
+
+#pragma warning disable 0649
+
+        
+        
+#pragma warning restore 0649
+
+        #endregion
+        
+        
+        #region Unity Methods
+        
+        
+        #endregion
+        
+        
+        #region Event callbacks
+        
+        
+        #endregion
+    }
+}

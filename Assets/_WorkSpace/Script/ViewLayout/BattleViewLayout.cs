@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using BaseFrame;
 using Cysharp.Threading.Tasks;
-using KKSFramework;
+using Helper;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
 using UniRx;
 using UnityEngine;
-using UnityEngine.UI;
 using Zenject;
 
 namespace AutoChess
@@ -20,9 +21,6 @@ namespace AutoChess
 
         [Resolver]
         private LineElement[] _lineElements;
-
-        [Resolver ("_lineElements")]
-        private VerticalLayoutGroup[] _verticalLayoutGroups;
 
         [Resolver]
         private Transform _characterParents;
@@ -83,7 +81,7 @@ namespace AutoChess
 
         public override async UniTask ActiveLayout ()
         {
-            _verticalLayoutGroups.Foreach (x => x.SetLayoutVertical ());
+            _lineElements.ForEach (x => x.MyVerticalLayoutGroup.SetLayoutVertical ());
             await base.ActiveLayout ();
         }
 
@@ -96,12 +94,12 @@ namespace AutoChess
 
             _endBattleDisposable = _battleViewmodel.EndBattleCommand.Subscribe (EndBattle);
 
-            _playerBattleCharacterElements.Foreach (element =>
+            _playerBattleCharacterElements.ForEach (element =>
             {
                 element.transform.SetParent (_characterParents);
                 element.StartBattle ();
             });
-            _aiBattleCharacterElements.Foreach (element =>
+            _aiBattleCharacterElements.ForEach (element =>
             {
                 element.transform.SetParent (_characterParents);
                 element.StartBattle ();
@@ -114,16 +112,16 @@ namespace AutoChess
         private async UniTask CreateField ()
         {
             var fieldScale = Array.ConvertAll (Constant.BattleFieldScale.Split (','), int.Parse);
-            var fieldElement = await ResourcesLoadHelper.GetResourcesAsync<LandElement> (
-                ResourceRoleType._Prefab, ResourcesType.Element, nameof (LandElement));
+            var fieldElement = await ResourcesLoadHelper.LoadResourcesAsync<LandElement> (
+                ResourceRoleType.Bundles, ResourcesType.Element, nameof (LandElement));
 
-            _lineElements.Foreach ((element, i) =>
+            _lineElements.ForEach ((element, i) =>
             {
                 var count = fieldScale[i];
                 while (count > 0)
                 {
                     var obj = fieldElement.InstantiateObject<LandElement> (element.transform);
-                    obj.transform.SetInstantiateTransform ();
+                    obj.transform.SetLocalReset ();
                     element.AddLandElement (obj);
                     count--;
                 }
@@ -144,7 +142,7 @@ namespace AutoChess
         {
             if (_atAfterSummon)
             {
-                _playerBattleCharacterElements.Foreach (element =>
+                _playerBattleCharacterElements.ForEach (element =>
                 {
                     var landElement = GetLandElement (element.ElementData.PositionModel);
                     element.transform.position = landElement.transform.position;
@@ -153,14 +151,14 @@ namespace AutoChess
             }
 
             _atAfterSummon = true;
-            _characterViewmodel.BattleCharacterModels.Foreach ((battlePlayer, index) =>
+            _characterViewmodel.BattleCharacterModels.Where (x => x.IsAssigned).ForEach ((battlePlayer, index) =>
             {
                 var landElement = GetLandElement (battlePlayer.PositionModel);
                 var characterElement = ObjectPoolingHelper.GetResources<BattleCharacterElement> (
-                    ResourceRoleType._Prefab,
+                    ResourceRoleType.Bundles,
                     ResourcesType.Element, nameof (BattleCharacterElement), landElement.transform);
 
-                characterElement.SetInfoElement (_battleCharacterListArea.battleCharacterInfoElements[index]);
+                characterElement.SetInfoElement (_battleCharacterListArea.GetElement(index));
                 characterElement.SetElement (battlePlayer);
 
                 _playerBattleCharacterElements.Add (characterElement);
@@ -174,12 +172,12 @@ namespace AutoChess
         /// </summary>
         public async UniTask SummonEnemyCharacter ()
         {
-            _battleViewmodel.BattleAiCharacterModels.Foreach (battleMonster =>
+            _battleViewmodel.BattleAiCharacterModels.ForEach (battleMonster =>
             {
                 var landElement = _lineElements[battleMonster.PositionModel.Column]
                     .GetLandElement (battleMonster.PositionModel.Row);
                 var characterElement = ObjectPoolingHelper.GetResources<BattleCharacterElement> (
-                    ResourceRoleType._Prefab,
+                    ResourceRoleType.Bundles,
                     ResourcesType.Element, nameof (BattleCharacterElement), landElement.transform);
 
                 characterElement.SetElement (battleMonster);
@@ -198,12 +196,12 @@ namespace AutoChess
         {
             _endBattleDisposable = _battleViewmodel.EndBattleCommand.Subscribe (EndBattle);
 
-            _playerBattleCharacterElements.Foreach (element =>
+            _playerBattleCharacterElements.ForEach (element =>
             {
                 element.transform.SetParent (_characterParents);
                 element.StartBattle ();
             });
-            _aiBattleCharacterElements.Foreach (element =>
+            _aiBattleCharacterElements.ForEach (element =>
             {
                 element.transform.SetParent (_characterParents);
                 element.StartBattle ();

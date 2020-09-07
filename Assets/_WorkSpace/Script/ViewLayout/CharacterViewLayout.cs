@@ -1,24 +1,28 @@
 using Cysharp.Threading.Tasks;
-using KKSFramework.InGame;
+using KKSFramework.DataBind;
 using KKSFramework.Navigation;
 using UnityEngine.UI;
 using Zenject;
 
 namespace AutoChess
 {
-    public class CharacterViewLayout : ViewLayoutBase
+    public class CharacterViewLayout : ViewLayoutBase, IResolveTarget
     {
         #region Fields & Property
 
-        public CharacterInfoArea characterInfoArea;
-
-        public CharacterListArea characterListArea;
-
-        public BattleCharacterListArea battleCharacterListArea;
-
-        public Button backButton;
-
 #pragma warning disable CS0649
+
+        [Resolver]
+        private CharacterInfoArea _characterInfoArea;
+
+        [Resolver]
+        private CharacterListArea _characterListArea;
+
+        [Resolver]
+        private BattleCharacterListArea _battleCharacterListArea;
+
+        [Resolver]
+        private Button _backButton;
 
         [Inject]
         private CharacterViewmodel _characterViewmodel;
@@ -34,7 +38,7 @@ namespace AutoChess
 
         private void Awake ()
         {
-            backButton.onClick.AddListener (ClickBackButton);
+            _backButton.onClick.AddListener (ClickBackButton);
         }
 
         #endregion
@@ -50,8 +54,9 @@ namespace AutoChess
 
         public override UniTask ActiveLayout ()
         {
-            characterListArea.SetArea (ClickCharacterElement);
-            battleCharacterListArea.SetArea (_characterViewmodel.BattleCharacterModels);
+            _characterListArea.SetArea (ClickCharacterElement);
+            _battleCharacterListArea.SetArea (_characterViewmodel.BattleCharacterModels);
+            // EscapeEventManager.Instance.SetHookingEscapeEvent (ClickBackButton);
             return base.ActiveLayout ();
         }
 
@@ -62,13 +67,13 @@ namespace AutoChess
 
         private void ClickBackButton ()
         {
-            _gamePageView.viewLayoutLoader.SetSubView (0);
+            _gamePageView.BackToMain ();
         }
 
 
         private void ClickCharacterElement (CharacterModel characterModel)
         {
-            characterInfoArea.SetArea (characterModel);
+            _characterInfoArea.SetArea (characterModel);
         }
 
         #endregion

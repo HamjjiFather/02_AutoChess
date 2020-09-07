@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BaseFrame;
 using KKSFramework;
 using KKSFramework.DesignPattern;
 using KKSFramework.LocalData;
@@ -34,15 +35,14 @@ namespace AutoChess
         /// 전투 참여 캐릭터 모델.
         /// </summary>
         public ReactiveCollection<CharacterModel> BattleCharacterModels { get; } =
-            new ReactiveCollection<CharacterModel> ();
+            new ReactiveCollection<CharacterModel> (Enumerable.Repeat (new CharacterModel(), 8));
 
         private readonly int[] _startCharacterIndexes =
         {
             1000,
             1001,
             1002,
-            1003,
-            1004
+            1003
         };
 
         public bool IsDataChanged { get; set; }
@@ -71,10 +71,10 @@ namespace AutoChess
 
             if (!characterBundle.CharacterUniqueIds.Any ())
             {
-                _startCharacterIndexes.Foreach ((index, arrayIndex) =>
+                _startCharacterIndexes.ForEach ((index, arrayIndex) =>
                 {
                     var characterModel = NewCharacter (index);
-                    BattleCharacterModels.Add (characterModel);
+                    BattleCharacterModels[arrayIndex] = characterModel;
                 });
 
                 SaveCharacterData ();
@@ -84,18 +84,18 @@ namespace AutoChess
                 return;
             }
 
-            characterBundle.CharacterUniqueIds.Foreach ((uid, index) =>
+            characterBundle.CharacterUniqueIds.ForEach ((uid, arrayIndex) =>
             {
                 var characterModel = new CharacterModel ();
-                var statusGrade = characterBundle.CharacterStatusGrades[index];
-                var characterData = TableDataManager.Instance.CharacterDict[characterBundle.CharacterIds[index]];
+                var statusGrade = characterBundle.CharacterStatusGrades[arrayIndex];
+                var characterData = TableDataManager.Instance.CharacterDict[characterBundle.CharacterIds[arrayIndex]];
                 var characterLevel =
-                    TableDataHelper.Instance.GetCharacterLevelByExp (characterBundle.CharacterExps[index]);
+                    TableDataHelper.Instance.GetCharacterLevelByExp (characterBundle.CharacterExps[arrayIndex]);
                 var statusModel = GetBaseStatusModel (characterData, characterLevel, statusGrade);
                 var attackData = TableDataManager.Instance.SkillDict[characterData.AttackIndex];
                 var skillData = TableDataManager.Instance.SkillDict[characterData.SkillIndex];
 
-                characterModel.SetUniqueData (uid, characterBundle.CharacterExps[index]);
+                characterModel.SetUniqueData (uid, characterBundle.CharacterExps[arrayIndex]);
                 characterModel.SetBaseData (characterData, attackData, skillData);
                 characterModel.SetStatusModel (statusModel, statusGrade);
                 characterModel.SetSide (CharacterSideType.Player);
@@ -106,13 +106,13 @@ namespace AutoChess
                     .SetGradeValue (statusGrade.AbilityPointStatusGrade);
                 characterModel.GetBaseStatusModel (StatusType.Defense).SetGradeValue (statusGrade.DefenseStatusGrade);
 
-                var equipmentIds = characterBundle.EquipmentUIds[index];
+                var equipmentIds = characterBundle.EquipmentUIds[arrayIndex];
                 var equipmentModels =
                     equipmentIds.EquipmentUIds.Select (x => _equipmentViewmodel.GetEquipmentModel (x));
                 characterModel.SetEquipmentModel (equipmentModels);
 
                 _allCharacterModels.Add (characterModel);
-                BattleCharacterModels.Add (characterModel);
+                BattleCharacterModels[arrayIndex] = characterModel;
             });
 
             IsDataChanged = true;
@@ -123,13 +123,14 @@ namespace AutoChess
 
         public void ResetCharacterPosition (int index, CharacterModel characterModel)
         {
-            characterModel.SetPositionModel (new PositionModel (_gameSetting.PlayerCharacterPosition[index]));
+            var positionData = LocalDataHelper.GetCharacterBundle ().BattleCharacterPositions;
+            characterModel.SetPositionModel (new PositionModel (positionData.Split ('/')[index]));
         }
 
 
         public void AddCharacterExps (int exp)
         {
-            BattleCharacterModels.Foreach ((model, index) =>
+            BattleCharacterModels.ForEach ((model, index) =>
             {
                 model.AddExp (exp);
                 var characterLevel = TableDataHelper.Instance.GetCharacterLevelByExp (model.Exp.Value);
@@ -272,7 +273,7 @@ namespace AutoChess
         {
             var dict = new Dictionary<StatusType, BaseStatusModel> ();
             var enums = Enum.GetValues (typeof (StatusType)) as StatusType[];
-            enums?.Skip (1).Foreach (statustype =>
+            enums?.Skip (1).ForEach (statustype =>
             {
                 dict.Add (statustype,
                     new BaseStatusModel (

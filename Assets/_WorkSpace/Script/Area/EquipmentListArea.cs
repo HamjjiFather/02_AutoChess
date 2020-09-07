@@ -1,22 +1,23 @@
 using System.Collections.Generic;
 using System.Linq;
-using KKSFramework;
+using BaseFrame;
+using KKSFramework.DataBind;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 using Zenject;
 
 namespace AutoChess
 {
-    public class EquipmentListArea : AreaBase<UnityAction<EquipmentModel>>
+    public class EquipmentListArea : AreaBase<UnityAction<EquipmentModel>>, IResolveTarget
     {
         #region Fields & Property
-        
-        public Transform contents;
 
 #pragma warning disable CS0649
+        
+        [Resolver]
+        private Transform _contents;
         
         [Inject]
         private EquipmentViewmodel _equipmentViewmodel;
@@ -40,13 +41,13 @@ namespace AutoChess
             if (!_equipmentViewmodel.IsDataChanged) return;
             _equipmentViewmodel.IsDataChanged = false;
             
-            _listElements.Foreach (element => element.PoolingObject ());
+            _listElements.ForEach (element => element.Despawn ());
             _listElements.Clear ();
 
-            _equipmentViewmodel.EquipmentModels.Values.Foreach (equipmentModel =>
+            _equipmentViewmodel.EquipmentModels.Values.ForEach (equipmentModel =>
             {
-                var element = ObjectPoolingHelper.GetResources<EquipmentInfoListElement> (ResourceRoleType._Prefab,
-                    ResourcesType.Element, nameof(EquipmentInfoListElement), contents);
+                var element = ObjectPoolingHelper.GetResources<EquipmentInfoListElement> (ResourceRoleType.Bundles,
+                    ResourcesType.Element, nameof(EquipmentInfoListElement), _contents);
 
                 element.SetElement (new EquipmentInfoListElementModel
                 {

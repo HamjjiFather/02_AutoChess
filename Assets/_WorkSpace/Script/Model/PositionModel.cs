@@ -41,7 +41,7 @@ namespace AutoChess
         
         public void Clear ()
         {
-            this = PositionHelper.Instance.EmptyPosition;
+            this = PathFindingHelper.Instance.EmptyPosition;
         }
 
         public override bool Equals (object obj)
@@ -63,7 +63,7 @@ namespace AutoChess
 
         public override string ToString ()
         {
-            return $"({Column},{Row})";
+            return $"{Column},{Row}";
         }
 
         #endregion

@@ -25,6 +25,8 @@ namespace AutoChess
         {
             return Mathf.RoundToInt (value);
         }
+        
+        
 
         
         #region Methods

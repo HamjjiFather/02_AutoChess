@@ -1,5 +1,6 @@
-using KKSFramework;
-using KKSFramework.Localization;
+using BaseFrame;
+using Helper;
+using KKSFramework.DataBind;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
 using UnityEngine;
@@ -8,30 +9,38 @@ using Zenject;
 
 namespace AutoChess
 {
-    public class EquipmentInfoArea : AreaBase<EquipmentModel>
+    public class EquipmentInfoArea : AreaBase<EquipmentModel>, IResolveTarget
     {
         #region Fields & Property
-        
-        public Text equipmentNameText;
-                                                  
-        public StarGradeArea starGradeArea;
-                                                  
-        public Image equipmentImage;
-
-        public Button equipButton;
-        
-        public StatusElement[] baseStatusElements;
-
-        public GameObject[] baseStatusElementLineObjs;
 
 #pragma warning disable CS0649
 
+        [Resolver]
+        private Property<string> _equipmentName;
+
+        [Resolver]
+        private Property<Sprite> _equipmentImage;
+
+        [Resolver]
+        private StarGradeArea _starGradeArea;
+
+        [Resolver]
+        private Button _equipButton;
+
+        [Resolver]
+        private StatusElement[] _baseStatusElements;
+
+        [Resolver]
+        private GameObject[] _baseStatusElementLineObjs;
+
         [Inject]
         private CharacterViewmodel _characterViewmodel;
-        
+
 #pragma warning restore CS0649
 
         private EquipmentModel _equipmentModel;
+
+        private BattleCharacterListArea _battleCharacterListArea;
 
         #endregion
 
@@ -40,42 +49,47 @@ namespace AutoChess
 
         private void Awake ()
         {
-            equipButton.onClick.AddListener (ClickEquipButton);
+            _equipButton.onClick.AddListener (ClickEquipButton);
         }
 
         #endregion
 
 
         #region Methods
-        
+
+        public void SetBattleCharacterListComponent (BattleCharacterListArea battleCharacterListArea)
+        {
+            _battleCharacterListArea = battleCharacterListArea;
+        }
+
         public override void SetArea (EquipmentModel areaData)
         {
             _equipmentModel = areaData;
-            equipmentNameText.text = LocalizationHelper.GetTranslatedString (areaData.EquipmentData.Name);
-            starGradeArea.SetArea (areaData.StarGrade);
-            equipmentImage.sprite = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
+            _equipmentName.Value = LocalizeHelper.FromName (areaData.EquipmentData.Name);
+            _starGradeArea.SetArea (areaData.StarGrade);
+            _equipmentImage.Value = ResourcesLoadHelper.LoadResource<Sprite> (ResourceRoleType._Image,
                 ResourcesType.Equipment, areaData.EquipmentData.SpriteResName);
-            
-            baseStatusElements.Foreach (element => element.gameObject.SetActive (false));
-            baseStatusElementLineObjs.Foreach (obj => obj.SetActive (false));
-            areaData.Status.Foreach ((status, index) =>
+
+            _baseStatusElements.ForEach (element => element.gameObject.SetActive (false));
+            _baseStatusElementLineObjs.ForEach (obj => obj.SetActive (false));
+            areaData.Status.ForEach ((status, index) =>
             {
-                baseStatusElements[index].gameObject.SetActive (true);
-                baseStatusElements[index].SetElement (areaData.GetBaseStatusModel(status.Key));
+                _baseStatusElements[index].gameObject.SetActive (true);
+                _baseStatusElements[index].SetElement (areaData.GetBaseStatusModel (status.Key));
 
                 var objIndex = index - 1;
-                
-                if(objIndex >= 0 && objIndex <= baseStatusElementLineObjs.Length - 1)
-                    baseStatusElementLineObjs[objIndex].SetActive (true);
+
+                if (objIndex >= 0 && objIndex <= _baseStatusElementLineObjs.Length - 1)
+                    _baseStatusElementLineObjs[objIndex].SetActive (true);
             });
-            
+
             SetEquipState (true);
         }
 
 
         private void SetEquipState (bool active)
         {
-            equipButton.gameObject.SetActive (active);
+            _equipButton.gameObject.SetActive (active);
         }
 
         #endregion
@@ -85,8 +99,8 @@ namespace AutoChess
 
         private void ClickEquipButton ()
         {
-            // battleCharacterListArea.SetElementClickActions (ClickCharacter);
-            
+            _battleCharacterListArea.SetElementClickActions (ClickCharacter);
+
             void ClickCharacter (CharacterModel characterModel)
             {
                 characterModel.ChangeEquipmentModel (0, _equipmentModel);

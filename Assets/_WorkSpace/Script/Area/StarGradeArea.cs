@@ -1,16 +1,20 @@
-using KKSFramework;
+using BaseFrame;
+using KKSFramework.DataBind;
 using KKSFramework.Navigation;
-using UnityEngine;
+using UnityEngine.UI;
 
 namespace AutoChess
 {
-    public class StarGradeArea : AreaBase<StarGrade>
+    public class StarGradeArea : AreaBase<StarGrade>, IResolveTarget
     {
         #region Fields & Property
 
-        public GameObject[] onStarObj;
+        public Context context;
 
 #pragma warning disable CS0649
+
+        [Resolver]
+        private Image[] _onStarObj;
 
 #pragma warning restore CS0649
 
@@ -26,12 +30,10 @@ namespace AutoChess
 
         public override void SetArea (StarGrade grade)
         {
-            onStarObj.Foreach ((obj, index) =>
-            {
-                obj.SetActive (index <= (int)grade);
-            });
+            context.Resolve ();
+            _onStarObj.ForEach ((obj, index) => { obj.enabled = index <= (int) grade; });
         }
-        
+
         #endregion
 
 

@@ -1,0 +1,30 @@
+﻿using System;
+using BaseFrame;
+using BaseFrame.Navigation;
+using Black.Helper;
+using Zenject;
+
+
+namespace Malang
+{
+    public class #SCRIPTNAME# : SceneController
+    {
+        public override void InstallBindings ()
+        {
+            // Scene 에서 사용할 객체를 Binding 시킬수 있다. 
+        }
+        
+
+        public override Configuration GetRootViewConfiguration ()
+        {
+            throw new NotImplementedException ();
+            
+            /*
+            var config = new Configuration.Builder ();
+            return config.SetNameAndPrefabName ("PageName")
+                .SetLayer (ContentLayer.Page)
+                .Build ();
+            */
+        }        
+    }
+}

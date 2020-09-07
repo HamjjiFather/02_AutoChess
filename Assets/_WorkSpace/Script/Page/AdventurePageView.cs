@@ -1,4 +1,5 @@
 using System;
+using BaseFrame;
 using Cysharp.Threading.Tasks;
 using KKSFramework;
 using KKSFramework.Navigation;
@@ -7,11 +8,11 @@ using Zenject;
 
 namespace AutoChess
 {
-    public class AdventurePageView : PageViewBase
+    public class AdventurePageView : PageController
     {
         #region Fields & Property
 
-        public ViewLayoutLoader viewLayoutLoader;
+        public ViewLayoutLoaderBase viewLayoutLoader;
 
         public BattleCharacterListArea battleCharacterListArea;
 
@@ -55,10 +56,10 @@ namespace AutoChess
 
         #region Methods
 
-        protected override async UniTask OnPush (object pushValue = null)
+        protected override async UniTask OnPrepareAsync (Parameters parameters)
         {
-            var fieldViewLayout = viewLayoutLoader.viewLayoutObjs[0] as FieldViewLayout;
-            var battleViewLayout = viewLayoutLoader.viewLayoutObjs[1] as BattleViewLayout;
+            var fieldViewLayout = viewLayoutLoader.ViewLayoutBases[0] as FieldViewLayout;
+            var battleViewLayout = viewLayoutLoader.ViewLayoutBases[1] as BattleViewLayout;
 
             if (fieldViewLayout == null || battleViewLayout == null)
                 return;
@@ -66,7 +67,7 @@ namespace AutoChess
             viewLayoutLoader.SetSubView (0);
             await fieldViewLayout.StartAdventure ();
             SubscribeBattleCommand ();
-            await base.OnPush (pushValue);
+            await base.OnPrepareAsync (parameters);
 
             void SubscribeBattleCommand ()
             {
@@ -82,20 +83,21 @@ namespace AutoChess
                     fieldViewLayout.EndBattle (isWin);
                 });
             }
+            
         }
 
-        protected override void Hid ()
+        protected override UniTask OnHideAsync ()
         {
             _startBattleDisposable.DisposeSafe ();
             _endBattleDisposable.DisposeSafe ();
-            base.Hid ();
+            return base.OnHideAsync ();
         }
-        
-        
-        protected override async UniTask Popped ()
+
+
+        protected override void OnPopComplete ()
         {
-            await ((FieldViewLayout) viewLayoutLoader.viewLayoutObjs[0]).DisposeViewLayout ();
-            await base.Popped ();
+            ((FieldViewLayout) viewLayoutLoader.ViewLayoutBases[0]).DisposeViewLayout ().Forget();
+            base.OnPopComplete ();
         }
 
         #endregion

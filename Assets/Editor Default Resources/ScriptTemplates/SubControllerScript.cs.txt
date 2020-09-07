@@ -1,0 +1,57 @@
+using BaseFrame;
+using UnityEngine;
+using UnityEngine.UI;
+
+
+namespace Malang
+{
+    public class #SCRIPTNAME# : SubViewController
+    {
+        #region Binding
+
+#pragma warning disable 0649
+
+        
+        
+#pragma warning restore 0649
+
+        #endregion
+        
+        
+        #region Unity Methods
+        
+        protected override void Awake ()
+        {
+            base.Awake ();
+        }       
+        
+        #endregion
+        
+        
+        #region SubViewController Implements
+                
+        protected override void OnPush (Parameters parameters)
+        {
+            base.OnPush (parameters);
+
+            // 초기화 영역
+        }
+
+
+        protected override void OnPop ()
+        {
+            base.OnPop ();
+            
+            // 사용한 객체 해제 영역
+        }
+        
+        #endregion
+        
+        
+        #region Event callbacks
+        
+        
+        
+        #endregion
+    }
+}

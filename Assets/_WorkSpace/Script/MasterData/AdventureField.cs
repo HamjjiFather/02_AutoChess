@@ -12,6 +12,16 @@ public class AdventureField : TableDataBase
     public int Id;
 
     /// <summary>
+    /// 필드 포인트 수량
+    /// </summary>
+    public int[] FieldPointCount;
+
+    /// <summary>
+    /// 필드 포인트에 배치되는 필드 수량
+    /// </summary>
+    public int[] FieldCount;
+
+    /// <summary>
     /// 숲 수량
     /// </summary>
     public int[] ForestCount;
@@ -57,6 +67,8 @@ public class AdventureField : TableDataBase
     {
         var rowIndex = 0;
 		Id = int.Parse(myData[rowIndex++]);
+		FieldPointCount = Array.ConvertAll (myData[rowIndex++].Split ('/'), int.Parse);
+		FieldCount = Array.ConvertAll (myData[rowIndex++].Split ('/'), int.Parse);
 		ForestCount = Array.ConvertAll (myData[rowIndex++].Split ('/'), int.Parse);
 		TreeCount = Array.ConvertAll (myData[rowIndex++].Split ('/'), int.Parse);
 		RewardCount = Array.ConvertAll (myData[rowIndex++].Split ('/'), int.Parse);

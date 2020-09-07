@@ -1,11 +1,10 @@
 using System.Linq;
 using System.Threading;
-using KKSFramework.Navigation;
+using BaseFrame;
 using Cysharp.Threading.Tasks;
-using KKSFramework;
 using KKSFramework.DataBind;
+using KKSFramework.Navigation;
 using UnityEngine;
-using UnityEngine.UI;
 using Zenject;
 
 namespace AutoChess

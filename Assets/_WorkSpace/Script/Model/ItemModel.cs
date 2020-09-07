@@ -1,5 +1,4 @@
 using KKSFramework.DesignPattern;
-using KKSFramework.TableData;
 
 namespace AutoChess
 {

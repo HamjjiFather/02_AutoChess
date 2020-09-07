@@ -1,12 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BaseFrame;
+using BaseFrame.Navigation;
 using KKSFramework;
 using KKSFramework.Navigation;
 using UniRx;
 using Cysharp.Threading.Tasks;
+using Helper;
 using KKSFramework.DataBind;
 using KKSFramework.ResourcesLoad;
+using KKSFramework.UI;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -32,7 +36,10 @@ namespace AutoChess
         private Text _adventureCountText;
 
         [Resolver]
-        private Button _inspectButton;
+        private ButtonExtension _inspectButton;
+
+        [Resolver]
+        private ButtonExtension _formationButton;
 
         [Resolver]
         private ScrollSnap _scrollSnap;
@@ -56,6 +63,8 @@ namespace AutoChess
 
         private BattleCharacterListArea _battleCharacterListArea;
 
+        private FieldLandElement _nowLandElement;
+
         private readonly EnumActionToDict _fieldTypeActionBefore = new EnumActionToDict ();
 
         private readonly EnumActionToDict _fieldTypeActionAfter = new EnumActionToDict ();
@@ -72,7 +81,8 @@ namespace AutoChess
 
         private void Awake ()
         {
-            _inspectButton.onClick.AddListener (ClickInspectButton);
+            _inspectButton.AddListener (ClickInspectButton);
+            _formationButton.AddListener (ClickFormationButton);
             
             _fieldTypeActionAfter.Add (FieldSpecialType.Battle, _ => { Debug.Log ("전투가 시작되었습니다."); });
             _fieldTypeActionAfter.Add (FieldSpecialType.Reward, _ => { Debug.Log ("보상을 얻었습니다."); });
@@ -86,14 +96,36 @@ namespace AutoChess
                 var insightFulLand = GetLandElement (insightFulPosition.First ());
                 _scrollSnap.SnapToAsync (insightFulLand.transform).Forget ();
             });
+            
+            _fieldTypeActionAfter.Add (FieldSpecialType.Store, _ =>
+            {
+                Debug.Log ("상점을 이용함.");
+            });
+            
+            _fieldTypeActionAfter.Add (FieldSpecialType.Smith, _ =>
+            {
+                Debug.Log ("대장간을 이용함.");
+            });
+            
+            _fieldTypeActionAfter.Add (FieldSpecialType.Bar, _ =>
+            {
+                Debug.Log ("새 파티를 영입하면 됨.");
+            });
+            
             _fieldTypeActionAfter.Add (FieldSpecialType.Exit, _ =>
             {
-                var msgPopupStruct = new MessagePopupStruct
+                var parameter = new Parameters
                 {
-                    ConfirmAction = ConfirmRewardAdventure,
-                    Message = "?현재까지 얻은 보상을 획득하고 마을로 돌아가시겠습니까?"
+                    {
+                        "struct",
+                        new MessagePopupStruct
+                        {
+                            ConfirmAction = ConfirmNextFloor,
+                            Message = "?다음 층으로 이동하시겠습니까?"
+                        }
+                    }
                 };
-                NavigationHelper.OpenPopup (NavigationViewType.MessagePopup, msgPopupStruct).Forget();
+                TreeNavigationHelper.PushPopup (Popup.Message, parameter);
             });
         }
 
@@ -109,7 +141,6 @@ namespace AutoChess
 
             base.Initialize ();
         }
-
 
         public async UniTask StartAdventure ()
         {
@@ -132,6 +163,7 @@ namespace AutoChess
             _fieldCharacterElement.SetElement (characterModel);
             var startElement = GetLandElement (adventureModel.StartField.LandPosition);
             _fieldCharacterElement.transform.position = startElement.transform.position;
+            _nowLandElement = startElement as FieldLandElement;
             _scrollSnap.SnapTo (startElement.GetComponent<RectTransform> ());
 
             void Subscribe ()
@@ -149,16 +181,16 @@ namespace AutoChess
 
             async UniTask CreateField ()
             {
-                var fieldElement = await ResourcesLoadHelper.GetResourcesAsync<FieldLandElement> (
-                    ResourceRoleType._Prefab, ResourcesType.Element, nameof (FieldLandElement));
+                var fieldElement = await ResourcesLoadHelper.LoadResourcesAsync <FieldLandElement> (
+                    ResourceRoleType.Bundles, ResourcesType.Element, nameof (FieldLandElement));
                 
-                _lineElements.Foreach ((element, i) =>
+                _lineElements.ForEach ((element, i) =>
                 {
                     var count = fieldScale[i];
                     while (count > 0)
                     {
                         var obj = fieldElement.InstantiateObject<FieldLandElement> (element.transform);
-                        obj.transform.SetInstantiateTransform ();
+                        obj.transform.SetLocalReset ();
                         element.AddLandElement (obj);
                         count--;
                     }
@@ -172,11 +204,40 @@ namespace AutoChess
         /// </summary>
         public void EndAdventure ()
         {
-            _disposables.Foreach (x => x.DisposeSafe ());
+            _disposables.ForEach (x => x.DisposeSafe ());
             _disposables.Clear ();
             Debug.Log ("end adventure");
         }
 
+        
+        /// <summary>
+        /// 다음 층.
+        /// </summary>
+        private void ConfirmNextFloor ()
+        {
+            NextFloor ().Forget ();
+        }
+
+
+        /// <summary>
+        /// 다음층 처리.
+        /// </summary>
+        /// <returns></returns>
+        private async UniTask NextFloor ()
+        {
+            await TreeNavigationHelper.TransitionActionAsync (TransitionType.Fade, OnBeween);
+
+            void OnBeween ()
+            {
+                _adventureViewmodel.NewField ();
+                _fieldViewLayoutRewardArea.SetArea (_adventureViewmodel.AdventureRewardModel);
+
+                var startElement = GetLandElement (_adventureViewmodel.AdventureModel.StartField.LandPosition);
+                _fieldCharacterElement.transform.position = startElement.transform.position;
+                _scrollSnap.SnapTo (startElement.GetComponent<RectTransform> ());
+            }
+        }
+        
 
         /// <summary>
         /// 보상 확인.
@@ -184,8 +245,14 @@ namespace AutoChess
         private void ConfirmRewardAdventure ()
         {
             _adventureViewmodel.EndAdventure ();
-            Action action = ExitAdventure;
-            NavigationHelper.OpenPopup (NavigationViewType.AdventureResultPopup, action).Forget();
+            var param = new Parameters 
+            {
+                {
+                    "action",
+                    (Action)ExitAdventure
+                }
+            };
+            TreeNavigationHelper.PushPopup (Popup.AdventureResultPopup, param);
             Debug.Log ("confirm reward adventure");
         }
 
@@ -196,7 +263,7 @@ namespace AutoChess
         private void ExitAdventure ()
         {
             Debug.Log ("exit adventure");
-            NavigationHelper.GoBackPage ();
+            TreeNavigationHelper.PushPage (Page.GamePage);
         }
 
 
@@ -205,7 +272,6 @@ namespace AutoChess
             var tasks = _lineElements.Select (element => element.Clear ());
             await UniTask.WhenAll (tasks);
         }
-        
 
 
         public void EndBattle (bool isWin)
@@ -256,14 +322,21 @@ namespace AutoChess
             if (_isMoving)
                 return;
 
-            _isMoving = true;
-            var result = _adventureViewmodel.FindMovingPositions (fieldLandElement.PositionModel);
-            await _fieldCharacterElement.MoveTo (result);
-            Debug.Log ("Complete Movement");
+            if (_adventureViewmodel.IsConnectByMovable (_nowLandElement.FieldModel, fieldLandElement.FieldModel))
+            {
+                _isMoving = true;
+                var result = _adventureViewmodel.FindMovingPositions (fieldLandElement.FieldModel);
+                await _fieldCharacterElement.MoveTo (result);
+                _nowLandElement = fieldLandElement;
+                Debug.Log ("Complete Movement");
 
-            EventByFieldTypeAfterMoving (fieldLandElement);
+                EventByFieldTypeAfterMoving (fieldLandElement);
 
-            _isMoving = false;
+                _isMoving = false;
+                return;
+            }
+
+            Debug.Log ("경로가 막힘.");
         }
 
         #endregion
@@ -274,10 +347,15 @@ namespace AutoChess
         private void ClickInspectButton ()
         {
             var aroundPosition =
-                PositionHelper.Instance.GetAroundPositionModel (_adventureViewmodel.AdventureModel.AllFieldModel,
+                PathFindingHelper.Instance.GetAroundPositionModel (_adventureViewmodel.AdventureModel.AllFieldModel,
                     _adventureViewmodel.NowPosition);
         }
 
+        private void ClickFormationButton ()
+        {
+            TreeNavigationHelper.PushPopup (Popup.FormationPopup);
+        }
+        
         #endregion
     }
 }

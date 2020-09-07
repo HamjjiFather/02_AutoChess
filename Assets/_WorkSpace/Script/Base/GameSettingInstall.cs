@@ -26,15 +26,6 @@ namespace AutoChess
         public int baseCharacterUniqueId = 100000;
         
         public int baseEquipmentUniqueId = 200000;
-
-        public readonly string[] PlayerCharacterPosition =
-        {
-            "1,0",
-            "2,0",
-            "3,0",
-            "4,0",
-            "5,0"
-        };
     }
     
     [CreateAssetMenu (fileName = "GameSetting", menuName = "Installers/GameSetting")]

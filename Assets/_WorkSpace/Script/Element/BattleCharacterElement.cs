@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Helper;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
 using UnityEngine;
@@ -84,9 +85,9 @@ namespace AutoChess
 
             battleCharacterPackage.characterAppearanceModule.SetActive (true);
 
-            var sprite = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
+            var sprite = ResourcesLoadHelper.LoadResource<Sprite> (ResourceRoleType._Image,
                 ResourcesType.Monster, ElementData.CharacterData.SpriteResName);
-            var aniamtorController = ResourcesLoadHelper.GetResources<RuntimeAnimatorController> (
+            var aniamtorController = ResourcesLoadHelper.LoadResource<RuntimeAnimatorController> (
                 ResourceRoleType._Animation, ElementData.CharacterData.AnimatorResName);
             battleCharacterPackage.characterAppearanceModule.SetSprite (sprite);
             battleCharacterPackage.characterAppearanceModule.SetRuntimeAnimatorContoller (aniamtorController);
@@ -129,7 +130,7 @@ namespace AutoChess
                 battleCharacterPackage.characterAppearanceModule.SetValueOnlyHealthGageValue(hp, _maxHealth);
 
                 if (ElementData.CharacterSideType == CharacterSideType.Player)
-                    _battleCharacterInfoElement.hpGageElement.SetValueAsync (hp, _maxHealth);
+                    _battleCharacterInfoElement.HpGageElement.SetValueAsync (hp, _maxHealth);
             }
 
             // 애니메이션 실행 대기.
@@ -186,7 +187,7 @@ namespace AutoChess
             battleCharacterPackage.characterAppearanceModule.SetSkillSliderValue (sliderValue);
             
             if (ElementData.CharacterSideType == CharacterSideType.Player)
-                _battleCharacterInfoElement.skillGageElement.SetSliderValue (sliderValue);
+                _battleCharacterInfoElement.SkillGageElement.SetSliderValue (sliderValue);
         }
 
 

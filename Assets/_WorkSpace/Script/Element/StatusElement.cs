@@ -1,6 +1,7 @@
 using System.Linq;
+using BaseFrame;
+using Helper;
 using KKSFramework;
-using KKSFramework.Localization;
 using KKSFramework.Navigation;
 using UnityEngine.UI;
 
@@ -40,7 +41,7 @@ namespace AutoChess
                 statusGrade.Min <= baseStatusModel.GradeValue && statusGrade.Max > baseStatusModel.GradeValue);
 
             statusGradeText.text = grade.GradeString;
-            statusNameText.text = LocalizationHelper.GetTranslatedString (ElementData.StatusData.NameKey);
+            statusNameText.text = LocalizeHelper.FromName (ElementData.StatusData.NameKey);
             statusValueText.text = ElementData.DisplayValue;
         }
         
@@ -60,7 +61,7 @@ namespace AutoChess
                 ? ElementData.DisplayValue : $"{totalValue} + ({characterModel.EquipmentStatusModel.DisplayValue (statusType)})";
 
             statusGradeText.text = grade.GradeString;
-            statusNameText.text = LocalizationHelper.GetTranslatedString (ElementData.StatusData.NameKey);
+            statusNameText.text = LocalizeHelper.FromName (ElementData.StatusData.NameKey);
             statusValueText.text = displayValueString;
         }
         

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using BaseFrame;
 using KKSFramework;
 using KKSFramework.DesignPattern;
 using KKSFramework.LocalData;
@@ -60,7 +61,7 @@ namespace AutoChess
 
             if (!equipmentBundle.EquipmentUniqueIds.Any ())
             {
-                _startEquipmentIndexes.Foreach (index =>
+                _startEquipmentIndexes.ForEach (index =>
                 {
                     var newEquipment = NewEquipment (index);
                     _equipmentModels.Add (newEquipment.UniqueEquipmentId, newEquipment);
@@ -71,7 +72,7 @@ namespace AutoChess
                 return;
             }
 
-            equipmentBundle.EquipmentUniqueIds.Foreach ((uid, index) =>
+            equipmentBundle.EquipmentUniqueIds.ForEach ((uid, index) =>
             {
                 var equipmentModel = new EquipmentModel ();
                 var starGrade = equipmentBundle.EquipmentGrades[index];
@@ -121,7 +122,7 @@ namespace AutoChess
             void SetStatusGradeValue ()
             {
                 var rand = Random.Range (0, 1f);
-                var statusGradeIndex = equipmentData.AvailEquipmentTypeIndex.RandomSource ();
+                var statusGradeIndex = equipmentData.AvailEquipmentTypeIndex.Choice();
                 equipmentModel.SetStatusGrade (statusGradeIndex, rand);
 
                 var statusModel = SetBaseStatusDict (equipmentModel.StatusIndexes,

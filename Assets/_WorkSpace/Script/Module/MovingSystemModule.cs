@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using UniRx;
+using BaseFrame;
 using Cysharp.Threading.Tasks;
-using KKSFramework;
+using UniRx;
 using UnityEngine;
 
 namespace AutoChess
@@ -45,7 +45,7 @@ namespace AutoChess
             _movingDisposable = Observable.EveryUpdate ().Subscribe (_ =>
             {
                 var element = landElement.transform;
-                _movingTarget.MoveTowards (_movingTarget.position, element.position, Time.deltaTime);
+                _movingTarget.position = Vector3.MoveTowards (_movingTarget.position, element.position, Time.deltaTime);
             });
 
             await UniTask.WaitWhile (() =>
@@ -69,7 +69,7 @@ namespace AutoChess
             {
                 var elementPosition = element.transform.position;
                 var movingTargetPosition = _movingTarget.position;
-                _movingTarget.MoveTowards (movingTargetPosition, elementPosition, Time.deltaTime);
+                _movingTarget.position = Vector3.MoveTowards (movingTargetPosition, elementPosition, Time.deltaTime);
                 
                 var distance = Vector2.Distance (movingTargetPosition, elementPosition);
                 var dist = Math.Truncate (distance * 100) * 0.01f;

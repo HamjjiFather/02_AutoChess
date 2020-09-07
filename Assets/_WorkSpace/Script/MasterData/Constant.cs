@@ -72,5 +72,15 @@ public class Constant
     /// </summary>
     public const string BattleFieldScale = "7,8,7,8,7,8,7";
 
+    /// <summary>
+    /// 배치 가능 필드 범위
+    /// </summary>
+    public const string FormationableFieldScale = "2,3,2,3,2,3,2";
+
+    /// <summary>
+    /// 기본 전투 캐릭터 위치
+    /// </summary>
+    public const string PlayerCharacterPosition = "1,0/2,0/3,0/4,0/5,0";
+
 
 }

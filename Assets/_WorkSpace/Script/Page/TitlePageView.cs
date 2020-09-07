@@ -1,12 +1,13 @@
-﻿using Cysharp.Threading.Tasks;
-using KKSFramework.Navigation;
-using KKSFramework.SceneLoad;
-using UnityEngine;
+﻿using BaseFrame;
+using Cysharp.Threading.Tasks;
+using Helper;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Scene = Helper.Scene;
 
-namespace KKSFramework.InGame
+namespace AutoChess
 {
-    public class TitlePageView : PageViewBase
+    public class TitlePageView : PageController
     {
         #region Fields & Property
 
@@ -26,11 +27,10 @@ namespace KKSFramework.InGame
             titleButton.onClick.AddListener (ClickTitle);
         }
 
-        
-        protected override void Showed ()
+        protected override UniTask OnShowAsync ()
         {
-            base.Showed ();
             _isLoaded = true;
+            return base.OnShowAsync ();
         }
 
 
@@ -38,7 +38,7 @@ namespace KKSFramework.InGame
         {
             if (!_isLoaded) return;
             _isLoaded = false;
-            SceneLoadManager.Instance.ChangeSceneAsync (SceneType.Game).Forget ();
+            TreeNavigationHelper.ChangeScene (Scene.Game);
         }
     }
 }

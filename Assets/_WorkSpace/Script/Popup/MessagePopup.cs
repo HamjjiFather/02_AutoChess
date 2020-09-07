@@ -1,5 +1,7 @@
 using System;
+using BaseFrame;
 using Cysharp.Threading.Tasks;
+using Helper;
 using KKSFramework;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
@@ -20,15 +22,15 @@ namespace AutoChess
             Message = message;
         }
     }
-    
-    public class MessagePopup : PopupViewBase, IResolveTarget
+
+    public class MessagePopup : PopupController, IResolveTarget
     {
         #region Fields & Property
 
 #pragma warning disable CS0649
-        
+
         [Resolver]
-        private ButtonExtension _confirmButton;
+        private Button _confirmButton;
 
         [Resolver]
         private Text _popupMessageText;
@@ -42,8 +44,9 @@ namespace AutoChess
 
         #region UnityMethods
 
-        protected void Awake ()
+        protected override void Awake ()
         {
+            base.Awake ();
             _confirmButton.onClick.AddListener (ClickConfirmButton);
         }
 
@@ -52,23 +55,27 @@ namespace AutoChess
 
         #region Methods
 
-        protected override UniTask OnPush (object pushValue = null)
+        
+        
+        
+        protected override void OnPush (Parameters pushValue = null)
         {
             if (pushValue == null)
-                return UniTask.CompletedTask;
-            
-            var msgStruct = (MessagePopupStruct)pushValue;
+                return;
+
+            var msgStruct = (MessagePopupStruct) pushValue.GetValue<MessagePopupStruct> ("struct");
             _confirmAction = msgStruct.ConfirmAction;
             _popupMessageText.text = msgStruct.Message;
-            return base.OnPush (pushValue);
+            base.OnPush (pushValue);
         }
 
-
-        protected override UniTask Popped ()
+        
+        protected override void OnPopComplete ()
         {
             _confirmAction = null;
-            return base.Popped ();
+            base.OnPopComplete ();
         }
+
 
         #endregion
 
@@ -77,7 +84,7 @@ namespace AutoChess
 
         private void ClickConfirmButton ()
         {
-            NavigationHelper.GoBackPage ();
+            TreeNavigationHelper.BackKey ();
             _confirmAction.CallSafe ();
         }
 

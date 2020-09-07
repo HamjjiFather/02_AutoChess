@@ -1,31 +1,42 @@
+using BaseFrame;
+using Helper;
+using KKSFramework.ResourcesLoad;
+using PathologicalGames;
 using UnityEngine;
 
-namespace KKSFramework.ResourcesLoad
+/// <summary>
+/// 
+/// </summary>
+public static class ObjectPoolingHelper
 {
-    public static class ObjectPoolingHelper
+    #region Methods
+
+    public static void Create (string poolName, GameObject poolObject)
     {
-        #region Methods
+        PoolManager.Pools.Create (poolName, poolObject);
+    }
 
-        public static T GetResources<T> (ResourceRoleType roleType, ResourcesType type, string resourceName,
-            Transform parents) where T : PooingComponent
+    /// <summary>
+    /// 풀링된 오브젝트가 있으면 풀링해제, 없으면 오브젝트를 새로 생성함. 
+    /// </summary>
+    public static T GetResources<T> (ResourceRoleType roleType, ResourcesType type, string resourceName,
+        Transform parents) where T : PooingComponent
+    {
+        T obj;
+        var poolingPath = $"{roleType}/{type}/{resourceName}";
+        if (PoolManager.Pools.ContainsKey (poolingPath))
         {
-            T obj;
-            var poolingPath = $"{roleType}/{type}/{resourceName}";
-            if (ObjectPoolingManager.Instance.IsExistPooledObject (poolingPath))
-            {
-                obj = ObjectPoolingManager.Instance.ReturnLoadResources<T> (poolingPath);
-                obj.transform.SetParent (parents);
-                obj.transform.SetInstantiateTransform ();
-                return obj;
-            }
-
-            var res = ResourcesLoadManager.Instance.GetResources<T> (poolingPath);
-            obj = res.InstantiateObject<T> (parents);
-            obj.transform.SetInstantiateTransform ();
-            obj.Created<PooingComponent> (poolingPath);
+            obj = PoolManager.Pools[poolingPath].Spawn (poolingPath, parents).GetComponent<T> ();
+            obj.transform.SetLocalReset ();
             return obj;
         }
 
-        #endregion
+        var res = ResourcesLoadHelper.LoadResource<T> (poolingPath);
+        obj = res.InstantiateObject<T> (parents);
+        obj.transform.SetLocalReset ();
+        obj.Created<PooingComponent> (poolingPath);
+        return obj;
     }
+
+    #endregion
 }

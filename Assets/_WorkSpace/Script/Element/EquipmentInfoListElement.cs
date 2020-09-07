@@ -1,4 +1,4 @@
-using KKSFramework.Localization;
+using Helper;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
 using UnityEngine;
@@ -53,7 +53,7 @@ namespace AutoChess
         {
             starGradeArea.SetArea (elementData.EquipmentModel.StarGrade);
             equipmentImage.sprite = elementData.EquipmentModel.IconImageResources;
-            equipmentNameText.text = LocalizationHelper.GetTranslatedString (elementData.EquipmentModel.EquipmentData.Name);
+            equipmentNameText.text = LocalizeHelper.FromName (elementData.EquipmentModel.EquipmentData.Name);
             
             elementButton.onClick.RemoveAllListeners ();
             elementButton.onClick.AddListener (() =>

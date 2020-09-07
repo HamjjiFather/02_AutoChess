@@ -1,24 +1,27 @@
-﻿using AutoChess;
-using Cysharp.Threading.Tasks;
+﻿using BaseFrame;
+using KKSFramework.DataBind;
 using KKSFramework.Navigation;
 using Zenject;
 
-namespace KKSFramework.InGame
+namespace AutoChess
 {
-    public class GamePageView : PageViewBase
+    public class GamePageView : PageController, IResolveTarget
     {
         #region Fields & Property
-
-        public ViewLayoutLoader viewLayoutLoader;
-        
-        public StatusView statusView;
         
 #pragma warning disable CS0649
+        
+        [Resolver]
+        private StatusView _statusView;
 
+        [Resolver]
+        private ViewLayoutLoaderWithButton _viewLayoutLoader;
+        
         [Inject]
         private CharacterViewmodel _characterViewmodel;
 
 #pragma warning restore CS0649
+        
 
         #endregion
 
@@ -28,7 +31,7 @@ namespace KKSFramework.InGame
         private void Awake ()
         {
             ProjectContext.Instance.Container.BindInstance (this);
-            viewLayoutLoader.Initialize ();
+            _viewLayoutLoader.Initialize ();
         }
 
         #endregion
@@ -36,18 +39,23 @@ namespace KKSFramework.InGame
 
         #region Methods
 
-        protected override UniTask OnPush (object pushValue = null)
+        protected override void OnPush (Parameters parameters)
         {
-            statusView.InitializeStatusView ();
+            _statusView.InitializeStatusView ();
             BackToMain ();
-            
-            return base.OnPush (pushValue);
         }
 
 
+
+        public void ChangeViewLayout (int index)
+        {
+            _viewLayoutLoader.SetSubView (index);
+        }
+        
+
         public void BackToMain ()
         {
-            viewLayoutLoader.SetSubView (0);
+            _viewLayoutLoader.CloseViewLayout ();
         }
 
 

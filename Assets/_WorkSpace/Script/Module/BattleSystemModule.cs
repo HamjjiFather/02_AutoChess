@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using BaseFrame;
 using KKSFramework.ResourcesLoad;
 using UniRx;
 using Cysharp.Threading.Tasks;
-using KKSFramework;
 using UnityEngine;
 using UnityEngine.Events;
 using Zenject;
@@ -143,11 +143,11 @@ namespace AutoChess
             behaviourSystemModule.Dispose ();
             movingSystemModule.Dispose ();
             _cancellationToken?.Cancel ();
-            _cancellationToken?.DisposeSafe ();
-            _registeredDisposables.Foreach (x => x.DisposeSafe ());
+            _cancellationToken?.Dispose ();
+            _registeredDisposables.ForEach (x => x.Dispose ());
             _registeredDisposables.Clear ();
 
-            _spawnedDamageElements.Foreach (element => { element.PoolingObject (); });
+            _spawnedDamageElements.ForEach (element => { element.Despawn (); });
             _spawnedDamageElements.Clear ();
         }
 
@@ -341,16 +341,16 @@ namespace AutoChess
                 Amount = (int) skillValue,
                 DamageType = damageType
             };
-            var damageElement = ObjectPoolingHelper.GetResources<BattleDamageElement> (ResourceRoleType._Prefab,
+            var damageElement = ObjectPoolingHelper.GetResources<BattleDamageElement> (ResourceRoleType.Bundles,
                 ResourcesType.Element, nameof (BattleDamageElement), damageElementParents);
-            damageElement.GetComponent<RectTransform> ().SetInstantiateTransform ();
+            damageElement.GetComponent<RectTransform> ().SetLocalReset ();
             damageElement.SetElement (damageModel);
             damageElement.SetDespawn (DespawnDamageElement, _cancellationToken.Token).Forget ();
             _spawnedDamageElements.Add (damageElement);
 
             void DespawnDamageElement (BattleDamageElement battleDamageElement)
             {
-                battleDamageElement.PoolingObject ();
+                battleDamageElement.Despawn ();
                 _spawnedDamageElements.Remove (battleDamageElement);
             }
         }

@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using KKSFramework;
-using Random = UnityEngine.Random;
+using BaseFrame;
+using UnityEngine;
 using EnumActionToDict = System.Collections.Generic.Dictionary<System.Enum, System.Action<AutoChess.FieldModel>>;
 
 namespace AutoChess
@@ -24,6 +23,12 @@ namespace AutoChess
         /// 필드 이벤트.
         /// </summary>
         private readonly EnumActionToDict _fieldTypeAction = new EnumActionToDict ();
+        
+        /// <summary>
+        /// 위치별 필드 모델.
+        /// </summary>
+        private readonly Dictionary<PositionModel, FieldModel> _positionFieldDict = new Dictionary<PositionModel, FieldModel> ();
+
 
         #endregion
 
@@ -42,7 +47,6 @@ namespace AutoChess
             _fieldTypeAction.Add (FieldSpecialType.RecoverLarge,
                 fieldModel => RecoverHealth (CharacterSideType.Player, 0.5f));
             _fieldTypeAction.Add (FieldSpecialType.Insightful, _ => { });
-            
         }
 
 
@@ -51,18 +55,50 @@ namespace AutoChess
         /// </summary>
         private (Dictionary<int, List<FieldModel>>, FieldModel) CreateAllFields (IReadOnlyList<int> sizes)
         {
-            _adventureFieldData = TableDataManager.Instance.AdventureFieldDict.Values.RandomSource ();
+            _adventureFieldData = TableDataManager.Instance.AdventureFieldDict.Values.First ();
 
             var allField = CreateField (sizes);
             _adventureModel.SetBaseField (allField);
 
-            var forestField = CreateForestField (allField);
-            CreateSpecialFieldType (allField);
-            var startField = CreateStartField (allField);
+            var startField = CreateStartField ();
+            CreatePath (startField);
             startField.ChangeFieldSpecialType (FieldSpecialType.Exit);
+            CreateNextField ();
+            var forestField = CreateForestField ();
+            CreateSpecialFieldType ();
 
             return (forestField, startField);
         }
+
+
+        /// <summary>
+        /// 다음 층 필드 제작.
+        /// </summary>
+        public (Dictionary<int, List<FieldModel>>, FieldModel) NewField ()
+        {
+            Debug.Log ("New Field");
+            _adventureModel.AllFieldModel.SelectMany (x => x.Value).ForEach (x => x.Reset ());
+            var startField = CreateStartField ();
+            CreateNextField ();
+            var forestField = CreateForestField ();
+            CreateSpecialFieldType ();
+
+            _adventureModel.SetField (forestField, startField);
+
+            var newAroundPosition =
+                PathFindingHelper.Instance.GetAroundPositionModelWith (_adventureModel.AllFieldModel,
+                    startField.LandPosition);
+            _nowPosition.Value = startField.LandPosition;
+
+            newAroundPosition.ForEach (x =>
+            {
+                if (ContainPosition (x))
+                    _adventureModel.AllFieldModel[x.Column][x.Row].ChangeState (FieldRevealState.OnSight);
+            });
+
+            return (forestField, startField);
+        }
+
 
 
         /// <summary>
@@ -78,7 +114,9 @@ namespace AutoChess
                 for (var r = 0; r < sizes[c]; r++)
                 {
                     var positionModel = new PositionModel (c, r);
-                    allFieldDict[c].Add (new FieldModel (positionModel));
+                    var newField = new FieldModel (positionModel);
+                    allFieldDict[c].Add (newField);
+                    _positionFieldDict.Add (positionModel, newField);
                 }
             }
 
@@ -87,125 +125,135 @@ namespace AutoChess
 
 
         /// <summary>
+        /// 시작 필드 생성.
+        /// </summary>
+        private FieldModel CreateStartField ()
+        {
+            var startField = _adventureModel.AllFieldModel
+                .SelectMany (x => x.Value)
+                .Choice (x =>
+                    x.FieldGroundType.Value == FieldGroundType.None &&
+                    x.FieldSpecialType.Value == FieldSpecialType.None);
+            return startField;
+        }
+
+
+        /// <summary>
+        /// 필드 제작.
+        /// </summary>
+        private void CreatePath (FieldModel startField)
+        {
+            var roomField = new List<FieldModel> {startField};
+            var allField = _positionFieldDict.Values;
+
+            var roomCount = _adventureFieldData.FieldPointCount.RandomRange ();
+            roomField.AddRange (allField.RandomSources (roomCount));
+            roomField.ForEach (point =>
+            {
+                var aroundPos =
+                    PathFindingHelper.Instance.GetAroundPositionModelByGradual (_adventureModel.AllFieldModel,
+                        point.LandPosition,
+                        _adventureFieldData.FieldCount.RandomRange ());
+
+                aroundPos.ForEach (x => _positionFieldDict[x].FieldExistType.Value = FieldExistType.Exist);
+            });
+
+            var connectedField = roomField.Where (x => IsConnectByExistState (x, startField));
+            var unconnectedField = roomField.Where (x => !IsConnectByExistState (x, startField));
+
+            unconnectedField.ForEach (field =>
+            {
+                var alignToDistance = connectedField.MinSources (x =>
+                    PathFindingHelper.Instance.Distance (_adventureModel.AllFieldModel, field.LandPosition,
+                        x.LandPosition)).First ();
+
+                var pathFields = GetPath (alignToDistance.LandPosition, field.LandPosition);
+                pathFields.Select (x => _positionFieldDict[x])
+                    .ForEach (x => x.FieldExistType.Value = FieldExistType.Exist);
+            });
+        }
+
+
+        /// <summary>
+        /// 다음층 필드 생성.
+        /// </summary>
+        private void CreateNextField ()
+        {
+            var nextField = _adventureModel.AllFieldModel
+                .SelectMany (x => x.Value)
+                .Where (x => x.FieldExistType.Value == FieldExistType.Exist)
+                .Choice (x =>
+                    x.FieldGroundType.Value == FieldGroundType.None &&
+                    x.FieldSpecialType.Value == FieldSpecialType.None);
+
+            nextField.ChangeFieldSpecialType (FieldSpecialType.Exit);
+        }
+
+        /// <summary>
         /// 숲 필드 생성.
         /// </summary>
-        private Dictionary<int, List<FieldModel>> CreateForestField (Dictionary<int, List<FieldModel>> allField)
+        private Dictionary<int, List<FieldModel>> CreateForestField ()
         {
             var forestDict = new Dictionary<int, List<FieldModel>> ();
 
             // 숲 수량.
+            var allField = _positionFieldDict.Values.Where (x => x.FieldExistType.Value == FieldExistType.Exist);
             var forestCount = Random.Range (_adventureFieldData.ForestCount[0], _adventureFieldData.ForestCount[1]);
-
-            for (var i = 0; i < forestCount; i++)
+            var treeCount = Random.Range (_adventureFieldData.TreeCount[0], _adventureFieldData.TreeCount[1]);
+            var forestPoints = allField.RandomSources (forestCount);
+            forestPoints.ForEach (field =>
             {
-                var forestFields = new List<FieldModel> ();
-                var treeCount = Random.Range (_adventureFieldData.TreeCount[0], _adventureFieldData.TreeCount[1]);
-                var startForestLand = allField.SelectMany (x => x.Value).RandomSource ();
-                var treeField = startForestLand;
-                forestFields.Add (treeField);
-                treeField.ChangeFieldGroundType (FieldGroundType.Forest);
+                var around =
+                    PathFindingHelper.Instance.GetAroundPositionModelByGradual (_adventureModel.AllFieldModel,
+                        field.LandPosition, treeCount);
 
-                for (var z = 0; z < treeCount; z++)
-                {
-                    var aroundPosition =
-                        PositionHelper.Instance.GetAroundPositionModel (allField, treeField.LandPosition);
-
-                    // 근처에 숲이 될만한 지형이 없음.
-                    if (aroundPosition.Select (GetFieldModel)
-                        .All (x => x.FieldGroundType.Value == FieldGroundType.Forest))
-                    {
-                        treeField = forestFields
-                            .SelectMany (x => PositionHelper.Instance.GetAroundPositionModel (allField, x.LandPosition))
-                            .Select (GetFieldModel)
-                            .RandomSource (x => x.FieldGroundType.Value != FieldGroundType.Forest);
-                    }
-                    else
-                    {
-                        treeField = aroundPosition.Select (GetFieldModel)
-                            .RandomSource (x => x.FieldGroundType.Value != FieldGroundType.Forest);
-                    }
-
-                    treeField.ChangeFieldGroundType (FieldGroundType.Forest);
-                    forestFields.Add (treeField);
-                }
-
-                forestDict.Add (i, forestFields);
-            }
+                around.ForEach (x => _positionFieldDict[x].ChangeFieldGroundType (FieldGroundType.Forest));
+            });
 
             return forestDict;
         }
 
 
-        private void ForWhile (int cycle, Action invokeAction)
-        {
-            var i = 0;
-            while (i < cycle)
-            {
-                invokeAction.Invoke ();
-                i++;
-            }
-        }
-        
-
-        private void ForWhile (int cycle, Action<int> invokeAction)
-        {
-            var i = 0;
-            while (i < cycle)
-            {
-                invokeAction.Invoke (cycle);
-                i++;
-            }
-        }
-
-
-        private void CreateSpecialFieldType (Dictionary<int, List<FieldModel>> allField)
+        /// <summary>
+        /// 이벤트 지형들을 생성.
+        /// </summary>
+        private void CreateSpecialFieldType ()
         {
             var rewardCount = Random.Range (_adventureFieldData.RewardCount[0], _adventureFieldData.RewardCount[1]);
-            ForWhile (rewardCount, () =>
+            rewardCount.ForWhile (() =>
             {
-                var randomField = allField.SelectMany (x => x.Value)
-                    .Where (x => x.FieldSpecialType.Value == FieldSpecialType.None)
-                    .RandomSource ();
+                var randomField = AvailFields ().Choice ();
                 randomField.ChangeFieldSpecialType (FieldSpecialType.Reward);
             });
-            
+
             var battleCount = Random.Range (_adventureFieldData.BattleCount[0], _adventureFieldData.BattleCount[1]);
-            ForWhile (battleCount, () =>
+            battleCount.ForWhile (() =>
             {
-                var randomField = allField.SelectMany (x => x.Value)
-                    .Where (x => x.FieldSpecialType.Value == FieldSpecialType.None)
-                    .RandomSource ();
+                var randomField = AvailFields ().Choice ();
                 randomField.ChangeFieldSpecialType (FieldSpecialType.Battle);
             });
-            
-            var bossBattleCount = Random.Range (_adventureFieldData.BossBattleCount[0], _adventureFieldData.BossBattleCount[1]);
-            ForWhile (bossBattleCount, () =>
+
+            var bossBattleCount = Random.Range (_adventureFieldData.BossBattleCount[0],
+                _adventureFieldData.BossBattleCount[1]);
+            bossBattleCount.ForWhile (() =>
             {
-                var randomField = allField.SelectMany (x => x.Value)
-                    .Where (x => x.FieldSpecialType.Value == FieldSpecialType.None)
-                    .RandomSource ();
+                var randomField = AvailFields ().Choice ();
                 randomField.ChangeFieldSpecialType (FieldSpecialType.BossBattle);
             });
-            
+
             var insightfulCount = Random.Range (_adventureFieldData.OtherCount[0], _adventureFieldData.OtherCount[1]);
-            ForWhile (insightfulCount, () =>
+            insightfulCount.ForWhile (() =>
             {
-                var randomField = allField.SelectMany (x => x.Value)
-                    .Where (x => x.FieldSpecialType.Value == FieldSpecialType.None)
-                    .RandomSource ();
+                var randomField = AvailFields ().Choice ();
                 randomField.ChangeFieldSpecialType (FieldSpecialType.Insightful);
             });
-        }
 
-
-        private FieldModel CreateStartField (Dictionary<int, List<FieldModel>> allField)
-        {
-            var startField = allField
-                .SelectMany (x => x.Value)
-                .RandomSource (x =>
-                    x.FieldGroundType.Value == FieldGroundType.None &&
-                    x.FieldSpecialType.Value == FieldSpecialType.None);
-            return startField;
+            IEnumerable<FieldModel> AvailFields ()
+            {
+                return _adventureModel.AllFieldModel.SelectMany (x => x.Value)
+                    .Where (x => x.FieldExistType.Value == FieldExistType.Exist)
+                    .Where (x => x.FieldSpecialType.Value == FieldSpecialType.None);
+            }
         }
 
 
@@ -217,9 +265,9 @@ namespace AutoChess
             if (_fieldTypeAction.ContainsKey (fieldModel.FieldSpecialType.Value))
                 _fieldTypeAction[fieldModel.FieldSpecialType.Value] (fieldModel);
 
-            if(fieldModel.FieldSpecialType.Value == FieldSpecialType.Exit)
+            if (fieldModel.FieldSpecialType.Value == FieldSpecialType.Exit)
                 return;
-            
+
             fieldModel.ChangeFieldSpecialType (FieldSpecialType.None);
         }
 
@@ -228,8 +276,10 @@ namespace AutoChess
         /// </summary>
         public IEnumerable<PositionModel> GetInsightfulPosition ()
         {
-            var randomField = _adventureModel.AllFieldModel.SelectMany (x => x.Value)
-                .RandomSource (x => x.FieldRevealState.Value == FieldRevealState.Sealed);
+            var randomField = _adventureModel.AllFieldModel
+                .SelectMany (x => x.Value)
+                .Where (x => x.FieldExistType.Value == FieldExistType.Exist)
+                .Choice (x => x.FieldRevealState.Value == FieldRevealState.Sealed);
 
             if (randomField == default)
             {
@@ -237,15 +287,177 @@ namespace AutoChess
             }
 
             var position = randomField.LandPosition;
-
             var insightPosition =
-                PositionHelper.Instance.GetAroundPositionModel (_adventureModel.AllFieldModel, position, 2);
+                PathFindingHelper.Instance.GetAroundPositionModel (_adventureModel.AllFieldModel, position, 2);
 
             insightPosition.Select (GetFieldModel)
+                .Where (x => x.FieldExistType.Value == FieldExistType.Exist)
                 .Where (fieldModel => fieldModel.FieldRevealState.Value == FieldRevealState.Sealed)
-                .Foreach (fieldModel => { fieldModel.ChangeState (FieldRevealState.Revealed); });
+                .ForEach (fieldModel => { fieldModel.ChangeState (FieldRevealState.Revealed); });
 
             return insightPosition;
+        }
+
+
+        public bool IsConnectByExistState (FieldModel origin, FieldModel target)
+        {
+            var tempResults = new List<FieldModel> {origin};
+            PathFindingHelper.Instance.GetAroundPositionModel (_adventureModel.AllFieldModel, origin.LandPosition);
+            var aroundFields = new List<FieldModel>
+            {
+                origin
+             };
+
+            while (true)
+            {
+                if (!aroundFields.Any ())
+                    return false;
+
+                if (aroundFields.Contains (target))
+                    return true;
+
+                tempResults.AddRange (aroundFields);
+                aroundFields = aroundFields.SelectMany (x =>
+                        PathFindingHelper.Instance.GetAroundPositionModel (_adventureModel.AllFieldModel,
+                            x.LandPosition))
+                    .Select (x => _positionFieldDict[x])
+                    .Distinct ()
+                    .Where (x => x.FieldExistType.Value == FieldExistType.Exist)
+                    .Where (x => !x.LandPosition.Equals (PathFindingHelper.Instance.EmptyPosition))
+                    .Except (tempResults).ToList ();
+            }
+        }
+        
+        
+        public bool IsConnectByMovable (FieldModel origin, FieldModel target)
+        {
+            var tempResults = new List<FieldModel> {origin};
+            PathFindingHelper.Instance.GetAroundPositionModel (_adventureModel.AllFieldModel, origin.LandPosition);
+            var aroundFields = new List<FieldModel>
+            {
+                origin
+            };
+
+            while (true)
+            {
+                if (!aroundFields.Any ())
+                    return false;
+
+                if (aroundFields.Contains (target))
+                    return true;
+
+                tempResults.AddRange (aroundFields);
+                aroundFields = aroundFields.SelectMany (x =>
+                        PathFindingHelper.Instance.GetAroundPositionModel (_adventureModel.AllFieldModel,
+                            x.LandPosition))
+                    .Select (x => _positionFieldDict[x])
+                    .Distinct ()
+                    .Where (x => x.FieldExistType.Value == FieldExistType.Exist)
+                    .Where (x => x.FieldRevealState.Value != FieldRevealState.Sealed)
+                    .Where (x => !x.LandPosition.Equals (PathFindingHelper.Instance.EmptyPosition))
+                    .Except (tempResults).ToList ();
+            }
+        }
+        
+        
+        /// <summary>
+        /// 현재 위치에서 해당 위치까지 경로를 리턴.
+        /// </summary>
+        private IEnumerable<PositionModel> GetPath (PositionModel nowPositionModel, PositionModel targetPosition)
+        {
+            var path = new List<PositionModel> ();
+            var aroundPositions =
+                PathFindingHelper.Instance.GetAroundPositionModel (_adventureModel.AllFieldModel, nowPositionModel);
+
+            while (true)
+            {
+                if (!aroundPositions.Any ())
+                    break;
+
+                if (aroundPositions.Any (x => x.Equals (targetPosition)))
+                {
+                    path.Add (targetPosition);
+                    break;
+                }
+
+                var foundPosition = aroundPositions.Where (ExistFieldData).MinSources (positionModel =>
+                        PathFindingHelper.Instance.Distance (_adventureModel.AllFieldModel, positionModel,
+                            targetPosition))
+                    .First ();
+
+                path.Add (foundPosition);
+                aroundPositions =
+                    PathFindingHelper.Instance.GetAroundPositionModel (_adventureModel.AllFieldModel, foundPosition);
+            }
+
+            return path;
+        }
+
+
+        /// <summary>
+        /// 현재 위치에서 해당 위치까지 경로를 리턴.
+        /// </summary>
+        private FieldTargetResultModel TryGetMovableAroundPosition (PositionModel nowPositionModel,
+            PositionModel targetPosition)
+        {
+            var fieldTargetResult = new FieldTargetResultModel ();
+            var aroundPositions =
+                PathFindingHelper.Instance.GetAroundPositionModel (_adventureModel.AllFieldModel, nowPositionModel);
+
+            while (true)
+            {
+                if (!aroundPositions.Any ())
+                    break;
+
+                if (aroundPositions.Any (x => x.Equals (targetPosition)))
+                {
+                    fieldTargetResult.IsConnected = true;
+                    fieldTargetResult.FoundPositions.Add (targetPosition);
+                    break;
+                }
+
+                var foundPosition = aroundPositions.Where (FoundablePosition).MinSources (positionModel =>
+                        PathFindingHelper.Instance.Distance (_adventureModel.AllFieldModel, positionModel,
+                            targetPosition))
+                    .First ();
+
+                fieldTargetResult.FoundPositions.Add (foundPosition);
+                aroundPositions =
+                    PathFindingHelper.Instance.GetAroundPositionModel (_adventureModel.AllFieldModel, foundPosition);
+            }
+
+            return fieldTargetResult;
+        }
+
+
+        public bool ExistFieldData (PositionModel positionModel)
+        {
+            return _adventureModel.AllFieldModel.ContainsKey (positionModel.Column) &&
+                   _adventureModel.AllFieldModel[positionModel.Column].ContainIndex (positionModel.Row);
+        }
+
+
+        public bool ContainPosition (PositionModel positionModel)
+        {
+            return ExistFieldData (positionModel) &&
+                   _adventureModel.AllFieldModel[positionModel.Column][positionModel.Row].FieldExistType.Value ==
+                   FieldExistType.Exist;
+        }
+
+
+        public bool FoundablePosition (PositionModel positionModel)
+        {
+            if (!ExistFieldData (positionModel)) return false;
+            var field = _adventureModel.AllFieldModel[positionModel.Column][positionModel.Row];
+            return field.FieldRevealState.Value != FieldRevealState.Sealed &&
+                   field.FieldExistType.Value == FieldExistType.Exist;
+        }
+
+        public FieldModel GetFieldModel (PositionModel positionModel)
+        {
+            return ContainPosition (positionModel)
+                ? _adventureModel.AllFieldModel[positionModel.Column][positionModel.Row]
+                : default;
         }
 
         #endregion

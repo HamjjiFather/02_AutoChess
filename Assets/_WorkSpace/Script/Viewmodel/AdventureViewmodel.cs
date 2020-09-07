@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using BaseFrame;
 using Cysharp.Threading.Tasks;
 using KKSFramework;
 using KKSFramework.DesignPattern;
@@ -24,7 +25,10 @@ namespace AutoChess
 #pragma warning restore CS0649
 
         private readonly ReactiveProperty<PositionModel> _nowPosition = new ReactiveProperty<PositionModel> ();
+        
         public PositionModel NowPosition => _nowPosition.Value;
+
+        public FieldModel NowField => _positionFieldDict[NowPosition];
 
         /// <summary>
         /// 모험 모델.
@@ -50,18 +54,20 @@ namespace AutoChess
         public async UniTask<AdventureModel> StartAdventure (int[] sizes)
         {
             StartAdventure_Rewards ();
-            
+
             _adventureModel = new AdventureModel (Constant.MaxAdventureCount);
 
             var (forestField, startField) = CreateAllFields (sizes);
             _adventureModel.SetField (forestField, startField);
+            _adventureModel.AllFieldModel.SelectMany (x => x.Value)
+                .ForEach (x => x.ChangeState (FieldRevealState.Sealed));
 
             var newAroundPosition =
-                PositionHelper.Instance.GetAroundPositionModelWith (_adventureModel.AllFieldModel,
+                PathFindingHelper.Instance.GetAroundPositionModelWith (_adventureModel.AllFieldModel,
                     startField.LandPosition);
             _nowPosition.Value = startField.LandPosition;
-
-            newAroundPosition.Foreach (x =>
+            
+            newAroundPosition.ForEach (x =>
             {
                 if (ContainPosition (x))
                     _adventureModel.AllFieldModel[x.Column][x.Row].ChangeState (FieldRevealState.OnSight);
@@ -84,12 +90,12 @@ namespace AutoChess
         }
 
 
-        public FieldTargetResultModel FindMovingPositions (PositionModel newPosition)
+        public FieldTargetResultModel FindMovingPositions (FieldModel fieldModel)
         {
-            if (_nowPosition.Value.Equals (newPosition))
+            if (_nowPosition.Value.Equals (fieldModel.LandPosition))
                 return null;
-
-            var result = TryGetMovableAroundPosition (_nowPosition.Value, newPosition);
+            
+            var result = TryGetMovableAroundPosition (_nowPosition.Value, fieldModel.LandPosition);
             return result;
         }
 
@@ -104,89 +110,28 @@ namespace AutoChess
         public void SetSight (PositionModel newPosition)
         {
             var originAroundPosition =
-                PositionHelper.Instance.GetAroundPositionModel (_adventureModel.AllFieldModel, _nowPosition.Value);
+                PathFindingHelper.Instance.GetAroundPositionModel (_adventureModel.AllFieldModel, _nowPosition.Value);
             var newAroundPosition =
-                PositionHelper.Instance.GetAroundPositionModelWith (_adventureModel.AllFieldModel, newPosition);
+                PathFindingHelper.Instance.GetAroundPositionModelWith (_adventureModel.AllFieldModel, newPosition);
             var revealedPositions = originAroundPosition.Except (newAroundPosition);
             revealedPositions
                 .Where (ContainPosition)
                 .Select (x => _adventureModel.AllFieldModel[x.Column][x.Row])
-                .Foreach (x => x.ChangeState (FieldRevealState.Revealed));
+                .ForEach (x => x.ChangeState (FieldRevealState.Revealed));
 
             newAroundPosition
                 .Where (ContainPosition)
                 .Select (x => _adventureModel.AllFieldModel[x.Column][x.Row])
-                .Foreach (x => x.ChangeState (FieldRevealState.OnSight));
+                .ForEach (x => x.ChangeState (FieldRevealState.OnSight));
         }
 
 
         public void RecoverHealth (CharacterSideType sideType, float recoverPercent)
         {
             var characters = _battleViewmodel.GetAllOfEqualElements (sideType);
-            characters.Foreach (element =>
+            characters.ForEach (element =>
                 element.battleCharacterPackage.battleSystemModule.SetHealthByPercent (recoverPercent));
         }
-
-
-        #region Position
-
-        private FieldTargetResultModel TryGetMovableAroundPosition (PositionModel nowPositionModel,
-            PositionModel targetPosition)
-        {
-            var fieldTargetResult = new FieldTargetResultModel ();
-            var aroundPositions =
-                PositionHelper.Instance.GetAroundPositionModel (_adventureModel.AllFieldModel, nowPositionModel);
-
-            while (true)
-            {
-                if (aroundPositions.Any (x => x.Equals (targetPosition)))
-                {
-                    fieldTargetResult.FoundPositions.Add (targetPosition);
-                    break;
-                }
-
-                var foundPosition = aroundPositions
-                    .Where (FoundablePosition)
-                    .MinSources (positionModel =>
-                        PositionHelper.Instance.Distance (_adventureModel.AllFieldModel, positionModel, targetPosition))
-                    .First ();
-
-                fieldTargetResult.FoundPositions.Add (foundPosition);
-                aroundPositions =
-                    PositionHelper.Instance.GetAroundPositionModel (_adventureModel.AllFieldModel, foundPosition);
-            }
-
-            return fieldTargetResult;
-        }
-
-
-        public bool ContainPosition (PositionModel positionModel)
-        {
-            return _adventureModel.AllFieldModel.ContainsKey (positionModel.Column) &&
-                   _adventureModel.AllFieldModel[positionModel.Column].ContainIndex (positionModel.Row);
-        }
-
-
-        public bool FoundablePosition (PositionModel positionModel)
-        {
-            return ContainPosition (positionModel) &&
-                   _adventureModel.AllFieldModel[positionModel.Column][positionModel.Row].FieldRevealState.Value !=
-                   FieldRevealState.Sealed;
-        }
-
-        public FieldModel GetFieldModel (PositionModel positionModel)
-        {
-            return ContainPosition (positionModel)
-                ? _adventureModel.AllFieldModel[positionModel.Column][positionModel.Row]
-                : default;
-        }
-
-        #endregion
-
-        #endregion
-
-
-        #region EventMethods
 
         #endregion
     }

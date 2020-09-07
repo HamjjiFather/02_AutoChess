@@ -1,39 +1,51 @@
-﻿using AutoChess;
+﻿using BaseFrame;
+using BaseFrame.Navigation;
 using Cysharp.Threading.Tasks;
-using KKSFramework.Navigation;
-using KKSFramework.SceneLoad;
+using Helper;
 using UnityEngine;
 
-
-namespace KKSFramework.InGame
+namespace AutoChess
 {
     public class GameScene : SceneController
     {
-        protected override async UniTask InitializeAsync()
+        
+        public override async UniTask InitializeAsync (Parameters parameters)
         {
             ProjectInstall.InitViewmodel ();
             await TableDataManager.Instance.LoadTableDatas ();
             ProjectInstall.InitLocalDataViewmodel ();
             ProjectInstall.InitTableDataViewmodel ();
-            
+
             CreateCommonView ();
-            await NavigationHelper.OpenPage (NavigationViewType.HomePage, NavigationTriggerState.First, actionOnFirst:OpenQuitPopup);
-            base.InitializeAsync ().Forget();
+            base.InitializeAsync (parameters).Forget ();
 
             void CreateCommonView ()
             {
-                
             }
-            
+
             void OpenQuitPopup ()
             {
-                var popupStruct = new MessagePopupStruct
+                var param = new Parameters
                 {
-                    ConfirmAction = Application.Quit,
-                    Message = "?게임을 나가시겠습니까?"
+                    {
+                        "struct", new MessagePopupStruct
+                        {
+                            ConfirmAction = Application.Quit,
+                            Message = "?게임을 나가시겠습니까?"
+                        }
+                    }
                 };
-                NavigationHelper.OpenPopup (NavigationViewType.MessagePopup, popupStruct).Forget();
+                TreeNavigationHelper.PushPopup (Popup.Message, param);
             }
+        }
+
+        
+        public override Configuration GetRootViewConfiguration ()
+        {
+            var config = new Configuration.Builder ();
+            return config.SetName (Page.GamePage.ToString (), true)
+                .SetLayer (ContentLayer.Page)
+                .Build ();
         }
     }
 }

@@ -1,21 +1,31 @@
-﻿using Cysharp.Threading.Tasks;
-using KKSFramework.Localization;
-using KKSFramework.SceneLoad;
+﻿using BaseFrame;
+using BaseFrame.Navigation;
+using Cysharp.Threading.Tasks;
+using Helper;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using Scene = Helper.Scene;
 
 
 namespace KKSFramework.InGame
 {
     public class EntryScene : SceneController
     {
-        public EntryPageView entryPageView;
-
-
-        protected override async UniTask InitializeAsync ()
+        public override void FinishTransition ()
         {
-            await LocalizationTextManager.Instance.LoadGlobalTextData ();
-            SceneLoadManager.Instance.InitManager ();
-            entryPageView.Push ().Forget ();
-            await UniTask.CompletedTask;
+            base.FinishTransition ();
+            
+            Input.multiTouchEnabled = false;
+            UniTaskScheduler.UnobservedExceptionWriteLogType = LogType.Exception;
+            TreeNavigationHelper.ChangeScene (Scene.Title);
+        }
+        
+        public override Configuration GetRootViewConfiguration ()
+        {
+            var config = new Configuration.Builder ();
+            return config.SetName (Page.EntyPage.ToString (), true)
+                .SetLayer (ContentLayer.Page)
+                .Build ();
         }
     }
 }

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using BaseFrame;
+using Helper;
 using KKSFramework;
 using KKSFramework.DesignPattern;
 using KKSFramework.LocalData;
@@ -17,6 +19,9 @@ namespace AutoChess
     public class CharacterModel : ModelBase
     {
         #region Fields & Property
+
+        public bool IsAssigned => !UniqueCharacterId.Equals (0);
+        
 
         public int UniqueCharacterId;
 
@@ -71,7 +76,7 @@ namespace AutoChess
         /// <summary>
         /// 이동 예정 위치.
         /// </summary>
-        public PositionModel PredicatedPositionModel = PositionHelper.Instance.EmptyPosition;
+        public PositionModel PredicatedPositionModel = PathFindingHelper.Instance.EmptyPosition;
 
         /// <summary>
         /// 캐릭터 진영(플레이어, AI).
@@ -86,12 +91,12 @@ namespace AutoChess
         /// <summary>
         /// 아이콘 이미지 리소스.
         /// </summary>
-        public Sprite IconImageResources => ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
+        public Sprite IconImageResources => ResourcesLoadHelper.LoadResource<Sprite> (ResourceRoleType._Image,
             ResourcesType.Monster, CharacterData.SpriteResName);
 
 
         public RuntimeAnimatorController CharacterAnimatorResources =>
-            ResourcesLoadHelper.GetResources<RuntimeAnimatorController> (ResourceRoleType._Animation,
+            ResourcesLoadHelper.LoadResource<RuntimeAnimatorController> (ResourceRoleType._Animation,
                 CharacterData.AnimatorResName);
         
         
@@ -270,7 +275,7 @@ namespace AutoChess
         
         public void RemovePredicatePosition ()
         {
-            PredicatedPositionModel = PositionHelper.Instance.EmptyPosition;
+            PredicatedPositionModel = PathFindingHelper.Instance.EmptyPosition;
         }
 
         #endregion

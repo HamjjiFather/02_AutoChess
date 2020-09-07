@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UniRx;
+using BaseFrame;
 using Cysharp.Threading.Tasks;
-using KKSFramework;
 using KKSFramework.DataBind;
+using KKSFramework.UI;
+using UniRx;
 using UnityEngine;
-using UnityEngine.UI;
 using Zenject;
 
 namespace AutoChess
@@ -18,7 +18,10 @@ namespace AutoChess
 #pragma warning disable CS0649
 
         [Resolver]
-        private GameObject _fieldObj;
+        private Property<bool> _fieldSprite;
+        
+        [Resolver]
+        private Property<bool> _fieldActive;
 
         [Resolver]
         private GameObject[] _fieldTypeObjs;
@@ -33,7 +36,7 @@ namespace AutoChess
         private GameObject _revealedObj;
 
         [Resolver]
-        private Button _landButton;
+        private ButtonExtension _landButton;
 
         [Inject]
         private AdventureViewmodel _adventureViewmodel;
@@ -46,26 +49,37 @@ namespace AutoChess
 
         private List<IDisposable> _fieldTypeDisposables;
 
+        private bool FieldExistState => FieldModel.FieldExistType.Value == FieldExistType.Exist;
+
         #endregion
 
 
         #region UnityMethods
-
-        private void Start ()
-        {
-            _landButton.onClick.AddListener (ClickElement);
-        }
 
         #endregion
 
 
         #region Methods
 
+        /// <summary>
+        /// 필드 설정.
+        /// REF - 필드가 안보임 상태일 경우 세팅 안함.
+        /// </summary>
         public void Element (FieldModel fieldModel)
         {
             FieldModel = fieldModel;
+            if (!FieldExistState)
+            {
+                _fieldActive.Value = false;
+                return;
+            }
+            
             _fieldTypeDisposables = new List<IDisposable> ();
-
+            _fieldSprite.Value = true;
+            _fieldActive.Value = true;
+            _landButton.RemoveAllListeners ();
+            _landButton.AddListener (ClickElement);
+            
             var stateDisposable = FieldModel.FieldRevealState.Subscribe (state =>
             {
                 _sealedObj.SetActive (state == FieldRevealState.Sealed);
@@ -78,18 +92,18 @@ namespace AutoChess
                 // _fieldObj.SetActive (state != FieldRevealState.Sealed);
             });
 
-            _fieldTypeObjs.Foreach (x => x.SetActive (false));
+            _fieldTypeObjs.ForEach (x => x.SetActive (false));
             _fieldTypeObjs[(int) fieldModel.FieldSpecialType.Value].SetActive (true);
             var specialTypeDisposable = FieldModel.FieldSpecialType.Subscribe (type =>
             {
-                _fieldTypeObjs.Where (x => x.activeSelf).Foreach (x => x.SetActive (false));
+                _fieldTypeObjs.Where (x => x.activeSelf).ForEach (x => x.SetActive (false));
                 _fieldTypeObjs[(int) type].SetActive (FieldModel.FieldRevealState.Value != FieldRevealState.Sealed);
             });
 
-            _fieldGroundTypeObjs.Foreach (x => x.SetActive (false));
+            _fieldGroundTypeObjs.ForEach (x => x.SetActive (false));
             var groundTypeDisposable = FieldModel.FieldGroundType.Subscribe (type =>
             {
-                _fieldGroundTypeObjs.Where (x => x.activeSelf).Foreach (x => x.SetActive (false));
+                _fieldGroundTypeObjs.Where (x => x.activeSelf).ForEach (x => x.SetActive (false));
                 _fieldGroundTypeObjs[(int) type]
                     .SetActive (FieldModel.FieldRevealState.Value != FieldRevealState.Sealed);
             });
@@ -100,6 +114,8 @@ namespace AutoChess
             });
             _fieldViewLayout = ProjectContext.Instance.Container.Resolve<FieldViewLayout> ();
             PositionModel = fieldModel.LandPosition;
+            
+            HighlightedField.SetActive (FieldModel.FieldHighlight.Value);
 
             void SetFieldSpecialType ()
             {

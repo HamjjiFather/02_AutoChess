@@ -1,12 +1,10 @@
 using System;
-using Cysharp.Threading.Tasks;
-using KKSFramework;
+using BaseFrame;
 using KKSFramework.DataBind;
-using KKSFramework.Navigation;
 
 namespace AutoChess
 {
-    public class AdventureResultPopup : PopupViewBase, IResolveTarget
+    public class AdventureResultPopup : PopupController, IResolveTarget
     {
         #region Fields & Property
 
@@ -18,38 +16,33 @@ namespace AutoChess
 
         #endregion
 
-
-        #region UnityMethods
-
-
-        #endregion
-
-
         #region Methods
 
-        protected override UniTask OnPush (object pushValue = null)
+        protected override void OnPush (Parameters pushValue = null)
         {
-            _closeAction = (Action) pushValue;
-            return base.OnPush (pushValue);
+            _closeAction = pushValue.GetValue<Action> ("action");
+            base.OnPush (pushValue);
         }
 
 
-        protected override UniTask Popped ()
+        protected override void OnPopComplete ()
         {
             _closeAction = null;
-            return base.Popped ();
+            base.OnPopComplete ();
         }
+
 
         #endregion
 
 
         #region EventMethods
-        
-        protected override void ClickClose ()
+
+        protected override void OnClickClose ()
         {
             _closeAction.CallSafe ();
-            base.ClickClose ();
+            base.OnClickClose ();
         }
+
 
         #endregion
     }

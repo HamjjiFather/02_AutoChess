@@ -1,5 +1,6 @@
 using System;
-using KKSFramework.Localization;
+using Helper;
+using KKSFramework.DataBind;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
 using UniRx;
@@ -10,35 +11,50 @@ using Zenject;
 
 namespace AutoChess
 {
-    public class BattleCharacterInfoElement : ElementBase<CharacterModel>
+    public class BattleCharacterInfoElement : ElementBase<CharacterModel>, IResolveTarget
     {
         #region Fields & Property
 
-        public StarGradeArea starGradeArea;
-
-        public Image characterImage;
-
-        public Text characterLevelText;
-
-        public Text characterNameText;
-
-        public GageElement expGageElement;
-
-        public GageElement hpGageElement;
-
-        public GageElement skillGageElement;
-
-        public Button elementButton;
-
-        public Transform inductSelectImage;
-
 #pragma warning disable CS0649
+
+        [Resolver]
+        private StarGradeArea _starGradeArea;
+
+        [Resolver]
+        private Property<Sprite> _characterImage;
+
+        [Resolver]
+        private Property<string> _characterLevelText;
+
+        [Resolver]
+        private Property<string> _characterNameText;
+
+        [Resolver]
+        private GageElement _expGageElement;
+
+        [Resolver]
+        private GageElement _hpGageElement;
+        
+        public GageElement HpGageElement => _hpGageElement;
+
+        [Resolver]
+        private GageElement _skillGageElement;
+        
+        public GageElement SkillGageElement => _skillGageElement;
+
+        [Resolver]
+        private Button _elementButton;
+
+        [Resolver]
+        private GameObject _inductSelectImage;
 
         [Inject]
         private BattleViewmodel _battleViewmodel;
 
 #pragma warning restore CS0649
 
+        public bool IsAssigned => ElementData.IsAssigned;
+        
         public override CharacterModel ElementData { get; set; }
 
         private UnityEvent _clickInfoEvent = new UnityEvent ();
@@ -52,7 +68,7 @@ namespace AutoChess
 
         private void Awake ()
         {
-            elementButton.onClick.AddListener (ClickElementButton);
+            _elementButton.onClick.AddListener (ClickElementButton);
         }
 
 
@@ -61,23 +77,27 @@ namespace AutoChess
         public override void SetElement (CharacterModel characterModel)
         {
             ElementData = characterModel;
+            
+            if (!ElementData.IsAssigned)
+            {
+                return;
+            }
 
-            starGradeArea.SetArea (StarGrade.Grade1);
+            _starGradeArea.SetArea (StarGrade.Grade1);
 
-            characterNameText.text = LocalizationHelper.GetTranslatedString (ElementData.CharacterData.Name);
-
-            characterImage.sprite = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
+            _characterNameText.Value = LocalizeHelper.FromName (ElementData.CharacterData.Name);
+            _characterImage.Value = ResourcesLoadHelper.LoadResource<Sprite> (ResourceRoleType._Image,
                 ResourcesType.Monster, characterModel.CharacterData.SpriteResName);
 
             var health = ElementData.GetTotalStatusValue (StatusType.Health).FloatToInt ();
-            hpGageElement.SetValue (health, ElementData.StatusModel.MaxHealth.FloatToInt ());
+            _hpGageElement.SetValue (health, ElementData.StatusModel.MaxHealth.FloatToInt ());
 
             var valueReactive = new FloatReactiveProperty (health);
             _healthDisposable = valueReactive.Subscribe (hp =>
             {
-                var rectT = hpGageElement.GetComponent<RectTransform> ();
+                var rectT = _hpGageElement.GetComponent<RectTransform> ();
                 rectT.sizeDelta = new Vector2 (Mathf.Clamp (hp, 0, 760), rectT.sizeDelta.y);
-                hpGageElement.SetValueAsync (hp.FloatToInt (), hp.FloatToInt ());
+                _hpGageElement.SetValueAsync (hp.FloatToInt (), hp.FloatToInt ());
             });
 
             _expDisposable = ElementData.Exp.Subscribe (exp =>
@@ -85,8 +105,8 @@ namespace AutoChess
                 var level = TableDataHelper.Instance.GetCharacterLevelByExp (exp);
                 var nowExp = (int) (exp - level.CoExp);
 
-                expGageElement.SetValue (nowExp, (int) level.ReqExp);
-                characterLevelText.text = $"Lv.{level.LevelString}";
+                _expGageElement.SetValue (nowExp, (int) level.ReqExp);
+                _characterLevelText.Value = $"Lv.{level.LevelString}";
             });
         }
 
@@ -95,7 +115,7 @@ namespace AutoChess
         {
             _clickInfoEvent.AddListener (() => { unityAction.Invoke (ElementData); });
 
-            inductSelectImage.gameObject.SetActive (true);
+            _inductSelectImage.SetActive (true);
         }
 
 
@@ -105,7 +125,7 @@ namespace AutoChess
         public void RemoveAllEvents ()
         {
             _clickInfoEvent?.RemoveAllListeners ();
-            inductSelectImage.gameObject.SetActive (false);
+            _inductSelectImage.SetActive (false);
         }
 
         #endregion

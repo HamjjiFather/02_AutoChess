@@ -24,7 +24,7 @@ public class Character : TableDataBase
     /// <summary>
     /// 원거리 공격 유형
     /// </summary>
-    public bool IsRangeAttack;
+    public BattleCharacterType BattleCharacterType;
 
     /// <summary>
     /// 몬스터 위치
@@ -109,7 +109,7 @@ public class Character : TableDataBase
 		Id = int.Parse(myData[rowIndex++]);
 		Name = myData[rowIndex++];
 		Desc = myData[rowIndex++];
-		IsRangeAttack = bool.Parse(myData[rowIndex++]);
+		BattleCharacterType = (BattleCharacterType)Enum.Parse (typeof(BattleCharacterType), myData[rowIndex++]);
 		GroundType = (CharacterGroundType)Enum.Parse (typeof(CharacterGroundType), myData[rowIndex++]);
 		Hp = Array.ConvertAll (myData[rowIndex++].Split ('/'), float.Parse);
 		HpInc = float.Parse(myData[rowIndex++]);

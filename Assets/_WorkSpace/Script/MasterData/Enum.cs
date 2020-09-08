@@ -180,3 +180,11 @@ public enum CurrencyType
 	SoulStone = 1,
 
 }
+
+public enum BattleCharacterType
+{
+	Melee = 0,
+	Range = 1,
+	Assassin = 2,
+
+}

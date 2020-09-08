@@ -39,13 +39,20 @@ namespace AutoChess
         }
 
 
-        public async UniTask Moving (LandElement landElement, CancellationToken cancellationToken)
+        /// <summary>
+        /// 이동 처리.
+        /// </summary>
+        /// <param name="speed"> 이동 완료까지 걸리는 시간. </param>
+        public async UniTask Moving (LandElement landElement, CancellationToken cancellationToken, float speed = 0.75f)
         {
             IsMoving = true;
+            var moveLerp = 0f;
+            var startPosition = _movingTarget.position;
             _movingDisposable = Observable.EveryUpdate ().Subscribe (_ =>
             {
                 var element = landElement.transform;
-                _movingTarget.position = Vector3.MoveTowards (_movingTarget.position, element.position, Time.deltaTime);
+                moveLerp += Time.deltaTime;
+                _movingTarget.position = Vector3.Lerp (startPosition, element.position, moveLerp / speed);
             });
 
             await UniTask.WaitWhile (() =>

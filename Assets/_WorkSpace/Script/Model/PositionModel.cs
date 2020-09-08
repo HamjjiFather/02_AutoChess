@@ -27,7 +27,7 @@ namespace AutoChess
             Column = column;
             Row = row;
         }
-
+        
 
         #region Methods
 

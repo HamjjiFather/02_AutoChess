@@ -13,13 +13,21 @@ namespace AutoChess
             return Mathf.RoundToInt (value);
         }
         
-        
-        
-                
-        
         public static bool ContainIndex<TSource> (this IEnumerable<TSource> source, int index)
         {
             return Enumerable.Range (0, source.Count ()).Contains (index);
+        }
+        
+        
+        public static TSource MinSource<TSource> (this IEnumerable<TSource> sources, Func<TSource, int> selector)
+        {
+            return sources.OrderByDescending(selector).First();
+        }
+        
+        
+        public static TSource MinSource<TSource> (this IEnumerable<TSource> sources, Func<TSource, float> selector)
+        {
+            return sources.OrderByDescending(selector).First();
         }
         
         public static IEnumerable<TSource> MinSources<TSource> (this IEnumerable<TSource> sources,
@@ -34,6 +42,18 @@ namespace AutoChess
         {
             var minValue = sources.Min (selector);
             return sources.Where (x => Math.Abs (selector.Invoke (x) - minValue) < float.Epsilon);
+        }
+        
+        
+        public static TSource MaxSource<TSource> (this IEnumerable<TSource> sources, Func<TSource, int> selector)
+        {
+            return sources.OrderBy(selector).First();
+        }
+        
+        
+        public static TSource MaxSource<TSource> (this IEnumerable<TSource> sources, Func<TSource, float> selector)
+        {
+            return sources.OrderBy(selector).First();
         }
         
         

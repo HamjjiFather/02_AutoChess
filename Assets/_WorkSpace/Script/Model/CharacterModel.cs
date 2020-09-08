@@ -264,6 +264,7 @@ namespace AutoChess
         public void SetPositionModel (PositionModel positionModel)
         {
             PositionModel = positionModel;
+            PredicatedPositionModel = positionModel;
         }
         
 

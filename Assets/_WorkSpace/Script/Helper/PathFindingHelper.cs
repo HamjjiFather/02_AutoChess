@@ -136,6 +136,16 @@ namespace AutoChess
         {
             return GetKeyByAngle (landDict, positionModel, (float) checkDirectionTypes);
         }
+        
+        
+        /// <summary>
+        /// 해당 enum 타입 방향에 있는 바로 옆 퍼즐의 키 값을 리턴.
+        /// </summary>
+        public IEnumerable<T> GetPositionsByEqualColumn<T> (Dictionary<int, List<T>> landDict,
+            PositionModel positionModel) where T : LandModel
+        {
+            return landDict[positionModel.Column];
+        }
 
 
         /// <summary>

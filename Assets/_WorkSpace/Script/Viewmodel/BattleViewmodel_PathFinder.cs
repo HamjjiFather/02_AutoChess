@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BaseFrame;
-using KKSFramework;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace AutoChess
@@ -39,7 +39,8 @@ namespace AutoChess
 
                 for (var r = 0; r < _fieldScale[c]; r++)
                 {
-                    _allLineModels[c].Add (new LandModel ());
+                    var position = new PositionModel(c, r);
+                    _allLineModels[c].Add (new LandModel (position));
                 }
             }
         }
@@ -112,7 +113,7 @@ namespace AutoChess
         /// <summary>
         /// 행동 가능 여부 확인.
         /// </summary>
-        public BehaviourResultModel CheckBehaviour (BattleCharacterElement element)
+        public async UniTask<BehaviourResultModel> CheckBehaviour (BattleCharacterElement element, bool atFirst)
         {
             var resultModel = new BehaviourResultModel ();
 
@@ -128,23 +129,48 @@ namespace AutoChess
                     }
                 }
 
-                if (element.ElementData.CharacterData.IsRangeAttack)
+                switch (element.ElementData.CharacterData.BattleCharacterType)
                 {
-                    if (TryFindNearestOtherMonster (element, out var targetElement))
-                    {
-                        resultModel.SetResultState (BattleState.Behave);
-                        resultModel.AddTargetCharacterElements (new List<BattleCharacterElement> {targetElement});
-                        return resultModel;
-                    }
-                }
-                else
-                {
-                    if (TryFindNearbyOtherCharacterElement (element, out var targetElement))
-                    {
-                        resultModel.SetResultState (BattleState.Behave);
-                        resultModel.AddTargetCharacterElements (new List<BattleCharacterElement> {targetElement});
-                        return resultModel;
-                    }
+                    case BattleCharacterType.Melee:
+                        if (TryFindNearbyOtherCharacterElement (element, out var targetElement))
+                        {
+                            resultModel.SetResultState (BattleState.Behave);
+                            resultModel.AddTargetCharacterElements (new List<BattleCharacterElement> {targetElement});
+                            return resultModel;
+                        }
+
+                        break;
+
+                    case BattleCharacterType.Range:
+                        if (TryFindNearestOtherCharacter (element, out targetElement))
+                        {
+                            resultModel.SetResultState (BattleState.Behave);
+                            resultModel.AddTargetCharacterElements (new List<BattleCharacterElement> {targetElement});
+                            return resultModel;
+                        }
+
+                        break;
+
+                    case BattleCharacterType.Assassin:
+                        // 처음 상태가 아니라면 근접 공격 AI와 같게 행동 함.
+                        if (!atFirst)
+                            goto case BattleCharacterType.Melee;
+
+                        // 암살자의 경우 한프레임 이후 행동을 개시한다.
+                        await UniTask.WaitForEndOfFrame ();
+                        // 처음 상태일 경우 가장 먼 적에게 점프함.
+                        if (TryFindFurthestOtherCharacter (element, out var jumpPosition))
+                        {
+                            resultModel.SetResultState (BattleState.Jump);
+                            resultModel.SetTargetPosition (jumpPosition);
+                            Debug.Log ($"{element.ElementData}'s CheckBehaviour Result : Jump to {jumpPosition}");
+                            return resultModel;
+                        }
+
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException ();
                 }
             }
 
@@ -240,32 +266,89 @@ namespace AutoChess
         /// <summary>
         /// 가장 가까운 대상 캐릭터를 찾음.
         /// </summary>
-        public bool TryFindNearestMonster (BattleCharacterElement battleCharacterElement,
+        public bool TryFindNearestCharacter (BattleCharacterElement battleCharacterElement,
             out BattleCharacterElement targetElement)
         {
             var targetElements = GetAllCharacterElements (battleCharacterElement.ElementData.CharacterSideType,
                 battleCharacterElement.ElementData.SkillData.SkillTarget);
 
             var foundModel = targetElements
-                .MinSources (x => PathFindingHelper.Instance.Distance (_allLineModels,
-                    battleCharacterElement.ElementData.PositionModel, x.ElementData.PositionModel)).First ();
+                .MinSource (x => PathFindingHelper.Instance.Distance (_allLineModels,
+                    battleCharacterElement.ElementData.PositionModel, x.ElementData.PositionModel));
             targetElement = foundModel;
             return foundModel != null;
         }
 
 
+        public bool TryFindFurthestOtherCharacter (BattleCharacterElement battleCharacterElement,
+            out PositionModel targetPosition)
+        {
+            var equalColumnLands = _allLineModels[battleCharacterElement.ElementData.PositionModel.Column];
+            if (equalColumnLands.All (x => !IsMovablePosition (x.LandPosition)))
+            {
+                targetPosition = default;
+                return false;
+            }
+
+            var checkDirection = battleCharacterElement.ElementData.CharacterSideType == CharacterSideType.Player
+                ? CheckDirectionTypes.ToUpward
+                : CheckDirectionTypes.ToDownward;
+            var targetElements = GetAllCharacterElements (battleCharacterElement.ElementData.CharacterSideType,
+                battleCharacterElement.ElementData.SkillData.SkillTarget);
+
+            // 자리가 비어있고 자리 앞에 적이 있는 첫 위치를 찾음.
+            var foundModel = equalColumnLands.FirstOrDefault (x =>
+            {
+                var nextPosition =
+                    PathFindingHelper.Instance.GetPositionByDirectionType (_allLineModels, x.LandPosition,
+                        checkDirection);
+
+                return !nextPosition.Equals (PathFindingHelper.Instance.EmptyPosition) &&
+                       targetElements.Any (element => element.ElementData.PredicatedPositionModel.Equals (nextPosition)) &&
+                       IsMovablePosition (x.LandPosition);
+            });
+            foundModel = foundModel ?? equalColumnLands.Last ();
+
+            targetPosition = foundModel.LandPosition;
+            return true;
+        }
+
+
+        // 암살자 AI(가장 먼 적을 찾음).
+        // public bool TryFindFurthestOtherCharacter (BattleCharacterElement battleCharacterElement,
+        //     out BattleCharacterElement targetElement)
+        // {
+        //     var targetElements = GetAllCharacterElements (battleCharacterElement.ElementData.CharacterSideType,
+        //         battleCharacterElement.ElementData.SkillData.SkillTarget);
+        //
+        //     var foundModel = targetElements
+        //         .OrderBy (x =>
+        //         {
+        //             var distance = PathFindingHelper.Instance.Distance (_allLineModels,
+        //                 battleCharacterElement.ElementData.PositionModel, x.ElementData.PredicatedPositionModel);
+        //             return distance;
+        //         })
+        //         .First (x =>
+        //             PathFindingHelper.Instance.GetAroundPositionModel (_allLineModels, x.ElementData.PredicatedPositionModel)
+        //                 .Any (IsMovablePosition));
+        //         
+        //     targetElement = foundModel;
+        //     return foundModel != null;
+        // }
+
+
         /// <summary>
         /// 가장 가까운 대상 캐릭터를 찾음.
         /// </summary>
-        public bool TryFindNearestOtherMonster (BattleCharacterElement battleCharacterElement,
+        public bool TryFindNearestOtherCharacter (BattleCharacterElement battleCharacterElement,
             out BattleCharacterElement targetElement)
         {
             var targetElements =
                 GetAllCharacterElements (battleCharacterElement.ElementData.CharacterSideType, SkillTarget.Enemy);
 
             var foundModel = targetElements
-                .MinSources (x => PathFindingHelper.Instance.Distance (_allLineModels,
-                    battleCharacterElement.ElementData.PositionModel, x.ElementData.PositionModel)).First ();
+                .MinSource (x => PathFindingHelper.Instance.Distance (_allLineModels,
+                    battleCharacterElement.ElementData.PositionModel, x.ElementData.PositionModel));
             targetElement = foundModel;
             return foundModel != null;
         }
@@ -304,7 +387,7 @@ namespace AutoChess
                     break;
 
                 case SkillBound.Target:
-                    if (TryFindNearestMonster (characterElement, out var element))
+                    if (TryFindNearestCharacter (characterElement, out var element))
                     {
                         results.Add (element);
                     }
@@ -318,7 +401,7 @@ namespace AutoChess
                     break;
 
                 case SkillBound.TargetArea:
-                    if (TryFindNearestMonster (characterElement, out element))
+                    if (TryFindNearestCharacter (characterElement, out element))
                     {
                         elements = GetCharacterElementsAtNearby (characterSide, element.ElementData.PositionModel,
                             skillData.SkillTarget, true);
@@ -335,7 +418,7 @@ namespace AutoChess
                     break;
 
                 case SkillBound.TargetAreaOnly:
-                    if (TryFindNearestMonster (characterElement, out element))
+                    if (TryFindNearestCharacter (characterElement, out element))
                     {
                         elements = GetCharacterElementsAtNearby (characterSide, element.ElementData.PositionModel,
                             skillData.SkillTarget);
@@ -362,6 +445,9 @@ namespace AutoChess
         }
 
 
+        /// <summary>
+        /// 이동 가능 위치인지.
+        /// </summary>
         public bool IsMovablePosition (PositionModel positionModel)
         {
             return _allLineModels.ContainsKey (positionModel.Column) &&

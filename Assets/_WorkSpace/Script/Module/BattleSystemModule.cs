@@ -17,6 +17,7 @@ namespace AutoChess
         Idle,
         Blocked,
         Moving,
+        Jump,
         Behave,
         Death
     }
@@ -127,7 +128,7 @@ namespace AutoChess
             _registeredDisposables = new List<IDisposable> ();
             behaviourSystemModule.Initialize (gageAction);
 
-            CheckNextBehaviour ().Forget ();
+            CheckNextBehaviour (true).Forget ();
         }
 
 
@@ -167,9 +168,13 @@ namespace AutoChess
         }
 
 
-        public async UniTask CheckNextBehaviour ()
+        /// <summary>
+        /// 다음 행동을 계산. 
+        /// </summary>
+        /// <param name="atFirst"> 암살자 점프를 위한 플래그. </param>
+        public async UniTask CheckNextBehaviour (bool atFirst = false)
         {
-            var result = _battleViewmodel.CheckBehaviour (_battleCharacterPackage.battleCharacterElement);
+            var result = await _battleViewmodel.CheckBehaviour (_battleCharacterPackage.battleCharacterElement, atFirst);
             _battleState = result.ResultState;
 
             switch (_battleState)
@@ -190,6 +195,11 @@ namespace AutoChess
                     await Move (result);
                     CheckNextBehaviour ().Forget ();
                     break;
+                
+                case BattleState.Jump:
+                    await Move (result);
+                    CheckNextBehaviour ().Forget ();
+                    break;
 
                 case BattleState.Behave:
                     await Behaviour (result);
@@ -206,14 +216,17 @@ namespace AutoChess
 
 
         /// <summary>
-        /// 이동.
+        /// 이동 처리.
         /// </summary>
-        private async UniTask Move (BehaviourResultModel behaviourResultModel)
+        /// <param name="behaviourResultModel"></param>
+        /// <param name="speed"> 이동 완료까지 시간. </param>
+        /// <returns></returns>
+        private async UniTask Move (BehaviourResultModel behaviourResultModel, float speed = 0.75f)
         {
             var position = behaviourResultModel.TargetPosition;
             Debug.Log ($"{CharacterModel} move to {position}");
             CharacterModel.SetPredicatePosition (position);
-            await movingSystemModule.Moving (_battleViewLayout.GetLandElement (position), _cancellationToken.Token);
+            await movingSystemModule.Moving (_battleViewLayout.GetLandElement (position), _cancellationToken.Token, speed);
             _battleViewmodel.CompleteMovement (CharacterModel, position);
             Debug.Log ("complete movement");
         }

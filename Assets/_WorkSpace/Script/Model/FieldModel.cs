@@ -73,8 +73,6 @@ namespace AutoChess
 
         public readonly BoolReactiveProperty FieldHighlight = new BoolReactiveProperty (false);
 
-        public PositionModel LandPosition;
-
 #pragma warning disable CS0649
 
 #pragma warning restore CS0649
@@ -84,9 +82,8 @@ namespace AutoChess
         #endregion
 
 
-        public FieldModel (PositionModel landPosition)
+        public FieldModel (PositionModel landPosition) : base(landPosition)
         {
-            LandPosition = landPosition;
         }
 
 

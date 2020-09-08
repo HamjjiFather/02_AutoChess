@@ -113,7 +113,7 @@ namespace AutoChess
         /// <summary>
         /// 행동 가능 여부 확인.
         /// </summary>
-        public async UniTask<BehaviourResultModel> CheckBehaviour (BattleCharacterElement element, bool atFirst)
+        public BehaviourResultModel CheckBehaviour (BattleCharacterElement element, bool atFirst)
         {
             var resultModel = new BehaviourResultModel ();
 
@@ -156,8 +156,6 @@ namespace AutoChess
                         if (!atFirst)
                             goto case BattleCharacterType.Melee;
 
-                        // 암살자의 경우 한프레임 이후 행동을 개시한다.
-                        await UniTask.WaitForEndOfFrame ();
                         // 처음 상태일 경우 가장 먼 적에게 점프함.
                         if (TryFindFurthestOtherCharacter (element, out var jumpPosition))
                         {
@@ -290,26 +288,8 @@ namespace AutoChess
                 return false;
             }
 
-            var checkDirection = battleCharacterElement.ElementData.CharacterSideType == CharacterSideType.Player
-                ? CheckDirectionTypes.ToUpward
-                : CheckDirectionTypes.ToDownward;
-            var targetElements = GetAllCharacterElements (battleCharacterElement.ElementData.CharacterSideType,
-                battleCharacterElement.ElementData.SkillData.SkillTarget);
-
-            // 자리가 비어있고 자리 앞에 적이 있는 첫 위치를 찾음.
-            var foundModel = equalColumnLands.FirstOrDefault (x =>
-            {
-                var nextPosition =
-                    PathFindingHelper.Instance.GetPositionByDirectionType (_allLineModels, x.LandPosition,
-                        checkDirection);
-
-                return !nextPosition.Equals (PathFindingHelper.Instance.EmptyPosition) &&
-                       targetElements.Any (element => element.ElementData.PredicatedPositionModel.Equals (nextPosition)) &&
-                       IsMovablePosition (x.LandPosition);
-            });
-            foundModel = foundModel ?? equalColumnLands.Last ();
-
-            targetPosition = foundModel.LandPosition;
+            var foundLand = equalColumnLands.Last (x => IsMovablePosition (x.LandPosition));
+            targetPosition = foundLand.LandPosition;
             return true;
         }
 
@@ -456,7 +436,7 @@ namespace AutoChess
                    AllOfCharacterModels.All (x => !x.PositionModel.Equals (positionModel)) &&
                    AllOfCharacterModels.All (x => !x.PredicatedPositionModel.Equals (positionModel));
         }
-
+ 
 
         public void CompleteMovement (CharacterModel characterModel, PositionModel positionModel)
         {

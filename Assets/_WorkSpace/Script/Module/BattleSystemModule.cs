@@ -174,7 +174,7 @@ namespace AutoChess
         /// <param name="atFirst"> 암살자 점프를 위한 플래그. </param>
         public async UniTask CheckNextBehaviour (bool atFirst = false)
         {
-            var result = await _battleViewmodel.CheckBehaviour (_battleCharacterPackage.battleCharacterElement, atFirst);
+            var result = _battleViewmodel.CheckBehaviour (_battleCharacterPackage.battleCharacterElement, atFirst);
             _battleState = result.ResultState;
 
             switch (_battleState)

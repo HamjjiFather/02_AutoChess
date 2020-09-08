@@ -123,7 +123,7 @@ namespace AutoChess
 
         public void ResetCharacterPosition (int index, CharacterModel characterModel)
         {
-            var positionData = LocalDataHelper.GetCharacterBundle ().BattleCharacterPositions;
+            var positionData = LocalDataHelper.GetBattleCharacterPosition ();
             characterModel.SetPositionModel (new PositionModel (positionData.Split ('/')[index]));
         }
 

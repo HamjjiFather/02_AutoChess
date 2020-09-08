@@ -63,7 +63,7 @@ namespace AutoChess
 
         /// <summary>
         /// 필드 설정.
-        /// REF - 필드가 안보임 상태일 경우 세팅 안함.
+        /// 필드가 안보임 상태일 경우 세팅 안함.
         /// </summary>
         public void Element (FieldModel fieldModel)
         {

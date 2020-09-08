@@ -62,7 +62,6 @@ namespace AutoChess
 
             var startField = CreateStartField ();
             CreatePath (startField);
-            startField.ChangeFieldSpecialType (FieldSpecialType.Exit);
             CreateNextField ();
             var forestField = CreateForestField ();
             CreateSpecialFieldType ();
@@ -74,7 +73,7 @@ namespace AutoChess
         /// <summary>
         /// 다음 층 필드 제작.
         /// </summary>
-        public (Dictionary<int, List<FieldModel>>, FieldModel) NewField ()
+        public void NewField ()
         {
             Debug.Log ("New Field");
             _adventureModel.AllFieldModel.SelectMany (x => x.Value).ForEach (x => x.Reset ());
@@ -95,8 +94,6 @@ namespace AutoChess
                 if (ContainPosition (x))
                     _adventureModel.AllFieldModel[x.Column][x.Row].ChangeState (FieldRevealState.OnSight);
             });
-
-            return (forestField, startField);
         }
 
 

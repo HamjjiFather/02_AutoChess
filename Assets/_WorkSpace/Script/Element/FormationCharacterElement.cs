@@ -15,10 +15,13 @@ namespace AutoChess
 #pragma warning disable CS0649
         
         [Resolver]
-        private Action<CharacterModel> _setAppearance;
+        private EventTrigger _eventTrigger;
+        
+        [Resolver]
+        private Animator _characterAniamtor;
 
         [Resolver]
-        private EventTrigger _eventTrigger;
+        private Property<Sprite> _characterImage;
 
 #pragma warning restore CS0649
 
@@ -65,7 +68,8 @@ namespace AutoChess
 
         public override void SetElement (CharacterModel elementData)
         {
-            _setAppearance (elementData);
+            _characterImage.Value = elementData.IconImageResources;
+            _characterAniamtor.runtimeAnimatorController = elementData.CharacterAnimatorResources;
         }
         
         

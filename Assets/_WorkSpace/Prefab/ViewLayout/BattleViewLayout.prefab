@@ -925,6 +925,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4681473104424926198}
     m_Modifications:
+    - target: {fileID: 853415155315348481, guid: aed6be20fd15d654a8ef1c86138e92a4,
+        type: 3}
+      propertyPath: m_Spacing
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1143576014628011050, guid: aed6be20fd15d654a8ef1c86138e92a4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1060,6 +1065,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1504064586327278414, guid: aed6be20fd15d654a8ef1c86138e92a4,
+        type: 3}
+      propertyPath: m_Spacing
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1724149987203692063, guid: aed6be20fd15d654a8ef1c86138e92a4,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -1120,6 +1130,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2373894163863942521, guid: aed6be20fd15d654a8ef1c86138e92a4,
+        type: 3}
+      propertyPath: m_Spacing
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3368769994311414538, guid: aed6be20fd15d654a8ef1c86138e92a4,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -1209,6 +1224,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5818254052520147496, guid: aed6be20fd15d654a8ef1c86138e92a4,
+        type: 3}
+      propertyPath: m_Spacing
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6261999839226759296, guid: aed6be20fd15d654a8ef1c86138e92a4,
+        type: 3}
+      propertyPath: m_Spacing
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7540937854190093434, guid: aed6be20fd15d654a8ef1c86138e92a4,
         type: 3}
@@ -1244,6 +1269,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BattleFieldArea
+      objectReference: {fileID: 0}
+    - target: {fileID: 8177971446073591301, guid: aed6be20fd15d654a8ef1c86138e92a4,
+        type: 3}
+      propertyPath: m_Spacing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8214027689324750389, guid: aed6be20fd15d654a8ef1c86138e92a4,
+        type: 3}
+      propertyPath: m_Spacing
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8215332910238379852, guid: aed6be20fd15d654a8ef1c86138e92a4,
+        type: 3}
+      propertyPath: m_Spacing
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aed6be20fd15d654a8ef1c86138e92a4, type: 3}

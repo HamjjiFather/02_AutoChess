@@ -64,7 +64,7 @@ namespace AutoChess
                 var ableFields = Array.ConvertAll (Constant.FormationableFieldScale.Split (','), int.Parse);
                 var fieldElement =
                     await ResourcesLoadHelper.LoadResourcesAsync<LandElement> (
-                        $"{ResourceRoleType.Bundles}/{ResourcesType.Element}/{nameof (LandElement)}");
+                        $"{ResourceRoleType.Bundles}/{ResourcesType.Element}/FormationLandElement");
 
                 _lineElements.ForEach ((element, i) =>
                 {
@@ -105,7 +105,7 @@ namespace AutoChess
             var battleCharacters = _characterViewmodel.BattleCharacterModels;
             _battleCharacterListArea.SetArea (battleCharacters);
 
-            _positionStrings = LocalDataHelper.GetCharacterBundle ().BattleCharacterPositions.Split ('/').ToList ();
+            _positionStrings = LocalDataHelper.GetBattleCharacterPosition ().Split ('/').ToList ();
             battleCharacters.Where (x => x.IsAssigned).ForEach ((x, i) =>
             {
                 var formationCharacterElement = Instantiate (formCharacter);

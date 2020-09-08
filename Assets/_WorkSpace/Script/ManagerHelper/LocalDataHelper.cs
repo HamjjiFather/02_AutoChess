@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UniRx;
 using UnityEngine;
 
 namespace KKSFramework.LocalData
@@ -26,9 +27,6 @@ namespace KKSFramework.LocalData
         public List<int> CharacterExps = new List<int> ();
 
         public List<CharacterEquipmentUIds> EquipmentUIds = new List<CharacterEquipmentUIds> ();
-
-        
-        public string BattleCharacterPositions = Constant.PlayerCharacterPosition;
 
         public List<int> BattleCharacterUniqueIds = new List<int> ();
 
@@ -73,17 +71,10 @@ namespace KKSFramework.LocalData
 
 
     [Serializable]
-    public class BattleCharacterPosition
+    public class BattleCharacterPositionBundle : Bundle
     {
-        public int Column;
-
-        public int Row;
-
-        public BattleCharacterPosition (int column, int row)
-        {
-            Column = column;
-            Row = row;
-        }
+        public StringReactiveProperty BattleCharacterPositions =
+            new StringReactiveProperty (Constant.PlayerCharacterPosition);
     }
 
 
@@ -132,6 +123,15 @@ namespace KKSFramework.LocalData
                 LocalDataManager.Instance.LoadGameData<CharacterBundle> (LocalDataClass.CharacterBundle);
             LocalDataClass.CharacterBundle = characterBundle;
 
+            var battleCharacterPositionBundle =
+                LocalDataManager.Instance.LoadGameData<BattleCharacterPositionBundle> (LocalDataClass
+                    .BattleCharacterPositionBundle);
+            LocalDataClass.BattleCharacterPositionBundle = battleCharacterPositionBundle;
+            LocalDataClass.BattleCharacterPositionBundle.BattleCharacterPositions.Subscribe (value =>
+            {
+                LocalDataManager.Instance.SaveGameData (LocalDataClass.BattleCharacterPositionBundle);
+            });
+
             var equipmentBundle =
                 LocalDataManager.Instance.LoadGameData<EquipmentBundle> (LocalDataClass.EquipmentBundle);
             LocalDataClass.EquipmentBundle = equipmentBundle;
@@ -145,6 +145,17 @@ namespace KKSFramework.LocalData
         {
             return LocalDataClass.CharacterBundle;
         }
+        
+        public static BattleCharacterPositionBundle GetBattleCharacterPositionBundle ()
+        {
+            return LocalDataClass.BattleCharacterPositionBundle;
+        }
+        
+        public static string GetBattleCharacterPosition ()
+        {
+            return LocalDataClass.BattleCharacterPositionBundle.BattleCharacterPositions.Value;
+        }
+        
 
         public static EquipmentBundle GetEquipmentBundle ()
         {
@@ -218,7 +229,7 @@ namespace KKSFramework.LocalData
         public static void SaveBattleCharacterPositionData (IEnumerable<string> characterPositions)
         {
             var saveResult = string.Join ("/", characterPositions);
-            LocalDataClass.CharacterBundle.BattleCharacterPositions = saveResult;
+            GetBattleCharacterPositionBundle ().BattleCharacterPositions.Value = saveResult;
         }
 
 
@@ -264,6 +275,8 @@ namespace KKSFramework.LocalData
             public GameBundle GameBundle = new GameBundle ();
 
             public CharacterBundle CharacterBundle = new CharacterBundle ();
+
+            public BattleCharacterPositionBundle BattleCharacterPositionBundle = new BattleCharacterPositionBundle ();
 
             public EquipmentBundle EquipmentBundle = new EquipmentBundle ();
         }

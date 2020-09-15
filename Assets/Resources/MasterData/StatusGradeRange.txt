@@ -1,0 +1,9 @@
+Index	StatusGrade	Min	Max	GradeString
+7000	Grade1	0	0.1	F
+7001	Grade2	0.1	0.25	D
+7002	Grade3	0.25	0.4	C
+7003	Grade4	0.4	0.65	B
+7004	Grade5	0.65	0.9	A
+7005	Grade6	0.9	0.95	S
+7006	Grade7	0.95	0.98	SS
+7007	Grade8	0.98	1	SSS

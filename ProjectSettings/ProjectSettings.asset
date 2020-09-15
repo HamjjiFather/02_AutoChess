@@ -713,7 +713,7 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
-    1: 
+    1: MOREMOUNTAINS_NICEVIBRATIONS
     4: 
     7: BF_ZENJECT;UNITASK_DOTWEEN_SUPPORT;MOREMOUNTAINS_NICEVIBRATIONS;BF_DEBUG
     13: 

@@ -1,14 +1,14 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using KKSFramework.ResourcesLoad;
+using Helper;
 using MasterData;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace AutoChess
 {
-    public class ParticlePrefab : PooingComponent
+    public class ParticlePrefab : MonoBehaviour
     {
         #region Fields & Property
 
@@ -37,7 +37,7 @@ namespace AutoChess
             await UniTask.Delay (TimeSpan.FromSeconds (particleSys.main.startLifetime.constantMax),
                 cancellationToken: cancellationToken);
 
-            Despawn ();
+            ObjectPoolingHelper.Despawn (transform);
         }
 
         #endregion

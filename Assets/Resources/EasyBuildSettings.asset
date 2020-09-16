@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc9075b4726a7f1439ad7003d11cb9d6, type: 3}
+  m_Name: EasyBuildSettings
+  m_EditorClassIdentifier: 
+  CompanyName: BBangsilFactory
+  ProductName: 02_AutoChess
+  ApplicationIdentifier: com.rhkdtjq0390.frameworkKKS
+  BundleVersion: 1.0
+  BundleCode: 1
+  Development: 0
+  ios:
+    ScriptingDefineSymbols: 
+    ScriptingDefineSymbolsDev: 
+    AutomaticallySign: 0
+    SigningTeamId: 
+    TargetOSVersionString: 9.0
+    EntitlementsContent: 
+  aos:
+    BuildSystem: 1
+    BuildAppBundle: 0
+    ScriptingDefineSymbols: BF_ZENJECT;UNITASK_DOTWEEN_SUPPORT;MOREMOUNTAINS_NICEVIBRATIONS;BF_DEBUG
+    ScriptingDefineSymbolsDev: BF_ZENJECT;UNITASK_DOTWEEN_SUPPORT;MOREMOUNTAINS_NICEVIBRATIONS;BF_DEBUG
+    KeystoreName: Builder/Android Components/Keystore/qwe123.keystore
+    KeystorePass: qwe123
+    KeyaliasName: qwe123
+    KeyaliasPass: qwe123
+    TargetSdkVersion: 26
+    ExportProject: 0

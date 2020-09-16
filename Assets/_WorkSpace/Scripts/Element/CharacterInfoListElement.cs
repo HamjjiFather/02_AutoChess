@@ -15,7 +15,7 @@ namespace AutoChess
         public UnityAction<CharacterModel> ElementClick;
     }
 
-    public class CharacterInfoListElement : PooingComponent, IElementBase<CharacterInfoListElementModel>, IResolveTarget
+    public class CharacterInfoListElement : MonoBehaviour, IElementBase<CharacterInfoListElementModel>, IResolveTarget
     {
         #region Fields & Property
 

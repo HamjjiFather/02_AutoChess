@@ -4,6 +4,7 @@ using KKSFramework.DesignPattern;
 using KKSFramework.ResourcesLoad;
 using UnityEngine;
 using MasterData;
+using ResourcesLoad;
 
 namespace AutoChess
 {

@@ -6,6 +6,7 @@ using MasterData;
 using KKSFramework.DesignPattern;
 using KKSFramework.LocalData;
 using KKSFramework.ResourcesLoad;
+using ResourcesLoad;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Events;

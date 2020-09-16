@@ -5,6 +5,7 @@ using Helper;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
 using MasterData;
+using ResourcesLoad;
 using UnityEngine;
 using Zenject;
 
@@ -27,7 +28,7 @@ namespace AutoChess
         }
     }
     
-    public class BattleCharacterElement : PooingComponent, IElementBase<CharacterModel>
+    public class BattleCharacterElement : MonoBehaviour, IElementBase<CharacterModel>
     {
         #region Fields & Property
 

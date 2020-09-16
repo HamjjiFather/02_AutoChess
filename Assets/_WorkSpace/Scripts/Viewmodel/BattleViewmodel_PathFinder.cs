@@ -39,7 +39,7 @@ namespace AutoChess
 
                 for (var r = 0; r < _fieldScale[c]; r++)
                 {
-                    var position = new PositionModel(c, r);
+                    var position = new PositionModel (c, r);
                     _allLineModels[c].Add (new LandModel (position));
                 }
             }
@@ -72,16 +72,37 @@ namespace AutoChess
                 : PlayerCharacterElements;
         }
 
+        public IEnumerable<BattleCharacterElement> GetAllCharacterElementsNotExcuted (CharacterSideType sideType,
+            SkillTarget skillTarget)
+        {
+            return sideType == CharacterSideType.Player && skillTarget == SkillTarget.Enemy ||
+                   sideType == CharacterSideType.AI && skillTarget == SkillTarget.Ally
+                ? AiCharacterElements.Where (x => !x.ElementData.IsExcuted)
+                : PlayerCharacterElements.Where (x => !x.ElementData.IsExcuted);
+        }
+
 
         public List<BattleCharacterElement> GetAllOfOtherElements (CharacterSideType sideType)
         {
             return sideType == CharacterSideType.Player ? AiCharacterElements : PlayerCharacterElements;
         }
 
+        public IEnumerable<BattleCharacterElement> GetAllOfOtherElementsNotExcuted (CharacterSideType sideType)
+        {
+            return (sideType == CharacterSideType.Player ? AiCharacterElements : PlayerCharacterElements).Where (x =>
+                !x.ElementData.IsExcuted);
+        }
+
 
         public List<BattleCharacterElement> GetAllOfEqualElements (CharacterSideType sideType)
         {
             return sideType == CharacterSideType.Player ? PlayerCharacterElements : AiCharacterElements;
+        }
+
+        public IEnumerable<BattleCharacterElement> GetAllOfEqualElementsNotExcuted (CharacterSideType sideType)
+        {
+            return (sideType == CharacterSideType.Player ? PlayerCharacterElements : AiCharacterElements).Where (x =>
+                !x.ElementData.IsExcuted);
         }
 
 
@@ -94,8 +115,8 @@ namespace AutoChess
             var nearPositions = PathFindingHelper.Instance.GetAroundPositionModel (_allLineModels, positionModel)
                 .ToList ();
             var foundedCharacterElements = skillTarget == SkillTarget.Ally
-                ? GetAllOfEqualElements (sideType)
-                : GetAllOfOtherElements (sideType);
+                ? GetAllOfEqualElementsNotExcuted (sideType)
+                : GetAllOfOtherElementsNotExcuted (sideType);
 
             if (containSelf)
                 nearPositions.Add (positionModel);
@@ -119,14 +140,11 @@ namespace AutoChess
 
             if (element.CanBehaviour)
             {
-                if (element.IsFullSkillGage)
+                if (element.IsFullSkillGage && TryFindSkillTarget (element, out var targetElements))
                 {
-                    if (TryFindSkillTarget (element, out var targetElements))
-                    {
-                        resultModel.SetResultState (BattleState.Behave);
-                        resultModel.AddTargetCharacterElements (targetElements);
-                        return resultModel;
-                    }
+                    resultModel.SetResultState (BattleState.Behave);
+                    resultModel.AddTargetCharacterElements (targetElements);
+                    return resultModel;
                 }
 
                 switch (element.ElementData.CharacterData.BattleCharacterType)
@@ -271,6 +289,7 @@ namespace AutoChess
                 battleCharacterElement.ElementData.SkillData.SkillTarget);
 
             var foundModel = targetElements
+                .Where (x => !x.ElementData.IsExcuted)
                 .MinSource (x => PathFindingHelper.Instance.Distance (_allLineModels,
                     battleCharacterElement.ElementData.PositionModel, x.ElementData.PositionModel));
             targetElement = foundModel;
@@ -324,7 +343,8 @@ namespace AutoChess
             out BattleCharacterElement targetElement)
         {
             var targetElements =
-                GetAllCharacterElements (battleCharacterElement.ElementData.CharacterSideType, SkillTarget.Enemy);
+                GetAllCharacterElementsNotExcuted (battleCharacterElement.ElementData.CharacterSideType,
+                    SkillTarget.Enemy);
 
             var foundModel = targetElements
                 .MinSource (x => PathFindingHelper.Instance.Distance (_allLineModels,
@@ -341,7 +361,7 @@ namespace AutoChess
             out BattleCharacterElement targetElement)
         {
             var allOfOtherElements =
-                GetAllOfOtherElements (battleCharacterElement.ElementData.CharacterSideType);
+                GetAllOfOtherElementsNotExcuted (battleCharacterElement.ElementData.CharacterSideType);
             var aroundElements =
                 GetCharacterElementsAtNearby (battleCharacterElement.ElementData.CharacterSideType,
                     battleCharacterElement.ElementData.PositionModel, SkillTarget.Enemy);
@@ -436,7 +456,7 @@ namespace AutoChess
                    AllOfCharacterModels.All (x => !x.PositionModel.Equals (positionModel)) &&
                    AllOfCharacterModels.All (x => !x.PredicatedPositionModel.Equals (positionModel));
         }
- 
+
 
         public void CompleteMovement (CharacterModel characterModel, PositionModel positionModel)
         {

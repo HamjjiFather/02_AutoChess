@@ -121,7 +121,7 @@ namespace AutoChess
         public void SetBattleAiCharacter (BattleStageModel battleStageModel)
         {
             // 적 AI 세팅.
-            battleStageModel.StageData.MonsterIndexes.ForEach ((monsterIndex, index) =>
+            battleStageModel.StageData.MonsterIndexes.Where (x => x != 0).ForEach ((monsterIndex, index) =>
             {
                 var characterModel = new CharacterModel ();
                 var characterData = Character.Manager.GetItemByIndex (monsterIndex);

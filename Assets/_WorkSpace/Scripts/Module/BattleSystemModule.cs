@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using BaseFrame;
-using KKSFramework.ResourcesLoad;
-using UniRx;
 using Cysharp.Threading.Tasks;
+using Helper;
 using MasterData;
-using UnityEditor;
+using ResourcesLoad;
+using UniRx;
 using UnityEngine;
 using UnityEngine.Events;
 using Zenject;
@@ -44,6 +43,9 @@ namespace AutoChess
 
         [Inject]
         private BattleViewLayout _battleViewLayout;
+
+        [Inject (Id = "BulletParents")]
+        private Transform _bulletParents;
 
 #pragma warning restore CS0649
 
@@ -99,7 +101,7 @@ namespace AutoChess
         private BattleCharacterPackage _battleCharacterPackage;
 
         private bool _atFirst;
-        
+
         #endregion
 
 
@@ -122,7 +124,7 @@ namespace AutoChess
             {
                 return;
             }
-            
+
             _cancellationToken = new CancellationTokenSource ();
             _health = _health ?? new FloatReactiveProperty (CharacterModel.GetTotalStatusValue (StatusType.Health));
             _battleState = BattleState.Idle;
@@ -150,11 +152,11 @@ namespace AutoChess
             _registeredDisposables.ForEach (x => x.Dispose ());
             _registeredDisposables.Clear ();
 
-            _spawnedDamageElements.ForEach (element => { element.Despawn (); });
+            _spawnedDamageElements.ForEach (element => { ObjectPoolingHelper.Despawn (element.transform); });
             _spawnedDamageElements.Clear ();
         }
 
-        
+
         public void Dead ()
         {
             EndBattle ();
@@ -197,7 +199,7 @@ namespace AutoChess
                     await Move (result);
                     CheckNextBehaviour ().Forget ();
                     break;
-                
+
                 case BattleState.Jump:
                     await Move (result);
                     CheckNextBehaviour ().Forget ();
@@ -228,7 +230,8 @@ namespace AutoChess
             var position = behaviourResultModel.TargetPosition;
             Debug.Log ($"{CharacterModel} move to {position}");
             CharacterModel.SetPredicatePosition (position);
-            await movingSystemModule.Moving (_battleViewLayout.GetLandElement (position), _cancellationToken.Token, speed);
+            await movingSystemModule.Moving (_battleViewLayout.GetLandElement (position), _cancellationToken.Token,
+                speed);
             _battleViewmodel.CompleteMovement (CharacterModel, position);
             Debug.Log ("complete movement");
         }
@@ -261,13 +264,35 @@ namespace AutoChess
         /// <summary>
         /// 스킬 사용 후 처리.
         /// </summary>
-        public void ApplyAfterSkill (SkillModel nowSkillModel)
+        public void ApplyAfterSkill (SkillModel skillModel)
         {
-            var afterSkillIndex = nowSkillModel.SkillData.AfterSkillIndex;
+            if (skillModel.ApplyBullet)
+                CreateBullet ();
+
+            var afterSkillIndex = skillModel.SkillData.AfterSkillIndex;
             if (afterSkillIndex == Constants.INVALID_INDEX)
                 return;
 
-            _skillViewmodel.InvokeAfterSkill (nowSkillModel);
+            _skillViewmodel.InvokeAfterSkill (skillModel);
+
+            void CreateBullet ()
+            {
+                skillModel.TargetCharacters.ForEach (character =>
+                {
+                    var target = _battleViewmodel.FindCharacterElement (character);
+                    var bulletModel = new BattleBulletModel
+                    {
+                        SkillModel = skillModel,
+                        Origin = _battleCharacterPackage.battleCharacterElement.transform.position,
+                        Target = target.transform
+                    };
+
+                    var bulletObj = ObjectPoolingHelper.Spawn<BattleBulletElement> (
+                        ResourceRoleType.Bundles.ToString (), ResourcesType.Element.ToString (),
+                        character.CharacterData.BulletResName, _bulletParents);
+                    bulletObj.SetElement (bulletModel);
+                });
+            }
         }
 
 
@@ -354,8 +379,9 @@ namespace AutoChess
                 Amount = (int) skillValue,
                 DamageType = damageType
             };
-            var damageElement = ObjectPoolingHelper.GetResources<BattleDamageElement> (ResourceRoleType.Bundles,
-                ResourcesType.Element, nameof (BattleDamageElement), damageElementParents);
+            var damageElement = ObjectPoolingHelper.Spawn<BattleDamageElement> (ResourceRoleType
+                    .Bundles.ToString (), ResourcesType.Element.ToString (), nameof (BattleDamageElement),
+                damageElementParents);
             damageElement.GetComponent<RectTransform> ().SetLocalReset ();
             damageElement.SetElement (damageModel);
             damageElement.SetDespawn (DespawnDamageElement, _cancellationToken.Token).Forget ();
@@ -363,7 +389,7 @@ namespace AutoChess
 
             void DespawnDamageElement (BattleDamageElement battleDamageElement)
             {
-                battleDamageElement.Despawn ();
+                ObjectPoolingHelper.Despawn (battleDamageElement.transform);
                 _spawnedDamageElements.Remove (battleDamageElement);
             }
         }

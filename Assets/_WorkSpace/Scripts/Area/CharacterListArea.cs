@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using KKSFramework;
+using Helper;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
-using KKSFramework.ResourcesLoad;
+using ResourcesLoad;
 using UnityEngine;
 using UnityEngine.Events;
 using Zenject;
@@ -18,7 +18,7 @@ namespace AutoChess
 
         [Resolver]
         private Transform _contents;
-        
+
         [Inject]
         private CharacterViewmodel _characterViewmodel;
 
@@ -40,18 +40,19 @@ namespace AutoChess
         {
             if (!_characterViewmodel.IsDataChanged) return;
             _characterViewmodel.IsDataChanged = false;
-            
-            _listElements.ForEach (element => element.Despawn ());
+
+            _listElements.ForEach (element => ObjectPoolingHelper.Despawn (element.transform));
             _listElements.Clear ();
 
             _characterViewmodel.AllCharacterModels.ForEach (characterModel =>
             {
-                var element = ObjectPoolingHelper.GetResources<CharacterInfoListElement> (ResourceRoleType.Bundles,
-                    ResourcesType.Element, nameof(CharacterInfoListElement), _contents);
+                var element = ObjectPoolingHelper.Spawn<CharacterInfoListElement> (
+                    ResourceRoleType.Bundles.ToString (),
+                    ResourcesType.Element.ToString (), nameof (CharacterInfoListElement), _contents);
 
                 element.SetElement (new CharacterInfoListElementModel
                 {
-                    CharacterModel =characterModel,
+                    CharacterModel = characterModel,
                     ElementClick = areaData
                 });
                 _listElements.Add (element);

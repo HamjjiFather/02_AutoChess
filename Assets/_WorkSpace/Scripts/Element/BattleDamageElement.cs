@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace AutoChess
 {
-    public class BattleDamageElement : PooingComponent, IElementBase<BattleDamageModel>
+    public class BattleDamageElement : MonoBehaviour, IElementBase<BattleDamageModel>
     {
         #region Fields & Property
 

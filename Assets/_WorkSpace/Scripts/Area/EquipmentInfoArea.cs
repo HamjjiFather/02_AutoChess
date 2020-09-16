@@ -3,6 +3,7 @@ using Helper;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
+using ResourcesLoad;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;

@@ -7,12 +7,12 @@ namespace AutoChess
     public class SkillValueModel
     {
         /// <summary>
-        /// 적용 전 계산된 스킬 값.
+        /// 전 처리 스킬 값.
         /// </summary>
         public float PreApplyValue;
 
         /// <summary>
-        /// 적용 후 계산된 스킬 값.
+        /// 후 처리 스킬 값.
         /// </summary>
         public float AppliedValue;
 
@@ -42,6 +42,8 @@ namespace AutoChess
         public PositionModel TargetPosition;
         
         public Skill SkillData;
+
+        public bool ApplyBullet;
 
         public DamageType DamageType = DamageType.Damage;
 

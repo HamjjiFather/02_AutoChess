@@ -8,6 +8,7 @@ using KKSFramework.DataBind;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
 using MasterData;
+using ResourcesLoad;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -25,6 +26,9 @@ namespace AutoChess
 
         [Resolver]
         private Transform _characterParents;
+
+        [Resolver]
+        private Transform _bulletParents;
 
         [Resolver]
         private Transform _upperCharacterParents;
@@ -69,6 +73,7 @@ namespace AutoChess
         {
             ProjectContext.Instance.Container.BindInstance (this);
             ProjectContext.Instance.Container.BindInstance (_particleManagingModule);
+            ProjectContext.Instance.Container.BindInstance (_bulletParents).WithId ("BulletParents");
             _battleCharacterListArea = ProjectContext.Instance.Container.Resolve<BattleCharacterListArea> ();
             CreateField ().Forget ();
 
@@ -155,11 +160,11 @@ namespace AutoChess
             _characterViewmodel.BattleCharacterModels.Where (x => x.IsAssigned).ForEach ((battlePlayer, index) =>
             {
                 var landElement = GetLandElement (battlePlayer.PositionModel);
-                var characterElement = ObjectPoolingHelper.GetResources<BattleCharacterElement> (
-                    ResourceRoleType.Bundles,
-                    ResourcesType.Element, nameof (BattleCharacterElement), landElement.transform);
+                var characterElement = ObjectPoolingHelper.Spawn<BattleCharacterElement> (
+                    ResourceRoleType.Bundles.ToString (), ResourcesType.Element.ToString (),
+                    nameof (BattleCharacterElement), landElement.transform);
 
-                characterElement.SetInfoElement (_battleCharacterListArea.GetElement(index));
+                characterElement.SetInfoElement (_battleCharacterListArea.GetElement (index));
                 characterElement.SetElement (battlePlayer);
 
                 _playerBattleCharacterElements.Add (characterElement);
@@ -177,9 +182,9 @@ namespace AutoChess
             {
                 var landElement = _lineElements[battleMonster.PositionModel.Column]
                     .GetLandElement (battleMonster.PositionModel.Row);
-                var characterElement = ObjectPoolingHelper.GetResources<BattleCharacterElement> (
-                    ResourceRoleType.Bundles,
-                    ResourcesType.Element, nameof (BattleCharacterElement), landElement.transform);
+                var characterElement = ObjectPoolingHelper.Spawn<BattleCharacterElement> (
+                    ResourceRoleType.Bundles.ToString (), ResourcesType.Element.ToString (),
+                    nameof (BattleCharacterElement), landElement.transform);
 
                 characterElement.SetElement (battleMonster);
 

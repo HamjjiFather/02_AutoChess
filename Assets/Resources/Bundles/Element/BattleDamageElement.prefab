@@ -64,6 +64,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0.2, b: 0.15, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -155,11 +156,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8344972053239637708}
-  - component: {fileID: 5956246085017935250}
+  - component: {fileID: 5736903367626581118}
   - component: {fileID: 3911358946418884025}
-  - component: {fileID: 8052940990826480357}
   - component: {fileID: 6949962036354892299}
   - component: {fileID: 5907972144135151398}
+  - component: {fileID: 8052940990826480357}
   m_Layer: 5
   m_Name: BattleDamageElement
   m_TagString: Untagged
@@ -188,14 +189,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 104.54}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &5956246085017935250
-CanvasRenderer:
+--- !u!223 &5736903367626581118
+Canvas:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1903875922901894653}
-  m_CullTransparentMesh: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 263808769
+  m_SortingOrder: 1
+  m_TargetDisplay: 0
 --- !u!95 &3911358946418884025
 Animator:
   serializedVersion: 3
@@ -215,23 +229,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &8052940990826480357
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1903875922901894653}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 610ff8045621495bacebf52819d96d26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageText: {fileID: 4026346005422731829}
-  damageTypeImage: {fileID: 9077093989318990460}
-  damageAnimator: {fileID: 3911358946418884025}
-  damageColor: {r: 1, g: 0.2, b: 0.15, a: 1}
-  restoreColor: {r: 0.23113209, g: 0.85, b: 0.24050851, a: 1}
 --- !u!114 &6949962036354892299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,6 +254,7 @@ MonoBehaviour:
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!114 &5907972144135151398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,6 +269,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 0
+--- !u!114 &8052940990826480357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1903875922901894653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 610ff8045621495bacebf52819d96d26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageText: {fileID: 4026346005422731829}
+  damageTypeImage: {fileID: 9077093989318990460}
+  damageAnimator: {fileID: 3911358946418884025}
+  damageColor: {r: 1, g: 0.2, b: 0.15, a: 1}
+  restoreColor: {r: 0.23113209, g: 0.85, b: 0.24050851, a: 1}
 --- !u!1 &2393450288581045359
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,6 +347,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

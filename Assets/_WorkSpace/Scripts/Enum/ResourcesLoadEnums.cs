@@ -1,4 +1,4 @@
-namespace KKSFramework.ResourcesLoad
+namespace ResourcesLoad
 {
     public enum ResourceRoleType
     {

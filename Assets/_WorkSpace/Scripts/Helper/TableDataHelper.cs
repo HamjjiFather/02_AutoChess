@@ -32,7 +32,7 @@ namespace MasterData
         
         public CharacterLevel GetCharacterLevelByLevel (int level)
         {
-            return CharacterLevel.Manager.GetItemByIndex((int) TableName.CharacterLevel * 1000 + level);
+            return CharacterLevel.Manager.GetItemByIndex(((int) TableName.CharacterLevel + 1) * 1000 + level);
         }
     }
 }

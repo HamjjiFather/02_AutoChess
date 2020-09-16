@@ -98,7 +98,7 @@ namespace AutoChess
                 {
                     Debug.Log ("Skill behaviour");
                     UseSkill (characterModel, behaviourResultModel, cancellationToken, characterModel.CharacterData.SkillIndex,
-                        skillCallback);
+                        skillCallback, false);
                     _skillGageValue.Value = 0;
                     _isFullSkillGage = false;
                     await WaitForCanBehaveState ();
@@ -107,7 +107,7 @@ namespace AutoChess
 
                 Debug.Log ("Attack behaviour");
                 UseSkill (characterModel, behaviourResultModel, cancellationToken, characterModel.CharacterData.AttackIndex,
-                    skillCallback);
+                    skillCallback, characterModel.CharacterData.BattleCharacterType == BattleCharacterType.Range);
                 AddSkillValue (Constants.RESTORE_SKILL_GAGE_ON_ATTACK);
                 await WaitForCanBehaveState ();
             }
@@ -123,11 +123,21 @@ namespace AutoChess
         /// 스킬 사용.
         /// </summary>
         public void UseSkill (CharacterModel characterModel, BehaviourResultModel behaviourResultModel,
-            CancellationToken cancellationToken, int index, UnityAction<SkillModel> skillCallback)
+            CancellationToken cancellationToken, int index, UnityAction<SkillModel> skillCallback, bool applyBullet)
         {
-            var skillModel = _skillViewmodel.InvokeSkill (characterModel, behaviourResultModel, index);
+            var skillModel = _skillViewmodel.InvokeSkill (characterModel, behaviourResultModel, index, applyBullet);
             CheckAttackSpeed (characterModel, cancellationToken).Forget ();
             skillCallback.Invoke (skillModel);
+        }
+
+
+        /// <summary>
+        /// 발사체 생성.
+        /// </summary>
+        private void CreateBullet (SkillModel skillModel)
+        {
+            var bulletModel = new BattleBulletModel ();
+            bulletModel.Origin = transform.position;
         }
 
 

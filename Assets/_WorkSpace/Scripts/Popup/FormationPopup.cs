@@ -8,6 +8,7 @@ using KKSFramework.DataBind;
 using KKSFramework.LocalData;
 using KKSFramework.ResourcesLoad;
 using MasterData;
+using ResourcesLoad;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;

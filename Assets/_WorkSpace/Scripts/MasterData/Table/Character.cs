@@ -35,6 +35,12 @@ namespace MasterData
         public string Desc { get; internal set; }
         
         /// <summary>
+        /// 캐릭터 등급
+        /// 캐릭터 등급
+        /// </summary>
+        public StarGrade CharacterGrade { get; internal set; }
+        
+        /// <summary>
         /// 공격 유형
         /// 공격 유형
         /// </summary>
@@ -95,6 +101,12 @@ namespace MasterData
         public string AnimatorResName { get; internal set; }
         
         /// <summary>
+        /// 발사체 이름
+        /// 발사체 이름
+        /// </summary>
+        public string BulletResName { get; internal set; }
+        
+        /// <summary>
         /// 체력
         /// 체력 최소값
         /// </summary>
@@ -147,9 +159,9 @@ namespace MasterData
             {
                 var row = rowData[i];
                 var dataList = row.Split ('\t');
-                if (dataList.Length != 17)
+                if (dataList.Length != 19)
                 {
-                    Debug.LogWarning ($"[Path: {filePath}, Row: {i}] 필드 수량 불일치 {dataList.Length} != 17");
+                    Debug.LogWarning ($"[Path: {filePath}, Row: {i}] 필드 수량 불일치 {dataList.Length} != 19");
                     continue;
                 }
 
@@ -179,9 +191,9 @@ namespace MasterData
             {
                 var row = rowData[i];
                 var dataList = row.Split ('\t');
-                if (dataList.Length != 17)
+                if (dataList.Length != 19)
                 {
-                    Debug.LogWarning ($"[Path: {filePath}, Row: {i}] 필드 수량 불일치 {dataList.Length} != 17");
+                    Debug.LogWarning ($"[Path: {filePath}, Row: {i}] 필드 수량 불일치 {dataList.Length} != 19");
                     continue;
                 }
 
@@ -207,20 +219,22 @@ namespace MasterData
                 Index = Parsing (dataList[0], int.Parse),
                 Name = dataList[1],
                 Desc = dataList[2],
-                BattleCharacterType = ParsingEnum<BattleCharacterType>(dataList[3]),
-                HpInc = Parsing (dataList[4], float.Parse),
-                AtInc = Parsing (dataList[5], float.Parse),
-                ApInc = Parsing (dataList[6], float.Parse),
-                DfInc = Parsing (dataList[7], float.Parse),
-                AttackSpeed = Parsing (dataList[8], float.Parse),
-                AttackIndex = Parsing (dataList[9], int.Parse),
-                SkillIndex = Parsing (dataList[10], int.Parse),
-                SpriteResName = dataList[11],
-                AnimatorResName = dataList[12],
-                Hp = ParsingList (dataList[13], float.Parse),
-                At = ParsingList (dataList[14], float.Parse),
-                Ap = ParsingList (dataList[15], float.Parse),
-                Df = ParsingList (dataList[16], float.Parse),
+                CharacterGrade = ParsingEnum<StarGrade>(dataList[3]),
+                BattleCharacterType = ParsingEnum<BattleCharacterType>(dataList[4]),
+                HpInc = Parsing (dataList[5], float.Parse),
+                AtInc = Parsing (dataList[6], float.Parse),
+                ApInc = Parsing (dataList[7], float.Parse),
+                DfInc = Parsing (dataList[8], float.Parse),
+                AttackSpeed = Parsing (dataList[9], float.Parse),
+                AttackIndex = Parsing (dataList[10], int.Parse),
+                SkillIndex = Parsing (dataList[11], int.Parse),
+                SpriteResName = dataList[12],
+                AnimatorResName = dataList[13],
+                BulletResName = dataList[14],
+                Hp = ParsingList (dataList[15], float.Parse),
+                At = ParsingList (dataList[16], float.Parse),
+                Ap = ParsingList (dataList[17], float.Parse),
+                Df = ParsingList (dataList[18], float.Parse),
             };
             p.PostProcess (dataList);
             Character.Manager.Add (p.Index, p);

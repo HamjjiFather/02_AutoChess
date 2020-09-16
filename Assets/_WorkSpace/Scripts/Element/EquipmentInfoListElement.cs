@@ -14,7 +14,7 @@ namespace AutoChess
         public UnityAction<EquipmentModel> ElementClick;
     }
     
-    public class EquipmentInfoListElement : PooingComponent, IElementBase<EquipmentInfoListElementModel>
+    public class EquipmentInfoListElement : MonoBehaviour, IElementBase<EquipmentInfoListElementModel>
     {
         #region Fields & Property
         

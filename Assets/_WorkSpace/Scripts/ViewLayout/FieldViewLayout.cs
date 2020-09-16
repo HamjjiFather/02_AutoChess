@@ -12,6 +12,7 @@ using KKSFramework.DataBind;
 using KKSFramework.ResourcesLoad;
 using KKSFramework.UI;
 using MasterData;
+using ResourcesLoad;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;

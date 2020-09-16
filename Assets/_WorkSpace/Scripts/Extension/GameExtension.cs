@@ -21,13 +21,13 @@ namespace AutoChess
         
         public static TSource MinSource<TSource> (this IEnumerable<TSource> sources, Func<TSource, int> selector)
         {
-            return sources.OrderByDescending(selector).First();
+            return sources.OrderBy(selector).First();
         }
         
         
         public static TSource MinSource<TSource> (this IEnumerable<TSource> sources, Func<TSource, float> selector)
         {
-            return sources.OrderByDescending(selector).First();
+            return sources.OrderBy(selector).First();
         }
         
         public static IEnumerable<TSource> MinSources<TSource> (this IEnumerable<TSource> sources,
@@ -47,13 +47,13 @@ namespace AutoChess
         
         public static TSource MaxSource<TSource> (this IEnumerable<TSource> sources, Func<TSource, int> selector)
         {
-            return sources.OrderBy(selector).First();
+            return sources.OrderByDescending(selector).First();
         }
         
         
         public static TSource MaxSource<TSource> (this IEnumerable<TSource> sources, Func<TSource, float> selector)
         {
-            return sources.OrderBy(selector).First();
+            return sources.OrderByDescending(selector).First();
         }
         
         

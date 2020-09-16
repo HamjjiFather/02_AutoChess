@@ -36,12 +36,13 @@ namespace AutoChess
 
         #region Methods
 
-        public SkillModel InvokeSkill (CharacterModel user, BehaviourResultModel behaviourResultModel, int skillIndex)
+        public SkillModel InvokeSkill (CharacterModel user, BehaviourResultModel behaviourResultModel, int skillIndex, bool applyBullet)
         {
             var skillModel = new SkillModel
             {
                 UseCharacterModel = user,
                 SkillData = Skill.Manager.GetItemByIndex (skillIndex),
+                ApplyBullet = applyBullet
             };
 
             skillModel.TargetCharacters.AddRange (
@@ -99,6 +100,9 @@ namespace AutoChess
         }
 
 
+        /// <summary>
+        /// 스킬 사용 가능 여부 확인.
+        /// </summary>
         private bool CheckCondition (SkillModel skillModel)
         {
             switch (skillModel.SkillData.SkillActiveCondition)
@@ -113,9 +117,18 @@ namespace AutoChess
         }
 
 
+        /// <summary>
+        /// 스킬 처리.
+        /// 직접 공격의 경우 바로 적용하고, 발사체의 경우 발사체를 생성한다.
+        /// </summary>
         private void ProgressSkill (SkillModel skillModel)
         {
             CheckSkillValue (skillModel);
+
+            // 발사체에서 스킬 적용.
+            if (skillModel.ApplyBullet)
+                return;
+            
             ApplySkills (skillModel);
         }
 
@@ -152,7 +165,10 @@ namespace AutoChess
         }
 
 
-        private void ApplySkills (SkillModel skillModel)
+        /// <summary>
+        /// 대상에게 스킬을 적용.
+        /// </summary>
+        public void ApplySkills (SkillModel skillModel)
         {
             for (var i = 0; i < skillModel.TargetCharacters.Count; i++)
             {

@@ -4,6 +4,7 @@ using BaseFrame;
 using KKSFramework.DesignPattern;
 using KKSFramework.LocalData;
 using MasterData;
+using ModestTree;
 using UniRx;
 using Zenject;
 
@@ -191,10 +192,17 @@ namespace AutoChess
 
         public bool CharacterPlacable (CharacterModel characterModel, PositionModel targetPosition)
         {
-            var arountPosition = PathFindingHelper.Instance.GetAroundPositionModel (_allLineModels,
+            var scaledPositions = PathFindingHelper.Instance.GetAroundPositionModel (_allLineModels,
                 targetPosition, characterModel.CharacterScale - 1);
 
-            return arountPosition.All (IsMovablePosition);
+            return scaledPositions.All (position =>
+            {
+                return _allLineModels.ContainsKey (position.Column) &&
+                       _allLineModels[position.Column].ContainIndex (position.Row) &&
+                       !position.Equals (PathFindingHelper.Instance.EmptyPosition) &&
+                       AllOfCharacterModels.Except (characterModel).All (x =>
+                           !x.PositionModel.Equals (position) && !x.PredicatedPositionModel.Equals (position));
+            });
         }
         
         

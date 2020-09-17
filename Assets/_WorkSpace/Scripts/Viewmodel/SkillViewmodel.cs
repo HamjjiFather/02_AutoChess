@@ -181,6 +181,10 @@ namespace AutoChess
                 Debug.Log (
                     $"SkillIndex {skillModel.SkillData.Index}\nCount {skillModel.TargetCharacters.Count}/{i}\nSkill User {skillModel.UseCharacterModel}\nSkill Target {skillModel.TargetCharacters[i]}\nSkill Value {skillModel.SkillValueModels[i].PreApplyValue}");
                 var element = _battleViewmodel.FindCharacterElement (skillModel.TargetCharacters[i]);
+
+                if (element == null || element.ElementData == null || element.ElementData.IsExcuted)
+                    continue;
+                
                 element.ApplySkill (skillModel, skillModel.SkillValueModels[i]);
             }
         }

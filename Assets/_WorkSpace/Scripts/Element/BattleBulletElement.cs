@@ -1,5 +1,4 @@
-﻿using System;
-using Helper;
+﻿using Helper;
 using KKSFramework.Navigation;
 using UniRx;
 using UnityEngine;
@@ -20,8 +19,6 @@ namespace AutoChess
 
 #pragma warning restore CS0649
 
-        private IDisposable _movementDisposable;
-
         private Vector3 _originPosition;
 
         #endregion
@@ -37,27 +34,24 @@ namespace AutoChess
         public override void SetElement (BattleBulletModel elementData)
         {
             ElementData = elementData;
+            var targetPosition = ElementData.Target.position;
             transform.position = ElementData.Origin;
-            Observable.EveryUpdate ()
+            Observable
+                .EveryUpdate ()
                 .TakeUntilDisable (this)
-                .TakeWhile (_ => Vector3.Distance (transform.position, ElementData.Target.position) >= float.Epsilon)
+                .TakeWhile (_ => Vector3.Distance (transform.position, targetPosition) >= float.Epsilon)
                 .Subscribe (_ =>
                 {
                     transform.position =
-                        Vector3.MoveTowards (transform.position, ElementData.Target.position, Time.deltaTime * 5);
+                        Vector3.MoveTowards (transform.position, targetPosition, Time.deltaTime * 5);
                 }, Complete);
 
             void Complete ()
             {
-                _skillViewmodel.ApplySkills (elementData.SkillModel);
+                _skillViewmodel.ApplySkills (ElementData.SkillModel);
                 ObjectPoolingHelper.Despawn (transform);
             }
         }
-
-        #endregion
-
-
-        #region EventMethods
 
         #endregion
     }

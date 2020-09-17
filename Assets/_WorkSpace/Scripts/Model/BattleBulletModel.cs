@@ -1,4 +1,5 @@
-﻿using KKSFramework.DesignPattern;
+﻿using System;
+using KKSFramework.DesignPattern;
 using UnityEngine;
 
 namespace AutoChess
@@ -12,7 +13,7 @@ namespace AutoChess
         public Transform Target;
         
         public SkillModel SkillModel;
-
+        
 #pragma warning disable CS0649
 
 #pragma warning restore CS0649

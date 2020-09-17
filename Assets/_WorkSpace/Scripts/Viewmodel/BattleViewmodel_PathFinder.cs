@@ -210,7 +210,8 @@ namespace AutoChess
 
             var allOfCheckedPositions = new List<PositionModel> {myPosition};
             var findTargetModels = PathFindingHelper.Instance.GetAroundPositionModel (_allLineModels, myPosition)
-                .Where (IsMovablePosition).Select ((x, i) => new BattleTargetResultModel (x)).ToList ();
+                .Where (x => CharacterPlacable (characterModel, x))
+                .Select ((x, i) => new BattleTargetResultModel (x)).ToList ();
 
             var checkedPosition = PathFindingHelper.Instance.EmptyPosition;
             var isCheckAround = CheckArounds ();
@@ -261,11 +262,11 @@ namespace AutoChess
 
             bool GetOtherCharacterAtPosition (CharacterSideType characterSideType, PositionModel targetPositionModel)
             {
-                var foundCharacter = GetAllOfOtherElements (characterSideType)
+                return GetAllOfOtherElements (characterSideType)
                     .Where (x => !x.ElementData.IsExcuted)
-                    .SingleOrDefault (x => x.ElementData.PositionModel.Equals (targetPositionModel));
-
-                return foundCharacter != null;
+                    .SelectMany (x => PathFindingHelper.Instance.GetAroundPositionModel (_allLineModels,
+                        x.ElementData.PositionModel, x.ElementData.CharacterScale))
+                    .Any (x => x.Equals (targetPositionModel));
             }
         }
 
@@ -307,7 +308,7 @@ namespace AutoChess
                 return false;
             }
 
-            var foundLand = equalColumnLands.Last (x => IsMovablePosition (x.LandPosition));
+            var foundLand = equalColumnLands.Last (x => CharacterPlacable (battleCharacterElement.ElementData, x.LandPosition));
             targetPosition = foundLand.LandPosition;
             return true;
         }

@@ -91,11 +91,6 @@ namespace AutoChess
         private List<IDisposable> _registeredDisposables;
 
         /// <summary>
-        /// 생성된 데미지 표시 엘리먼트.
-        /// </summary>
-        private readonly List<BattleDamageElement> _spawnedDamageElements = new List<BattleDamageElement> ();
-
-        /// <summary>
         /// 컴포넌트 패키지.
         /// </summary>
         private BattleCharacterPackage _battleCharacterPackage;
@@ -151,9 +146,6 @@ namespace AutoChess
             _cancellationToken?.Dispose ();
             _registeredDisposables.ForEach (x => x.Dispose ());
             _registeredDisposables.Clear ();
-
-            _spawnedDamageElements.ForEach (element => { ObjectPoolingHelper.Despawn (element.transform); });
-            _spawnedDamageElements.Clear ();
         }
 
 
@@ -287,6 +279,7 @@ namespace AutoChess
                         Target = target.transform
                     };
 
+                    
                     var bulletObj = ObjectPoolingHelper.Spawn<BattleBulletElement> (
                         ResourceRoleType.Bundles.ToString (), ResourcesType.Element.ToString (),
                         character.CharacterData.BulletResName, _bulletParents);
@@ -384,14 +377,6 @@ namespace AutoChess
                 damageElementParents);
             damageElement.GetComponent<RectTransform> ().SetLocalReset ();
             damageElement.SetElement (damageModel);
-            damageElement.SetDespawn (DespawnDamageElement, _cancellationToken.Token).Forget ();
-            _spawnedDamageElements.Add (damageElement);
-
-            void DespawnDamageElement (BattleDamageElement battleDamageElement)
-            {
-                ObjectPoolingHelper.Despawn (battleDamageElement.transform);
-                _spawnedDamageElements.Remove (battleDamageElement);
-            }
         }
 
         /// <summary>

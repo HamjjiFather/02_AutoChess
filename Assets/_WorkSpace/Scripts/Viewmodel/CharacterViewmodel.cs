@@ -35,7 +35,7 @@ namespace AutoChess
         /// 전투 참여 캐릭터 모델.
         /// </summary>
         public ReactiveCollection<CharacterModel> BattleCharacterModels { get; } =
-            new ReactiveCollection<CharacterModel> (Enumerable.Repeat (new CharacterModel(), 8));
+            new ReactiveCollection<CharacterModel> (Enumerable.Repeat (new CharacterModel (), 8));
 
         private readonly int[] _startCharacterIndexes =
         {
@@ -93,12 +93,13 @@ namespace AutoChess
                     TableDataHelper.Instance.GetCharacterLevelByExp (characterBundle.CharacterExps[arrayIndex]);
                 var statusModel = GetBaseStatusModel (characterData, characterLevel, statusGrade);
                 var attackData = Skill.Manager.GetItemByIndex (characterData.AttackIndex);
-                var skillData = Skill.Manager.GetItemByIndex(characterData.SkillIndex);
+                var skillData = Skill.Manager.GetItemByIndex (characterData.SkillIndex);
 
                 characterModel.SetUniqueData (uid, characterBundle.CharacterExps[arrayIndex]);
                 characterModel.SetBaseData (characterData, attackData, skillData);
                 characterModel.SetStatusModel (statusModel, statusGrade);
                 characterModel.SetSide (CharacterSideType.Player);
+                characterModel.SetScale (1);
 
                 characterModel.GetBaseStatusModel (StatusType.Health).SetGradeValue (statusGrade.HealthStatusGrade);
                 characterModel.GetBaseStatusModel (StatusType.Attack).SetGradeValue (statusGrade.AttackStatusGrade);

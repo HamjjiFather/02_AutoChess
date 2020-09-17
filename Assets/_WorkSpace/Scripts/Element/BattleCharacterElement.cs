@@ -93,10 +93,10 @@ namespace AutoChess
                 ResourceRoleType._Animation, ElementData.CharacterData.AnimatorResName);
             battleCharacterPackage.characterAppearanceModule.SetSprite (sprite);
             battleCharacterPackage.characterAppearanceModule.SetRuntimeAnimatorContoller (aniamtorController);
-
             _maxHealth = ElementData.GetTotalStatusValue (StatusType.Health).FloatToInt ();
             battleCharacterPackage.characterAppearanceModule.SetValueOnlyHealthGageValue (_maxHealth, _maxHealth);
             battleCharacterPackage.characterAppearanceModule.SetHealthGageColor (ElementData.CharacterSideType);
+            battleCharacterPackage.characterAppearanceModule.SetScale (ElementData.CharacterScale);
             battleCharacterPackage.battleSystemModule.movingSystemModule.SetMovingTarget (transform);
             SkillGageCallback (0);
         }

@@ -13,10 +13,10 @@ namespace AutoChess
 #pragma warning disable CS0649
         
         [Resolver]
-        private Animator _characterAniamtor;
+        protected Animator characterAniamtor;
 
         [Resolver]
-        private SpriteRenderer _characterImage;
+        protected SpriteRenderer characterImage;
 
 #pragma warning restore CS0649
 
@@ -50,20 +50,20 @@ namespace AutoChess
         /// </summary>
         public void SetSprite (Sprite sprite)
         {
-            _characterImage.sprite = sprite;
+            characterImage.sprite = sprite;
         }
         
         
         public async UniTask PlayAnimation (string animationName, CancellationToken cancellationToken)
         {
-            _characterAniamtor.Play (animationName);
+            characterAniamtor.Play (animationName);
             await UniTask.Delay (TimeSpan.FromSeconds (0.15f), cancellationToken: cancellationToken);
         }
         
 
         public void SetRuntimeAnimatorContoller (RuntimeAnimatorController animatorController)
         {
-            _characterAniamtor.runtimeAnimatorController = animatorController;
+            characterAniamtor.runtimeAnimatorController = animatorController;
         }
 
         #endregion

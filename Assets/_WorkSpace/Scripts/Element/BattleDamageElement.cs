@@ -1,68 +1,56 @@
 using System;
 using System.Linq;
-using System.Threading;
-using Cysharp.Threading.Tasks;
+using Helper;
 using KKSFramework.Navigation;
-using KKSFramework.ResourcesLoad;
+using UniRx;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace AutoChess
 {
-    public class BattleDamageElement : MonoBehaviour, IElementBase<BattleDamageModel>
+    public class BattleDamageElement : ElementBase<BattleDamageModel>
     {
         #region Fields & Property
 
         public Text damageText;
 
         public Image damageTypeImage;
-        
+
         public Animator damageAnimator;
 
         public Color damageColor;
 
         public Color restoreColor;
 
+        public override BattleDamageModel ElementData { get; set; }
+
 #pragma warning disable CS0649
 
 #pragma warning restore CS0649
-
-        private UnityAction<BattleDamageElement> _damageElement;
-
-        #endregion
-
-
-        #region UnityMethods
 
         #endregion
 
 
         #region Methods
 
-        #endregion
-
-
-        #region EventMethods
-
-        #endregion
-
-        public BattleDamageModel ElementData { get; set; }
-        
-        public void SetElement (BattleDamageModel elementData)
+        public override void SetElement (BattleDamageModel elementData)
         {
             ElementData = elementData;
-            damageText.text = ElementData.Amount.ToString();
-            damageText.color = elementData.DamageType == DamageType.Damage ? damageColor : restoreColor;
-            damageTypeImage.gameObject.SetActive ((int)elementData.DamageType >= (int)DamageType.CriticalHeal);
+            damageText.text = ElementData.Amount.ToString ();
+            damageText.color = ElementData.DamageType == DamageType.Damage ? damageColor : restoreColor;
+            damageTypeImage.gameObject.SetActive ((int) ElementData.DamageType >= (int) DamageType.CriticalHeal);
+
+            Observable
+                .Timer (TimeSpan.FromSeconds (damageAnimator.runtimeAnimatorController.animationClips.First ().length))
+                .TakeUntilDisable (this)
+                .Subscribe (_ => { }, Complete);
+
+            void Complete ()
+            {
+                ObjectPoolingHelper.Despawn (transform);
+            }
         }
 
-        public async UniTask SetDespawn (UnityAction<BattleDamageElement> damageElement, CancellationToken token)
-        {
-            await UniTask.Delay (
-                TimeSpan.FromSeconds (damageAnimator.runtimeAnimatorController.animationClips.First ().length), cancellationToken:token);
-            
-            damageElement.Invoke (this);
-        }
+        #endregion
     }
 }

@@ -11,12 +11,6 @@ namespace AutoChess
 #pragma warning disable CS0649
         
         [Resolver]
-        private Animator _characterAniamtor;
-
-        [Resolver]
-        private SpriteRenderer _characterImage;
-
-        [Resolver]
         private GageElement _hpGageElement;
 
         [Resolver]
@@ -64,7 +58,7 @@ namespace AutoChess
 
         public void ChangeSide (bool isLeft)
         {
-            _characterImage.transform.localScale = isLeft ? Vector3.one : new Vector3 (-1, 1, 1);
+            characterImage.transform.localScale = isLeft ? Vector3.one : new Vector3 (-1, 1, 1);
         }
         
 
@@ -88,6 +82,12 @@ namespace AutoChess
         public void SetDirection (float rotationValue)
         {
             _directionTransform.localEulerAngles = new Vector3 (0, 0, rotationValue);
+        }
+
+
+        public void SetScale (int scale)
+        {
+            transform.localScale = new Vector3 (scale, scale, scale);
         }
         
 

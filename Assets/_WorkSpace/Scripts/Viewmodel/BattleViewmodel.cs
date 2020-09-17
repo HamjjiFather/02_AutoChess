@@ -137,6 +137,7 @@ namespace AutoChess
                 characterModel.SetPositionModel (new PositionModel (battleStageModel.StageData.MonsterPosition[index]));
                 characterModel.SetEmptyEquipmentModel ();
                 characterModel.SetSide (CharacterSideType.AI);
+                characterModel.SetScale (battleStageModel.StageData.MonsterScale[index]);
 
                 characterModel.GetBaseStatusModel (StatusType.Health).SetGradeValue (statusGrade.HealthStatusGrade);
                 characterModel.GetBaseStatusModel (StatusType.Attack).SetGradeValue (statusGrade.AttackStatusGrade);
@@ -184,9 +185,19 @@ namespace AutoChess
 
         public BattleCharacterElement FindCharacterElement (CharacterModel characterModel)
         {
-            return AllOfBattleCharacterElements.First (x => x.ElementData == characterModel);
+            return AllOfBattleCharacterElements.FirstOrDefault (x => x.ElementData == characterModel);
         }
 
+
+        public bool CharacterPlacable (CharacterModel characterModel, PositionModel targetPosition)
+        {
+            var arountPosition = PathFindingHelper.Instance.GetAroundPositionModel (_allLineModels,
+                targetPosition, characterModel.CharacterScale - 1);
+
+            return arountPosition.All (IsMovablePosition);
+        }
+        
+        
         #endregion
 
 

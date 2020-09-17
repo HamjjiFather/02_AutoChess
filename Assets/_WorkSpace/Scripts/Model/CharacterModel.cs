@@ -22,8 +22,15 @@ namespace AutoChess
         #region Fields & Property
 
         public bool IsAssigned => !UniqueCharacterId.Equals (0);
-        
 
+        /// <summary>
+        /// 캐릭터 크기.
+        /// </summary>
+        public int CharacterScale = 1;
+        
+        /// <summary>
+        /// 유니크 ID.
+        /// </summary>
         public int UniqueCharacterId;
 
         /// <summary>
@@ -56,7 +63,9 @@ namespace AutoChess
         /// </summary>
         public StatusModel StatusModel;
 
-
+        /// <summary>
+        /// 캐릭터 등급.
+        /// </summary>
         public CharacterBundle.CharacterStatusGrade StatusGrade;
 
         /// <summary>
@@ -152,6 +161,12 @@ namespace AutoChess
         public void SetSide (CharacterSideType sideType)
         {
             CharacterSideType = sideType;
+        }
+
+        
+        public void SetScale (int scale)
+        {
+            CharacterScale = scale;
         }
 
         #endregion

@@ -47,6 +47,11 @@ namespace MasterData
         public string[] MonsterPosition { get; internal set; }
 
         /// <summary>
+        /// 몬스터 크기.
+        /// </summary>
+        public int[] MonsterScale { get; internal set; }
+
+        /// <summary>
         /// 매니저
         /// </summary>
         public static readonly BattleStageManager Manager = new BattleStageManager ();
@@ -75,7 +80,7 @@ namespace MasterData
             {
                 var row = rowData[i];
                 var dataList = row.Split ('\t');
-                if (dataList.Length != 5)
+                if (dataList.Length != 6)
                 {
                     Debug.LogWarning ($"[Path: {filePath}, Row: {i}] 필드 수량 불일치 {dataList.Length} != 5");
                     continue;
@@ -107,7 +112,7 @@ namespace MasterData
             {
                 var row = rowData[i];
                 var dataList = row.Split ('\t');
-                if (dataList.Length != 5)
+                if (dataList.Length != 6)
                 {
                     Debug.LogWarning ($"[Path: {filePath}, Row: {i}] 필드 수량 불일치 {dataList.Length} != 5");
                     continue;
@@ -137,6 +142,7 @@ namespace MasterData
                 MonsterIndexes = ParsingList (dataList[2], int.Parse),
                 MonsterLevels = ParsingList (dataList[3], int.Parse),
                 MonsterPosition = ParsingStringList (dataList[4]),
+                MonsterScale = ParsingList (dataList[5], int.Parse),
             };
             p.PostProcess (dataList);
             BattleStage.Manager.Add (p.Index, p);

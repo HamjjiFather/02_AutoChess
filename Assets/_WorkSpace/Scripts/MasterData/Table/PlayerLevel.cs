@@ -12,9 +12,9 @@ using UnityEngine;
 namespace MasterData
 {
     /// <summary>
-    /// 대상 파일  08_BattleStage.xlsx
+    /// 대상 파일  14_PlayerLevel.xlsx
     /// </summary>
-    public class BattleStage : BaseTable
+    public class PlayerLevel : BaseTable
     {
         /// <summary>
         /// 인덱스
@@ -23,51 +23,57 @@ namespace MasterData
         public int Index { get; internal set; }
         
         /// <summary>
-        /// 보상 경험치
-        /// 보상 경험치
+        /// 실제 레벨
+        /// 실제 레벨
         /// </summary>
-        public int RewardExp { get; internal set; }
+        public int Level { get; internal set; }
         
         /// <summary>
-        /// 출현 몬스터
-        /// 출현 몬스터
+        /// 레벨
+        /// 레벨
         /// </summary>
-        public int[] MonsterIndexes { get; internal set; }
+        public string LevelString { get; internal set; }
         
         /// <summary>
-        /// 출현 몬스터 레벨
-        /// 출현 몬스터 레벨
+        /// 누적 EXP
+        /// 누적 EXP
         /// </summary>
-        public int[] MonsterLevels { get; internal set; }
+        public float AccReqExp { get; internal set; }
         
         /// <summary>
-        /// 출현 몬스터 위치
-        /// 출현 몬스터 위치
+        /// 요구 EXP
+        /// 요구 EXP
         /// </summary>
-        public string[] MonsterPosition { get; internal set; }
+        public float ReqExp { get; internal set; }
+        
+        /// <summary>
+        /// 보정 EXP
+        /// 보정 EXP
+        /// </summary>
+        public float CoExp { get; internal set; }
 
         /// <summary>
         /// 매니저
         /// </summary>
-        public static readonly BattleStageManager Manager = new BattleStageManager ();
+        public static readonly PlayerLevelManager Manager = new PlayerLevelManager ();
     }
 
 
     /// <summary>
-    /// BattleStage 모델의 매니저
+    /// PlayerLevel 모델의 매니저
     /// partial 로 선언되어 있기 때문에 확장 시킬수 있습니다.
     /// </summary>
-    public partial class BattleStageManager : BaseManager<BattleStage>
+    public partial class PlayerLevelManager : BaseManager<PlayerLevel>
     {
-        public BattleStage GetItemByIndex (int index)
+        public PlayerLevel GetItemByIndex (int index)
         {
-            return ContainsKey(index) ? this[index] : throw new KeyNotFoundException($"{nameof(BattleStageManager)}에 {index}가 존재하지 않는다.");
+            return ContainsKey(index) ? this[index] : throw new KeyNotFoundException($"{nameof(PlayerLevelManager)}에 {index}가 존재하지 않는다.");
         }
 
         
         public async UniTask LoadAsync (string basePath)
         {
-            var filePath = $"{basePath}/BattleStage";
+            var filePath = $"{basePath}/PlayerLevel";
             var rowData = await LoadDataAsync (filePath);
 
             // 첫번째 row 는 컬럼의 이름이기 떄문에 제외.
@@ -75,9 +81,9 @@ namespace MasterData
             {
                 var row = rowData[i];
                 var dataList = row.Split ('\t');
-                if (dataList.Length != 5)
+                if (dataList.Length != 6)
                 {
-                    Debug.LogWarning ($"[Path: {filePath}, Row: {i}] 필드 수량 불일치 {dataList.Length} != 5");
+                    Debug.LogWarning ($"[Path: {filePath}, Row: {i}] 필드 수량 불일치 {dataList.Length} != 6");
                     continue;
                 }
 
@@ -93,13 +99,13 @@ namespace MasterData
             }
             await UniTask.Yield ();
 
-            CompletedTableLoad (nameof(BattleStage));
+            CompletedTableLoad (nameof(PlayerLevel));
         }
         
 
         public void Load (string basePath)
         {
-            var filePath = $"{basePath}/BattleStage";
+            var filePath = $"{basePath}/PlayerLevel";
             var rowData = LoadData (filePath);
 
             // 첫번째 row 는 컬럼의 이름이기 떄문에 제외.
@@ -107,9 +113,9 @@ namespace MasterData
             {
                 var row = rowData[i];
                 var dataList = row.Split ('\t');
-                if (dataList.Length != 5)
+                if (dataList.Length != 6)
                 {
-                    Debug.LogWarning ($"[Path: {filePath}, Row: {i}] 필드 수량 불일치 {dataList.Length} != 5");
+                    Debug.LogWarning ($"[Path: {filePath}, Row: {i}] 필드 수량 불일치 {dataList.Length} != 6");
                     continue;
                 }
 
@@ -124,22 +130,23 @@ namespace MasterData
                 }
             }
 
-            CompletedTableLoad (nameof(BattleStage));
+            CompletedTableLoad (nameof(PlayerLevel));
         }
 
 
         private void LoadRow (string[] dataList)
         {
-            var p = new BattleStage
+            var p = new PlayerLevel
             {
                 Index = Parsing (dataList[0], int.Parse),
-                RewardExp = Parsing (dataList[1], int.Parse),
-                MonsterIndexes = ParsingList (dataList[2], int.Parse),
-                MonsterLevels = ParsingList (dataList[3], int.Parse),
-                MonsterPosition = ParsingStringList (dataList[4]),
+                Level = Parsing (dataList[1], int.Parse),
+                LevelString = dataList[2],
+                AccReqExp = Parsing (dataList[3], float.Parse),
+                ReqExp = Parsing (dataList[4], float.Parse),
+                CoExp = Parsing (dataList[5], float.Parse),
             };
             p.PostProcess (dataList);
-            BattleStage.Manager.Add (p.Index, p);
+            PlayerLevel.Manager.Add (p.Index, p);
         }
     }
 }

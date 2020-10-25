@@ -11,7 +11,7 @@ namespace MasterData
 {
     public static class TsvTableData
     {
-        public static int NumberOfTable = 11;
+        public static int NumberOfTable = 12;
         public static bool IsLoaded { get; private set; }
 
         #region Loader
@@ -46,6 +46,8 @@ namespace MasterData
             IncreaseLoadingStepper ();
             await AdventureField.Manager.LoadAsync (basePath);
             IncreaseLoadingStepper ();
+            await PlayerLevel.Manager.LoadAsync (basePath);
+            IncreaseLoadingStepper ();
 
             void IncreaseLoadingStepper ()
             {
@@ -67,6 +69,7 @@ namespace MasterData
             Particle.Manager.Load(basePath);
             Currency.Manager.Load(basePath);
             AdventureField.Manager.Load(basePath);
+            PlayerLevel.Manager.Load(basePath);
         }
 
         #endregion

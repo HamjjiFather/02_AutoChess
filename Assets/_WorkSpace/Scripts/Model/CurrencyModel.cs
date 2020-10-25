@@ -1,14 +1,9 @@
 using KKSFramework.DesignPattern;
+using MasterData;
 using UniRx;
 
 namespace AutoChess
 {
-    public enum CurrencyType
-    {
-        Gold,
-        Soulstone
-    }
-    
     public class CurrencyModel : ModelBase
     {
         #region Fields & Property

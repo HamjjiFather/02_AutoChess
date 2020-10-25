@@ -20,8 +20,6 @@ namespace KKSFramework.Navigation
 
 #pragma warning restore CS0649
 
-        private int _nowLayout;
-
         #endregion
 
 

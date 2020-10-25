@@ -2,6 +2,7 @@
 using BaseFrame.Navigation;
 using Cysharp.Threading.Tasks;
 using Helper;
+using KKSFramework.LocalData;
 using MasterData;
 using UnityEngine;
 
@@ -10,12 +11,14 @@ namespace AutoChess
     public class GameScene : SceneController
     {
         private const string BasePath = "MasterData";
+
         public override async UniTask InitializeAsync (Parameters parameters)
         {
             ProjectInstall.InitViewmodel ();
             await TsvTableData.LoadAsync (BasePath);
-            ProjectInstall.InitLocalDataViewmodel ();
             ProjectInstall.InitTableDataViewmodel ();
+            LocalDataHelper.LoadAllGameData ();
+            ProjectInstall.InitLocalDataViewmodel ();
 
             CreateCommonView ();
             base.InitializeAsync (parameters).Forget ();
@@ -40,7 +43,6 @@ namespace AutoChess
             }
         }
 
-        
         public override Configuration GetRootViewConfiguration ()
         {
             var config = new Configuration.Builder ();

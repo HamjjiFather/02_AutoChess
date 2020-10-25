@@ -1,7 +1,9 @@
-﻿using BaseFrame;
+﻿using System;
+using BaseFrame;
 using Cysharp.Threading.Tasks;
 using KKSFramework.DataBind;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace KKSFramework.Navigation
 {
@@ -14,6 +16,8 @@ namespace KKSFramework.Navigation
         #region Fields & Property
 
         public bool initOnAwake = true;
+        
+        public int nowLayout;
 
 #pragma warning disable CS0649
 
@@ -24,7 +28,7 @@ namespace KKSFramework.Navigation
 
 #pragma warning restore CS0649
 
-        private int _nowLayout;
+        private Action<int> _onChangeSubviewAction;
 
         #endregion
 
@@ -50,18 +54,26 @@ namespace KKSFramework.Navigation
 
         public virtual void SetSubView (int index)
         {
-            if (_nowLayout >= 0 && _nowLayout < _viewLayoutObjs.Length)
-                _viewLayoutObjs[_nowLayout].DisableLayout ().Forget ();
+            if (nowLayout >= 0 && nowLayout < _viewLayoutObjs.Length)
+                _viewLayoutObjs[nowLayout].DisableLayout ().Forget ();
 
-            _nowLayout = index;
-            _viewLayoutObjs[_nowLayout].ActiveLayout ().Forget ();
+            nowLayout = index;
+            _viewLayoutObjs[nowLayout].ActiveLayout ().Forget ();
+            _onChangeSubviewAction.CallSafe (nowLayout);
         }
 
 
         public virtual void CloseViewLayout ()
         {
             _viewLayoutObjs.ForEach (vlo => vlo.DisableLayout ().Forget ());
-            _nowLayout = -1;
+            nowLayout = -1;
+            _onChangeSubviewAction.CallSafe (nowLayout);
+        }
+
+        
+        public void SetChangeAction (Action<int> changeAction)
+        {
+            _onChangeSubviewAction = changeAction;
         }
 
         #endregion

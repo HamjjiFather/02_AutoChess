@@ -14,7 +14,6 @@ namespace KKSFramework.InGame
         {
             base.InstallBindings ();
 
-            LocalDataHelper.LoadAllGameData ();
             TreeNavigation.Instance.SpawnAsync = SpawnView;
             TreeNavigation.Instance.Despawn = DespawnView;
         }

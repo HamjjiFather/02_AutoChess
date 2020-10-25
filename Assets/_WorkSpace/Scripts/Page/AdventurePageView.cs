@@ -1,7 +1,6 @@
 using System;
 using BaseFrame;
 using Cysharp.Threading.Tasks;
-using KKSFramework;
 using KKSFramework.Navigation;
 using UniRx;
 using Zenject;

@@ -28,8 +28,9 @@ namespace AutoChess
 
         #region UnityMethods
 
-        private void Awake ()
+        protected override void Awake ()
         {
+            base.Awake ();
             ProjectContext.Instance.Container.BindInstance (this);
             _viewLayoutLoader.Initialize ();
         }
@@ -41,15 +42,14 @@ namespace AutoChess
 
         protected override void OnPush (Parameters parameters)
         {
-            _statusView.InitializeStatusView ();
+            _statusView.InitializeStatusView (BackToMain);
+            _viewLayoutLoader.SetChangeAction (ChangeViewLayoutLoader);
             BackToMain ();
-        }
 
-
-
-        public void ChangeViewLayout (int index)
-        {
-            _viewLayoutLoader.SetSubView (index);
+            void ChangeViewLayoutLoader (int nowLayout)
+            {
+                _statusView.ConvertButton (nowLayout < 0);
+            }
         }
         
 
@@ -58,7 +58,7 @@ namespace AutoChess
             _viewLayoutLoader.CloseViewLayout ();
         }
 
-
+        
         #endregion
 
 

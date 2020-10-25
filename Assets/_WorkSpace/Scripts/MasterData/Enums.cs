@@ -489,7 +489,12 @@ namespace MasterData
         /// <summary>
         /// 영혼석
         /// </summary>
-        SoulStone = 1
+        SoulStone = 1,
+        
+        /// <summary>
+        /// 계승의 돌
+        /// </summary>
+        StoneOfInheritance = 2
     }
 
     
@@ -537,6 +542,8 @@ namespace MasterData
         
         Currency = 9,
         
-        AdventureField = 10
+        AdventureField = 10,
+        
+        PlayerLevel = 11
     }
 }

@@ -1,20 +1,40 @@
 using BaseFrame;
-using KKSFramework;
+using KKSFramework.DataBind;
+using UniRx;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 using Zenject;
 
 namespace AutoChess
 {
-    public class StatusView : MonoBehaviour
+    public class StatusView : MonoBehaviour, IResolveTarget
     {
         #region Fields & Property
 
-        public CurrencyElement[] currencyElements;
 
 #pragma warning disable CS0649
 
         [Inject]
         private GameViewmodel _gameViewmodel;
+
+        [Inject]
+        private ItemViewmodel _itemViewmodel;
+        
+        [Resolver]
+        private CurrencyElement[] _currencyElements;
+
+        [Resolver]
+        private Property<string> _playerLevelText;
+
+        [Resolver]
+        private Property<float> _playerExpGage;
+
+        [Resolver]
+        private Button _settingButton;
+
+        [Resolver]
+        private Button _backButton;
 
 #pragma warning restore CS0649
 
@@ -28,18 +48,39 @@ namespace AutoChess
 
         #region Methods
 
-        public void InitializeStatusView ()
+        public void InitializeStatusView (UnityAction backButtonAction)
         {
-            currencyElements.ForEach ((x, index) =>
+            _settingButton.onClick.AddListener (OnClickSettingButton);
+            
+            _currencyElements.ForEach ((x, index) => { x.SetElement (_itemViewmodel.CurrencyModels[index]); });
+
+            _playerLevelText.Value = _gameViewmodel.PlayerExpModel.PlayerLevelTable.LevelString;
+            _playerExpGage.Value = _gameViewmodel.PlayerExpModel.ExpProportion;
+            _gameViewmodel.ChangePlayerExpModel.Subscribe (expModel =>
             {
-                x.SetElement (_gameViewmodel.CurrencyModels[index]);
+                _playerExpGage.Value = expModel.IsMaxLevel ? 1 : expModel.Exp / expModel.PlayerLevelTable.ReqExp;
+                _playerLevelText.Value = expModel.PlayerLevelTable.LevelString;
             });
+            
+            _backButton.onClick.AddListener (backButtonAction);
+        }
+
+
+        public void ConvertButton (bool isSetting)
+        {
+            _settingButton.gameObject.SetActive (isSetting);
+            _backButton.gameObject.SetActive (!isSetting);
         }
 
         #endregion
 
 
         #region EventMethods
+
+        private void OnClickSettingButton ()
+        {
+            
+        }
 
         #endregion
     }

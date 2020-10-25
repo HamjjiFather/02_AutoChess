@@ -138,7 +138,7 @@ namespace AutoChess
                 characterModel.SetPositionModel (new PositionModel (battleStageModel.StageData.MonsterPosition[index]));
                 characterModel.SetEmptyEquipmentModel ();
                 characterModel.SetSide (CharacterSideType.AI);
-                characterModel.SetScale (battleStageModel.StageData.MonsterScale[index]);
+                characterModel.SetScale (1);
 
                 characterModel.GetBaseStatusModel (StatusType.Health).SetGradeValue (statusGrade.HealthStatusGrade);
                 characterModel.GetBaseStatusModel (StatusType.Attack).SetGradeValue (statusGrade.AttackStatusGrade);

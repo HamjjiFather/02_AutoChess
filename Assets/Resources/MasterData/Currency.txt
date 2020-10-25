@@ -1,3 +1,4 @@
 Index	CurrencyType
 12000	Gold
 12001	SoulStone
+12002	StoneOfInheritance

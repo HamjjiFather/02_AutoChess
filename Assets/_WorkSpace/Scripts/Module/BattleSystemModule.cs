@@ -175,6 +175,7 @@ namespace AutoChess
 
             switch (_battleState)
             {
+                // 아무것도 아님.
                 case BattleState.None:
                     break;
 
@@ -369,6 +370,7 @@ namespace AutoChess
         {
             var damageModel = new BattleDamageModel
             {
+                //
                 Amount = (int) skillValue,
                 DamageType = damageType
             };

@@ -21,9 +21,6 @@ namespace AutoChess
         [Resolver]
         private BattleCharacterListArea _battleCharacterListArea;
 
-        [Resolver]
-        private Button _backButton;
-        
         [Inject]
         private CharacterViewmodel _characterViewmodel;
         
@@ -36,7 +33,6 @@ namespace AutoChess
         
         private void Awake ()
         {
-            _backButton.onClick.AddListener (ClickBackButton);
             _equipmentInfoArea.SetBattleCharacterListComponent (_battleCharacterListArea);
         }
 
@@ -61,11 +57,7 @@ namespace AutoChess
 
 
         #region EventMethods
-        
-        private void ClickBackButton ()
-        {
-            _gamePageView.BackToMain ();
-        }
+
         
         private void ClickEquipmentElement (EquipmentModel equipmentModel)
         {

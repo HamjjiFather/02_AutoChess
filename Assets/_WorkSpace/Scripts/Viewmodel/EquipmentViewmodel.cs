@@ -1,11 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using BaseFrame;
-using KKSFramework;
 using KKSFramework.DesignPattern;
 using KKSFramework.LocalData;
 using MasterData;
-using UnityEditor;
 using UnityEngine;
 using Zenject;
 
@@ -24,8 +22,13 @@ namespace AutoChess
 
         private int _lastUniqueId;
 
+        /// <summary>
+        /// 장비.
+        /// </summary>
         private readonly Dictionary<int, EquipmentModel> _equipmentModels = new Dictionary<int, EquipmentModel> ();
+        
         public Dictionary<int, EquipmentModel> EquipmentModels => _equipmentModels;
+        
 
         private static EquipmentModel _emptyEquipmentModel = new EquipmentModel ();
         public static EquipmentModel EmptyEquipmentModel => _emptyEquipmentModel;

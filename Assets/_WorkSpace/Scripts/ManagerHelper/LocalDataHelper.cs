@@ -15,6 +15,15 @@ namespace KKSFramework.LocalData
         public int LastEquipmentUniqueId;
     }
 
+    
+    [Serializable]
+    public class PlayerBundle : Bundle
+    {
+        public int Level;
+
+        public int Exp;
+    }
+
 
     [Serializable]
     public class CharacterBundle : Bundle
@@ -120,6 +129,10 @@ namespace KKSFramework.LocalData
         /// </summary>
         public static void LoadAllGameData ()
         {
+            var playerBundle = 
+                LocalDataManager.Instance.LoadGameData<PlayerBundle> (LocalDataClass.PlayerBundle);
+            LocalDataClass.PlayerBundle = playerBundle;
+            
             var characterBundle =
                 LocalDataManager.Instance.LoadGameData<CharacterBundle> (LocalDataClass.CharacterBundle);
             LocalDataClass.CharacterBundle = characterBundle;
@@ -141,6 +154,12 @@ namespace KKSFramework.LocalData
             LocalDataClass.GameBundle = gameBundle;
         }
 
+
+        public static PlayerBundle GetPlayerBundle ()
+        {
+            return LocalDataClass.PlayerBundle;
+        }
+        
 
         public static CharacterBundle GetCharacterBundle ()
         {
@@ -274,6 +293,8 @@ namespace KKSFramework.LocalData
         public class LocalData
         {
             public GameBundle GameBundle = new GameBundle ();
+            
+            public PlayerBundle PlayerBundle = new PlayerBundle ();
 
             public CharacterBundle CharacterBundle = new CharacterBundle ();
 

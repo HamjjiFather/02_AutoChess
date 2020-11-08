@@ -61,6 +61,34 @@ namespace AutoChess
             var firstElementData = _listElements.First ().ElementData;
             firstElementData.ElementClick.Invoke (firstElementData.CharacterModel);
         }
+        
+        
+        public void SetArea (UnityAction<CharacterModel> areaData, List<CharacterModel> characterModels)
+        {
+            if (!_characterViewmodel.IsDeathCharacterDataChanged) return;
+            _characterViewmodel.IsDeathCharacterDataChanged = false;
+
+            _listElements.ForEach (element => ObjectPoolingHelper.Despawn (element.transform));
+            _listElements.Clear ();
+
+            characterModels.ForEach (characterModel =>
+            {
+                var element = ObjectPoolingHelper.Spawn<CharacterInfoListElement> (
+                    ResourceRoleType.Bundles.ToString (),
+                    ResourcesType.Element.ToString (), nameof (CharacterInfoListElement), _contents);
+
+                element.SetElement (new CharacterInfoListElementModel
+                {
+                    CharacterModel = characterModel,
+                    ElementClick = areaData
+                });
+                _listElements.Add (element);
+            });
+
+            var firstElementData = _listElements.First ().ElementData;
+            firstElementData.ElementClick.Invoke (firstElementData.CharacterModel);
+        }
+        
 
         #endregion
 

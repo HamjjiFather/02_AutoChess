@@ -77,8 +77,8 @@ namespace AutoChess
         {
             return sideType == CharacterSideType.Player && skillTarget == SkillTarget.Enemy ||
                    sideType == CharacterSideType.AI && skillTarget == SkillTarget.Ally
-                ? AiCharacterElements.Where (x => !x.ElementData.IsExcuted)
-                : PlayerCharacterElements.Where (x => !x.ElementData.IsExcuted);
+                ? AiCharacterElements.Where (x => !x.ElementData.CharacterDeathInfo.Death)
+                : PlayerCharacterElements.Where (x => !x.ElementData.CharacterDeathInfo.Death);
         }
 
 
@@ -90,7 +90,7 @@ namespace AutoChess
         public IEnumerable<BattleCharacterElement> GetAllOfOtherElementsNotExcuted (CharacterSideType sideType)
         {
             return (sideType == CharacterSideType.Player ? AiCharacterElements : PlayerCharacterElements).Where (x =>
-                !x.ElementData.IsExcuted);
+                !x.ElementData.CharacterDeathInfo.Death);
         }
 
 
@@ -102,7 +102,7 @@ namespace AutoChess
         public IEnumerable<BattleCharacterElement> GetAllOfEqualElementsNotExcuted (CharacterSideType sideType)
         {
             return (sideType == CharacterSideType.Player ? PlayerCharacterElements : AiCharacterElements).Where (x =>
-                !x.ElementData.IsExcuted);
+                !x.ElementData.CharacterDeathInfo.Death);
         }
 
 
@@ -263,7 +263,7 @@ namespace AutoChess
             bool GetOtherCharacterAtPosition (CharacterSideType characterSideType, PositionModel targetPositionModel)
             {
                 return GetAllOfOtherElements (characterSideType)
-                    .Where (x => !x.ElementData.IsExcuted)
+                    .Where (x => !x.ElementData.CharacterDeathInfo.Death)
                     .SelectMany (x => PathFindingHelper.Instance.GetAroundPositionModel (_allLineModels,
                         x.ElementData.PositionModel, x.ElementData.CharacterScale))
                     .Any (x => x.Equals (targetPositionModel));
@@ -290,7 +290,7 @@ namespace AutoChess
                 battleCharacterElement.ElementData.SkillData.SkillTarget);
 
             var foundModel = targetElements
-                .Where (x => !x.ElementData.IsExcuted)
+                .Where (x => !x.ElementData.CharacterDeathInfo.Death)
                 .MinSource (x => PathFindingHelper.Instance.Distance (_allLineModels,
                     battleCharacterElement.ElementData.PositionModel, x.ElementData.PositionModel));
             targetElement = foundModel;

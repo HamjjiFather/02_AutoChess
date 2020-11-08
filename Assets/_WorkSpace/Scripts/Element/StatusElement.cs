@@ -1,25 +1,31 @@
 using System.Linq;
 using BaseFrame;
 using Helper;
+using KKSFramework.DataBind;
 using KKSFramework.Navigation;
 using MasterData;
 using UnityEngine.UI;
 
 namespace AutoChess
 {
-    public class StatusElement : ElementBase<BaseStatusModel>
+    public class StatusElement : ElementBase<BaseStatusModel>, IResolveTarget
     {
         #region Fields & Property
 
         public Image statusIconImage;
 
-        public Text statusNameText;
-
-        public Text statusValueText;
-
-        public Text statusGradeText;
 
 #pragma warning disable CS0649
+
+        [Resolver]
+        private Property<string> _statusNameText;
+
+        [Resolver]
+        private Property<string> _statusValueText;
+
+        [Resolver]
+        private Property<string> _statusGradeText;
+
 
 #pragma warning restore CS0649
 
@@ -40,36 +46,36 @@ namespace AutoChess
             var grade = StatusGradeRange.Manager.Values.Last (statusGrade =>
                 statusGrade.Min <= baseStatusModel.GradeValue && statusGrade.Max > baseStatusModel.GradeValue);
 
-            statusGradeText.text = grade.GradeString;
-            statusNameText.text = LocalizeHelper.FromName (ElementData.StatusData.NameKey);
-            statusValueText.text = ElementData.DisplayValue;
+            _statusGradeText.Value = grade.GradeString;
+            _statusNameText.Value = LocalizeHelper.FromName (ElementData.StatusData.NameKey);
+            _statusValueText.Value = ElementData.DisplayValue;
         }
-        
-        
+
+
         /// <summary>
         /// 캐릭터 능력치 표시.
         /// </summary>
         public void SetCharacterElement (StatusType statusType, CharacterModel characterModel)
         {
             ElementData = characterModel.GetBaseStatusModel (statusType);
-            
-            var equipmentStatusValue  = characterModel.EquipmentStatusModel.GetStatusValue (statusType);
+
+            var equipmentStatusValue = characterModel.EquipmentStatusModel.GetStatusValue (statusType);
             var grade = StatusGradeRange.Manager.Values.Last (statusGrade =>
                 statusGrade.Min <= ElementData.GradeValue && statusGrade.Max > ElementData.GradeValue);
             var totalValue = ElementData.CombinedDisplayValue (equipmentStatusValue);
             var displayValueString = equipmentStatusValue.IsZero ()
-                ? ElementData.DisplayValue : $"{totalValue} + ({characterModel.EquipmentStatusModel.DisplayValue (statusType)})";
+                ? ElementData.DisplayValue
+                : $"{totalValue} + ({characterModel.EquipmentStatusModel.DisplayValue (statusType)})";
 
-            statusGradeText.text = grade.GradeString;
-            statusNameText.text = LocalizeHelper.FromName (ElementData.StatusData.NameKey);
-            statusValueText.text = displayValueString;
+            _statusGradeText.Value = grade.GradeString;
+            _statusNameText.Value = LocalizeHelper.FromName (ElementData.StatusData.NameKey);
+            _statusValueText.Value = displayValueString;
         }
-        
-        
-        
+
+
         public void SetSubValueText (string subValueText)
         {
-            statusValueText.text += subValueText;
+            _statusValueText.Value += subValueText;
         }
 
         #endregion

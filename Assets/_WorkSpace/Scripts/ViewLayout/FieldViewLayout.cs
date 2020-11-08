@@ -9,6 +9,7 @@ using UniRx;
 using Cysharp.Threading.Tasks;
 using Helper;
 using KKSFramework.DataBind;
+using KKSFramework.InGame;
 using KKSFramework.ResourcesLoad;
 using KKSFramework.UI;
 using MasterData;
@@ -119,15 +120,15 @@ namespace AutoChess
                 var parameter = new Parameters
                 {
                     {
-                        "struct",
-                        new MessagePopupStruct
+                        "Model",
+                        new NextFloorConfirmPopup.Model
                         {
-                            ConfirmAction = ConfirmNextFloor,
-                            Message = "?다음 층으로 이동하시겠습니까?"
+                            confirmAction = ConfirmNextFloor
                         }
                     }
                 };
-                TreeNavigationHelper.PushPopup (Popup.Message, parameter);
+                
+                TreeNavigationHelper.PushPopup (nameof(NextFloorConfirmPopup), parameter);
             });
         }
 
@@ -254,7 +255,7 @@ namespace AutoChess
                     (Action)ExitAdventure
                 }
             };
-            TreeNavigationHelper.PushPopup (Popup.AdventureResultPopup, param);
+            TreeNavigationHelper.PushPopup (nameof(AdventureResultPopup), param);
             Debug.Log ("confirm reward adventure");
         }
 
@@ -265,7 +266,7 @@ namespace AutoChess
         private void ExitAdventure ()
         {
             Debug.Log ("exit adventure");
-            TreeNavigationHelper.PushPage (Page.GamePage);
+            TreeNavigationHelper.PushPage (nameof(GamePage));
         }
 
 
@@ -355,7 +356,7 @@ namespace AutoChess
 
         private void ClickFormationButton ()
         {
-            TreeNavigationHelper.PushPopup (Popup.FormationPopup);
+            TreeNavigationHelper.PushPopup (nameof(FormationPopup));
         }
         
         #endregion

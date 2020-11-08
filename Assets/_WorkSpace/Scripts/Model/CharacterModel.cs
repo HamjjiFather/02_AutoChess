@@ -17,8 +17,20 @@ namespace AutoChess
     {
     }
 
+
+
     public class CharacterModel : ModelBase
     {
+        /// <summary>
+        /// 사망 정보.
+        /// </summary>
+        public struct DeathInfo
+        {
+            public bool Death;
+
+            public string DeathDate;
+        }
+        
         #region Fields & Property
 
         public bool IsAssigned => !UniqueCharacterId.Equals (0);
@@ -94,9 +106,9 @@ namespace AutoChess
         public CharacterSideType CharacterSideType;
         
         /// <summary>
-        /// 사망 여부.
+        /// 사망 정보.
         /// </summary>
-        public bool IsExcuted;
+        public DeathInfo CharacterDeathInfo;
         
         /// <summary>
         /// 아이콘 이미지 리소스.

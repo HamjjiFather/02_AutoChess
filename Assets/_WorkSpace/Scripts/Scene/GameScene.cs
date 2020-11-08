@@ -2,6 +2,7 @@
 using BaseFrame.Navigation;
 using Cysharp.Threading.Tasks;
 using Helper;
+using KKSFramework.InGame;
 using KKSFramework.LocalData;
 using MasterData;
 using UnityEngine;
@@ -27,26 +28,20 @@ namespace AutoChess
             {
             }
 
-            void OpenQuitPopup ()
+            async void OpenQuitPopup ()
             {
-                var param = new Parameters
-                {
-                    {
-                        "struct", new MessagePopupStruct
-                        {
-                            ConfirmAction = Application.Quit,
-                            Message = "?게임을 나가시겠습니까?"
-                        }
-                    }
-                };
-                TreeNavigationHelper.PushPopup (Popup.Message, param);
+                var param = TreeNavigationHelper.SpawnParam ();
+                param["msg"] = "?게임을 나가시겠습니까?";
+                var popupCode = await TreeNavigationHelper.WaitForPopPushPopup (nameof(MessagePopup), param);
+                if (popupCode == PopupEndCode.Ok)
+                    Application.Quit ();
             }
         }
 
         public override Configuration GetRootViewConfiguration ()
         {
             var config = new Configuration.Builder ();
-            return config.SetName (Page.GamePage.ToString (), true)
+            return config.SetName (nameof(GamePage), true)
                 .SetLayer (ContentLayer.Page)
                 .Build ();
         }

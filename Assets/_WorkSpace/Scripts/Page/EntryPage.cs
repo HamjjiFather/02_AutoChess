@@ -2,7 +2,7 @@
 
 namespace KKSFramework.InGame
 {
-    public class EntryPageView : PageController
+    public class EntryPage : PageController
     {
         private const float WaitSeconds = 2f;
     }

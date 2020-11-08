@@ -12,7 +12,7 @@ using Random = UnityEngine.Random;
 
 namespace AutoChess
 {
-    public class CharacterViewmodel : ViewModelBase
+    public partial class CharacterViewmodel : ViewModelBase
     {
         #region Fields & Property
 
@@ -28,14 +28,23 @@ namespace AutoChess
 
         private int _lastUniqueId;
 
-        private readonly List<CharacterModel> _allCharacterModels = new List<CharacterModel> ();
-        public List<CharacterModel> AllCharacterModels => _allCharacterModels;
+        /// <summary>
+        /// 모든 캐릭터.
+        /// </summary>
+        public List<CharacterModel> AllCharacterModels { get; private set; } = new List<CharacterModel> ();
+
+        /// <summary>
+        /// 사망한 모든 캐릭터.
+        /// </summary>
+        public List<CharacterModel> AllDeathCharacterModels => AllCharacterModels.Where (x => x.CharacterDeathInfo.Death).ToList ();
 
         /// <summary>
         /// 전투 참여 캐릭터 모델.
         /// </summary>
         public ReactiveCollection<CharacterModel> BattleCharacterModels { get; } =
             new ReactiveCollection<CharacterModel> (Enumerable.Repeat (new CharacterModel (), 8));
+
+        
 
         private readonly int[] _startCharacterIndexes =
         {
@@ -47,6 +56,10 @@ namespace AutoChess
 
         public bool IsDataChanged { get; set; }
 
+
+        public bool IsDeathCharacterDataChanged { get; set; }
+
+
         public static BaseStatusModel EmptyStatusModel = new BaseStatusModel ();
 
         #endregion
@@ -54,6 +67,7 @@ namespace AutoChess
 
         public override void Initialize ()
         {
+            Initialize_Employ ();
         }
 
 
@@ -73,7 +87,7 @@ namespace AutoChess
             {
                 _startCharacterIndexes.ForEach ((index, arrayIndex) =>
                 {
-                    var characterModel = NewCharacter (index);
+                    var characterModel = NewCharacter (index, AllCharacterModels);
                     BattleCharacterModels[arrayIndex] = characterModel;
                 });
 
@@ -112,7 +126,15 @@ namespace AutoChess
                     equipmentIds.EquipmentUIds.Select (x => _equipmentViewmodel.GetEquipmentModel (x));
                 characterModel.SetEquipmentModel (equipmentModels);
 
-                _allCharacterModels.Add (characterModel);
+                AllCharacterModels.Add (characterModel);
+            });
+            
+            characterBundle.BattleCharacterUniqueIds.ForEach ((uid, arrayIndex) =>
+            {
+                if (uid == Constants.INVALID_INDEX)
+                    return;
+                
+                var characterModel = AllCharacterModels.Single (x => x.UniqueCharacterId.Equals (uid));
                 BattleCharacterModels[arrayIndex] = characterModel;
             });
 
@@ -145,17 +167,17 @@ namespace AutoChess
                 model.GetBaseStatusModel (StatusType.Defense).SetGradeValue (statusGrade.DefenseStatusGrade);
             });
 
-            LocalDataHelper.SaveCharacterExpData (_allCharacterModels.Select (x => x.Exp.Value).ToList ());
+            LocalDataHelper.SaveCharacterExpData (AllCharacterModels.Select (x => x.Exp.Value).ToList ());
         }
 
 
         public void SaveCharacterData ()
         {
             LocalDataHelper.SaveCharacterIdData (
-                _allCharacterModels.Select (x => x.UniqueCharacterId).ToList (),
-                _allCharacterModels.Select (x => x.CharacterData.Index).ToList (),
-                _allCharacterModels.Select (x => x.Exp.Value).ToList (),
-                _allCharacterModels.Select (x =>
+                AllCharacterModels.Select (x => x.UniqueCharacterId).ToList (),
+                AllCharacterModels.Select (x => x.CharacterData.Index).ToList (),
+                AllCharacterModels.Select (x => x.Exp.Value).ToList (),
+                AllCharacterModels.Select (x =>
                         new CharacterBundle.CharacterEquipmentUIds (x.EquipmentStatusModel.EquipmentUId.ToList ()))
                     .ToList ());
         }
@@ -163,10 +185,10 @@ namespace AutoChess
         public void SaveCharacterStatusGradeData ()
         {
             LocalDataHelper.SaveCharacterStatusGradeData (
-                _allCharacterModels.Select (x => x.StatusModel.GetStatusGradeValue (StatusType.Health)).ToList (),
-                _allCharacterModels.Select (x => x.StatusModel.GetStatusGradeValue (StatusType.Attack)).ToList (),
-                _allCharacterModels.Select (x => x.StatusModel.GetStatusGradeValue (StatusType.AbilityPoint)).ToList (),
-                _allCharacterModels.Select (x => x.StatusModel.GetStatusGradeValue (StatusType.Defense)).ToList ());
+                AllCharacterModels.Select (x => x.StatusModel.GetStatusGradeValue (StatusType.Health)).ToList (),
+                AllCharacterModels.Select (x => x.StatusModel.GetStatusGradeValue (StatusType.Attack)).ToList (),
+                AllCharacterModels.Select (x => x.StatusModel.GetStatusGradeValue (StatusType.AbilityPoint)).ToList (),
+                AllCharacterModels.Select (x => x.StatusModel.GetStatusGradeValue (StatusType.Defense)).ToList ());
         }
 
 
@@ -180,7 +202,7 @@ namespace AutoChess
         /// <summary>
         /// 캐릭터 획득.
         /// </summary>
-        public CharacterModel NewCharacter (int characterIndex)
+        public CharacterModel NewCharacter (int characterIndex, List<CharacterModel> modelDatas)
         {
             var characterModel = new CharacterModel ();
             var characterData = Character.Manager.GetItemByIndex (characterIndex);
@@ -195,7 +217,7 @@ namespace AutoChess
             characterModel.SetStatusModel (characterStatus);
             characterModel.SetEmptyEquipmentModel ();
             SetStatusGradeValue ();
-            _allCharacterModels.Add (characterModel);
+            modelDatas.Add (characterModel);
 
             return characterModel;
 
@@ -240,7 +262,7 @@ namespace AutoChess
 
         public CharacterModel GetCharacterModel (int uid)
         {
-            return _allCharacterModels[uid];
+            return AllCharacterModels[uid];
         }
 
 

@@ -10,19 +10,6 @@ using UnityEngine.UI;
 
 namespace AutoChess
 {
-    public struct MessagePopupStruct
-    {
-        public Action ConfirmAction;
-
-        public string Message;
-
-        public MessagePopupStruct (Action confirmAction, string message)
-        {
-            ConfirmAction = confirmAction;
-            Message = message;
-        }
-    }
-
     public class MessagePopup : PopupController, IResolveTarget
     {
         #region Fields & Property
@@ -39,6 +26,8 @@ namespace AutoChess
 
         private Action _confirmAction;
 
+        public const string MessagePopupStringKey = "message";
+
         #endregion
 
 
@@ -54,18 +43,15 @@ namespace AutoChess
 
 
         #region Methods
-
         
         
-        
-        protected override void OnPush (Parameters pushValue = null)
+        protected override void OnPush (Parameters pushValue)
         {
             if (pushValue == null)
                 return;
 
-            var msgStruct = (MessagePopupStruct) pushValue.GetValue<MessagePopupStruct> ("struct");
-            _confirmAction = msgStruct.ConfirmAction;
-            _popupMessageText.text = msgStruct.Message;
+            var msg = pushValue.GetValue<string> (MessagePopupStringKey);
+            _popupMessageText.text = msg;
             base.OnPush (pushValue);
         }
 
@@ -84,6 +70,7 @@ namespace AutoChess
 
         private void ClickConfirmButton ()
         {
+            SetResult (PopupEndCode.Ok);
             TreeNavigationHelper.BackKey ();
             _confirmAction.CallSafe ();
         }

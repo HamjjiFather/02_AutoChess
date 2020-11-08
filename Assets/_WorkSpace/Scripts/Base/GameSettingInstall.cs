@@ -12,12 +12,21 @@ namespace AutoChess
 
         public Color aiHealthGageColor;
 
+        public Color enoughPriceColor;
+
+        public Color notEnoughPriceColor;
+
         public Color[] statusColor;
 
         public Color GetStatusColor (StatusType statusType)
         {
             var arrayIndex = (int) statusType - 1;
             return arrayIndex <= statusColor.Length ? statusColor[(int) statusType - 1] : Color.white;
+        }
+
+        public Color GetPriceColor (bool isEnough)
+        {
+            return isEnough ? enoughPriceColor : notEnoughPriceColor;
         }
     }
 

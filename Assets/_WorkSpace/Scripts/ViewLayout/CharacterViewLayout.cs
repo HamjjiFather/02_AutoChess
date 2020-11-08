@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using KKSFramework.DataBind;
+using KKSFramework.InGame;
 using KKSFramework.Navigation;
 using UnityEngine.UI;
 using Zenject;
@@ -26,8 +27,6 @@ namespace AutoChess
 
 #pragma warning restore CS0649
 
-        private GamePageView _gamePageView;
-
         #endregion
 
 
@@ -40,7 +39,6 @@ namespace AutoChess
 
         public override void Initialize ()
         {
-            _gamePageView = ProjectContext.Instance.Container.Resolve<GamePageView> ();
             base.Initialize ();
         }
 

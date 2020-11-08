@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using BaseFrame;
 using Cysharp.Threading.Tasks;
 using KKSFramework.Navigation;
@@ -7,7 +8,7 @@ using Zenject;
 
 namespace AutoChess
 {
-    public class AdventurePageView : PageController
+    public class AdventurePage : PageController
     {
         #region Fields & Property
 
@@ -43,7 +44,7 @@ namespace AutoChess
 
         #region UnityMethods
 
-        private void Awake ()
+        protected override void Awake ()
         {
             ProjectContext.Instance.Container.BindInstance (battleCharacterListArea);
             battleCharacterListArea.SetArea (_characterViewmodel.BattleCharacterModels);
@@ -80,6 +81,12 @@ namespace AutoChess
                 {
                     viewLayoutLoader.SetSubView (0);
                     fieldViewLayout.EndBattle (isWin);
+
+                    // 모든 유닛 사망 여부 체크.
+                    if (_characterViewmodel.BattleCharacterModels.All (x => x.CharacterDeathInfo.Death))
+                    {
+                        
+                    }
                 });
             }
             

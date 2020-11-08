@@ -23,7 +23,7 @@ namespace KKSFramework.InGame
         public override Configuration GetRootViewConfiguration ()
         {
             var config = new Configuration.Builder ();
-            return config.SetName (Page.EntyPage.ToString (), true)
+            return config.SetName (nameof(EntryPage), true)
                 .SetLayer (ContentLayer.Page)
                 .Build ();
         }

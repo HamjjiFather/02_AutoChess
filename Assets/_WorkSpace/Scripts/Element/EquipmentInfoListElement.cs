@@ -1,6 +1,5 @@
 using Helper;
 using KKSFramework.Navigation;
-using KKSFramework.ResourcesLoad;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -49,17 +48,24 @@ namespace AutoChess
 
         #region EventMethods
 
-        public void SetElement (EquipmentInfoListElementModel elementData)
+        public virtual void SetElement (EquipmentInfoListElementModel elementData)
         {
-            starGradeArea.SetArea (elementData.EquipmentModel.StarGrade);
-            equipmentImage.sprite = elementData.EquipmentModel.IconImageResources;
-            equipmentNameText.text = LocalizeHelper.FromName (elementData.EquipmentModel.EquipmentData.Name);
+            ElementData = elementData;
+            SetBaseInfo ();
             
             elementButton.onClick.RemoveAllListeners ();
             elementButton.onClick.AddListener (() =>
             {
                 elementData.ElementClick.Invoke (elementData.EquipmentModel);
             });
+        }
+
+
+        protected void SetBaseInfo ()
+        {
+            starGradeArea.SetArea (ElementData.EquipmentModel.StarGrade);
+            equipmentImage.sprite = ElementData.EquipmentModel.IconImageResources;
+            equipmentNameText.text = LocalizeHelper.FromName (ElementData.EquipmentModel.EquipmentData.Name);
         }
         
         #endregion

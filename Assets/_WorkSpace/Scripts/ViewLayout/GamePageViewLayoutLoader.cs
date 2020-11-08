@@ -12,18 +12,18 @@ namespace AutoChess
     public class GamePageViewLayoutLoader : ViewLayoutLoaderWithButton
     {
         #region Fields & Property
-        
+
 #pragma warning disable CS0649
-        
+
         [Resolver]
         private ButtonExtension _formationButton;
-        
+
         [Resolver]
         private ButtonExtension _fieldViewButton;
 
 #pragma warning restore CS0649
 
-        private GamePageView _gamePageView;
+        private GamePage _gamePage;
 
         #endregion
 
@@ -46,15 +46,15 @@ namespace AutoChess
 
 
         #region EventMethods
-        
+
         private void ClickFieldButton ()
         {
-            TreeNavigationHelper.PushRootPage (Page.AdventurePage, transitionType:TransitionType.Fade);
+            TreeNavigationHelper.PushRootPage (nameof (AdventurePage), transitionType: TransitionType.Fade);
         }
-        
+
         private void ClickFormationButton ()
         {
-            TreeNavigationHelper.PushPopup (Popup.FormationPopup);
+            TreeNavigationHelper.PushPopup (nameof (FormationPopup));
         }
 
         #endregion

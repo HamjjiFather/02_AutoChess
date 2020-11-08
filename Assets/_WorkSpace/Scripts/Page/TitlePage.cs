@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Scene = Helper.Scene;
 
-namespace AutoChess
+namespace KKSFramework.InGame
 {
-    public class TitlePageView : PageController
+    public class TitlePage : PageController
     {
         #region Fields & Property
 

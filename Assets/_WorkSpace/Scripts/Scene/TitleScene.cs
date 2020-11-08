@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using AutoChess;
 using BaseFrame;
 using BaseFrame.Navigation;
 using Cysharp.Threading.Tasks;
@@ -30,7 +31,7 @@ namespace KKSFramework.InGame
         public override Configuration GetRootViewConfiguration ()
         {
             var config = new Configuration.Builder ();
-            return config.SetName (Page.TitlePage.ToString (), true)
+            return config.SetName (nameof(TitlePage), true)
                 .SetLayer (ContentLayer.Page)
                 .Build ();
         }

@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: GameSetting
   m_EditorClassIdentifier: 
   gameSetting:
-    playerHealthGageColor: {r: 0.23113209, g: 0.85, b: 0.24050851, a: 1}
-    aiHealthGageColor: {r: 1, g: 0.2, b: 0.15, a: 1}
     baseCharacterUniqueId: 100000
     baseEquipmentUniqueId: 200000
   commonColorSetting:
     playerHealthGageColor: {r: 0.23137257, g: 0.85098046, b: 0.2392157, a: 1}
     aiHealthGageColor: {r: 1, g: 0.20000002, b: 0.14901961, a: 1}
+    enoughPriceColor: {r: 1, g: 1, b: 1, a: 1}
+    notEnoughPriceColor: {r: 1, g: 0.20000002, b: 0.14901961, a: 1}
     statusColor:
     - {r: 1, g: 0.20000002, b: 0.14901961, a: 1}
     - {r: 1, g: 0, b: 0, a: 1}

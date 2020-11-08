@@ -1,5 +1,6 @@
 using BaseFrame;
 using KKSFramework.DataBind;
+using MasterData;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,7 +13,6 @@ namespace AutoChess
     {
         #region Fields & Property
 
-
 #pragma warning disable CS0649
 
         [Inject]
@@ -20,7 +20,7 @@ namespace AutoChess
 
         [Inject]
         private ItemViewmodel _itemViewmodel;
-        
+
         [Resolver]
         private CurrencyElement[] _currencyElements;
 
@@ -51,8 +51,11 @@ namespace AutoChess
         public void InitializeStatusView (UnityAction backButtonAction)
         {
             _settingButton.onClick.AddListener (OnClickSettingButton);
-            
-            _currencyElements.ForEach ((x, index) => { x.SetElement (_itemViewmodel.CurrencyModels[index]); });
+
+            _currencyElements.ForEach ((x, index) =>
+            {
+                x.SetElement (_itemViewmodel.CurrencyModels[(CurrencyType) index]);
+            });
 
             _playerLevelText.Value = _gameViewmodel.PlayerExpModel.PlayerLevelTable.LevelString;
             _playerExpGage.Value = _gameViewmodel.PlayerExpModel.ExpProportion;
@@ -61,7 +64,7 @@ namespace AutoChess
                 _playerExpGage.Value = expModel.IsMaxLevel ? 1 : expModel.Exp / expModel.PlayerLevelTable.ReqExp;
                 _playerLevelText.Value = expModel.PlayerLevelTable.LevelString;
             });
-            
+
             _backButton.onClick.AddListener (backButtonAction);
         }
 
@@ -79,7 +82,6 @@ namespace AutoChess
 
         private void OnClickSettingButton ()
         {
-            
         }
 
         #endregion

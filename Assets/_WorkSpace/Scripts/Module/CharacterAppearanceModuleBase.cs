@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
 using KKSFramework.DataBind;
 using UnityEngine;
 
@@ -37,7 +38,7 @@ namespace AutoChess
         /// <summary>
         /// 캐릭터 설정.
         /// </summary>
-        [Bind]
+        [Bind, UsedImplicitly]
         public void SetCharacterAppearance (CharacterModel characterModel)
         {
             SetSprite (characterModel.IconImageResources);

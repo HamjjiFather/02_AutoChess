@@ -124,7 +124,7 @@ namespace AutoChess
                 if (hp == 0)
                 {
                     Dead ();
-                    ElementData.IsExcuted = true;
+                    ElementData.CharacterDeathInfo.Death = true;
                     _battleViewmodel.CheckCharacters (ElementData.CharacterSideType);
                     battleCharacterPackage.characterParticleModule.PlayParticle (CharacterBuiltInParticleType.Death);
                 }

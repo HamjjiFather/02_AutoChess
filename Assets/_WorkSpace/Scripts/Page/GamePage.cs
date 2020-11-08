@@ -1,11 +1,12 @@
-﻿using BaseFrame;
+﻿using AutoChess;
+using BaseFrame;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
 using Zenject;
 
-namespace AutoChess
+namespace KKSFramework.InGame
 {
-    public class GamePageView : PageController, IResolveTarget
+    public class GamePage : PageController, IResolveTarget
     {
         #region Fields & Property
         

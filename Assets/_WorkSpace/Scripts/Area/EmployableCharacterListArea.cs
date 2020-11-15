@@ -64,6 +64,9 @@ namespace AutoChess
                 _employableCharacterElements.Add (element);
             });
 
+            if (!_employableCharacterElements.Any ())
+                return;
+            
             var firstElementData = _employableCharacterElements.First ().ElementData;
             firstElementData.ElementClick.Invoke (firstElementData.CharacterModel);
         }

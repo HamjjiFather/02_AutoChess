@@ -62,7 +62,7 @@ namespace AutoChess
         private void TargetCharacterState (CharacterModel characterModel)
         {
             _selectedCharacterModel = characterModel;
-            _syntheticCharacterInfo.SetArea (characterModel);
+            _syntheticCharacterInfo.SetArea (characterModel, UpdateMaterialCharacters);
 
             UpdateMaterialCharacters ();
         }

@@ -28,9 +28,9 @@ namespace AutoChess
 
 #pragma warning restore CS0649
 
-        public override SelectedSyntheticCharacterModel ElementData { get; set; }
+        public override SelectedSyntheticCharacterModel ElementData { get; set; } = new SelectedSyntheticCharacterModel ();
 
-        public bool HasElementData => !ElementData.IsEmpty;
+        public bool HasElementData => ElementData.CharacterModel != null;
 
         private int _index;
 
@@ -42,7 +42,6 @@ namespace AutoChess
         private void Awake ()
         {
             _characterButton.AddListener (ClickCharacterButton);
-            ElementData.Empty ();
         }
 
         #endregion

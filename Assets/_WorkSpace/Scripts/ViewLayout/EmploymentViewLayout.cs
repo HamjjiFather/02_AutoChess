@@ -105,6 +105,7 @@ namespace AutoChess
         
         protected override UniTask OnActiveAsync (Parameters parameters)
         {
+            _characterViewmodel.SetNewEmployment ();
             _characterViewmodel.NewEmployCharacterModels ();
             _employableCharacterListArea.SetArea (ClickCharacterElement);
             UpdateLayout ();

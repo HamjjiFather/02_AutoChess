@@ -38,9 +38,6 @@ namespace AutoChess
 
         public override void SetArea (UnityAction<CharacterModel> areaData)
         {
-            if (!_characterViewmodel.IsDataChanged) return;
-            _characterViewmodel.IsDataChanged = false;
-
             _listElements.ForEach (element => ObjectPoolingHelper.Despawn (element.transform));
             _listElements.Clear ();
 
@@ -63,10 +60,67 @@ namespace AutoChess
         }
         
         
-        public void SetArea (UnityAction<CharacterModel> areaData, List<CharacterModel> characterModels)
+        public void SetArea (UnityAction<CharacterModel> areaData, bool firstElementInvoke, ref bool changedData)
         {
-            if (!_characterViewmodel.IsDeathCharacterDataChanged) return;
-            _characterViewmodel.IsDeathCharacterDataChanged = false;
+            if (!changedData) return;
+            changedData = false;
+
+            _listElements.ForEach (element => ObjectPoolingHelper.Despawn (element.transform));
+            _listElements.Clear ();
+
+            _characterViewmodel.AllCharacterModels.ForEach (characterModel =>
+            {
+                var element = ObjectPoolingHelper.Spawn<CharacterInfoListElement> (
+                    ResourceRoleType.Bundles.ToString (),
+                    ResourcesType.Element.ToString (), nameof (CharacterInfoListElement), _contents);
+
+                element.SetElement (new CharacterInfoListElementModel
+                {
+                    CharacterModel = characterModel,
+                    ElementClick = areaData
+                });
+                _listElements.Add (element);
+            });
+
+            if (!firstElementInvoke)
+                return;
+            
+            var firstElementData = _listElements.First ().ElementData;
+            firstElementData.ElementClick.Invoke (firstElementData.CharacterModel);
+        }
+        
+        
+        public void SetAreaForced (UnityAction<CharacterModel> areaData, bool firstElementInvoke)
+        {
+            _listElements.ForEach (element => ObjectPoolingHelper.Despawn (element.transform));
+            _listElements.Clear ();
+
+            _characterViewmodel.AllCharacterModels.ForEach (characterModel =>
+            {
+                var element = ObjectPoolingHelper.Spawn<CharacterInfoListElement> (
+                    ResourceRoleType.Bundles.ToString (),
+                    ResourcesType.Element.ToString (), nameof (CharacterInfoListElement), _contents);
+
+                element.SetElement (new CharacterInfoListElementModel
+                {
+                    CharacterModel = characterModel,
+                    ElementClick = areaData
+                });
+                _listElements.Add (element);
+            });
+
+            if (!firstElementInvoke)
+                return;
+            
+            var firstElementData = _listElements.First ().ElementData;
+            firstElementData.ElementClick.Invoke (firstElementData.CharacterModel);
+        }
+        
+        
+        public void SetArea (UnityAction<CharacterModel> areaData, List<CharacterModel> characterModels, bool firstElementInvoke, ref bool changedData)
+        {
+            if (!changedData) return;
+            changedData = false;
 
             _listElements.ForEach (element => ObjectPoolingHelper.Despawn (element.transform));
             _listElements.Clear ();
@@ -85,6 +139,36 @@ namespace AutoChess
                 _listElements.Add (element);
             });
 
+            if (!firstElementInvoke)
+                return;
+            
+            var firstElementData = _listElements.First ().ElementData;
+            firstElementData.ElementClick.Invoke (firstElementData.CharacterModel);
+        }
+        
+        
+        public void SetAreaForced (UnityAction<CharacterModel> areaData, List<CharacterModel> characterModels, bool firstElementInvoke)
+        {
+            _listElements.ForEach (element => ObjectPoolingHelper.Despawn (element.transform));
+            _listElements.Clear ();
+
+            characterModels.ForEach (characterModel =>
+            {
+                var element = ObjectPoolingHelper.Spawn<CharacterInfoListElement> (
+                    ResourceRoleType.Bundles.ToString (),
+                    ResourcesType.Element.ToString (), nameof (CharacterInfoListElement), _contents);
+
+                element.SetElement (new CharacterInfoListElementModel
+                {
+                    CharacterModel = characterModel,
+                    ElementClick = areaData
+                });
+                _listElements.Add (element);
+            });
+
+            if (!firstElementInvoke)
+                return;
+            
             var firstElementData = _listElements.First ().ElementData;
             firstElementData.ElementClick.Invoke (firstElementData.CharacterModel);
         }

@@ -20,7 +20,7 @@ namespace AutoChess
 #pragma warning disable CS0649
 
         [Resolver]
-        private CharacterInfoArea _characterInfoArea;
+        private EmployCharacterInfoArea _employCharacterInfoArea;
 
         [Resolver]
         private EmployableCharacterListArea _employableCharacterListArea;
@@ -74,6 +74,16 @@ namespace AutoChess
         /// </summary>
         private int _employPrice;
 
+        /// <summary>
+        /// 모두 등용 가격 충족.
+        /// </summary>
+        private bool _enoughAllEmployPrice;
+
+        /// <summary>
+        /// 등용 가격 충족.
+        /// </summary>
+        private bool _enoughEmployPrice;
+
         #endregion
 
 
@@ -84,21 +94,22 @@ namespace AutoChess
 
         #region Methods
 
-        public override void Initialize ()
+
+        protected override void OnInitialized ()
         {
-            base.Initialize ();
+            base.OnInitialized ();
             _employButton.onClick.AddListener (ClickEmployButton);
             _allEmployButton.onClick.AddListener (ClickAllEmployButton);
         }
 
-
-        public override UniTask ActiveLayout ()
+        
+        protected override UniTask OnActiveAsync (Parameters parameters)
         {
             _characterViewmodel.NewEmployCharacterModels ();
             _employableCharacterListArea.SetArea (ClickCharacterElement);
             UpdateLayout ();
             Subscribe ();
-            return base.ActiveLayout ();
+            return base.OnActiveAsync (parameters);
 
             void Subscribe ()
             {
@@ -107,26 +118,26 @@ namespace AutoChess
 
                 void SetEmployPriceText (int amount)
                 {
-                    var allEnough = amount > _allEmployPrice;
-                    _allEmployTextColor.Value = _colorSetting.GetPriceColor (allEnough);
+                    _enoughAllEmployPrice = amount > _allEmployPrice;
+                    _allEmployTextColor.Value = _colorSetting.GetPriceColor (_enoughAllEmployPrice);
 
-                    var enough = amount > _employPrice;
-                    _employTextColor.Value = _colorSetting.GetPriceColor (enough);
+                    _enoughEmployPrice = amount > _employPrice;
+                    _employTextColor.Value = _colorSetting.GetPriceColor (_enoughEmployPrice);
                 }
             }
         }
 
 
+
         public void UpdateLayout ()
         {
-            _employableCharacterListArea.UpdateArea ();
-
             var existEmployCharacter = _characterViewmodel.AllEmployableCharacterModels.Any ();
             if (!existEmployCharacter)
             {
                 _allEmployPrice = 0;
                 _employPrice = 0;
                 _employPriceText.Value = $"{_employPrice}G";
+                _employCharacterInfoArea.EmptyArea ();
             }
             else
             {
@@ -138,7 +149,8 @@ namespace AutoChess
             
             _allEmployPriceText.Value = $"{_allEmployPrice}G";
         }
-
+        
+        
         #endregion
 
 
@@ -147,7 +159,7 @@ namespace AutoChess
         private void ClickCharacterElement (CharacterModel characterModel)
         {
             _characterModel = characterModel;
-            _characterInfoArea.SetArea (characterModel);
+            _employCharacterInfoArea.SetArea (characterModel);
             _employPrice = _characterViewmodel.GetEmployPrice (characterModel);
             _employPriceText.Value = $"{_employPrice}G";
         }
@@ -155,14 +167,23 @@ namespace AutoChess
 
         private void ClickAllEmployButton ()
         {
-            WaitForMessagePopup ().Forget();
+            if(_enoughAllEmployPrice)
+                WaitForMessagePopup ().Forget();
+            else
+                MessagePopup.PushNotEnoughPrice ();
             
             async UniTask WaitForMessagePopup ()
             {
-                var popupCode = await TreeNavigationHelper.WaitForPopPushPopup (nameof(MessagePopup));
+                var param = TreeNavigationHelper.SpawnParam ();
+                var format = LocalizeHelper.FromDescription ("DESC_0002");
+                param[MessagePopup.MessagePopupStringKey] = string.Format (format, _allEmployPrice);
+                var popupCode = await TreeNavigationHelper.WaitForPopPushPopup (nameof(MessagePopup), param);
+                
                 if (popupCode == PopupEndCode.Ok)
                 {
-                    
+                    _characterViewmodel.EmployAll ();
+                    UpdateLayout ();
+                    _employableCharacterListArea.UpdateArea ();
                 }
             }
         }
@@ -170,18 +191,23 @@ namespace AutoChess
 
         private void ClickEmployButton ()
         {
-            WaitForMessagePopup ().Forget();
+            if(_enoughEmployPrice)
+                WaitForMessagePopup ().Forget();
+            else
+                MessagePopup.PushNotEnoughPrice ();
             
             async UniTask WaitForMessagePopup ()
             {
                 var param = TreeNavigationHelper.SpawnParam ();
-                param[MessagePopup.MessagePopupStringKey] = "고용하시겠습니까?";
+                var format = LocalizeHelper.FromDescription ("DESC_0003");
+                param[MessagePopup.MessagePopupStringKey] = string.Format (format, _employPrice);
                 var popupCode = await TreeNavigationHelper.WaitForPopPushPopup (nameof(MessagePopup), param);
                 
                 if (popupCode == PopupEndCode.Ok)
                 {
                     _characterViewmodel.EmployCharacter (_characterModel);
                     UpdateLayout ();
+                    _employableCharacterListArea.UpdateArea ();
                 }
             }
         }

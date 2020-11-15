@@ -1245,8 +1245,40 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - "?\uC544\uC9C1 \uC0AC\uB9DD\uD55C \uCE90\uB9AD\uD130\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4."
-      - ?There is no dead character yet.
+      - "\uC544\uC9C1 \uC0AC\uB9DD\uD55C \uCE90\uB9AD\uD130\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4."
+      - There is no dead character yet.
+      Flags: 0000
+      Languages_Touch: []
+    - Term: DESC/DESC_0001
+      TermType: 0
+      Description: 
+      Languages:
+      - "\uBCF4\uC720 \uACE8\uB4DC\uAC00 \uBD80\uC871\uD569\uB2C8\uB2E4."
+      - Not enough gold
+      Flags: 0000
+      Languages_Touch: []
+    - Term: DESC/DESC_0002
+      TermType: 0
+      Description: 
+      Languages:
+      - "\uBAA8\uB4E0 \uCE90\uB9AD\uD130\uB97C\n{0}G \uC5D0\n\uACE0\uC6A9\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?"
+      - 
+      Flags: 0000
+      Languages_Touch: []
+    - Term: DESC/DESC_0003
+      TermType: 0
+      Description: 
+      Languages:
+      - "\uC120\uD0DD\uD55C \uCE90\uB9AD\uD130\uB97C\n{0}G \uC5D0\n\uACE0\uC6A9\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?"
+      - 
+      Flags: 0000
+      Languages_Touch: []
+    - Term: DESC/DESC_0004
+      TermType: 0
+      Description: 
+      Languages:
+      - "\uACE0\uC6A9 \uAC00\uB2A5\uD55C \uC6A9\uBCD1\uC774 \uC5C6\uC2B5\uB2C8\uB2E4."
+      - There are no characters available to hire.
       Flags: 0000
       Languages_Touch: []
     - Term: DESC/ADVENTURE_RESULT_MSG
@@ -2038,7 +2070,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycby-fjBov3gTrZ9ugqbU9LO1TJAWqpsBAzkEaR3I9g/exec
     Google_SpreadsheetKey: 1m9bWQo874M6TZTP9LYZK8VObROLG1GhpvJ5WImPrLJY
     Google_SpreadsheetName: I2Loc 02_AutoChess Localization
-    Google_LastUpdatedVersion: 1604842127933
+    Google_LastUpdatedVersion: 1604935135941
     Google_Password: change_this
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2

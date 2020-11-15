@@ -19,7 +19,7 @@ namespace Helper
         
         public static string FromDescription (string term)
         {
-            return LocalizationManager.GetTranslation ($"DESCRIPTION/{term}", applyParameters: true);
+            return LocalizationManager.GetTranslation ($"DESC/{term}", applyParameters: true);
         }
     }
 }

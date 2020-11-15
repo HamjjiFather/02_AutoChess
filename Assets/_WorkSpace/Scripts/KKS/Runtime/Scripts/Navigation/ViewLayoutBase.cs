@@ -1,3 +1,4 @@
+using BaseFrame;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -11,29 +12,66 @@ namespace KKSFramework.Navigation
 
 #pragma warning restore CS0649
 
+        /// <summary>
+        /// 초기화 여부.
+        /// </summary>
+        public bool Initialized { get; private set; }
+
+        /// <summary>
+        /// 이 ViewLayout을 관리하는 Loader.
+        /// </summary>
+        public ViewLayoutLoaderBase ViewLayoutLoader { get; private set; }
+
         #endregion
 
 
         #region Methods
 
-        public virtual void Initialize ()
+        public virtual void Initialize (ViewLayoutLoaderBase loader)
         {
+            Initialized = true;
             gameObject.SetActive (false);
+            ViewLayoutLoader = loader;
+            OnInitialized ();
         }
 
 
-        public virtual async UniTask ActiveLayout ()
+        public async UniTask ActiveLayout (Parameters parameters = null)
         {
+            if (!Initialized)
+                return;
+            
             gameObject.SetActive (true);
-            await UniTask.CompletedTask;
+            await OnActiveAsync (parameters);
         }
 
 
-        public virtual async UniTask DisableLayout ()
+        public async UniTask DisableLayout ()
         {
+            if (!Initialized)
+                return;
+            
             gameObject.SetActive (false);
-            await UniTask.CompletedTask;
+            await OnDisableAsync ();
         }
+
+
+        protected virtual void OnInitialized ()
+        {
+        }
+
+
+        protected virtual UniTask OnActiveAsync (Parameters parameters)
+        {
+            return UniTask.CompletedTask;
+        }
+
+
+        protected virtual UniTask OnDisableAsync ()
+        {
+            return UniTask.CompletedTask;
+        }
+
 
         #endregion
 

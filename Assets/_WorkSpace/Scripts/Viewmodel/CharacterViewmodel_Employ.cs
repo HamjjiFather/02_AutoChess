@@ -27,7 +27,7 @@ namespace AutoChess
         /// <summary>
         /// 새로 고용 가능한지 여부.
         /// </summary>
-        public bool IsNewEmployment { get; set; } = true;
+        public bool IsNewEmployment;
 
         #endregion
 
@@ -63,6 +63,20 @@ namespace AutoChess
             });
         }
 
+
+        /// <summary>
+        /// 모든 캐릭터를 고용함.
+        /// </summary>
+        public void EmployAll ()
+        {
+            AllCharacterModels.AddRange (AllEmployableCharacterModels);
+            AllEmployableCharacterModels.Clear ();
+            EmployableCharacterCount.Value = 0;
+            SaveCharacterData ();
+            SaveCharacterStatusGradeData ();
+            IsDataChanged = true;
+        }
+        
 
         /// <summary>
         /// 캐릭터를 고용함.

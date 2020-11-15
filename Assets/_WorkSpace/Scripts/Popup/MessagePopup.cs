@@ -1,11 +1,7 @@
 using System;
 using BaseFrame;
-using Cysharp.Threading.Tasks;
 using Helper;
-using KKSFramework;
 using KKSFramework.DataBind;
-using KKSFramework.Navigation;
-using KKSFramework.UI;
 using UnityEngine.UI;
 
 namespace AutoChess
@@ -20,12 +16,17 @@ namespace AutoChess
         private Button _confirmButton;
 
         [Resolver]
-        private Text _popupMessageText;
+        private Property<string> _popupTitleText;
+
+        [Resolver]
+        private Property<string> _popupMessageText;
 
 #pragma warning restore CS0649
 
         private Action _confirmAction;
 
+        public const string MessagePopupTitleKey = "title";
+        
         public const string MessagePopupStringKey = "message";
 
         #endregion
@@ -49,9 +50,11 @@ namespace AutoChess
         {
             if (pushValue == null)
                 return;
+            var title = pushValue.GetValue<string> (MessagePopupTitleKey);
+            _popupTitleText.Value = title;
 
             var msg = pushValue.GetValue<string> (MessagePopupStringKey);
-            _popupMessageText.text = msg;
+            _popupMessageText.Value = msg;
             base.OnPush (pushValue);
         }
 
@@ -60,6 +63,14 @@ namespace AutoChess
         {
             _confirmAction = null;
             base.OnPopComplete ();
+        }
+
+
+        public static void PushNotEnoughPrice ()
+        {
+            var param = TreeNavigationHelper.SpawnParam ();
+            param[MessagePopupStringKey] = LocalizeHelper.FromDescription ("DESC_0001");
+            TreeNavigationHelper.PushPopup (nameof(MessagePopup), param);
         }
 
 

@@ -231,11 +231,13 @@ namespace KKSFramework.LocalData
         public static void SaveCharacterStatusGradeData (List<float> hp, List<float> attack, List<float> ap,
             List<float> defense)
         {
+            LocalDataClass.CharacterBundle.CharacterStatusGrades.Clear ();
             for (var i = 0; i < hp.Count; i++)
             {
                 LocalDataClass.CharacterBundle.CharacterStatusGrades.Add (
                     new CharacterBundle.CharacterStatusGrade (hp[i], attack[i], ap[i], defense[i]));
             }
+            LocalDataManager.Instance.SaveGameData (LocalDataClass.CharacterBundle);
         }
 
 

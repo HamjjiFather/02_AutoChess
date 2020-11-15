@@ -1,4 +1,3 @@
-using BaseFrame;
 using Helper;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
@@ -9,15 +8,18 @@ using UnityEngine.UI;
 
 namespace AutoChess
 {
-    public class CharacterInfoArea : AreaBase<CharacterModel>, IResolveTarget
+    public class EmployCharacterInfoArea : AreaBase<CharacterModel>, IResolveTarget
     {
         #region Fields & Property
 
 #pragma warning disable CS0649
-        
-        [Resolver]
-        private EquipmentInfoElement[] _equipmentInfoElement;
 
+        [Resolver]
+        private GameObject _noExistCharacterObj;
+
+        [Resolver]
+        private GameObject _existCharacterObj;
+        
         [Resolver]
         private StatusElement[] _baseStatusElements;
         
@@ -35,12 +37,6 @@ namespace AutoChess
 
         [Resolver]
         private Animator _characterAnimator;
-
-        [Resolver]
-        private Property<string> _levelText;
-
-        [Resolver]
-        private GageElement _expGageElement;
 
         [Resolver]
         private SkillInfoArea _skillInfoArea;
@@ -61,6 +57,9 @@ namespace AutoChess
 
         public override void SetArea (CharacterModel areaData)
         {
+            _noExistCharacterObj.SetActive (false);
+            _existCharacterObj.SetActive (true);
+            
             AreaData?.DisposeSubscribe ();
 
             AreaData = areaData;
@@ -81,9 +80,6 @@ namespace AutoChess
 
             void ChangeCharacterInfo (CharacterModel characterModel)
             {
-                var levelData = characterModel.GetLevelData ();
-                _levelText.Value = $"Lv. {levelData.LevelString}";
-                _expGageElement.SetValue (characterModel.NowExp (), levelData.ReqExp);
                 _starGradeArea.SetArea (characterModel.StarGrade);
 
                 _baseStatusElements[0].SetCharacterElement (StatusType.Health, characterModel);
@@ -93,17 +89,14 @@ namespace AutoChess
                 _baseStatusElements[4].SetCharacterElement (StatusType.AttackSpeed, characterModel);
                 
                 _skillInfoArea.SetArea (characterModel);
-                
-                SetEquipment ();
-                
-                void SetEquipment ()
-                {
-                    characterModel.EquipmentStatusModel.EquipmentModels.ForEach ((model, index) =>
-                    {
-                        _equipmentInfoElement[index].SetElement (model);
-                    });
-                }
             }
+        }
+
+
+        public void EmptyArea ()
+        {
+            _noExistCharacterObj.SetActive (true);
+            _existCharacterObj.SetActive (false);
         }
 
         #endregion

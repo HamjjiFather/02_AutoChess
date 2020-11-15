@@ -137,14 +137,14 @@ namespace AutoChess
 
         #region Methods
 
-        public override void Initialize ()
+        protected override void OnInitialized ()
         {
             ProjectContext.Instance.Container.BindInstance (this);
             _battleCharacterListArea = ProjectContext.Instance.Container.Resolve<BattleCharacterListArea> ();
-
-            base.Initialize ();
+            base.OnInitialized ();
         }
 
+        
         public async UniTask StartAdventure ()
         {
             var fieldScale = Array.ConvertAll (Constants.FIELD_SCALE.Split (','), int.Parse);

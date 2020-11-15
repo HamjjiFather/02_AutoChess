@@ -19,7 +19,7 @@ namespace KKSFramework.DataBind
         /// 자동 Resolve 실행 여부.
         /// </summary>
         public bool autoRun = true;
-
+        
         /// <summary>
         /// Resolve가 되었는지 여부.
         /// </summary>

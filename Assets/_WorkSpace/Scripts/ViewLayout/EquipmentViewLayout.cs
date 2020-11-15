@@ -1,3 +1,4 @@
+using BaseFrame;
 using Cysharp.Threading.Tasks;
 using KKSFramework.DataBind;
 using KKSFramework.InGame;
@@ -39,18 +40,19 @@ namespace AutoChess
 
         #region Methods
         
-        public override void Initialize ()
+        
+        
+        protected override void OnInitialized ()
         {
             _gamePage = ProjectContext.Instance.Container.Resolve<GamePage> ();
-            base.Initialize ();
         }
-        
-        public override UniTask ActiveLayout ()
+
+
+        protected override UniTask OnActiveAsync (Parameters parameters)
         {
             _equipmentListArea.SetArea (ClickEquipmentElement);
             _battleCharacterListArea.SetArea (_characterViewmodel.BattleCharacterModels);
-            // EscapeEventManager.Instance.SetHookingEscapeEvent (ClickBackButton);
-            return base.ActiveLayout ();
+            return base.OnActiveAsync (parameters);
         }
 
         #endregion

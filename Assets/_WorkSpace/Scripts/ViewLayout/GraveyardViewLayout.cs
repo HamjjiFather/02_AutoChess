@@ -1,3 +1,4 @@
+using BaseFrame;
 using Cysharp.Threading.Tasks;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
@@ -32,24 +33,23 @@ namespace AutoChess
 
         #region Methods
 
-        public override void Initialize ()
+        public override void Initialize (ViewLayoutLoaderBase loader)
         {
-            base.Initialize ();
+            base.Initialize (loader);
         }
-        
 
-        public override UniTask ActiveLayout ()
+
+        protected override UniTask OnActiveAsync (Parameters parameters)
         {
-            _characterListArea.SetArea (ClickCharacterElement, _characterViewmodel.AllDeathCharacterModels);
-            // EscapeEventManager.Instance.SetHookingEscapeEvent (ClickBackButton);
-            return base.ActiveLayout ();
+            _characterListArea.SetArea (ClickCharacterElement, _characterViewmodel.AllDeathCharacterModels, true,
+                ref _characterViewmodel.IsDeathCharacterDataChanged);
+            return base.OnActiveAsync (parameters);
         }
 
         #endregion
 
 
         #region EventMethods
-
 
         private void ClickCharacterElement (CharacterModel characterModel)
         {

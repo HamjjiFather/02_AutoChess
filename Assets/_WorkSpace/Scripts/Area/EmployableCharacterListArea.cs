@@ -72,16 +72,27 @@ namespace AutoChess
         public void UpdateArea ()
         {
             _employCharacterPoint.ForEach (point => point.GetChild (0).gameObject.SetActive (true));
-            
-            _characterViewmodel.AllEmployableCharacterModels.ForEach ((characterModel, i) =>
-            {
-                _employCharacterPoint[i].GetChild (0).gameObject.SetActive (false);
-                _employableCharacterElements[i].UpdateElement (characterModel);
-            });
 
-            var lastElement = _employableCharacterElements.Last ();
-            _employableCharacterElements.Remove (lastElement);
-            ObjectPoolingHelper.Despawn (lastElement.transform);
+            if (_characterViewmodel.AllEmployableCharacterModels.Any ())
+            {
+                _characterViewmodel.AllEmployableCharacterModels.ForEach ((characterModel, i) =>
+                {
+                    _employCharacterPoint[i].GetChild (0).gameObject.SetActive (false);
+                    _employableCharacterElements[i].UpdateElement (characterModel);
+                });
+
+                var lastElement = _employableCharacterElements.Last ();
+                _employableCharacterElements.Remove (lastElement);
+                ObjectPoolingHelper.Despawn (lastElement.transform);
+            }
+            else
+            {
+                _employableCharacterElements.ForEach (element =>
+                {
+                    ObjectPoolingHelper.Despawn (element.transform);
+                });
+                _employableCharacterElements.Clear ();
+            }
         }
 
         #endregion

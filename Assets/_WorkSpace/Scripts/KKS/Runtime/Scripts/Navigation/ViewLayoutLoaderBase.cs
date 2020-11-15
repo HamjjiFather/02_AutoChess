@@ -48,17 +48,17 @@ namespace KKSFramework.Navigation
 
         public virtual void Initialize ()
         {
-            _viewLayoutObjs.ForEach (x => { x.Initialize (); });
+            _viewLayoutObjs.ForEach (x => { x.Initialize (this); });
         }
 
 
-        public virtual void SetSubView (int index)
+        public virtual void SetSubView (int index, Parameters parameters = null)
         {
             if (nowLayout >= 0 && nowLayout < _viewLayoutObjs.Length)
                 _viewLayoutObjs[nowLayout].DisableLayout ().Forget ();
 
             nowLayout = index;
-            _viewLayoutObjs[nowLayout].ActiveLayout ().Forget ();
+            _viewLayoutObjs[nowLayout].ActiveLayout (parameters).Forget ();
             _onChangeSubviewAction.CallSafe (nowLayout);
         }
 

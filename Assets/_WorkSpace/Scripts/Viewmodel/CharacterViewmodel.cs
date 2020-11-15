@@ -54,10 +54,10 @@ namespace AutoChess
             1003
         };
 
-        public bool IsDataChanged { get; set; }
+        public bool IsDataChanged;
 
 
-        public bool IsDeathCharacterDataChanged { get; set; }
+        public bool IsDeathCharacterDataChanged;
 
 
         public static BaseStatusModel EmptyStatusModel = new BaseStatusModel ();

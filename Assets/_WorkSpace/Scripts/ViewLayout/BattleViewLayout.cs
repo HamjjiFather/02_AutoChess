@@ -69,15 +69,13 @@ namespace AutoChess
 
         #region UnityMethods
 
-        public override void Initialize ()
+        protected override void OnInitialized ()
         {
             ProjectContext.Instance.Container.BindInstance (this);
             ProjectContext.Instance.Container.BindInstance (_particleManagingModule);
             ProjectContext.Instance.Container.BindInstance (_bulletParents).WithId ("BulletParents");
             _battleCharacterListArea = ProjectContext.Instance.Container.Resolve<BattleCharacterListArea> ();
             CreateField ().Forget ();
-
-            base.Initialize ();
         }
 
         #endregion
@@ -85,10 +83,11 @@ namespace AutoChess
 
         #region Methods
 
-        public override async UniTask ActiveLayout ()
+
+        protected override UniTask OnActiveAsync (Parameters parameters)
         {
             _lineElements.ForEach (x => x.MyVerticalLayoutGroup.SetLayoutVertical ());
-            await base.ActiveLayout ();
+            return base.OnActiveAsync (parameters);
         }
 
 

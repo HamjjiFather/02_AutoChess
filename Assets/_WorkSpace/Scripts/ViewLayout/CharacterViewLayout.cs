@@ -1,8 +1,8 @@
+using BaseFrame;
 using Cysharp.Threading.Tasks;
 using KKSFramework.DataBind;
-using KKSFramework.InGame;
 using KKSFramework.Navigation;
-using UnityEngine.UI;
+using KKSFramework.UI;
 using Zenject;
 
 namespace AutoChess
@@ -22,6 +22,9 @@ namespace AutoChess
         [Resolver]
         private BattleCharacterListArea _battleCharacterListArea;
 
+        [Resolver]
+        private ButtonExtension _syntheticButton;
+
         [Inject]
         private CharacterViewmodel _characterViewmodel;
 
@@ -32,22 +35,21 @@ namespace AutoChess
 
         #region UnityMethods
 
+        private void Awake ()
+        {
+            _syntheticButton.AddListener (ClickSyntheticCharacterButton);
+        }
+
         #endregion
 
 
         #region Methods
 
-        public override void Initialize ()
+        protected override UniTask OnActiveAsync (Parameters parameters)
         {
-            base.Initialize ();
-        }
-
-        public override UniTask ActiveLayout ()
-        {
-            _characterListArea.SetArea (ClickCharacterElement);
+            _characterListArea.SetArea (ClickCharacterElement, true, ref _characterViewmodel.IsDataChanged);
             _battleCharacterListArea.SetArea (_characterViewmodel.BattleCharacterModels);
-            // EscapeEventManager.Instance.SetHookingEscapeEvent (ClickBackButton);
-            return base.ActiveLayout ();
+            return base.OnActiveAsync (parameters);
         }
 
         #endregion
@@ -55,10 +57,19 @@ namespace AutoChess
 
         #region EventMethods
 
-
         private void ClickCharacterElement (CharacterModel characterModel)
         {
             _characterInfoArea.SetArea (characterModel);
+        }
+
+
+        private void ClickSyntheticCharacterButton ()
+        {
+            var param = new Parameters
+            {
+                [CharacterSyntheticViewLayout.SyntheticCharacterViewLayoutParamKey] = _characterInfoArea.AreaData
+            };
+            ViewLayoutLoader.SetSubView (4, param);
         }
 
         #endregion

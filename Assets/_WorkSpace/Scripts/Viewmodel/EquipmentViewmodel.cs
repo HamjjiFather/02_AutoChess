@@ -110,7 +110,7 @@ namespace AutoChess
 
 
         /// <summary>
-        /// 캐릭터 획득.
+        /// 장비 획득.
         /// </summary>
         public EquipmentModel NewEquipment (int equipmentIndex)
         {
@@ -148,7 +148,7 @@ namespace AutoChess
         }
 
 
-        private Dictionary<StatusType, BaseStatusModel> SetBaseStatusDict (IReadOnlyList<int> indexes,
+        public Dictionary<StatusType, BaseStatusModel> SetBaseStatusDict (IReadOnlyList<int> indexes,
             IReadOnlyList<float> gradeValues)
         {
             var dict = new Dictionary<StatusType, BaseStatusModel> ();

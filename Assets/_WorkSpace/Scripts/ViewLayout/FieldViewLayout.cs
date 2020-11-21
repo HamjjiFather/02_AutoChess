@@ -88,7 +88,10 @@ namespace AutoChess
             _formationButton.AddListener (ClickFormationButton);
             
             _fieldTypeActionAfter.Add (FieldSpecialType.Battle, _ => { Debug.Log ("전투가 시작되었습니다."); });
-            _fieldTypeActionAfter.Add (FieldSpecialType.Reward, _ => { Debug.Log ("보상을 얻었습니다."); });
+            _fieldTypeActionAfter.Add (FieldSpecialType.Reward, _ =>
+            {
+                Debug.Log ("보상을 얻었습니다.");
+            });
             _fieldTypeActionAfter.Add (FieldSpecialType.BossBattle, _ => { Debug.Log ("전투가 시작되었습니다."); });
             _fieldTypeActionAfter.Add (FieldSpecialType.RecoverSmall, _ => { Debug.Log ("체력이 회복되었습니다."); });
             _fieldTypeActionAfter.Add (FieldSpecialType.RecoverMedium, _ => { Debug.Log ("체력이 회복되었습니다."); });

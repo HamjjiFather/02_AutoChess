@@ -19,7 +19,7 @@ namespace MasterData
         
         public Status GetStatus (StatusType statusType)
         {
-            var arrayIndex = ((int) TableName.Status + 1) * 1000 + (int) statusType;
+            var arrayIndex = 6000 + (int) statusType;
             return Status.Manager.GetItemByIndex(arrayIndex);
         }
         

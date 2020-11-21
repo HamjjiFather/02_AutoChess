@@ -6,7 +6,6 @@ using Cysharp.Threading.Tasks;
 using Helper;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
-using KKSFramework.ResourcesLoad;
 using MasterData;
 using ResourcesLoad;
 using UniRx;

@@ -45,7 +45,7 @@ namespace AutoChess
             _listElements.ForEach (element => ObjectPoolingHelper.Despawn (element.transform));
             _listElements.Clear ();
 
-            _adventureViewmodel.InAdventureEquipmentModels.Values.ForEach (equipmentModel =>
+            _adventureViewmodel.AdventureRewardModel.InAdventureEquipmentModels.Values.ForEach (equipmentModel =>
             {
                 var element = ObjectPoolingHelper.Spawn<InAdventureEquipmentInfoListElement> (
                     ResourceRoleType.Bundles.ToString (),

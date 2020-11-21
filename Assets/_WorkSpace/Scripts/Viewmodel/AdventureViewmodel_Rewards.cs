@@ -1,6 +1,7 @@
-using System.Collections.Generic;
+using BaseFrame;
 using MasterData;
 using UnityEngine;
+using Zenject;
 
 namespace AutoChess
 {
@@ -9,16 +10,21 @@ namespace AutoChess
         #region Fields & Property
 
 #pragma warning disable CS0649
+        
+        [Inject]
+        private GameSetting _gameSetting;
+
+        [Inject]
+        private EquipmentViewmodel _equipmentViewmodel;
 
 #pragma warning restore CS0649
 
         private int _exp;
+        
 
         private AdventureRewardModel _adventureRewardModel;
 
         public AdventureRewardModel AdventureRewardModel => _adventureRewardModel;
-
-        private readonly List<ItemModel> _rewardItems = new List<ItemModel> ();
 
         #endregion
 
@@ -45,12 +51,14 @@ namespace AutoChess
             var random = Random.Range (0, 1);
             switch (random)
             {
+                // 장비 보상을 얻음.
                 case 0:
-                    AddDropItem ((int) TableName.Equipment);
+                    GetEquipment ();
                     break;
                 
+                // 골드 보상을 얻음.
                 case 1:
-                    AddDropGold (Random.Range (100, 200));
+                    GetGold ();
                     break;
 
                 default:
@@ -60,25 +68,81 @@ namespace AutoChess
 
 
         /// <summary>
-        /// 드랍 아이템 추가.
+        /// 골드 추가.
         /// </summary>
-        public void AddDropItem (int itemIndex, int amount = 1)
+        public void GetGold ()
         {
-            _adventureRewardModel.AddRewardCount (amount);
-            _rewardItems.Add (new ItemModel
+            var gold = Random.Range (100, 200);
+            _adventureRewardModel.AddGoldCount (gold);
+        }
+        
+        
+        /// <summary>
+        /// 모험 필드에서 장비 아이템을 획득함.
+        /// </summary>
+        public void GetEquipment ()
+        {
+            var curUId = AdventureRewardModel.UniqueIndex;
+            var index = EquipmentIndex ();
+            var equipmentModel = NewEquipment (index);
+            AdventureRewardModel.InAdventureEquipmentModels.Add (curUId, equipmentModel);
+            
+
+            int EquipmentIndex ()
             {
-                ItemIndex = itemIndex,
-                ItemAmount = amount
-            });
+                var equipmentGroupIndex = _adventureFieldData.AppearedEquipmentGroupIndex;
+                var advEqGroup = AdvEquipmentGroup.Manager.GetItemByIndex (equipmentGroupIndex);
+                var advEqProbGroup = AdvEquipmentProbGroup.Manager.GetItemByIndex (advEqGroup.EquipmentProbIndex);
+
+                var equipmentProbPoint = Random.Range (0, 10000);
+                var stackedProbPoint = 0;
+                for (var i = 0; i < advEqGroup.EquipmentIndexes.Length; i++)
+                {
+                    var curIndex = advEqGroup.EquipmentIndexes[i];
+                    stackedProbPoint += advEqProbGroup.EquipmentProbabilities[i];
+
+                    if (equipmentProbPoint < stackedProbPoint)
+                    {
+                        return curIndex;
+                    }
+                }
+
+                return Constants.INVALID_INDEX;
+            }
         }
 
 
         /// <summary>
-        /// 골드 추가.
+        /// 장비 획득.
         /// </summary>
-        public void AddDropGold (int gold)
+        public EquipmentModel NewEquipment (int equipmentIndex)
         {
-            _adventureRewardModel.AddGoldCount (gold);
+            var equipmentModel = new EquipmentModel ();
+            var equipmentData = Equipment.Manager.GetItemByIndex (equipmentIndex);
+            equipmentModel.SetUniqueData (NewUniqueId ());
+            equipmentModel.SetEquipmentData (equipmentData);
+            equipmentModel.SetStarGrade (StarGrade.Grade1);
+
+            SetStatusGradeValue ();
+
+            return equipmentModel;
+
+            void SetStatusGradeValue ()
+            {
+                var rand = Random.Range (0, 1f);
+                var statusGradeIndex = equipmentData.AvailEquipmentTypeIndex.Choice ();
+                equipmentModel.SetStatusGrade (statusGradeIndex, rand);
+
+                var statusModel = _equipmentViewmodel.SetBaseStatusDict (equipmentModel.StatusIndexes,
+                    equipmentModel.StatusGrades);
+                equipmentModel.SetStatus (statusModel);
+            }
+        }
+
+
+        public int NewUniqueId ()
+        {
+            return AdventureRewardModel.UniqueIndex++;
         }
 
         #endregion

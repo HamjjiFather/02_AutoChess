@@ -23,6 +23,12 @@ namespace MasterData
         public int Index { get; internal set; }
         
         /// <summary>
+        /// 출현 장비 그룹 인덱스
+        /// 출현 장비 그룹 인덱스
+        /// </summary>
+        public int AppearedEquipmentGroupIndex { get; internal set; }
+        
+        /// <summary>
         /// 필드 포인트 수량
         /// 필드 포인트 수량
         /// </summary>
@@ -105,9 +111,9 @@ namespace MasterData
             {
                 var row = rowData[i];
                 var dataList = row.Split ('\t');
-                if (dataList.Length != 10)
+                if (dataList.Length != 11)
                 {
-                    Debug.LogWarning ($"[Path: {filePath}, Row: {i}] 필드 수량 불일치 {dataList.Length} != 10");
+                    Debug.LogWarning ($"[Path: {filePath}, Row: {i}] 필드 수량 불일치 {dataList.Length} != 11");
                     continue;
                 }
 
@@ -137,9 +143,9 @@ namespace MasterData
             {
                 var row = rowData[i];
                 var dataList = row.Split ('\t');
-                if (dataList.Length != 10)
+                if (dataList.Length != 11)
                 {
-                    Debug.LogWarning ($"[Path: {filePath}, Row: {i}] 필드 수량 불일치 {dataList.Length} != 10");
+                    Debug.LogWarning ($"[Path: {filePath}, Row: {i}] 필드 수량 불일치 {dataList.Length} != 11");
                     continue;
                 }
 
@@ -163,15 +169,16 @@ namespace MasterData
             var p = new AdventureField
             {
                 Index = Parsing (dataList[0], int.Parse),
-                FieldPointCount = ParsingList (dataList[1], int.Parse),
-                FieldCount = ParsingList (dataList[2], int.Parse),
-                ForestCount = ParsingList (dataList[3], int.Parse),
-                TreeCount = ParsingList (dataList[4], int.Parse),
-                RewardCount = ParsingList (dataList[5], int.Parse),
-                BattleCount = ParsingList (dataList[6], int.Parse),
-                BossBattleCount = ParsingList (dataList[7], int.Parse),
-                EventCount = ParsingList (dataList[8], int.Parse),
-                OtherCount = ParsingList (dataList[9], int.Parse),
+                AppearedEquipmentGroupIndex = Parsing (dataList[1], int.Parse),
+                FieldPointCount = ParsingList (dataList[2], int.Parse),
+                FieldCount = ParsingList (dataList[3], int.Parse),
+                ForestCount = ParsingList (dataList[4], int.Parse),
+                TreeCount = ParsingList (dataList[5], int.Parse),
+                RewardCount = ParsingList (dataList[6], int.Parse),
+                BattleCount = ParsingList (dataList[7], int.Parse),
+                BossBattleCount = ParsingList (dataList[8], int.Parse),
+                EventCount = ParsingList (dataList[9], int.Parse),
+                OtherCount = ParsingList (dataList[10], int.Parse),
             };
             p.PostProcess (dataList);
             AdventureField.Manager.Add (p.Index, p);

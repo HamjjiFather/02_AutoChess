@@ -26,22 +26,13 @@ namespace AutoChess
         private EmployableCharacterListArea _employableCharacterListArea;
 
         [Resolver]
-        private Button _allEmployButton;
+        private GameObject _buttonArea;
 
         [Resolver]
-        private Property<string> _allEmployPriceText;
+        private CurrencyButtonOption _employCurrencyButton;
 
         [Resolver]
-        private Property<Color> _allEmployTextColor;
-
-        [Resolver]
-        private Button _employButton;
-
-        [Resolver]
-        private Property<string> _employPriceText;
-        
-        [Resolver]
-        private Property<Color> _employTextColor;
+        private CurrencyButtonOption _allEmployCurrencyButton;
 
         [Resolver]
         private Button _rejectButton;
@@ -98,8 +89,8 @@ namespace AutoChess
         protected override void OnInitialized ()
         {
             base.OnInitialized ();
-            _employButton.onClick.AddListener (ClickEmployButton);
-            _allEmployButton.onClick.AddListener (ClickAllEmployButton);
+            _employCurrencyButton.AddListener (ClickEmployButton);
+            _allEmployCurrencyButton.AddListener (ClickAllEmployButton);
         }
 
         
@@ -119,26 +110,27 @@ namespace AutoChess
 
                 void SetEmployPriceText (int amount)
                 {
-                    _enoughAllEmployPrice = amount > _allEmployPrice;
-                    _allEmployTextColor.Value = _colorSetting.GetPriceColor (_enoughAllEmployPrice);
-
-                    _enoughEmployPrice = amount > _employPrice;
-                    _employTextColor.Value = _colorSetting.GetPriceColor (_enoughEmployPrice);
+                    _employCurrencyButton.SetRequireCurrencyAmount (_employPrice);
+                    _enoughEmployPrice = _employCurrencyButton.CheckCurrency (amount);
+                    _allEmployCurrencyButton.SetRequireCurrencyAmount (_allEmployPrice);
+                    _enoughAllEmployPrice = _allEmployCurrencyButton.CheckCurrency (amount);
                 }
             }
         }
 
 
-
         public void UpdateLayout ()
         {
             var existEmployCharacter = _characterViewmodel.AllEmployableCharacterModels.Any ();
+            _buttonArea.SetActive (existEmployCharacter);
+            
             if (!existEmployCharacter)
             {
                 _allEmployPrice = 0;
                 _employPrice = 0;
-                _employPriceText.Value = $"{_employPrice}G";
+                _employCurrencyButton.SetRequireCurrencyAmount (0);
                 _employCharacterInfoArea.EmptyArea ();
+                
             }
             else
             {
@@ -148,7 +140,7 @@ namespace AutoChess
                 ClickCharacterElement (_characterViewmodel.AllEmployableCharacterModels.First ());
             }
             
-            _allEmployPriceText.Value = $"{_allEmployPrice}G";
+            _allEmployCurrencyButton.SetRequireCurrencyAmount (_allEmployPrice);
         }
         
         
@@ -162,7 +154,7 @@ namespace AutoChess
             _characterModel = characterModel;
             _employCharacterInfoArea.SetArea (characterModel);
             _employPrice = _characterViewmodel.GetEmployPrice (characterModel);
-            _employPriceText.Value = $"{_employPrice}G";
+            _employCurrencyButton.SetRequireCurrencyAmount (_employPrice);
         }
 
 

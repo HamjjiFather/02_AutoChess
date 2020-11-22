@@ -1,5 +1,6 @@
 ﻿using BaseFrame;
 using KKSFramework.DataBind;
+using MasterData;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
@@ -8,11 +9,6 @@ namespace AutoChess
 {
     public class NextFloorConfirmPopup : PopupController, IResolveTarget
     {
-        public struct Model
-        {
-            public UnityAction confirmAction;
-        }
-        
         #region Binding
 
 #pragma warning disable 0649
@@ -22,10 +18,7 @@ namespace AutoChess
 
 #pragma warning restore 0649
 
-        private Model _popupModel;
-
         #endregion
-
 
         #region Unity Methods
 
@@ -40,22 +33,6 @@ namespace AutoChess
 
         #region PopupController Implements
 
-        protected override void OnPush (Parameters parameters)
-        {
-            _popupModel = (Model) parameters["PopupModel"];
-            base.OnPush (parameters);
-
-            // 초기화 영역
-        }
-
-
-        protected override void OnPop ()
-        {
-            base.OnPop ();
-
-            // 사용한 객체 해제 영역
-        }
-
         #endregion
 
 
@@ -63,7 +40,8 @@ namespace AutoChess
 
         private void OnClickConfirm ()
         {
-            _popupModel.confirmAction.Invoke ();
+            SetResult (PopupEndCode.Ok);
+            OnClickClose ();
         }
 
         #endregion

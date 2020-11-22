@@ -530,11 +530,11 @@ namespace MasterData
         
         Equipment = 3,
         
-        AdvEquipmentGroup = 4,
+        EquipmentStatusGroup = 4,
         
-        AdvEquipmentProbGroup = 5,
+        AdvEquipmentGroup = 5,
         
-        EquipmentStatus = 6,
+        AdvEquipmentProbGroup = 6,
         
         Status = 7,
         

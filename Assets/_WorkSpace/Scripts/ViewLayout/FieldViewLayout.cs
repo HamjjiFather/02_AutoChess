@@ -120,19 +120,24 @@ namespace AutoChess
             
             _fieldTypeActionAfter.Add (FieldSpecialType.Exit, _ =>
             {
-                var parameter = new Parameters
-                {
-                    {
-                        "Model",
-                        new NextFloorConfirmPopup.Model
-                        {
-                            confirmAction = ConfirmNextFloor
-                        }
-                    }
-                };
+                WaitForNextFloorPopup().Forget();
                 
-                TreeNavigationHelper.PushPopup (nameof(NextFloorConfirmPopup), parameter);
+                async UniTask WaitForNextFloorPopup ()
+                {
+                    var result = await TreeNavigationHelper.WaitForPopPushPopup (nameof(NextFloorConfirmPopup));
+                    if(result == PopupEndCode.Ok)
+                        ConfirmNextFloor ();
+                }
             });
+        }
+
+
+        private void Update ()
+        {
+            if (Input.GetKeyDown (KeyCode.Q))
+            {
+                ConfirmRewardAdventure ().Forget();
+            }
         }
 
         #endregion
@@ -248,17 +253,10 @@ namespace AutoChess
         /// <summary>
         /// 보상 확인.
         /// </summary>
-        private void ConfirmRewardAdventure ()
+        private async UniTask ConfirmRewardAdventure ()
         {
             _adventureViewmodel.EndAdventure ();
-            var param = new Parameters 
-            {
-                {
-                    "action",
-                    (Action)ExitAdventure
-                }
-            };
-            TreeNavigationHelper.PushPopup (nameof(AdventureResultPopup), param);
+            await TreeNavigationHelper.WaitForPopPushPopup (nameof(EndAdventurePopup));
             Debug.Log ("confirm reward adventure");
         }
 

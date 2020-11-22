@@ -41,10 +41,16 @@ namespace MasterData
         public string SpriteResName { get; internal set; }
         
         /// <summary>
+        /// 기본 부여 능력치
+        /// 부여 가능 능력치
+        /// </summary>
+        public int[] BaseEquipmentStatusIndexes { get; internal set; }
+        
+        /// <summary>
         /// 부여 가능 능력치
         /// 부여 가능 능력치
         /// </summary>
-        public int[] AvailEquipmentTypeIndex { get; internal set; }
+        public int[] AvailEquipmentStatusIndexes { get; internal set; }
 
         /// <summary>
         /// 매니저
@@ -75,9 +81,9 @@ namespace MasterData
             {
                 var row = rowData[i];
                 var dataList = row.Split ('\t');
-                if (dataList.Length != 5)
+                if (dataList.Length != 6)
                 {
-                    Debug.LogWarning ($"[Path: {filePath}, Row: {i}] 필드 수량 불일치 {dataList.Length} != 5");
+                    Debug.LogWarning ($"[Path: {filePath}, Row: {i}] 필드 수량 불일치 {dataList.Length} != 6");
                     continue;
                 }
 
@@ -107,9 +113,9 @@ namespace MasterData
             {
                 var row = rowData[i];
                 var dataList = row.Split ('\t');
-                if (dataList.Length != 5)
+                if (dataList.Length != 6)
                 {
-                    Debug.LogWarning ($"[Path: {filePath}, Row: {i}] 필드 수량 불일치 {dataList.Length} != 5");
+                    Debug.LogWarning ($"[Path: {filePath}, Row: {i}] 필드 수량 불일치 {dataList.Length} != 6");
                     continue;
                 }
 
@@ -136,7 +142,8 @@ namespace MasterData
                 Name = dataList[1],
                 EquipmentType = ParsingEnum<EquipmentType>(dataList[2]),
                 SpriteResName = dataList[3],
-                AvailEquipmentTypeIndex = ParsingList (dataList[4], int.Parse),
+                BaseEquipmentStatusIndexes = ParsingList (dataList[4], int.Parse),
+                AvailEquipmentStatusIndexes = ParsingList (dataList[5], int.Parse),
             };
             p.PostProcess (dataList);
             Equipment.Manager.Add (p.Index, p);

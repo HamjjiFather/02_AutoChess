@@ -53,10 +53,10 @@ namespace AutoChess
         {
             _baseStatusElements.ForEach (element => element.gameObject.SetActive (false));
             _baseStatusElementLineObjs.ForEach (obj => obj.SetActive (false));
-            equipmentModel.Status.ForEach ((status, index) =>
+            equipmentModel.StatusList.ForEach ((status, index) =>
             {
                 _baseStatusElements[index].gameObject.SetActive (true);
-                _baseStatusElements[index].SetElement (equipmentModel.GetBaseStatusModel (status.Key));
+                _baseStatusElements[index].SetElement (equipmentModel.GetBaseStatusModel (status.StatusData.StatusType));
 
                 var objIndex = index - 1;
 

@@ -12,9 +12,9 @@ using UnityEngine;
 namespace MasterData
 {
     /// <summary>
-    /// 대상 파일  05_EquipmentStatus.xlsx
+    /// 대상 파일  04_Equipment.xlsx
     /// </summary>
-    public class EquipmentStatus : BaseTable
+    public class EquipmentStatusGroup : BaseTable
     {
         /// <summary>
         /// 인덱스
@@ -43,25 +43,25 @@ namespace MasterData
         /// <summary>
         /// 매니저
         /// </summary>
-        public static readonly EquipmentStatusManager Manager = new EquipmentStatusManager ();
+        public static readonly EquipmentStatusGroupManager Manager = new EquipmentStatusGroupManager ();
     }
 
 
     /// <summary>
-    /// EquipmentStatus 모델의 매니저
+    /// EquipmentStatusGroup 모델의 매니저
     /// partial 로 선언되어 있기 때문에 확장 시킬수 있습니다.
     /// </summary>
-    public partial class EquipmentStatusManager : BaseManager<EquipmentStatus>
+    public partial class EquipmentStatusGroupManager : BaseManager<EquipmentStatusGroup>
     {
-        public EquipmentStatus GetItemByIndex (int index)
+        public EquipmentStatusGroup GetItemByIndex (int index)
         {
-            return ContainsKey(index) ? this[index] : throw new KeyNotFoundException($"{nameof(EquipmentStatusManager)}에 {index}가 존재하지 않는다.");
+            return ContainsKey(index) ? this[index] : throw new KeyNotFoundException($"{nameof(EquipmentStatusGroupManager)}에 {index}가 존재하지 않는다.");
         }
 
         
         public async UniTask LoadAsync (string basePath)
         {
-            var filePath = $"{basePath}/EquipmentStatus";
+            var filePath = $"{basePath}/EquipmentStatusGroup";
             var rowData = await LoadDataAsync (filePath);
 
             // 첫번째 row 는 컬럼의 이름이기 떄문에 제외.
@@ -87,13 +87,13 @@ namespace MasterData
             }
             await UniTask.Yield ();
 
-            CompletedTableLoad (nameof(EquipmentStatus));
+            CompletedTableLoad (nameof(EquipmentStatusGroup));
         }
         
 
         public void Load (string basePath)
         {
-            var filePath = $"{basePath}/EquipmentStatus";
+            var filePath = $"{basePath}/EquipmentStatusGroup";
             var rowData = LoadData (filePath);
 
             // 첫번째 row 는 컬럼의 이름이기 떄문에 제외.
@@ -118,13 +118,13 @@ namespace MasterData
                 }
             }
 
-            CompletedTableLoad (nameof(EquipmentStatus));
+            CompletedTableLoad (nameof(EquipmentStatusGroup));
         }
 
 
         private void LoadRow (string[] dataList)
         {
-            var p = new EquipmentStatus
+            var p = new EquipmentStatusGroup
             {
                 Index = Parsing (dataList[0], int.Parse),
                 StatusType = ParsingEnum<StatusType>(dataList[1]),
@@ -132,7 +132,7 @@ namespace MasterData
                 Max = Parsing (dataList[3], float.Parse),
             };
             p.PostProcess (dataList);
-            EquipmentStatus.Manager.Add (p.Index, p);
+            EquipmentStatusGroup.Manager.Add (p.Index, p);
         }
     }
 }

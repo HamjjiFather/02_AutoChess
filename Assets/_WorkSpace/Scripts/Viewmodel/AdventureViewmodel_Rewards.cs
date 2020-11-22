@@ -122,21 +122,10 @@ namespace AutoChess
             equipmentModel.SetUniqueData (NewUniqueId ());
             equipmentModel.SetEquipmentData (equipmentData);
             equipmentModel.SetStarGrade (StarGrade.Grade1);
-
-            SetStatusGradeValue ();
+            _equipmentViewmodel.SetEquipmentStatus (equipmentModel);
 
             return equipmentModel;
 
-            void SetStatusGradeValue ()
-            {
-                var rand = Random.Range (0, 1f);
-                var statusGradeIndex = equipmentData.AvailEquipmentTypeIndex.Choice ();
-                equipmentModel.SetStatusGrade (statusGradeIndex, rand);
-
-                var statusModel = _equipmentViewmodel.SetBaseStatusDict (equipmentModel.StatusIndexes,
-                    equipmentModel.StatusGrades);
-                equipmentModel.SetStatus (statusModel);
-            }
         }
 
 

@@ -32,11 +32,11 @@ namespace MasterData
             IncreaseLoadingStepper ();
             await Equipment.Manager.LoadAsync (basePath);
             IncreaseLoadingStepper ();
+            await EquipmentStatusGroup.Manager.LoadAsync (basePath);
+            IncreaseLoadingStepper ();
             await AdvEquipmentGroup.Manager.LoadAsync (basePath);
             IncreaseLoadingStepper ();
             await AdvEquipmentProbGroup.Manager.LoadAsync (basePath);
-            IncreaseLoadingStepper ();
-            await EquipmentStatus.Manager.LoadAsync (basePath);
             IncreaseLoadingStepper ();
             await Status.Manager.LoadAsync (basePath);
             IncreaseLoadingStepper ();
@@ -66,9 +66,9 @@ namespace MasterData
             CharacterLevel.Manager.Load(basePath);
             Skill.Manager.Load(basePath);
             Equipment.Manager.Load(basePath);
+            EquipmentStatusGroup.Manager.Load(basePath);
             AdvEquipmentGroup.Manager.Load(basePath);
             AdvEquipmentProbGroup.Manager.Load(basePath);
-            EquipmentStatus.Manager.Load(basePath);
             Status.Manager.Load(basePath);
             StatusGradeRange.Manager.Load(basePath);
             BattleStage.Manager.Load(basePath);

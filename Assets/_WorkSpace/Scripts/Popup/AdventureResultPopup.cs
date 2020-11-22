@@ -11,24 +11,15 @@ namespace AutoChess
 #pragma warning disable CS0649
 
 #pragma warning restore CS0649
-
-        private Action _closeAction;
-
+        
         #endregion
 
+        
         #region Methods
 
-        protected override void OnPush (Parameters pushValue = null)
+        protected override void OnPush (Parameters pushValue)
         {
-            _closeAction = pushValue.GetValue<Action> ("action");
             base.OnPush (pushValue);
-        }
-
-
-        protected override void OnPopComplete ()
-        {
-            _closeAction = null;
-            base.OnPopComplete ();
         }
 
 
@@ -39,7 +30,6 @@ namespace AutoChess
 
         protected override void OnClickClose ()
         {
-            _closeAction.CallSafe ();
             base.OnClickClose ();
         }
 

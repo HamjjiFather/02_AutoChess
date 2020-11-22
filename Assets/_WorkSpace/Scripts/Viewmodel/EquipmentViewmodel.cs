@@ -26,9 +26,9 @@ namespace AutoChess
         /// 장비.
         /// </summary>
         private readonly Dictionary<int, EquipmentModel> _equipmentModels = new Dictionary<int, EquipmentModel> ();
-        
+
         public Dictionary<int, EquipmentModel> EquipmentModels => _equipmentModels;
-        
+
 
         private static EquipmentModel _emptyEquipmentModel = new EquipmentModel ();
         public static EquipmentModel EmptyEquipmentModel => _emptyEquipmentModel;
@@ -64,6 +64,7 @@ namespace AutoChess
 
             var equipmentBundle = LocalDataHelper.GetEquipmentBundle ();
 
+            // 처음 실행.
             if (!equipmentBundle.EquipmentUniqueIds.Any ())
             {
                 _startEquipmentIndexes.ForEach (index =>
@@ -83,7 +84,7 @@ namespace AutoChess
                 var starGrade = equipmentBundle.EquipmentGrades[index];
                 var equipmentBundleData = equipmentBundle.EquipmentDatas[index];
                 var equipmentData = Equipment.Manager.GetItemByIndex (equipmentBundle.EquipmentIds[index]);
-                var statusModel = SetBaseStatusDict (equipmentBundleData.EquipmentStatusIndexes,
+                var statusModel = SetBaseStatusList (equipmentBundleData.EquipmentStatusIndexes,
                     equipmentBundleData.EquipmentStatusGrades);
 
                 equipmentModel.SetStatusGrade (equipmentBundleData.EquipmentStatusIndexes,
@@ -120,20 +121,39 @@ namespace AutoChess
             equipmentModel.SetEquipmentData (equipmentData);
             equipmentModel.SetStarGrade (StarGrade.Grade1);
 
-            SetStatusGradeValue ();
+            SetEquipmentStatus (equipmentModel);
 
             return equipmentModel;
+        }
 
-            void SetStatusGradeValue ()
-            {
-                var rand = Random.Range (0, 1f);
-                var statusGradeIndex = equipmentData.AvailEquipmentTypeIndex.Choice();
-                equipmentModel.SetStatusGrade (statusGradeIndex, rand);
 
-                var statusModel = SetBaseStatusDict (equipmentModel.StatusIndexes,
-                    equipmentModel.StatusGrades);
-                equipmentModel.SetStatus (statusModel);
-            }
+        /// <summary>
+        /// 새로 획득한 장비의 등급을 설정함.
+        /// </summary>
+        public void NewEquipmentGrade (EquipmentModel equipmentModel)
+        {
+            var rand = Random.Range (0, 10000);
+        }
+        
+
+
+        public void SetEquipmentStatus (EquipmentModel equipmentModel)
+        {
+            equipmentModel.EquipmentData.BaseEquipmentStatusIndexes.Where (x => !x.Equals (Constants.INVALID_INDEX))
+                .ForEach (index =>
+                {
+                    var baseRand = Random.Range (0, 1f);
+                    equipmentModel.SetStatusGrade (index, baseRand);
+                });
+
+            var rand = Random.Range (0, 1f);
+            var statusGradeIndex = equipmentModel.EquipmentData.AvailEquipmentStatusIndexes
+                .Where (x => !x.Equals (Constants.INVALID_INDEX)).Choice ();
+            equipmentModel.SetStatusGrade (statusGradeIndex, rand);
+
+            var statusModel = SetBaseStatusList (equipmentModel.StatusIndexes,
+                equipmentModel.StatusGrades);
+            equipmentModel.SetStatus (statusModel);
         }
 
 
@@ -148,23 +168,23 @@ namespace AutoChess
         }
 
 
-        public Dictionary<StatusType, BaseStatusModel> SetBaseStatusDict (IReadOnlyList<int> indexes,
+        public IEnumerable<BaseStatusModel> SetBaseStatusList (IReadOnlyList<int> indexes,
             IReadOnlyList<float> gradeValues)
         {
-            var dict = new Dictionary<StatusType, BaseStatusModel> ();
+            var list = new List<BaseStatusModel> ();
             for (var i = 0; i < indexes.Count; i++)
             {
-                var equipmentStatus = EquipmentStatus.Manager.GetItemByIndex (indexes[i]);
+                var equipmentStatus = EquipmentStatusGroup.Manager.GetItemByIndex (indexes[i]);
                 var statusData = TableDataHelper.Instance.GetStatus (equipmentStatus.StatusType);
                 var statusValue = Mathf.Lerp (equipmentStatus.Min, equipmentStatus.Max, gradeValues[i]);
                 var statusModel = new BaseStatusModel (statusData);
                 statusModel.SetStatusValue (statusValue);
                 statusModel.SetGradeValue (gradeValues[i]);
 
-                dict.Add (equipmentStatus.StatusType, statusModel);
+                list.Add (statusModel);
             }
 
-            return dict;
+            return list;
         }
 
 

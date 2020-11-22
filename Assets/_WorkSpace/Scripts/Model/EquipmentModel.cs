@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Helper;
 using KKSFramework.DesignPattern;
 using KKSFramework.ResourcesLoad;
@@ -8,19 +9,19 @@ using ResourcesLoad;
 
 namespace AutoChess
 {
-    public class EquipmentModel : ModelBase, IStatusModel
+    public class EquipmentModel : ModelBase
     {
         #region Fields & Property
-        
+
         public int UniqueEquipmentId;
 
         public Equipment EquipmentData;
-        
+
         /// <summary>
         /// 장비 등급.
         /// </summary>
         public StarGrade StarGrade;
-        
+
         /// <summary>
         /// 능력치 인덱스.
         /// </summary>
@@ -36,14 +37,16 @@ namespace AutoChess
         /// </summary>
         public Sprite IconImageResources => ResourcesLoadHelper.LoadResource<Sprite> (ResourceRoleType._Image,
             ResourcesType.Equipment, EquipmentData.SpriteResName);
-            
-       
+
 
 #pragma warning disable CS0649
 
 #pragma warning restore CS0649
 
-        public Dictionary<StatusType, BaseStatusModel> Status { get; set; } = new Dictionary<StatusType, BaseStatusModel> ();
+        /// <summary>
+        /// 능력치.
+        /// </summary>
+        public List<BaseStatusModel> StatusList { get; set; } = new List<BaseStatusModel> ();
 
         #endregion
 
@@ -51,14 +54,14 @@ namespace AutoChess
         public EquipmentModel ()
         {
         }
-        
-        
+
+
         public void SetUniqueData (int uid)
         {
             UniqueEquipmentId = uid;
         }
 
-        
+
         public void SetEquipmentData (Equipment equipment)
         {
             EquipmentData = equipment;
@@ -69,11 +72,11 @@ namespace AutoChess
         {
             StarGrade = starGrade;
         }
-        
-        
-        public void SetStatus (Dictionary<StatusType, BaseStatusModel> status)
+
+
+        public void SetStatus (IEnumerable<BaseStatusModel> status)
         {
-            Status = status;
+            StatusList.AddRange (status);
         }
 
 
@@ -82,7 +85,7 @@ namespace AutoChess
             StatusIndexes = indexes;
             StatusGrades = grades;
         }
-        
+
 
         public void SetStatusGrade (int index, float grade)
         {
@@ -93,13 +96,17 @@ namespace AutoChess
 
         public BaseStatusModel GetBaseStatusModel (StatusType statusType)
         {
-            return Status.ContainsKey (statusType) ? Status[statusType] : new BaseStatusModel ();
+            return StatusList.Any (x => x.StatusData.StatusType.Equals (statusType))
+                ? StatusList.First (x => x.StatusData.StatusType.Equals (statusType))
+                : new BaseStatusModel ();
         }
-        
-        
+
+
         public float GetStatusValue (StatusType statusType)
         {
-            return Status.ContainsKey (statusType) ? Status[statusType].StatusValue : 0f;
+            return StatusList.Any (x => x.StatusData.StatusType.Equals (statusType))
+                ? StatusList.Where (x => x.StatusData.StatusType.Equals (statusType)).Sum (x => x.StatusValue)
+                : 0f;
         }
 
 

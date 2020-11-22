@@ -35,11 +35,11 @@ namespace AutoChess
 
         private readonly int[] _startEquipmentIndexes =
         {
-            4000,
-            4001,
-            4002,
-            4003,
-            4004
+            0,
+            1,
+            2,
+            3,
+            4
         };
 
         public bool IsDataChanged { get; set; }

@@ -48,10 +48,10 @@ namespace AutoChess
 
         private readonly int[] _startCharacterIndexes =
         {
-            1000,
-            1001,
-            1002,
-            1003
+            0,
+            1,
+            2,
+            3
         };
 
         public bool IsDataChanged;

@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using MasterData;
 
 namespace MasterData
 {
@@ -19,8 +18,7 @@ namespace MasterData
         
         public Status GetStatus (StatusType statusType)
         {
-            var arrayIndex = 6000 + (int) statusType;
-            return Status.Manager.GetItemByIndex(arrayIndex);
+            return GetBaseTableByEnum<Status> (TableName.Status, (int) statusType);
         }
         
         
@@ -32,7 +30,23 @@ namespace MasterData
         
         public CharacterLevel GetCharacterLevelByLevel (int level)
         {
-            return CharacterLevel.Manager.GetItemByIndex(((int) TableName.CharacterLevel + 1) * 1000 + level);
+            return GetBaseTableByEnum<CharacterLevel> (TableName.CharacterLevel, (int) TableName.CharacterLevel + level);
+        }
+
+
+        public T GetBaseTableByEnum<T> (TableName tableName, int index) where T : BaseTable
+        {
+            switch (tableName)
+            {
+                case TableName.CharacterLevel:
+                    return CharacterLevel.Manager.GetItemByIndex (index) as T;
+                
+                case TableName.Status:
+                    return Status.Manager.GetItemByIndex (index) as T;
+                
+                default:
+                    return Equipment.Manager.GetItemByIndex (index) as T;
+            }
         }
     }
 }

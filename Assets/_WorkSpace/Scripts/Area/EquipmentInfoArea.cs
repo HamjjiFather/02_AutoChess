@@ -67,7 +67,7 @@ namespace AutoChess
         {
             _equipmentModel = areaData;
             _equipmentName.Value = LocalizeHelper.FromName (areaData.EquipmentData.Name);
-            _starGradeArea.SetArea (areaData.StarGrade);
+            _starGradeArea.SetArea (areaData.EquipmentGrade);
             _equipmentImage.Value = ResourcesLoadHelper.LoadResource<Sprite> (ResourceRoleType._Image,
                 ResourcesType.Equipment, areaData.EquipmentData.SpriteResName);
 

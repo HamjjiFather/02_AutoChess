@@ -11,7 +11,7 @@ namespace MasterData
 {
     public static class TsvTableData
     {
-        public static int NumberOfTable = 14;
+        public static int NumberOfTable = 15;
         public static bool IsLoaded { get; private set; }
 
         #region Loader
@@ -31,6 +31,8 @@ namespace MasterData
             await Skill.Manager.LoadAsync (basePath);
             IncreaseLoadingStepper ();
             await Equipment.Manager.LoadAsync (basePath);
+            IncreaseLoadingStepper ();
+            await EquipmentGradeProb.Manager.LoadAsync (basePath);
             IncreaseLoadingStepper ();
             await EquipmentStatusGroup.Manager.LoadAsync (basePath);
             IncreaseLoadingStepper ();
@@ -66,6 +68,7 @@ namespace MasterData
             CharacterLevel.Manager.Load(basePath);
             Skill.Manager.Load(basePath);
             Equipment.Manager.Load(basePath);
+            EquipmentGradeProb.Manager.Load(basePath);
             EquipmentStatusGroup.Manager.Load(basePath);
             AdvEquipmentGroup.Manager.Load(basePath);
             AdvEquipmentProbGroup.Manager.Load(basePath);

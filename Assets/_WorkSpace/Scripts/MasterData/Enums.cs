@@ -530,24 +530,26 @@ namespace MasterData
         
         Equipment = 3,
         
-        EquipmentStatusGroup = 4,
+        EquipmentGradeProb = 4,
         
-        AdvEquipmentGroup = 5,
+        EquipmentStatusGroup = 5,
         
-        AdvEquipmentProbGroup = 6,
+        AdvEquipmentGroup = 6,
         
-        Status = 7,
+        AdvEquipmentProbGroup = 7,
         
-        StatusGradeRange = 8,
+        Status = 8,
         
-        BattleStage = 9,
+        StatusGradeRange = 9,
         
-        Particle = 10,
+        BattleStage = 10,
         
-        Currency = 11,
+        Particle = 11,
         
-        AdventureField = 12,
+        Currency = 12,
         
-        PlayerLevel = 13
+        AdventureField = 13,
+        
+        PlayerLevel = 14
     }
 }

@@ -63,7 +63,7 @@ namespace AutoChess
 
         protected void SetBaseInfo ()
         {
-            starGradeArea.SetArea (ElementData.EquipmentModel.StarGrade);
+            starGradeArea.SetArea (ElementData.EquipmentModel.EquipmentGrade);
             equipmentImage.sprite = ElementData.EquipmentModel.IconImageResources;
             equipmentNameText.text = LocalizeHelper.FromName (ElementData.EquipmentModel.EquipmentData.Name);
         }

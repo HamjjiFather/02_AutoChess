@@ -14,23 +14,30 @@ namespace MasterData
 
             return TableName.Character;
         }
-        
-        
+
+
         public Status GetStatus (StatusType statusType)
         {
             return GetBaseTableByEnum<Status> (TableName.Status, (int) statusType);
         }
-        
-        
+
+
+        public EquipmentGradeProb GetEquipmentGradeProb (int level)
+        {
+            return EquipmentGradeProb.Manager.GetItemByIndex (level);
+        }
+
+
         public CharacterLevel GetCharacterLevelByExp (float exp)
         {
             return CharacterLevel.Manager.Values.FirstOrDefault (x => x.AccReqExp > exp);
         }
 
-        
+
         public CharacterLevel GetCharacterLevelByLevel (int level)
         {
-            return GetBaseTableByEnum<CharacterLevel> (TableName.CharacterLevel, (int) TableName.CharacterLevel + level);
+            return GetBaseTableByEnum<CharacterLevel> (TableName.CharacterLevel,
+                (int) TableName.CharacterLevel + level);
         }
 
 
@@ -40,10 +47,10 @@ namespace MasterData
             {
                 case TableName.CharacterLevel:
                     return CharacterLevel.Manager.GetItemByIndex (index) as T;
-                
+
                 case TableName.Status:
                     return Status.Manager.GetItemByIndex (index) as T;
-                
+
                 default:
                     return Equipment.Manager.GetItemByIndex (index) as T;
             }

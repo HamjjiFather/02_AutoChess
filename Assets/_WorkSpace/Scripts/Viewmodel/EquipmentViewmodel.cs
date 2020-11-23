@@ -1,3 +1,5 @@
+using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using BaseFrame;
@@ -6,6 +8,7 @@ using KKSFramework.LocalData;
 using MasterData;
 using UnityEngine;
 using Zenject;
+using Random = UnityEngine.Random;
 
 namespace AutoChess
 {
@@ -91,7 +94,7 @@ namespace AutoChess
                     equipmentBundleData.EquipmentStatusGrades);
                 equipmentModel.SetUniqueData (uid);
                 equipmentModel.SetEquipmentData (equipmentData);
-                equipmentModel.SetStarGrade (starGrade);
+                equipmentModel.SetEquipmentGrade (starGrade);
                 equipmentModel.SetStatus (statusModel);
 
                 _equipmentModels.Add (equipmentModel.UniqueEquipmentId, equipmentModel);
@@ -119,7 +122,7 @@ namespace AutoChess
             var equipmentData = Equipment.Manager.GetItemByIndex (equipmentIndex);
             equipmentModel.SetUniqueData (NewUniqueId ());
             equipmentModel.SetEquipmentData (equipmentData);
-            equipmentModel.SetStarGrade (StarGrade.Grade1);
+            equipmentModel.SetEquipmentGrade (EquipmentGrade.Grade1);
 
             SetEquipmentStatus (equipmentModel);
 
@@ -130,9 +133,26 @@ namespace AutoChess
         /// <summary>
         /// 새로 획득한 장비의 등급을 설정함.
         /// </summary>
-        public void NewEquipmentGrade (EquipmentModel equipmentModel)
+        public EquipmentGrade SetEquipmentGrade ()
         {
+            var equipmentGradeProb = TableDataHelper.Instance.GetEquipmentGradeProb (0);
+            
             var rand = Random.Range (0, 10000);
+            var gradeArray = Enum.GetValues (typeof(EquipmentGrade));
+            var gradeEnumerator = gradeArray.GetEnumerator ();
+            var stackedProbValue = 0;
+
+            while (gradeEnumerator.MoveNext ())
+            {
+                if (!(gradeEnumerator.Current is EquipmentGrade grade)) continue;
+                stackedProbValue += equipmentGradeProb.ProbGrades[(int) grade];
+                if (stackedProbValue < rand)
+                {
+                    return grade;
+                }
+            }
+
+            return EquipmentGrade.Grade1;
         }
         
 
@@ -162,7 +182,7 @@ namespace AutoChess
             LocalDataHelper.SaveEquipmentStatusData (
                 _equipmentModels.Values.Select (x => x.UniqueEquipmentId).ToList (),
                 _equipmentModels.Values.Select (x => x.EquipmentData.Index).ToList (),
-                _equipmentModels.Values.Select (x => x.StarGrade).ToList (),
+                _equipmentModels.Values.Select (x => x.EquipmentGrade).ToList (),
                 _equipmentModels.Values.Select (x => x.StatusIndexes).ToList (),
                 _equipmentModels.Values.Select (x => x.StatusGrades).ToList ());
         }

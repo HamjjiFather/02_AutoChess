@@ -50,7 +50,7 @@ namespace AutoChess
             _equipmentObj.SetActive (!isEmpty);
 
             if (isEmpty) return;
-            _equipmentStarGradeArea.SetArea (elementData.StarGrade);
+            _equipmentStarGradeArea.SetArea (elementData.EquipmentGrade);
             _equipmentImage.sprite = elementData.IconImageResources;
         }
 

@@ -20,7 +20,7 @@ namespace AutoChess
         /// <summary>
         /// 장비 등급.
         /// </summary>
-        public StarGrade StarGrade;
+        public EquipmentGrade EquipmentGrade;
 
         /// <summary>
         /// 능력치 인덱스.
@@ -68,9 +68,9 @@ namespace AutoChess
         }
 
 
-        public void SetStarGrade (StarGrade starGrade)
+        public void SetEquipmentGrade (EquipmentGrade starGrade)
         {
-            StarGrade = starGrade;
+            EquipmentGrade = starGrade;
         }
 
 

@@ -121,7 +121,8 @@ namespace AutoChess
             var equipmentData = Equipment.Manager.GetItemByIndex (equipmentIndex);
             equipmentModel.SetUniqueData (NewUniqueId ());
             equipmentModel.SetEquipmentData (equipmentData);
-            equipmentModel.SetStarGrade (StarGrade.Grade1);
+            var equipmentGrade = _equipmentViewmodel.SetEquipmentGrade ();
+            equipmentModel.SetEquipmentGrade (equipmentGrade);
             _equipmentViewmodel.SetEquipmentStatus (equipmentModel);
 
             return equipmentModel;

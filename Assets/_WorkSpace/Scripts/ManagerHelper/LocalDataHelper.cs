@@ -95,7 +95,7 @@ namespace KKSFramework.LocalData
 
         public List<int> EquipmentIds = new List<int> ();
 
-        public List<StarGrade> EquipmentGrades = new List<StarGrade> ();
+        public List<EquipmentGrade> EquipmentGrades = new List<EquipmentGrade> ();
 
         public List<EquipmentData> EquipmentDatas = new List<EquipmentData> ();
 
@@ -263,7 +263,7 @@ namespace KKSFramework.LocalData
 
 
         public static void SaveEquipmentStatusData (List<int> equipmentUids, List<int> equipmentIds,
-            List<StarGrade> equipmentGrades,
+            List<EquipmentGrade> equipmentGrades,
             List<List<int>> indexes, List<List<float>> statusGrades)
         {
             LocalDataClass.EquipmentBundle.EquipmentUniqueIds = equipmentUids;

@@ -34,6 +34,12 @@ namespace AutoChess
             context.Resolve ();
             _onStarObj.ForEach ((obj, index) => { obj.enabled = index <= (int) grade; });
         }
+        
+        public void SetArea (EquipmentGrade grade)
+        {
+            context.Resolve ();
+            _onStarObj.ForEach ((obj, index) => { obj.enabled = index <= (int) grade; });
+        }
 
         #endregion
 

@@ -23,7 +23,7 @@ namespace AutoChess
         private BattleCharacterListArea _battleCharacterListArea;
 
         [Resolver]
-        private ButtonExtension _syntheticButton;
+        private ButtonExtension _combineButton;
 
         [Inject]
         private CharacterViewmodel _characterViewmodel;
@@ -37,7 +37,7 @@ namespace AutoChess
 
         private void Awake ()
         {
-            _syntheticButton.AddListener (ClickSyntheticCharacterButton);
+            _combineButton.AddListener (ClickCombineCharacterButton);
         }
 
         #endregion
@@ -63,11 +63,12 @@ namespace AutoChess
         }
 
 
-        private void ClickSyntheticCharacterButton ()
+        private void ClickCombineCharacterButton ()
         {
             var param = new Parameters
             {
-                [CharacterSyntheticViewLayout.SyntheticCharacterViewLayoutParamKey] = _characterInfoArea.AreaData
+                [CombineViewLayout.MaterialParamKey] = _characterInfoArea.AreaData,
+                [CombineViewLayout.IsCharacterParamKey] = true
             };
             ViewLayoutLoader.SetSubView (4, param);
         }

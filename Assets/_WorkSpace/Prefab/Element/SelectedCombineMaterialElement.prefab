@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3202219257519744071}
   - component: {fileID: 1136312257269722027}
   m_Layer: 5
-  m_Name: SelectedSyntheticCharacterElement
+  m_Name: SelectedCombineMaterialElement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -187,9 +187,9 @@ GameObject:
   - component: {fileID: 6733390178638671422}
   - component: {fileID: 637865814871292164}
   - component: {fileID: 17046614871738611}
-  - component: {fileID: 147818154549533402}
+  - component: {fileID: 3407563969905689918}
   m_Layer: 5
-  m_Name: CharacterImage
+  m_Name: _materialImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -308,9 +308,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2273cd00733c402182c3f235fe7a5880, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  containerPath: _characterImage
+  containerPath: _materialImage
   targetComponent: {fileID: 6733390178638671422}
---- !u!114 &147818154549533402
+--- !u!114 &3407563969905689918
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -322,7 +322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  containerPath: _characterButton
+  containerPath: _materialButton
   targetComponent: {fileID: 637865814871292164}
 --- !u!1 &6960052938737176218
 GameObject:
@@ -335,7 +335,7 @@ GameObject:
   - component: {fileID: 3931333486774309802}
   - component: {fileID: 6092686476860639884}
   m_Layer: 5
-  m_Name: CharacterArea
+  m_Name: _materialArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -374,7 +374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  containerPath: _characterArea
+  containerPath: _materialArea
   targetComponent: {fileID: 6960052938737176218}
 --- !u!1 &8760791638873095593
 GameObject:
@@ -389,7 +389,7 @@ GameObject:
   - component: {fileID: 7022077643880616503}
   - component: {fileID: 3398245983631824957}
   m_Layer: 5
-  m_Name: SlotImage
+  m_Name: _slotImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -797,7 +797,7 @@ PrefabInstance:
     - target: {fileID: 6387701927444020447, guid: 24514e9eba8d0554788446b1588a617f,
         type: 3}
       propertyPath: m_Name
-      value: StarGradeArea
+      value: _starGradeArea
       objectReference: {fileID: 0}
     - target: {fileID: 6387701927444020447, guid: 24514e9eba8d0554788446b1588a617f,
         type: 3}

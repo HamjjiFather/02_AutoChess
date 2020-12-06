@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace AutoChess
 {
-    public class StarGradeArea : AreaBase<StarGrade>, IResolveTarget
+    public class StarGradeArea : AreaBase<int>, IResolveTarget
     {
         #region Fields & Property
 
@@ -29,16 +29,22 @@ namespace AutoChess
 
         #region Methods
 
-        public override void SetArea (StarGrade grade)
+        public override void SetArea (int grade)
         {
             context.Resolve ();
-            _onStarObj.ForEach ((obj, index) => { obj.enabled = index <= (int) grade; });
+            _onStarObj.ForEach ((obj, index) => { obj.enabled = index <= grade; });
         }
+        
+        
+        public void SetArea (StarGrade grade)
+        {
+            SetArea ((int)grade);
+        }
+        
         
         public void SetArea (EquipmentGrade grade)
         {
-            context.Resolve ();
-            _onStarObj.ForEach ((obj, index) => { obj.enabled = index <= (int) grade; });
+            SetArea ((int)grade);
         }
 
         #endregion

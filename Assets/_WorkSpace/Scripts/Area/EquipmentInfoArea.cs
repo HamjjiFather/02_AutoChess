@@ -26,9 +26,6 @@ namespace AutoChess
         private StarGradeArea _starGradeArea;
 
         [Resolver]
-        private Button _equipButton;
-
-        [Resolver]
         private StatusElement[] _baseStatusElements;
 
         [Resolver]
@@ -39,7 +36,7 @@ namespace AutoChess
 
 #pragma warning restore CS0649
 
-        private EquipmentModel _equipmentModel;
+        public EquipmentModel AreaData;
 
         private BattleCharacterListArea _battleCharacterListArea;
 
@@ -50,7 +47,6 @@ namespace AutoChess
 
         private void Awake ()
         {
-            _equipButton.onClick.AddListener (ClickEquipButton);
         }
 
         #endregion
@@ -65,7 +61,7 @@ namespace AutoChess
 
         public override void SetArea (EquipmentModel areaData)
         {
-            _equipmentModel = areaData;
+            AreaData = areaData;
             _equipmentName.Value = LocalizeHelper.FromName (areaData.EquipmentData.Name);
             _starGradeArea.SetArea (areaData.EquipmentGrade);
             _equipmentImage.Value = ResourcesLoadHelper.LoadResource<Sprite> (ResourceRoleType._Image,
@@ -84,31 +80,14 @@ namespace AutoChess
                     _baseStatusElementLineObjs[objIndex].SetActive (true);
             });
 
-            SetEquipState (true);
+            // SetEquipState (true);
         }
 
-
-        private void SetEquipState (bool active)
-        {
-            _equipButton.gameObject.SetActive (active);
-        }
 
         #endregion
 
 
         #region EventMethods
-
-        private void ClickEquipButton ()
-        {
-            _battleCharacterListArea.SetElementClickActions (ClickCharacter);
-
-            void ClickCharacter (CharacterModel characterModel)
-            {
-                characterModel.ChangeEquipmentModel (0, _equipmentModel);
-                _characterViewmodel.SaveCharacterData ();
-                SetEquipState (false);
-            }
-        }
 
         #endregion
     }

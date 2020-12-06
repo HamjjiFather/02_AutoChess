@@ -62,6 +62,34 @@ namespace AutoChess
 
             _listElements.First ().elementButton.onClick.Invoke ();
         }
+        
+        
+        public void SetAreaForced (UnityAction<EquipmentModel> areaData, List<EquipmentModel> equipmentModels, bool firstElementInvoke)
+        {
+            _listElements.ForEach (element => ObjectPoolingHelper.Despawn (element.transform));
+            _listElements.Clear ();
+
+            equipmentModels.ForEach (equipmentModel =>
+            {
+                var element = ObjectPoolingHelper.Spawn<EquipmentInfoListElement> (
+                    ResourceRoleType.Bundles.ToString (),
+                    ResourcesType.Element.ToString (), nameof (EquipmentInfoListElement), _contents);
+
+                element.SetElement (new EquipmentInfoListElementModel
+                {
+                    EquipmentModel = equipmentModel,
+                    ElementClick = areaData
+                });
+                _listElements.Add (element);
+            });
+
+            if (!firstElementInvoke)
+                return;
+            
+            var firstElementData = _listElements.First ().ElementData;
+            firstElementData.ElementClick.Invoke (firstElementData.EquipmentModel);
+        }
+        
 
         #endregion
 

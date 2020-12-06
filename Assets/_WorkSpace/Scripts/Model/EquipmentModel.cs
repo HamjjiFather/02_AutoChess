@@ -2,14 +2,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Helper;
 using KKSFramework.DesignPattern;
-using KKSFramework.ResourcesLoad;
 using UnityEngine;
 using MasterData;
 using ResourcesLoad;
 
 namespace AutoChess
 {
-    public class EquipmentModel : ModelBase
+    public class EquipmentModel : ModelBase, ICombineMaterial
     {
         #region Fields & Property
 
@@ -38,6 +37,19 @@ namespace AutoChess
         public Sprite IconImageResources => ResourcesLoadHelper.LoadResource<Sprite> (ResourceRoleType._Image,
             ResourcesType.Equipment, EquipmentData.SpriteResName);
 
+        
+        #region Interface Implements
+
+        public int Index => EquipmentData.Index;
+
+        public string NameString => EquipmentData.Name;
+        
+        public int Grade => (int) EquipmentGrade;
+
+        public Sprite ImageSprite => IconImageResources;
+        
+        #endregion
+
 
 #pragma warning disable CS0649
 
@@ -53,6 +65,12 @@ namespace AutoChess
 
         public EquipmentModel ()
         {
+        }
+        
+        
+        public void Combine ()
+        {
+            EquipmentGrade += 1;
         }
 
 

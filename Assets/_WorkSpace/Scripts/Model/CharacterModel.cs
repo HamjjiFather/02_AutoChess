@@ -5,7 +5,6 @@ using Helper;
 using MasterData;
 using KKSFramework.DesignPattern;
 using KKSFramework.LocalData;
-using KKSFramework.ResourcesLoad;
 using ResourcesLoad;
 using UniRx;
 using UnityEngine;
@@ -19,7 +18,7 @@ namespace AutoChess
 
 
 
-    public class CharacterModel : ModelBase
+    public class CharacterModel : ModelBase, ICombineMaterial
     {
         /// <summary>
         /// 사망 정보.
@@ -120,8 +119,21 @@ namespace AutoChess
         public RuntimeAnimatorController CharacterAnimatorResources =>
             ResourcesLoadHelper.LoadResource<RuntimeAnimatorController> (ResourceRoleType._Animation,
                 CharacterData.AnimatorResName);
+
+
+        #region Interface Implements
+
+        public int Index => CharacterData.Index;
+
+        public string NameString => CharacterData.Name;
+
+        public int Grade => (int) StarGrade;
+
+        public Sprite ImageSprite => IconImageResources;
         
-        
+        #endregion
+
+
 #pragma warning disable CS0649
 
 #pragma warning restore CS0649
@@ -130,6 +142,12 @@ namespace AutoChess
 
         #endregion
 
+        
+        public void Combine ()
+        {
+            StarGrade += 1;
+        }
+        
 
         #region Methods
 
@@ -180,6 +198,7 @@ namespace AutoChess
         {
             CharacterScale = scale;
         }
+
 
         #endregion
 

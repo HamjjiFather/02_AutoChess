@@ -5,32 +5,32 @@ using UnityEngine;
 
 namespace AutoChess
 {
-    public class SelectedSyntheticCharacterElement : ElementBase<SelectedSyntheticCharacterModel>, IResolveTarget
+    public class SelectedCombineMaterialElement : ElementBase<SelectedCombineModel>, IResolveTarget
     {
         #region Fields & Property
-        
+
 #pragma warning disable CS0649
 
         [Resolver]
         private StarGradeArea _starGradeArea;
 
         [Resolver]
-        private Property<Sprite> _characterImage;
+        private Property<Sprite> _materialImage;
 
         [Resolver]
-        private ButtonExtension _characterButton;
+        private ButtonExtension _materialButton;
 
         [Resolver]
-        private GameObject _characterArea;
+        private GameObject _materialArea;
 
         [Resolver]
         private GameObject _slotImage;
 
 #pragma warning restore CS0649
 
-        public override SelectedSyntheticCharacterModel ElementData { get; set; } = new SelectedSyntheticCharacterModel ();
+        public override SelectedCombineModel ElementData { get; set; } = new SelectedCombineModel ();
 
-        public bool HasElementData => ElementData.CharacterModel != null;
+        public bool HasElementData => ElementData.CombineMaterialModel != null;
 
         private int _index;
 
@@ -41,7 +41,7 @@ namespace AutoChess
 
         private void Awake ()
         {
-            _characterButton.AddListener (ClickCharacterButton);
+            _materialButton.AddListener (ClickCharacterButton);
         }
 
         #endregion
@@ -53,28 +53,27 @@ namespace AutoChess
         {
             _index = index;
         }
-        
 
-        public override void SetElement (SelectedSyntheticCharacterModel elementData)
+
+        public override void SetElement (SelectedCombineModel elementData)
         {
             ElementData = elementData;
-            
-            _characterArea.SetActive (true);
+
+            _materialArea.SetActive (true);
             _slotImage.SetActive (false);
-            
-            _starGradeArea.SetArea (elementData.CharacterModel.StarGrade);
-            _characterImage.Value = elementData.CharacterModel.IconImageResources;
+
+            _starGradeArea.SetArea (((CharacterModel) elementData.CombineMaterialModel).StarGrade);
+            _materialImage.Value = ((CharacterModel) elementData.CombineMaterialModel).IconImageResources;
         }
 
 
         public void SetEmptyElement ()
         {
-            _characterArea.SetActive (false);
+            _materialArea.SetActive (false);
             _slotImage.SetActive (true);
 
             ElementData.Empty ();
         }
-        
 
         #endregion
 
@@ -83,7 +82,7 @@ namespace AutoChess
 
         private void ClickCharacterButton ()
         {
-            ElementData.DeselectCharacter.Invoke (_index);
+            ElementData.DeselectMaterial.Invoke (_index);
             SetEmptyElement ();
         }
 

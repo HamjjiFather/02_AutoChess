@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using KKSFramework.DataBind;
 using KKSFramework.InGame;
 using KKSFramework.Navigation;
+using UnityEngine.UI;
 using Zenject;
 
 namespace AutoChess
@@ -21,6 +22,18 @@ namespace AutoChess
 
         [Resolver]
         private BattleCharacterListArea _battleCharacterListArea;
+        
+        [Resolver]
+        private Button _equipButton;
+        
+        [Resolver]
+        private Button _combineButton;
+        
+        [Resolver]
+        private Button _reinforceButton;
+        
+        [Resolver]
+        private Button _enchantButton;
 
         [Inject]
         private CharacterViewmodel _characterViewmodel;
@@ -35,6 +48,8 @@ namespace AutoChess
         private void Awake ()
         {
             _equipmentInfoArea.SetBattleCharacterListComponent (_battleCharacterListArea);
+            _equipButton.onClick.AddListener (ClickEquipButton);
+            _combineButton.onClick.AddListener (ClickCombineEquipmentButton);
         }
 
 
@@ -54,6 +69,12 @@ namespace AutoChess
             _battleCharacterListArea.SetArea (_characterViewmodel.BattleCharacterModels);
             return base.OnActiveAsync (parameters);
         }
+        
+        
+        private void SetEquipState (bool active)
+        {
+            _equipButton.gameObject.SetActive (active);
+        }
 
         #endregion
 
@@ -65,6 +86,30 @@ namespace AutoChess
         {
             _equipmentInfoArea.SetArea (equipmentModel);
         }
+        
+        
+        private void ClickEquipButton ()
+        {
+            _battleCharacterListArea.SetElementClickActions (ClickCharacter);
+
+            void ClickCharacter (CharacterModel characterModel)
+            {
+                characterModel.ChangeEquipmentModel (0, _equipmentInfoArea.AreaData);
+                _characterViewmodel.SaveCharacterData ();
+                SetEquipState (false);
+            }
+        }
+        
+        private void ClickCombineEquipmentButton ()
+        {
+            var param = new Parameters
+            {
+                [CombineViewLayout.MaterialParamKey] = _equipmentInfoArea.AreaData,
+                [CombineViewLayout.IsCharacterParamKey] = false
+            };
+            ViewLayoutLoader.SetSubView (4, param);
+        }
+        
 
         #endregion
     }

@@ -189,7 +189,7 @@ GameObject:
   - component: {fileID: 8417798820684159430}
   - component: {fileID: 7822820126838655417}
   m_Layer: 5
-  m_Name: _syntheticButton
+  m_Name: _combineButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -309,7 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  containerPath: _syntheticButton
+  containerPath: _combineButton
   targetComponent: {fileID: 8417798820684159430}
 --- !u!1 &1115438970922791330
 GameObject:

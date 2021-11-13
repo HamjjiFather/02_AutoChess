@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BaseFrame;
+using KKSFramework;
 using Cysharp.Threading.Tasks;
 using KKSFramework.DataBind;
 using KKSFramework.UI;
@@ -92,18 +92,18 @@ namespace AutoChess
                 // _fieldObj.SetActive (state != FieldRevealState.Sealed);
             });
 
-            _fieldTypeObjs.ForEach (x => x.SetActive (false));
+            _fieldTypeObjs.Foreach (x => x.SetActive (false));
             _fieldTypeObjs[(int) fieldModel.FieldSpecialType.Value].SetActive (true);
             var specialTypeDisposable = FieldModel.FieldSpecialType.Subscribe (type =>
             {
-                _fieldTypeObjs.Where (x => x.activeSelf).ForEach (x => x.SetActive (false));
+                _fieldTypeObjs.Where (x => x.activeSelf).Foreach (x => x.SetActive (false));
                 _fieldTypeObjs[(int) type].SetActive (FieldModel.FieldRevealState.Value != FieldRevealState.Sealed);
             });
 
-            _fieldGroundTypeObjs.ForEach (x => x.SetActive (false));
+            _fieldGroundTypeObjs.Foreach (x => x.SetActive (false));
             var groundTypeDisposable = FieldModel.FieldGroundType.Subscribe (type =>
             {
-                _fieldGroundTypeObjs.Where (x => x.activeSelf).ForEach (x => x.SetActive (false));
+                _fieldGroundTypeObjs.Where (x => x.activeSelf).Foreach (x => x.SetActive (false));
                 _fieldGroundTypeObjs[(int) type]
                     .SetActive (FieldModel.FieldRevealState.Value != FieldRevealState.Sealed);
             });

@@ -1,3 +1,0 @@
-Index	PrefabName	BoundArea	ParticleSize
-0	Heal	0	35
-1	Heal	0	35

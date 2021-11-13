@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using BaseFrame;
 using Helper;
+using KKSFramework;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
 using ResourcesLoad;
@@ -43,11 +43,11 @@ namespace AutoChess
             if (!_characterViewmodel.IsNewEmployment) return;
             _characterViewmodel.IsNewEmployment = false;
 
-            _employableCharacterElements.ForEach (element => ObjectPoolingHelper.Despawn (element.transform));
+            _employableCharacterElements.Foreach (element => ObjectPoolingHelper.Despawn (element.transform));
             _employableCharacterElements.Clear ();
-            _employCharacterPoint.ForEach (point => point.GetChild (0).gameObject.SetActive (true));
+            _employCharacterPoint.Foreach (point => point.GetChild (0).gameObject.SetActive (true));
 
-            _characterViewmodel.AllEmployableCharacterModels.ForEach ((characterModel, i) =>
+            _characterViewmodel.AllEmployableCharacterModels.Foreach ((characterModel, i) =>
             {
                 var element = ObjectPoolingHelper.Spawn<EmployableCharacterInfoListElement> (
                     ResourceRoleType.Bundles.ToString (), ResourcesType.Element.ToString (),
@@ -74,11 +74,11 @@ namespace AutoChess
 
         public void UpdateArea ()
         {
-            _employCharacterPoint.ForEach (point => point.GetChild (0).gameObject.SetActive (true));
+            _employCharacterPoint.Foreach (point => point.GetChild (0).gameObject.SetActive (true));
 
             if (_characterViewmodel.AllEmployableCharacterModels.Any ())
             {
-                _characterViewmodel.AllEmployableCharacterModels.ForEach ((characterModel, i) =>
+                _characterViewmodel.AllEmployableCharacterModels.Foreach ((characterModel, i) =>
                 {
                     _employCharacterPoint[i].GetChild (0).gameObject.SetActive (false);
                     _employableCharacterElements[i].UpdateElement (characterModel);
@@ -90,7 +90,7 @@ namespace AutoChess
             }
             else
             {
-                _employableCharacterElements.ForEach (element =>
+                _employableCharacterElements.Foreach (element =>
                 {
                     ObjectPoolingHelper.Despawn (element.transform);
                 });

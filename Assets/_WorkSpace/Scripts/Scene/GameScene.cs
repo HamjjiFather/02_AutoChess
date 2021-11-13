@@ -1,49 +1,46 @@
-﻿using BaseFrame;
-using BaseFrame.Navigation;
+﻿using AutoChess;
 using Cysharp.Threading.Tasks;
-using Helper;
-using KKSFramework.InGame;
-using KKSFramework.LocalData;
-using MasterData;
+using KKSFramework.Navigation;
+using KKSFramework.SceneLoad;
 using UnityEngine;
 
-namespace AutoChess
+
+namespace KKSFramework.InGame
 {
     public class GameScene : SceneController
     {
-        private const string BasePath = "MasterData";
+        public override InitNavigationData InitPageInitNavigationData => new InitNavigationData
+        {
+            viewString = nameof (NavigationViewType.GamePage),
+            actionOnFirst = OpenQuitPopup
+        };
 
-        public override async UniTask InitializeAsync (Parameters parameters)
+        protected override async UniTask InitializeAsync()
         {
             ProjectInstall.InitViewmodel ();
-            await TsvTableData.LoadAsync (BasePath);
-            ProjectInstall.InitTableDataViewmodel ();
-            LocalDataHelper.LoadAllGameData ();
+            await TableDataManager.Instance.LoadTableDatas ();
             ProjectInstall.InitLocalDataViewmodel ();
-
+            ProjectInstall.InitTableDataViewmodel ();
+            
             CreateCommonView ();
-            base.InitializeAsync (parameters).Forget ();
+            base.InitializeAsync ().Forget();
 
             void CreateCommonView ()
             {
-            }
-
-            async void OpenQuitPopup ()
-            {
-                var param = TreeNavigationHelper.SpawnParam ();
-                param["msg"] = "?게임을 나가시겠습니까?";
-                var popupCode = await TreeNavigationHelper.WaitForPopPushPopup (nameof(MessagePopup), param);
-                if (popupCode == PopupEndCode.Ok)
-                    Application.Quit ();
+                
             }
         }
-
-        public override Configuration GetRootViewConfiguration ()
+        
+        private void OpenQuitPopup ()
         {
-            var config = new Configuration.Builder ();
-            return config.SetName (nameof(GamePage), true)
-                .SetLayer (ContentLayer.Page)
-                .Build ();
+            var popupStruct = new MessagePopup.Model
+            {
+                confirmAction = Application.Quit,
+                msg = "?게임을 나가시겠습니까?"
+            };
+                
+            // NavigationManager.Instance.
+            NavigationHelper.OpenPopup (NavigationViewType.MessagePopup, popupStruct).Forget();
         }
     }
 }

@@ -88,7 +88,7 @@ namespace AutoChess
             _starGradeArea.SetArea (StarGrade.Grade1);
 
             _characterNameText.Value = LocalizeHelper.FromName (ElementData.CharacterData.Name);
-            _characterImage.Value = ResourcesLoadHelper.LoadResource<Sprite> (ResourceRoleType._Image,
+            _characterImage.Value = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
                 ResourcesType.Monster, characterModel.CharacterData.SpriteResName);
 
             var health = ElementData.GetTotalStatusValue (StatusType.Health).FloatToInt ();

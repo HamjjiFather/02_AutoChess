@@ -1,10 +1,8 @@
 using System;
 using System.Linq;
-using BaseFrame;
 using Cysharp.Threading.Tasks;
 using KKSFramework;
 using KKSFramework.DesignPattern;
-using MasterData;
 using UniRx;
 using Zenject;
 
@@ -56,19 +54,19 @@ namespace AutoChess
         {
             StartAdventure_Rewards ();
 
-            _adventureModel = new AdventureModel (Constants.MAX_ADVENTURE_COUNT);
+            _adventureModel = new AdventureModel (Constant.MaxAdventureCount);
 
             var (forestField, startField) = CreateAllFields (sizes);
             _adventureModel.SetField (forestField, startField);
             _adventureModel.AllFieldModel.SelectMany (x => x.Value)
-                .ForEach (x => x.ChangeState (FieldRevealState.Sealed));
+                .Foreach (x => x.ChangeState (FieldRevealState.Sealed));
 
             var newAroundPosition =
                 PathFindingHelper.Instance.GetAroundPositionModelWith (_adventureModel.AllFieldModel,
                     startField.LandPosition);
             _nowPosition.Value = startField.LandPosition;
             
-            newAroundPosition.ForEach (x =>
+            newAroundPosition.Foreach (x =>
             {
                 if (ContainPosition (x))
                     _adventureModel.AllFieldModel[x.Column][x.Row].ChangeState (FieldRevealState.OnSight);
@@ -118,19 +116,19 @@ namespace AutoChess
             revealedPositions
                 .Where (ContainPosition)
                 .Select (x => _adventureModel.AllFieldModel[x.Column][x.Row])
-                .ForEach (x => x.ChangeState (FieldRevealState.Revealed));
+                .Foreach (x => x.ChangeState (FieldRevealState.Revealed));
 
             newAroundPosition
                 .Where (ContainPosition)
                 .Select (x => _adventureModel.AllFieldModel[x.Column][x.Row])
-                .ForEach (x => x.ChangeState (FieldRevealState.OnSight));
+                .Foreach (x => x.ChangeState (FieldRevealState.OnSight));
         }
 
 
         public void RecoverHealth (CharacterSideType sideType, float recoverPercent)
         {
             var characters = _battleViewmodel.GetAllOfEqualElements (sideType);
-            characters.ForEach (element =>
+            characters.Foreach (element =>
                 element.battleCharacterPackage.battleSystemModule.SetHealthByPercent (recoverPercent));
         }
 

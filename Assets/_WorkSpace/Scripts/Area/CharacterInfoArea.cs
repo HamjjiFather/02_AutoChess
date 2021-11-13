@@ -1,7 +1,8 @@
-using BaseFrame;
 using Helper;
+using KKSFramework;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
+using KKSFramework.ResourcesLoad;
 using MasterData;
 using ResourcesLoad;
 using UnityEngine;
@@ -14,13 +15,13 @@ namespace AutoChess
         #region Fields & Property
 
 #pragma warning disable CS0649
-        
+
         [Resolver]
         private EquipmentInfoElement[] _equipmentInfoElement;
 
         [Resolver]
         private StatusElement[] _baseStatusElements;
-        
+
         [Resolver]
         private Image _characterTypeIcon;
 
@@ -72,10 +73,10 @@ namespace AutoChess
             void SetFixedCharacterInfo ()
             {
                 _characterNameText.Value = LocalizeHelper.FromName (areaData.CharacterData.Name);
-                _characterImage.Value = ResourcesLoadHelper.LoadResource<Sprite> (ResourceRoleType._Image,
+                _characterImage.Value = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
                     ResourcesType.Monster, areaData.CharacterData.SpriteResName);
                 _characterAnimator.runtimeAnimatorController =
-                    ResourcesLoadHelper.LoadResource<RuntimeAnimatorController> (ResourceRoleType._Animation,
+                    ResourcesLoadHelper.GetResources<RuntimeAnimatorController> (ResourceRoleType._Animation,
                         areaData.CharacterData.AnimatorResName);
             }
 
@@ -91,17 +92,15 @@ namespace AutoChess
                 _baseStatusElements[2].SetCharacterElement (StatusType.AbilityPoint, characterModel);
                 _baseStatusElements[3].SetCharacterElement (StatusType.Defense, characterModel);
                 _baseStatusElements[4].SetCharacterElement (StatusType.AttackSpeed, characterModel);
-                
+
                 _skillInfoArea.SetArea (characterModel);
-                
+
                 SetEquipment ();
-                
+
                 void SetEquipment ()
                 {
-                    characterModel.EquipmentStatusModel.EquipmentModels.ForEach ((model, index) =>
-                    {
-                        _equipmentInfoElement[index].SetElement (model);
-                    });
+                    characterModel.EquipmentStatusModel.EquipmentModels.ZipForEach (_equipmentInfoElement,
+                        (model, element) => { element.SetElement (model); });
                 }
             }
         }

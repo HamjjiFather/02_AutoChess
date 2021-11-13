@@ -1,56 +1,23 @@
-﻿using System.IO;
-using AutoChess;
-using BaseFrame;
-using BaseFrame.Navigation;
-using Cysharp.Threading.Tasks;
-using Helper;
+﻿using Cysharp.Threading.Tasks;
 using KKSFramework.LocalData;
-using UnityEngine;
+using KKSFramework.Navigation;
+using KKSFramework.SceneLoad;
 
 namespace KKSFramework.InGame
 {
     public class TitleScene : SceneController
     {
-        public override void InstallBindings ()
+        public override InitNavigationData InitPageInitNavigationData => new InitNavigationData
         {
-            base.InstallBindings ();
+            viewString = NavigationViewType.TitlePage.ToString ()
+        };
 
-            TreeNavigation.Instance.SpawnAsync = SpawnView;
-            TreeNavigation.Instance.Despawn = DespawnView;
-        }
         
         
-        public override async UniTask InitializeAsync (Parameters parameters)
+        protected override async UniTask InitializeAsync ()
         {
-            //LocalDataManager.Instance.SetSaveAction (LocalDataHelper.SaveAllGameData);
-            //await NavigationHelper.OpenPage (NavigationViewType.TitlePage, NavigationTriggerState.First);
-            await base.InitializeAsync (parameters);
-        }
-        
-        
-        public override Configuration GetRootViewConfiguration ()
-        {
-            var config = new Configuration.Builder ();
-            return config.SetName (nameof(TitlePage), true)
-                .SetLayer (ContentLayer.Page)
-                .Build ();
-        }
-        
-        private async UniTask<ViewController> SpawnView (string viewName, Transform parent)
-        {
-            await UniTask.Yield ();
-
-            var path = Path.Combine ("Bundles", "View", viewName);
-            
-            var prefab = ResourcesLoadHelper.LoadPrefab (path);
-            var inst = Container.InstantiatePrefab (prefab, parent);
-            return inst.GetComponent<ViewController> ();
-        }
-
-
-        private void DespawnView (Transform inst)
-        {
-            AppHelper.Destroy (inst.gameObject);
+            LocalDataManager.Instance.SetSaveAction (LocalDataHelper.SaveAllGameData);
+            await base.InitializeAsync ();
         }
     }
 }

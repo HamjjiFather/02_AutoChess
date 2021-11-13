@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Helper;
+using KKSFramework;
 using KKSFramework.DataBind;
-using KKSFramework.DataBind.Extension;
 using KKSFramework.Navigation;
 using ResourcesLoad;
 using UnityEngine;
@@ -45,7 +45,7 @@ namespace AutoChess
             _listElements.ForEach (element => ObjectPoolingHelper.Despawn (element.transform));
             _listElements.Clear ();
 
-            _adventureViewmodel.AdventureRewardModel.InAdventureEquipmentModels.Values.ForEach (equipmentModel =>
+            _adventureViewmodel.AdventureRewardModel.InAdventureEquipmentModels.Values.Foreach (equipmentModel =>
             {
                 var element = ObjectPoolingHelper.Spawn<InAdventureEquipmentInfoListElement> (
                     ResourceRoleType.Bundles.ToString (),

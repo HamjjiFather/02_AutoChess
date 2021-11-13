@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using BaseFrame;
-using MasterData;
+using KKSFramework;
 using UnityEngine;
 using EnumActionToDict = System.Collections.Generic.Dictionary<System.Enum, System.Action<AutoChess.FieldModel>>;
 
@@ -24,12 +23,12 @@ namespace AutoChess
         /// 필드 이벤트.
         /// </summary>
         private readonly EnumActionToDict _fieldTypeAction = new EnumActionToDict ();
-        
+
         /// <summary>
         /// 위치별 필드 모델.
         /// </summary>
-        private readonly Dictionary<PositionModel, FieldModel> _positionFieldDict = new Dictionary<PositionModel, FieldModel> ();
-
+        private readonly Dictionary<PositionModel, FieldModel> _positionFieldDict =
+            new Dictionary<PositionModel, FieldModel> ();
 
         #endregion
 
@@ -56,7 +55,7 @@ namespace AutoChess
         /// </summary>
         private (Dictionary<int, List<FieldModel>>, FieldModel) CreateAllFields (IReadOnlyList<int> sizes)
         {
-            _adventureFieldData = AdventureField.Manager.Values.First ();
+            _adventureFieldData = TableDataManager.Instance.AdventureFieldDict.Values.First ();
 
             var allField = CreateField (sizes);
             _adventureModel.SetBaseField (allField);
@@ -77,7 +76,7 @@ namespace AutoChess
         public void NewField ()
         {
             Debug.Log ("New Field");
-            _adventureModel.AllFieldModel.SelectMany (x => x.Value).ForEach (x => x.Reset ());
+            _adventureModel.AllFieldModel.SelectMany (x => x.Value).Foreach (x => x.Reset ());
             var startField = CreateStartField ();
             CreateNextField ();
             var forestField = CreateForestField ();
@@ -90,13 +89,12 @@ namespace AutoChess
                     startField.LandPosition);
             _nowPosition.Value = startField.LandPosition;
 
-            newAroundPosition.ForEach (x =>
+            newAroundPosition.Foreach (x =>
             {
                 if (ContainPosition (x))
                     _adventureModel.AllFieldModel[x.Column][x.Row].ChangeState (FieldRevealState.OnSight);
             });
         }
-
 
 
         /// <summary>
@@ -141,25 +139,25 @@ namespace AutoChess
         /// </summary>
         private void CreatePath (FieldModel startField)
         {
-            var roomField = new List<FieldModel> {startField};
+            var roomField = new List<FieldModel> { startField };
             var allField = _positionFieldDict.Values;
 
             var roomCount = _adventureFieldData.FieldPointCount.RandomRange ();
             roomField.AddRange (allField.RandomSources (roomCount));
-            roomField.ForEach (point =>
+            roomField.Foreach (point =>
             {
                 var aroundPos =
                     PathFindingHelper.Instance.GetAroundPositionModelByGradual (_adventureModel.AllFieldModel,
                         point.LandPosition,
                         _adventureFieldData.FieldCount.RandomRange ());
 
-                aroundPos.ForEach (x => _positionFieldDict[x].FieldExistType.Value = FieldExistType.Exist);
+                aroundPos.Foreach (x => _positionFieldDict[x].FieldExistType.Value = FieldExistType.Exist);
             });
 
             var connectedField = roomField.Where (x => IsConnectByExistState (x, startField));
             var unconnectedField = roomField.Where (x => !IsConnectByExistState (x, startField));
 
-            unconnectedField.ForEach (field =>
+            unconnectedField.Foreach (field =>
             {
                 var alignToDistance = connectedField.MinSources (x =>
                     PathFindingHelper.Instance.Distance (_adventureModel.AllFieldModel, field.LandPosition,
@@ -167,7 +165,7 @@ namespace AutoChess
 
                 var pathFields = GetPath (alignToDistance.LandPosition, field.LandPosition);
                 pathFields.Select (x => _positionFieldDict[x])
-                    .ForEach (x => x.FieldExistType.Value = FieldExistType.Exist);
+                    .Foreach (x => x.FieldExistType.Value = FieldExistType.Exist);
             });
         }
 
@@ -199,13 +197,13 @@ namespace AutoChess
             var forestCount = Random.Range (_adventureFieldData.ForestCount[0], _adventureFieldData.ForestCount[1]);
             var treeCount = Random.Range (_adventureFieldData.TreeCount[0], _adventureFieldData.TreeCount[1]);
             var forestPoints = allField.RandomSources (forestCount);
-            forestPoints.ForEach (field =>
+            forestPoints.Foreach (field =>
             {
                 var around =
                     PathFindingHelper.Instance.GetAroundPositionModelByGradual (_adventureModel.AllFieldModel,
                         field.LandPosition, treeCount);
 
-                around.ForEach (x => _positionFieldDict[x].ChangeFieldGroundType (FieldGroundType.Forest));
+                around.Foreach (x => _positionFieldDict[x].ChangeFieldGroundType (FieldGroundType.Forest));
             });
 
             return forestDict;
@@ -291,7 +289,7 @@ namespace AutoChess
             insightPosition.Select (GetFieldModel)
                 .Where (x => x.FieldExistType.Value == FieldExistType.Exist)
                 .Where (fieldModel => fieldModel.FieldRevealState.Value == FieldRevealState.Sealed)
-                .ForEach (fieldModel => { fieldModel.ChangeState (FieldRevealState.Revealed); });
+                .Foreach (fieldModel => { fieldModel.ChangeState (FieldRevealState.Revealed); });
 
             return insightPosition;
         }
@@ -299,12 +297,12 @@ namespace AutoChess
 
         public bool IsConnectByExistState (FieldModel origin, FieldModel target)
         {
-            var tempResults = new List<FieldModel> {origin};
+            var tempResults = new List<FieldModel> { origin };
             PathFindingHelper.Instance.GetAroundPositionModel (_adventureModel.AllFieldModel, origin.LandPosition);
             var aroundFields = new List<FieldModel>
             {
                 origin
-             };
+            };
 
             while (true)
             {
@@ -325,11 +323,11 @@ namespace AutoChess
                     .Except (tempResults).ToList ();
             }
         }
-        
-        
+
+
         public bool IsConnectByMovable (FieldModel origin, FieldModel target)
         {
-            var tempResults = new List<FieldModel> {origin};
+            var tempResults = new List<FieldModel> { origin };
             PathFindingHelper.Instance.GetAroundPositionModel (_adventureModel.AllFieldModel, origin.LandPosition);
             var aroundFields = new List<FieldModel>
             {
@@ -356,8 +354,8 @@ namespace AutoChess
                     .Except (tempResults).ToList ();
             }
         }
-        
-        
+
+
         /// <summary>
         /// 현재 위치에서 해당 위치까지 경로를 리턴.
         /// </summary>

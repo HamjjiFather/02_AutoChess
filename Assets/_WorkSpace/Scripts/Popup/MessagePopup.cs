@@ -1,13 +1,25 @@
 using System;
-using BaseFrame;
+using Cysharp.Threading.Tasks;
+using KKSFramework;
 using Helper;
 using KKSFramework.DataBind;
+using KKSFramework.Navigation;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace AutoChess
 {
-    public class MessagePopup : PopupController, IResolveTarget
+    public class MessagePopup : PopupViewBase
     {
+        public struct Model
+        {
+            public string title;
+
+            public string msg;
+
+            public UnityAction confirmAction;
+        }
+        
         #region Fields & Property
 
 #pragma warning disable CS0649
@@ -23,11 +35,7 @@ namespace AutoChess
 
 #pragma warning restore CS0649
 
-        private Action _confirmAction;
-
-        public const string MessagePopupTitleKey = "title";
-        
-        public const string MessagePopupStringKey = "message";
+        private UnityAction _confirmAction;
 
         #endregion
 
@@ -44,35 +52,33 @@ namespace AutoChess
 
 
         #region Methods
-        
-        
-        protected override void OnPush (Parameters pushValue)
+
+        protected override UniTask OnPush (object pushValue)
         {
             if (pushValue == null)
-                return;
-            var title = pushValue.GetValue<string> (MessagePopupTitleKey);
-            _popupTitleText.Value = title;
-
-            var msg = pushValue.GetValue<string> (MessagePopupStringKey);
-            _popupMessageText.Value = msg;
-            base.OnPush (pushValue);
+                return UniTask.CompletedTask;
+            
+            var msgModel = (Model)pushValue;
+            _popupTitleText.Value = msgModel.title;
+            _popupMessageText.Value = msgModel.msg;
+            _confirmAction = msgModel.confirmAction;
+            return base.OnPush (pushValue);
         }
 
-        
-        protected override void OnPopComplete ()
+        protected override UniTask Popped ()
         {
             _confirmAction = null;
-            base.OnPopComplete ();
+            return base.Popped ();
         }
+
 
 
         public static void PushNotEnoughPrice ()
         {
-            var param = TreeNavigationHelper.SpawnParam ();
-            param[MessagePopupStringKey] = LocalizeHelper.FromDescription ("DESC_0001");
-            TreeNavigationHelper.PushPopup (nameof(MessagePopup), param);
+            // var param = TreeNavigationHelper.SpawnParam ();
+            // param[MessagePopupStringKey] = LocalizeHelper.FromDescription ("DESC_0001");
+            // TreeNavigationHelper.PushPopup (nameof (MessagePopup), param);
         }
-
 
         #endregion
 
@@ -81,9 +87,7 @@ namespace AutoChess
 
         private void ClickConfirmButton ()
         {
-            SetResult (PopupEndCode.Ok);
-            TreeNavigationHelper.BackKey ();
-            _confirmAction.CallSafe ();
+            _confirmAction.Invoke ();
         }
 
         #endregion

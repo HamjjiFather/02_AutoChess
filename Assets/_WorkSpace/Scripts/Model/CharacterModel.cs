@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
-using BaseFrame;
+using KKSFramework;
 using Helper;
 using MasterData;
 using KKSFramework.DesignPattern;
 using KKSFramework.LocalData;
+using KKSFramework.ResourcesLoad;
 using ResourcesLoad;
 using UniRx;
 using UnityEngine;
@@ -112,18 +113,18 @@ namespace AutoChess
         /// <summary>
         /// 아이콘 이미지 리소스.
         /// </summary>
-        public Sprite IconImageResources => ResourcesLoadHelper.LoadResource<Sprite> (ResourceRoleType._Image,
+        public Sprite IconImageResources => ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
             ResourcesType.Monster, CharacterData.SpriteResName);
 
 
         public RuntimeAnimatorController CharacterAnimatorResources =>
-            ResourcesLoadHelper.LoadResource<RuntimeAnimatorController> (ResourceRoleType._Animation,
+            ResourcesLoadHelper.GetResources<RuntimeAnimatorController> (ResourceRoleType._Animation,
                 CharacterData.AnimatorResName);
 
 
         #region Interface Implements
 
-        public int Index => CharacterData.Index;
+        public int Index => CharacterData.Id;
 
         public string NameString => CharacterData.Name;
 

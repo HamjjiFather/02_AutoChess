@@ -1,12 +1,13 @@
 ﻿using AutoChess;
-using BaseFrame;
+using Cysharp.Threading.Tasks;
+using KKSFramework;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
 using Zenject;
 
 namespace KKSFramework.InGame
 {
-    public class GamePage : PageController, IResolveTarget
+    public class GamePage : PageViewBase, IResolveTarget
     {
         #region Fields & Property
         
@@ -29,9 +30,8 @@ namespace KKSFramework.InGame
 
         #region UnityMethods
 
-        protected override void Awake ()
+        protected void Awake ()
         {
-            base.Awake ();
             ProjectContext.Instance.Container.BindInstance (this);
             _viewLayoutLoader.Initialize ();
         }
@@ -41,7 +41,7 @@ namespace KKSFramework.InGame
 
         #region Methods
 
-        protected override void OnPush (Parameters parameters)
+        protected override UniTask OnPush (object pushValue = null)
         {
             _statusView.InitializeStatusView (BackToMain);
             _viewLayoutLoader.SetChangeAction (ChangeViewLayoutLoader);
@@ -51,6 +51,8 @@ namespace KKSFramework.InGame
             {
                 _statusView.ConvertButton (nowLayout < 0);
             }
+            
+            return base.OnPush (pushValue);
         }
         
 

@@ -60,8 +60,8 @@ namespace AutoChess
             var level = LocalDataHelper.GetPlayerBundle ().Level;
             PlayerExpModel.Level = level;
             PlayerExpModel.Exp = LocalDataHelper.GetPlayerBundle ().Exp;
-            PlayerExpModel.PlayerLevelTable = PlayerLevel.Manager.Values.SingleOrDefault (x => x.Level.Equals (level));
-            PlayerExpModel.IsMaxLevel = PlayerLevel.Manager.Values.Last ().Equals (PlayerExpModel.PlayerLevelTable);
+            PlayerExpModel.PlayerLevelTable = TableDataManager.Instance.PlayerLevelDict.Values.SingleOrDefault (x => x.Level.Equals (level));
+            PlayerExpModel.IsMaxLevel = TableDataManager.Instance.PlayerLevelDict.Values.Last ().Equals (PlayerExpModel.PlayerLevelTable);
         }
 
 
@@ -87,7 +87,7 @@ namespace AutoChess
                 if (preCalcedValue >= reqExp)
                 {
                     var nextLevel = PlayerExpModel.Level += 1;
-                    var nextLevelTable = PlayerLevel.Manager.Values.SingleOrDefault (x => x.Level.Equals (nextLevel));
+                    var nextLevelTable = TableDataManager.Instance.PlayerLevelDict.Values.SingleOrDefault (x => x.Level.Equals (nextLevel));
 
                     // 최대 레벨.
                     if (nextLevelTable is (PlayerLevel) default)

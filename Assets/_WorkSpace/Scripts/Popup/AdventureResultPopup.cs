@@ -1,10 +1,8 @@
-using System;
-using BaseFrame;
-using KKSFramework.DataBind;
+using KKSFramework.Navigation;
 
 namespace AutoChess
 {
-    public class AdventureResultPopup : PopupController, IResolveTarget
+    public class AdventureResultPopup : PopupViewBase
     {
         #region Fields & Property
 
@@ -17,21 +15,11 @@ namespace AutoChess
         
         #region Methods
 
-        protected override void OnPush (Parameters pushValue)
-        {
-            base.OnPush (pushValue);
-        }
-
 
         #endregion
 
 
         #region EventMethods
-
-        protected override void OnClickClose ()
-        {
-            base.OnClickClose ();
-        }
 
 
         #endregion

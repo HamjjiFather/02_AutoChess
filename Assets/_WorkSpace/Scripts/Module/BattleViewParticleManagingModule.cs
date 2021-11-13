@@ -3,6 +3,7 @@ using System.Threading;
 using KKSFramework.ResourcesLoad;
 using Cysharp.Threading.Tasks;
 using Helper;
+using KKSFramework;
 using MasterData;
 using ResourcesLoad;
 using UnityEngine;
@@ -39,7 +40,7 @@ namespace AutoChess
         private void ResetModule ()
         {
             _cancellationTokenSource.Cancel();
-            _particlePrefabs.ForEach (particle =>
+            _particlePrefabs.Foreach (particle =>
             {
                 ObjectPoolingHelper.Despawn (particle.transform);
             });
@@ -48,7 +49,7 @@ namespace AutoChess
 
         public async UniTask GenerateParticlePrefab (int particleDataIndex, Transform parents)
         {
-            if (!Particle.Manager.TryGetValue (particleDataIndex, out var particleData)) return;
+            if (!TableDataManager.Instance.ParticleDict.TryGetValue (particleDataIndex, out var particleData)) return;
             
             Debug.Log ($"Generate Particle : {particleDataIndex}");
             var particlePrefab = ObjectPoolingHelper.Spawn<ParticlePrefab> (ResourceRoleType.Bundles.ToString(), ResourcesType.Particle.ToString(),

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using BaseFrame;
+using KKSFramework;
 using KKSFramework.DesignPattern;
 using KKSFramework.LocalData;
 using MasterData;
@@ -81,12 +81,12 @@ namespace AutoChess
 
         public void StartBattle ()
         {
-            var stageData = BattleStage.Manager.Values.First ();
+            var stageData = TableDataManager.Instance.BattleStageDict.Values.First ();
             var stageModel = new BattleStageModel (stageData);
 
             BattleStageModel = stageModel;
             _characterViewmodel.BattleCharacterModels.Where (x => x.IsAssigned)
-                .ForEach ((model, index) => { _characterViewmodel.ResetCharacterPosition (index, model); });
+                .Foreach ((model, index) => { _characterViewmodel.ResetCharacterPosition (index, model); });
             SetBattleAiCharacter (BattleStageModel);
 
             StartBattleCommand.Execute (BattleStageModel);
@@ -122,16 +122,16 @@ namespace AutoChess
         public void SetBattleAiCharacter (BattleStageModel battleStageModel)
         {
             // 적 AI 세팅.
-            battleStageModel.StageData.MonsterIndexes.Where (x => x != 0).ForEach ((monsterIndex, index) =>
+            battleStageModel.StageData.MonsterIndexes.Where (x => x != 0).Foreach ((monsterIndex, index) =>
             {
                 var characterModel = new CharacterModel ();
-                var characterData = Character.Manager.GetItemByIndex (monsterIndex);
+                var characterData = TableDataManager.Instance.CharacterDict[monsterIndex];
                 var characterLevel =
                     TableDataHelper.Instance.GetCharacterLevelByLevel (battleStageModel.StageData.MonsterLevels[index]);
                 var statusGrade = MonsterStatusGradeValue ();
                 var statusModel = _characterViewmodel.GetBaseStatusModel (characterData, characterLevel, statusGrade);
-                var attackData = Skill.Manager.GetItemByIndex (characterData.AttackIndex);
-                var skillData = Skill.Manager.GetItemByIndex (characterData.SkillIndex);
+                var attackData = TableDataManager.Instance.SkillDict[characterData.AttackIndex];
+                var skillData = TableDataManager.Instance.SkillDict[characterData.SkillIndex];
 
                 characterModel.SetBaseData (characterData, attackData, skillData);
                 characterModel.SetStatusModel (statusModel);
@@ -153,8 +153,8 @@ namespace AutoChess
 
         public void ResetCharacter ()
         {
-            PlayerCharacterElements.ForEach (x => x.EndBattle ());
-            AiCharacterElements.ForEach (x => x.EndBattle ());
+            PlayerCharacterElements.Foreach (x => x.EndBattle ());
+            AiCharacterElements.Foreach (x => x.EndBattle ());
             _battleAiCharacterModels.Clear ();
             AiCharacterElements.Clear ();
         }
@@ -164,10 +164,10 @@ namespace AutoChess
         {
             return new CharacterBundle.CharacterStatusGrade
             {
-                HealthStatusGrade = Constants.MONSTER_STATUS_GRADE_VALUE,
-                AttackStatusGrade = Constants.MONSTER_STATUS_GRADE_VALUE,
-                AbilityPointStatusGrade = Constants.MONSTER_STATUS_GRADE_VALUE,
-                DefenseStatusGrade = Constants.MONSTER_STATUS_GRADE_VALUE
+                HealthStatusGrade = Constant.MonsterStatusGradeValue,
+                AttackStatusGrade = Constant.MonsterStatusGradeValue,
+                AbilityPointStatusGrade = Constant.MonsterStatusGradeValue,
+                DefenseStatusGrade = Constant.MonsterStatusGradeValue
             };
         }
 

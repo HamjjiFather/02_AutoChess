@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Helper;
 using KKSFramework.DesignPattern;
+using KKSFramework.ResourcesLoad;
 using UnityEngine;
 using MasterData;
 using ResourcesLoad;
@@ -34,13 +35,13 @@ namespace AutoChess
         /// <summary>
         /// 아이콘 이미지 리소스.
         /// </summary>
-        public Sprite IconImageResources => ResourcesLoadHelper.LoadResource<Sprite> (ResourceRoleType._Image,
+        public Sprite IconImageResources => ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
             ResourcesType.Equipment, EquipmentData.SpriteResName);
 
         
         #region Interface Implements
 
-        public int Index => EquipmentData.Index;
+        public int Index => EquipmentData.Id;
 
         public string NameString => EquipmentData.Name;
         

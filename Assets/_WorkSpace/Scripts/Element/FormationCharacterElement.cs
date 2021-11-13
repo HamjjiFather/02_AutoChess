@@ -1,5 +1,5 @@
 using System;
-using BaseFrame;
+using KKSFramework;
 using Helper;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
@@ -42,7 +42,7 @@ namespace AutoChess
             dragEntry.callback.AddListener (eventData =>
             {
                 var screenToWorldPoint =
-                    TreeNavigationHelper.GetContentCamera ().ScreenToWorldPoint (eventData.currentInputModule.input.mousePosition);
+                    NavigationManager.Instance.MainCamera.ScreenToWorldPoint (eventData.currentInputModule.input.mousePosition);
                 transform.position = new Vector3 (screenToWorldPoint.x, screenToWorldPoint.y, transform.position.z);
             });
             dragEntry.eventID = EventTriggerType.Drag;

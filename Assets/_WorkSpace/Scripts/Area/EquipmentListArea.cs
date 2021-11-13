@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using BaseFrame;
+using KKSFramework;
 using Helper;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
@@ -43,10 +43,10 @@ namespace AutoChess
             if (!_equipmentViewmodel.IsDataChanged) return;
             _equipmentViewmodel.IsDataChanged = false;
 
-            _listElements.ForEach (element => ObjectPoolingHelper.Despawn (element.transform));
+            _listElements.Foreach (element => ObjectPoolingHelper.Despawn (element.transform));
             _listElements.Clear ();
 
-            _equipmentViewmodel.EquipmentModels.Values.ForEach (equipmentModel =>
+            _equipmentViewmodel.EquipmentModels.Values.Foreach (equipmentModel =>
             {
                 var element = ObjectPoolingHelper.Spawn<EquipmentInfoListElement> (
                     ResourceRoleType.Bundles.ToString (),
@@ -66,10 +66,10 @@ namespace AutoChess
         
         public void SetAreaForced (UnityAction<EquipmentModel> areaData, List<EquipmentModel> equipmentModels, bool firstElementInvoke)
         {
-            _listElements.ForEach (element => ObjectPoolingHelper.Despawn (element.transform));
+            _listElements.Foreach (element => ObjectPoolingHelper.Despawn (element.transform));
             _listElements.Clear ();
 
-            equipmentModels.ForEach (equipmentModel =>
+            equipmentModels.Foreach (equipmentModel =>
             {
                 var element = ObjectPoolingHelper.Spawn<EquipmentInfoListElement> (
                     ResourceRoleType.Bundles.ToString (),

@@ -1,11 +1,10 @@
-using BaseFrame;
 using Helper;
+using KKSFramework;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
 using KKSFramework.ResourcesLoad;
 using ResourcesLoad;
 using UnityEngine;
-using UnityEngine.UI;
 using Zenject;
 
 namespace AutoChess
@@ -64,12 +63,12 @@ namespace AutoChess
             AreaData = areaData;
             _equipmentName.Value = LocalizeHelper.FromName (areaData.EquipmentData.Name);
             _starGradeArea.SetArea (areaData.EquipmentGrade);
-            _equipmentImage.Value = ResourcesLoadHelper.LoadResource<Sprite> (ResourceRoleType._Image,
+            _equipmentImage.Value = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
                 ResourcesType.Equipment, areaData.EquipmentData.SpriteResName);
 
-            _baseStatusElements.ForEach (element => element.gameObject.SetActive (false));
-            _baseStatusElementLineObjs.ForEach (obj => obj.SetActive (false));
-            areaData.StatusList.ForEach ((status, index) =>
+            _baseStatusElements.Foreach (element => element.gameObject.SetActive (false));
+            _baseStatusElementLineObjs.Foreach (obj => obj.SetActive (false));
+            areaData.StatusList.Foreach ((status, index) =>
             {
                 _baseStatusElements[index].gameObject.SetActive (true);
                 _baseStatusElements[index].SetElement (areaData.GetBaseStatusModel (status.StatusData.StatusType));
@@ -82,7 +81,6 @@ namespace AutoChess
 
             // SetEquipState (true);
         }
-
 
         #endregion
 

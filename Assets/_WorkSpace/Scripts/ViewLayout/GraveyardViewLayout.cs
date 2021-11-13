@@ -1,4 +1,4 @@
-using BaseFrame;
+using KKSFramework;
 using Cysharp.Threading.Tasks;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
@@ -39,7 +39,7 @@ namespace AutoChess
         }
 
 
-        protected override UniTask OnActiveAsync (Parameters parameters)
+        protected override UniTask OnActiveAsync (object parameters)
         {
             _characterListArea.SetArea (ClickCharacterElement, _characterViewmodel.AllDeathCharacterModels, true,
                 ref _characterViewmodel.IsDeathCharacterDataChanged);

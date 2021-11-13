@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BaseFrame;
+using KKSFramework;
 using KKSFramework.DesignPattern;
 using KKSFramework.LocalData;
 using MasterData;
@@ -69,9 +69,10 @@ namespace AutoChess
             // 처음 실행.
             if (!equipmentBundle.EquipmentUniqueIds.Any ())
             {
-                _startEquipmentIndexes.ForEach (index =>
+                _startEquipmentIndexes.Foreach (index =>
                 {
-                    var newEquipment = NewEquipment (index);
+                    var newIdx = (int)DataType.Equipment + index;
+                    var newEquipment = NewEquipment (newIdx);
                     _equipmentModels.Add (newEquipment.UniqueEquipmentId, newEquipment);
                 });
 
@@ -80,12 +81,12 @@ namespace AutoChess
                 return;
             }
 
-            equipmentBundle.EquipmentUniqueIds.ForEach ((uid, index) =>
+            equipmentBundle.EquipmentUniqueIds.Foreach ((uid, index) =>
             {
                 var equipmentModel = new EquipmentModel ();
                 var starGrade = equipmentBundle.EquipmentGrades[index];
                 var equipmentBundleData = equipmentBundle.EquipmentDatas[index];
-                var equipmentData = Equipment.Manager.GetItemByIndex (equipmentBundle.EquipmentIds[index]);
+                var equipmentData = TableDataManager.Instance.EquipmentDict[equipmentBundle.EquipmentIds[index]];
                 var statusModel = SetBaseStatusList (equipmentBundleData.EquipmentStatusIndexes,
                     equipmentBundleData.EquipmentStatusGrades);
 
@@ -118,7 +119,7 @@ namespace AutoChess
         public EquipmentModel NewEquipment (int equipmentIndex)
         {
             var equipmentModel = new EquipmentModel ();
-            var equipmentData = Equipment.Manager.GetItemByIndex (equipmentIndex);
+            var equipmentData = TableDataManager.Instance.EquipmentDict[equipmentIndex];
             equipmentModel.SetUniqueData (NewUniqueId ());
             equipmentModel.SetEquipmentData (equipmentData);
             equipmentModel.SetEquipmentGrade (EquipmentGrade.Grade1);
@@ -158,16 +159,16 @@ namespace AutoChess
 
         public void SetEquipmentStatus (EquipmentModel equipmentModel)
         {
-            equipmentModel.EquipmentData.BaseEquipmentStatusIndexes.Where (x => !x.Equals (Constants.INVALID_INDEX))
-                .ForEach (index =>
+            equipmentModel.EquipmentData.BaseEquipmentStatusIndexes.Where (x => !x.Equals (Constant.InvalidIndex))
+                .Foreach (index =>
                 {
                     var baseRand = Random.Range (0, 1f);
                     equipmentModel.SetStatusGrade (index, baseRand);
                 });
 
             var rand = Random.Range (0, 1f);
-            var statusGradeIndex = equipmentModel.EquipmentData.AvailEquipmentStatusIndexes
-                .Where (x => !x.Equals (Constants.INVALID_INDEX)).Choice ();
+            var statusGradeIndex = equipmentModel.EquipmentData.AvailEquipmentTypeIndex
+                .Where (x => !x.Equals (Constant.InvalidIndex)).Choice ();
             equipmentModel.SetStatusGrade (statusGradeIndex, rand);
 
             var statusModel = SetBaseStatusList (equipmentModel.StatusIndexes,
@@ -180,7 +181,7 @@ namespace AutoChess
         {
             LocalDataHelper.SaveEquipmentStatusData (
                 _equipmentModels.Values.Select (x => x.UniqueEquipmentId).ToList (),
-                _equipmentModels.Values.Select (x => x.EquipmentData.Index).ToList (),
+                _equipmentModels.Values.Select (x => x.EquipmentData.Id).ToList (),
                 _equipmentModels.Values.Select (x => x.EquipmentGrade).ToList (),
                 _equipmentModels.Values.Select (x => x.StatusIndexes).ToList (),
                 _equipmentModels.Values.Select (x => x.StatusGrades).ToList ());
@@ -193,7 +194,7 @@ namespace AutoChess
             var list = new List<BaseStatusModel> ();
             for (var i = 0; i < indexes.Count; i++)
             {
-                var equipmentStatus = EquipmentStatusGroup.Manager.GetItemByIndex (indexes[i]);
+                var equipmentStatus = TableDataManager.Instance.EquipmentStatusDict[indexes[i]];
                 var statusData = TableDataHelper.Instance.GetStatus (equipmentStatus.StatusType);
                 var statusValue = Mathf.Lerp (equipmentStatus.Min, equipmentStatus.Max, gradeValues[i]);
                 var statusModel = new BaseStatusModel (statusData);

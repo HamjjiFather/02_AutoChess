@@ -87,9 +87,9 @@ namespace AutoChess
 
             battleCharacterPackage.characterAppearanceModule.SetActive (true);
 
-            var sprite = ResourcesLoadHelper.LoadResource<Sprite> (ResourceRoleType._Image,
+            var sprite = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
                 ResourcesType.Monster, ElementData.CharacterData.SpriteResName);
-            var aniamtorController = ResourcesLoadHelper.LoadResource<RuntimeAnimatorController> (
+            var aniamtorController = ResourcesLoadHelper.GetResources<RuntimeAnimatorController> (
                 ResourceRoleType._Animation, ElementData.CharacterData.AnimatorResName);
             battleCharacterPackage.characterAppearanceModule.SetSprite (sprite);
             battleCharacterPackage.characterAppearanceModule.SetRuntimeAnimatorContoller (aniamtorController);
@@ -185,7 +185,7 @@ namespace AutoChess
         /// </summary>
         private void SkillGageCallback (float skillValue)
         {
-            var sliderValue = skillValue / Constants.MAX_SKILL_GAGE_VALUE;
+            var sliderValue = skillValue / Constant.MaxSkillGageValue;
             battleCharacterPackage.characterAppearanceModule.SetSkillSliderValue (sliderValue);
             
             if (ElementData.CharacterSideType == CharacterSideType.Player)

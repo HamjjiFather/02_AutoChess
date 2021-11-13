@@ -1,4 +1,4 @@
-﻿using BaseFrame;
+﻿using KKSFramework;
 using UnityEngine;
 
 namespace AutoChess
@@ -28,7 +28,7 @@ namespace AutoChess
             if (change)
             {
                 change = false;
-                GetComponentsInChildren<ParticleSystem>().ForEach (x =>
+                GetComponentsInChildren<ParticleSystem>().Foreach (x =>
                 {
                     var renderer = x.GetComponent<Renderer> ();
                     renderer.sortingLayerName = sortingLayer;

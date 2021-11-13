@@ -45,7 +45,7 @@ namespace AutoChess
 
         public override void SetElement (EquipmentModel elementData)
         {
-            var isEmpty = elementData.UniqueEquipmentId.Equals (Constants.INVALID_INDEX);
+            var isEmpty = elementData.UniqueEquipmentId.Equals (Constant.InvalidIndex);
             _emptyObj.SetActive (isEmpty);
             _equipmentObj.SetActive (!isEmpty);
 

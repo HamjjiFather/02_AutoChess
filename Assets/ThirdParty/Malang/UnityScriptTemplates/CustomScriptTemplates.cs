@@ -25,8 +25,8 @@ namespace UnityScriptTemplates
         private static string TemplatePathPageController =>
             Application.dataPath + "/Editor Default Resources/ScriptTemplates/PageControllerScript.cs.txt";
 
-        private static string TemplatePathPopupController =>
-            Application.dataPath + "/Editor Default Resources/ScriptTemplates/PopupControllerScript.cs.txt";
+        private static string TemplatePathPopupViewBase =>
+            Application.dataPath + "/Editor Default Resources/ScriptTemplates/PopupViewBaseScript.cs.txt";
 
         private static string TemplatePathSubController =>
             Application.dataPath + "/Editor Default Resources/ScriptTemplates/SubControllerScript.cs.txt";
@@ -152,20 +152,20 @@ namespace UnityScriptTemplates
         #endregion
 
 
-        #region PopupController
+        #region PopupViewBase
 
-        [MenuItem ("Assets/Create/Script Template/PopupController", priority = 81)]
+        [MenuItem ("Assets/Create/Script Template/PopupViewBase", priority = 81)]
         // Create/C# Script has priority 80, so this puts it just below that.
-        public static void CreatePopupController ()
+        public static void CreatePopupViewBase ()
         {
-            CreateScriptAsset.Invoke (null, new object[] {TemplatePathPopupController, "NewPopupController.cs"});
+            CreateScriptAsset.Invoke (null, new object[] {TemplatePathPopupViewBase, "NewPopupViewBase.cs"});
         }
 
 
-        [MenuItem ("Assets/Create/Script Template/PopupController", true, priority = 81)]
-        public static bool CreatePopupControllerValidate ()
+        [MenuItem ("Assets/Create/Script Template/PopupViewBase", true, priority = 81)]
+        public static bool CreatePopupViewBaseValidate ()
         {
-            return File.Exists (TemplatePathPopupController) && CreateScriptAsset != null;
+            return File.Exists (TemplatePathPopupViewBase) && CreateScriptAsset != null;
         }
 
         #endregion

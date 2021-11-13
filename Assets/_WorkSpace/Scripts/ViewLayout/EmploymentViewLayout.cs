@@ -1,11 +1,9 @@
 using System.Linq;
-using BaseFrame;
 using Cysharp.Threading.Tasks;
 using Helper;
 using KKSFramework.DataBind;
 using KKSFramework.InGame;
 using KKSFramework.Navigation;
-using MasterData;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -94,7 +92,7 @@ namespace AutoChess
         }
 
         
-        protected override UniTask OnActiveAsync (Parameters parameters)
+        protected override UniTask OnActiveAsync (object parameters)
         {
             _characterViewmodel.SetNewEmployment ();
             _characterViewmodel.NewEmployCharacterModels ();
@@ -161,42 +159,48 @@ namespace AutoChess
         private void ClickAllEmployButton ()
         {
             if(_enoughAllEmployPrice)
-                WaitForMessagePopup ().Forget();
+                WaitForMessagePopup ();
             else
                 MessagePopup.PushNotEnoughPrice ();
             
-            async UniTask WaitForMessagePopup ()
+            void WaitForMessagePopup ()
             {
-                var param = TreeNavigationHelper.SpawnParam ();
                 var format = LocalizeHelper.FromDescription ("DESC_0002");
-                param[MessagePopup.MessagePopupStringKey] = string.Format (format, _allEmployPrice);
-                var popupCode = await TreeNavigationHelper.WaitForPopPushPopup (nameof(MessagePopup), param);
+                var msgPopupModel = new MessagePopup.Model
+                {
+                    msg = string.Format (format, _allEmployPrice),
+                    confirmAction = Confirm
+                };
+                NavigationHelper.OpenPopup (NavigationViewType.MessagePopup, msgPopupModel).Forget();
                 
-                if (popupCode == PopupEndCode.Ok)
+                void Confirm ()
                 {
                     _characterViewmodel.EmployAll ();
                     UpdateLayout ();
                     _employableCharacterListArea.UpdateArea ();
                 }
             }
-        }
+        } 
 
 
         private void ClickEmployButton ()
         {
             if(_enoughEmployPrice)
-                WaitForMessagePopup ().Forget();
+                WaitForMessagePopup ();
             else
                 MessagePopup.PushNotEnoughPrice ();
             
-            async UniTask WaitForMessagePopup ()
+            void WaitForMessagePopup ()
             {
-                var param = TreeNavigationHelper.SpawnParam ();
                 var format = LocalizeHelper.FromDescription ("DESC_0003");
-                param[MessagePopup.MessagePopupStringKey] = string.Format (format, _employPrice);
-                var popupCode = await TreeNavigationHelper.WaitForPopPushPopup (nameof(MessagePopup), param);
+                var msgPopupModel = new MessagePopup.Model
+                {
+                    msg = string.Format (format, _employPrice),
+                    confirmAction = Confirm
+                };
+                NavigationHelper.OpenPopup (NavigationViewType.MessagePopup, msgPopupModel).Forget();
                 
-                if (popupCode == PopupEndCode.Ok)
+                void Confirm ()
                 {
                     _characterViewmodel.EmployCharacter (_characterModel);
                     UpdateLayout ();

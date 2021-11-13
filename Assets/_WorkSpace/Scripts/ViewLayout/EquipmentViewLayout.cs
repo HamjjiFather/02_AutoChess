@@ -1,4 +1,4 @@
-using BaseFrame;
+using KKSFramework;
 using Cysharp.Threading.Tasks;
 using KKSFramework.DataBind;
 using KKSFramework.InGame;
@@ -63,7 +63,7 @@ namespace AutoChess
         }
 
 
-        protected override UniTask OnActiveAsync (Parameters parameters)
+        protected override UniTask OnActiveAsync (object parameters)
         {
             _equipmentListArea.SetArea (ClickEquipmentElement);
             _battleCharacterListArea.SetArea (_characterViewmodel.BattleCharacterModels);
@@ -102,12 +102,12 @@ namespace AutoChess
         
         private void ClickCombineEquipmentButton ()
         {
-            var param = new Parameters
-            {
-                [CombineViewLayout.MaterialParamKey] = _equipmentInfoArea.AreaData,
-                [CombineViewLayout.IsCharacterParamKey] = false
-            };
-            ViewLayoutLoader.SetSubView (4, param);
+            // var param = new Parameters
+            // {
+            //     [CombineViewLayout.MaterialParamKey] = _equipmentInfoArea.AreaData,
+            //     [CombineViewLayout.IsCharacterParamKey] = false
+            // };
+            // ViewLayoutLoader.SetSubView (4, param);
         }
         
 

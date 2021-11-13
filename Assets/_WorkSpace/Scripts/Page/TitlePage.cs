@@ -1,13 +1,14 @@
-﻿using BaseFrame;
+﻿using KKSFramework;
 using Cysharp.Threading.Tasks;
 using Helper;
+using KKSFramework.Navigation;
+using KKSFramework.SceneLoad;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Scene = Helper.Scene;
 
 namespace KKSFramework.InGame
 {
-    public class TitlePage : PageController
+    public class TitlePage : PageViewBase
     {
         #region Fields & Property
 
@@ -27,10 +28,10 @@ namespace KKSFramework.InGame
             titleButton.onClick.AddListener (ClickTitle);
         }
 
-        protected override UniTask OnShowAsync ()
+        protected override UniTask OnShow ()
         {
             _isLoaded = true;
-            return base.OnShowAsync ();
+            return base.OnShow ();
         }
 
 
@@ -38,7 +39,7 @@ namespace KKSFramework.InGame
         {
             if (!_isLoaded) return;
             _isLoaded = false;
-            TreeNavigationHelper.ChangeScene (Scene.Game);
+            SceneLoadManager.Instance.ChangeSceneAsync (SceneType.Game).Forget();
         }
     }
 }

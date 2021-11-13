@@ -21,7 +21,7 @@ namespace AutoChess
 
         private List<BaseStatusModel> _baseStatusModels;
 
-        public bool ExistEquipment => EquipmentModels.Any (x => x.UniqueEquipmentId.Equals (Constants.INVALID_INDEX));
+        public bool ExistEquipment => EquipmentModels.Any (x => x.UniqueEquipmentId.Equals (Constant.InvalidIndex));
 
         #endregion
 

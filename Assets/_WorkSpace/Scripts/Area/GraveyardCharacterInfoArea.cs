@@ -1,5 +1,5 @@
 using System.Linq;
-using BaseFrame;
+using KKSFramework;
 using Helper;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
@@ -79,7 +79,7 @@ namespace AutoChess
             void SetFixedCharacterInfo ()
             {
                 _characterNameText.Value = LocalizeHelper.FromName (areaData.CharacterData.Name);
-                _characterImage.Value = ResourcesLoadHelper.LoadResource<Sprite> (ResourceRoleType._Image,
+                _characterImage.Value = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
                     ResourcesType.Monster, areaData.CharacterData.SpriteResName);
             }
 
@@ -99,7 +99,7 @@ namespace AutoChess
 
                 void SetEquipment ()
                 {
-                    characterModel.EquipmentStatusModel.EquipmentModels.ForEach ((model, index) => { });
+                    // characterModel.EquipmentStatusModel.EquipmentModels.ForEach ((model, index) => { });
                 }
             }
         }

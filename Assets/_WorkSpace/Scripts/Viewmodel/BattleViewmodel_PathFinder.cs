@@ -32,7 +32,7 @@ namespace AutoChess
 
         private void InitializeLines ()
         {
-            _fieldScale = Array.ConvertAll (Constants.BATTLE_FIELD_SCALE.Split (','), int.Parse);
+            _fieldScale = Array.ConvertAll (Constant.BattleFieldScale.Split (','), int.Parse);
             for (var c = 0; c < _fieldScale.Length; c++)
             {
                 _allLineModels.Add (c, new List<LandModel> ());
@@ -147,9 +147,9 @@ namespace AutoChess
                     return resultModel;
                 }
 
-                switch (element.ElementData.CharacterData.BattleCharacterType)
+                switch (element.ElementData.CharacterData.CharacterRoleType)
                 {
-                    case BattleCharacterType.Melee:
+                    case CharacterRoleType.Melee:
                         if (TryFindNearbyOtherCharacterElement (element, out var targetElement))
                         {
                             resultModel.SetResultState (BattleState.Behave);
@@ -159,7 +159,7 @@ namespace AutoChess
 
                         break;
 
-                    case BattleCharacterType.Range:
+                    case CharacterRoleType.Range:
                         if (TryFindNearestOtherCharacter (element, out targetElement))
                         {
                             resultModel.SetResultState (BattleState.Behave);
@@ -169,10 +169,10 @@ namespace AutoChess
 
                         break;
 
-                    case BattleCharacterType.Assassin:
+                    case CharacterRoleType.Assassin:
                         // 처음 상태가 아니라면 근접 공격 AI와 같게 행동 함.
                         if (!atFirst)
-                            goto case BattleCharacterType.Melee;
+                            goto case CharacterRoleType.Melee;
 
                         // 처음 상태일 경우 가장 먼 적에게 점프함.
                         if (TryFindFurthestOtherCharacter (element, out var jumpPosition))

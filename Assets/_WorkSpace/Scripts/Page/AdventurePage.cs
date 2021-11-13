@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using BaseFrame;
+using KKSFramework;
 using Cysharp.Threading.Tasks;
 using KKSFramework.Navigation;
 using UniRx;
@@ -8,7 +8,7 @@ using Zenject;
 
 namespace AutoChess
 {
-    public class AdventurePage : PageController
+    public class AdventurePage : PageViewBase
     {
         #region Fields & Property
 
@@ -44,7 +44,7 @@ namespace AutoChess
 
         #region UnityMethods
 
-        protected override void Awake ()
+        protected void Awake ()
         {
             ProjectContext.Instance.Container.BindInstance (battleCharacterListArea);
             battleCharacterListArea.SetArea (_characterViewmodel.BattleCharacterModels);
@@ -56,7 +56,7 @@ namespace AutoChess
 
         #region Methods
 
-        protected override async UniTask OnPrepareAsync (Parameters parameters)
+        protected override async UniTask OnPush (object pushValue = null)
         {
             var fieldViewLayout = viewLayoutLoader.ViewLayoutBases[0] as FieldViewLayout;
             var battleViewLayout = viewLayoutLoader.ViewLayoutBases[1] as BattleViewLayout;
@@ -67,7 +67,7 @@ namespace AutoChess
             viewLayoutLoader.SetSubView (0);
             await fieldViewLayout.StartAdventure ();
             SubscribeBattleCommand ();
-            await base.OnPrepareAsync (parameters);
+            await base.OnPush (pushValue);
 
             void SubscribeBattleCommand ()
             {
@@ -92,19 +92,21 @@ namespace AutoChess
             
         }
 
-        protected override UniTask OnHideAsync ()
+
+        protected override UniTask OnHide ()
         {
             _startBattleDisposable.DisposeSafe ();
             _endBattleDisposable.DisposeSafe ();
-            return base.OnHideAsync ();
+            return base.OnHide ();
         }
 
 
-        protected override void OnPopComplete ()
+        protected override UniTask Popped ()
         {
             ((FieldViewLayout) viewLayoutLoader.ViewLayoutBases[0]).DisposeViewLayout ().Forget();
-            base.OnPopComplete ();
+            return base.Popped ();
         }
+
 
         #endregion
 

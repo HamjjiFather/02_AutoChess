@@ -1,4 +1,4 @@
-using BaseFrame;
+using KKSFramework;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,7 +30,7 @@ namespace Malang
         
         #region PageController Implements
         
-        protected override void OnPush (Parameters parameters)
+        protected override void OnPush (object parameters)
         {
             base.OnPush (parameters);
 

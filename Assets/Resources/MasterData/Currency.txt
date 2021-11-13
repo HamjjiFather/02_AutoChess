@@ -1,4 +1,0 @@
-Index	CurrencyType
-0	Gold
-1	SoulStone
-2	StoneOfInheritance

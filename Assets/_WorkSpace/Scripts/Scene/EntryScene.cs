@@ -1,31 +1,29 @@
-﻿using BaseFrame;
-using BaseFrame.Navigation;
-using Cysharp.Threading.Tasks;
-using Helper;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using Scene = Helper.Scene;
+﻿using Cysharp.Threading.Tasks;
+using KKSFramework.Navigation;
+using KKSFramework.SceneLoad;
 
 
 namespace KKSFramework.InGame
 {
     public class EntryScene : SceneController
     {
-        public override void FinishTransition ()
+        public override InitNavigationData InitPageInitNavigationData => new InitNavigationData
         {
-            base.FinishTransition ();
-            
-            Input.multiTouchEnabled = false;
-            UniTaskScheduler.UnobservedExceptionWriteLogType = LogType.Exception;
-            TreeNavigationHelper.ChangeScene (Scene.Title);
+            viewString = nameof (NavigationViewType.EntryPage),
+            actionOnFirst = null
+        };
+
+
+        protected override async UniTask InitializeAsync ()
+        {
+            SceneLoadManager.Instance.InitManager ();
+            await base.InitializeAsync ();
+            await UniTask.CompletedTask;
         }
         
-        public override Configuration GetRootViewConfiguration ()
+        public override void Start ()
         {
-            var config = new Configuration.Builder ();
-            return config.SetName (nameof(EntryPage), true)
-                .SetLayer (ContentLayer.Page)
-                .Build ();
+            base.Start ();
         }
     }
 }

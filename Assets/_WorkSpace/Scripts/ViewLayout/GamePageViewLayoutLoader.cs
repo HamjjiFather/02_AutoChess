@@ -1,11 +1,8 @@
-using BaseFrame.Navigation;
 using Cysharp.Threading.Tasks;
-using Helper;
 using KKSFramework.DataBind;
 using KKSFramework.InGame;
 using KKSFramework.Navigation;
 using KKSFramework.UI;
-using UnityEngine;
 
 namespace AutoChess
 {
@@ -49,12 +46,12 @@ namespace AutoChess
 
         private void ClickFieldButton ()
         {
-            TreeNavigationHelper.PushRootPage (nameof (AdventurePage), transitionType: TransitionType.Fade);
+            NavigationHelper.OpenPage (NavigationViewType.AdventurePage, NavigationTriggerState.First).Forget();
         }
 
         private void ClickFormationButton ()
         {
-            TreeNavigationHelper.PushPopup (nameof (FormationPopup));
+            NavigationHelper.OpenPopup (NavigationViewType.FormationPopup).Forget();
         }
 
         #endregion

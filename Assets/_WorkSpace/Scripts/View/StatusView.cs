@@ -1,4 +1,4 @@
-using BaseFrame;
+using KKSFramework;
 using KKSFramework.DataBind;
 using MasterData;
 using UniRx;
@@ -52,7 +52,7 @@ namespace AutoChess
         {
             _settingButton.onClick.AddListener (OnClickSettingButton);
 
-            _currencyElements.ForEach ((x, index) =>
+            _currencyElements.Foreach ((x, index) =>
             {
                 x.SetElement (_itemViewmodel.CurrencyModels[(CurrencyType) index]);
             });

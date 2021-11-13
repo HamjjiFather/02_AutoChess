@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading;
-using BaseFrame;
+using KKSFramework;
 using Cysharp.Threading.Tasks;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;

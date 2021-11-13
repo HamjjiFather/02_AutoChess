@@ -1,11 +1,13 @@
-using BaseFrame;
+using Cysharp.Threading.Tasks;
+using KKSFramework;
 using KKSFramework.DataBind;
+using KKSFramework.Navigation;
 using UnityEngine;
 using Zenject;
 
 namespace AutoChess
 {
-    public class EndAdventurePopup : PopupController, IResolveTarget
+    public class EndAdventurePopup : PopupViewBase
     {
         #region Fields & Property
 
@@ -41,19 +43,18 @@ namespace AutoChess
 
         #region Methods
 
-        protected override void OnPush (Parameters parameters)
+        protected override UniTask OnPush (object parameters = null)
         {
-            base.OnPush (parameters);
-            
             _inAdventureEquipmentArea.SetArea (SetEquipmentInfo);
+            return base.OnPush (parameters);
         }
 
 
         private void SetEquipmentInfo (EquipmentModel equipmentModel)
         {
-            _baseStatusElements.ForEach (element => element.gameObject.SetActive (false));
-            _baseStatusElementLineObjs.ForEach (obj => obj.SetActive (false));
-            equipmentModel.StatusList.ForEach ((status, index) =>
+            _baseStatusElements.Foreach (element => element.gameObject.SetActive (false));
+            _baseStatusElementLineObjs.Foreach (obj => obj.SetActive (false));
+            equipmentModel.StatusList.Foreach ((status, index) =>
             {
                 _baseStatusElements[index].gameObject.SetActive (true);
                 _baseStatusElements[index].SetElement (equipmentModel.GetBaseStatusModel (status.StatusData.StatusType));

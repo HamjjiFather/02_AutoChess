@@ -1,6 +1,7 @@
 using Helper;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
+using KKSFramework.ResourcesLoad;
 using MasterData;
 using ResourcesLoad;
 using UnityEngine;
@@ -71,10 +72,10 @@ namespace AutoChess
             void SetFixedCharacterInfo ()
             {
                 _characterNameText.Value = LocalizeHelper.FromName (areaData.CharacterData.Name);
-                _characterImage.Value = ResourcesLoadHelper.LoadResource<Sprite> (ResourceRoleType._Image,
+                _characterImage.Value = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
                     ResourcesType.Monster, areaData.CharacterData.SpriteResName);
                 _characterAnimator.runtimeAnimatorController =
-                    ResourcesLoadHelper.LoadResource<RuntimeAnimatorController> (ResourceRoleType._Animation,
+                    ResourcesLoadHelper.GetResources<RuntimeAnimatorController> (ResourceRoleType._Animation,
                         areaData.CharacterData.AnimatorResName);
             }
 

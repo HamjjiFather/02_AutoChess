@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using BaseFrame;
 using Helper;
+using KKSFramework;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
 using UnityEngine;
@@ -54,7 +54,7 @@ namespace AutoChess
         private void Awake ()
         {
             var index = 0;
-            _selectedCombineMaterials.ForEach (x => x.SetBaseIndex (index++));
+            _selectedCombineMaterials.Foreach (x => x.SetBaseIndex (index++));
         }
 
         #endregion

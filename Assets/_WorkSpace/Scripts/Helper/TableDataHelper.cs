@@ -1,59 +1,50 @@
 using System;
 using System.Linq;
+using KKSFramework.TableData;
 
 namespace MasterData
 {
     public class TableDataHelper : Singleton<TableDataHelper>
     {
-        public TableName GetDataTypeByItemIndex (int index)
+        public DataType GetDataTypeByItemIndex (int index)
         {
-            if (Enum.GetValues (typeof (TableName)) is TableName[] dataTypes)
+            if (Enum.GetValues (typeof (DataType)) is DataType[] dataTypes)
             {
-                return dataTypes.Last (x => (int) x <= index);
+                return dataTypes.Last (x => (int)x <= index);
             }
 
-            return TableName.Character;
+            return DataType.Character;
         }
 
 
         public Status GetStatus (StatusType statusType)
         {
-            return GetBaseTableByEnum<Status> (TableName.Status, (int) statusType);
+            return GetBaseTableByEnum<Status> (DataType.Status, (int)statusType);
         }
 
 
         public EquipmentGradeProb GetEquipmentGradeProb (int level)
         {
-            return EquipmentGradeProb.Manager.GetItemByIndex (level);
+            return TableDataManager.Instance.EquipmentGradeProbDict[level];
         }
 
 
         public CharacterLevel GetCharacterLevelByExp (float exp)
         {
-            return CharacterLevel.Manager.Values.FirstOrDefault (x => x.AccReqExp > exp);
+            return TableDataManager.Instance.CharacterLevelDict.Values.FirstOrDefault (x => x.AccReqExp > exp);
         }
 
 
         public CharacterLevel GetCharacterLevelByLevel (int level)
         {
-            return GetBaseTableByEnum<CharacterLevel> (TableName.CharacterLevel,
-                (int) TableName.CharacterLevel + level);
+            return GetBaseTableByEnum<CharacterLevel> (DataType.CharacterLevel,
+                (int)DataType.CharacterLevel + level);
         }
 
 
-        public T GetBaseTableByEnum<T> (TableName tableName, int index) where T : BaseTable
+        public T GetBaseTableByEnum<T> (DataType dataType, int index) where T : TableDataBase
         {
-            switch (tableName)
-            {
-                case TableName.CharacterLevel:
-                    return CharacterLevel.Manager.GetItemByIndex (index) as T;
-
-                case TableName.Status:
-                    return Status.Manager.GetItemByIndex (index) as T;
-
-                default:
-                    return Equipment.Manager.GetItemByIndex (index) as T;
-            }
+            return TableDataManager.Instance.TotalDataDict[(int)dataType] as T;
         }
     }
 }

@@ -41,7 +41,7 @@ namespace AutoChess
             var skillModel = new SkillModel
             {
                 UseCharacterModel = user,
-                SkillData = Skill.Manager.GetItemByIndex (skillIndex),
+                SkillData = TableDataManager.Instance.SkillDict[skillIndex],
                 ApplyBullet = applyBullet
             };
 
@@ -179,7 +179,7 @@ namespace AutoChess
                 skillModel.SkillValueModels[i].SetPositiveNegativeValue (damageType == DamageType.Heal);
 
                 Debug.Log (
-                    $"SkillIndex {skillModel.SkillData.Index}\nCount {skillModel.TargetCharacters.Count}/{i}\nSkill User {skillModel.UseCharacterModel}\nSkill Target {skillModel.TargetCharacters[i]}\nSkill Value {skillModel.SkillValueModels[i].PreApplyValue}");
+                    $"SkillIndex {skillModel.SkillData.Id}\nCount {skillModel.TargetCharacters.Count}/{i}\nSkill User {skillModel.UseCharacterModel}\nSkill Target {skillModel.TargetCharacters[i]}\nSkill Value {skillModel.SkillValueModels[i].PreApplyValue}");
                 var element = _battleViewmodel.FindCharacterElement (skillModel.TargetCharacters[i]);
 
                 if (element == null || element.ElementData == null || element.ElementData.CharacterDeathInfo.Death)

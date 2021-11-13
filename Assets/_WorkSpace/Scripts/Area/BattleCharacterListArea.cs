@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using BaseFrame;
+using KKSFramework;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
 using UniRx;
@@ -57,14 +57,14 @@ namespace AutoChess
         /// <param name="clickActions"></param>
         public void SetElementClickActions (Action<CharacterModel> clickActions)
         {
-            _battleCharacterInfoElements.Where (x => x.IsAssigned).ForEach (element =>
+            _battleCharacterInfoElements.Where (x => x.IsAssigned).Foreach (element =>
             {
                 element.RegistActiveAction (clickActions);
             });
 
             _clickDisposable = Observable.EveryUpdate ().Where (_ => Input.GetMouseButtonUp (0)).Subscribe (_ =>
             {
-                _battleCharacterInfoElements.Where (x => x.IsAssigned).ForEach (x => x.RemoveAllEvents ());
+                _battleCharacterInfoElements.Where (x => x.IsAssigned).Foreach (x => x.RemoveAllEvents ());
                 _clickDisposable.DisposeSafe ();
             });
         }

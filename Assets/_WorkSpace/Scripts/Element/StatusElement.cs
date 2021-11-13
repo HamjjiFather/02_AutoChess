@@ -1,5 +1,5 @@
 using System.Linq;
-using BaseFrame;
+using KKSFramework;
 using Helper;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
@@ -43,7 +43,7 @@ namespace AutoChess
         {
             ElementData = baseStatusModel;
 
-            var grade = StatusGradeRange.Manager.Values.Last (statusGrade =>
+            var grade = TableDataManager.Instance.StatusGradeRangeDict.Values.Last (statusGrade =>
                 statusGrade.Min <= baseStatusModel.GradeValue && statusGrade.Max > baseStatusModel.GradeValue);
 
             _statusGradeText.Value = grade.GradeString;
@@ -60,7 +60,7 @@ namespace AutoChess
             ElementData = characterModel.GetBaseStatusModel (statusType);
 
             var equipmentStatusValue = characterModel.EquipmentStatusModel.GetStatusValue (statusType);
-            var grade = StatusGradeRange.Manager.Values.Last (statusGrade =>
+            var grade = TableDataManager.Instance.StatusGradeRangeDict.Values.Last (statusGrade =>
                 statusGrade.Min <= ElementData.GradeValue && statusGrade.Max > ElementData.GradeValue);
             var totalValue = ElementData.CombinedDisplayValue (equipmentStatusValue);
             var displayValueString = equipmentStatusValue.IsZero ()

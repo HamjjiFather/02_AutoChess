@@ -1,4 +1,4 @@
-using BaseFrame;
+using KKSFramework;
 using Cysharp.Threading.Tasks;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
@@ -45,7 +45,7 @@ namespace AutoChess
 
         #region Methods
 
-        protected override UniTask OnActiveAsync (Parameters parameters)
+        protected override UniTask OnActiveAsync (object parameters)
         {
             _characterListArea.SetArea (ClickCharacterElement, true, ref _characterViewmodel.IsDataChanged);
             _battleCharacterListArea.SetArea (_characterViewmodel.BattleCharacterModels);
@@ -65,12 +65,12 @@ namespace AutoChess
 
         private void ClickCombineCharacterButton ()
         {
-            var param = new Parameters
-            {
-                [CombineViewLayout.MaterialParamKey] = _characterInfoArea.AreaData,
-                [CombineViewLayout.IsCharacterParamKey] = true
-            };
-            ViewLayoutLoader.SetSubView (4, param);
+            // var param = new Parameters
+            // {
+            //     [CombineViewLayout.MaterialParamKey] = _characterInfoArea.AreaData,
+            //     [CombineViewLayout.IsCharacterParamKey] = true
+            // };
+            // ViewLayoutLoader.SetSubView (4, param);
         }
 
         #endregion

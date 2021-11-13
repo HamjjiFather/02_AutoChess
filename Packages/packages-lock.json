@@ -1,53 +1,31 @@
 {
   "dependencies": {
     "com.cysharp.unitask": {
-      "version": "ssh://git@freewill.synology.me:30001/unity-plugins/unitask.git",
+      "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "5a7b0c4a9d0af0950610f3b03890ecc5ba7db5ff"
+      "hash": "69be818a46ca876afc5cb370a0ceb00324b4437d"
     },
-    "com.google.external-dependency-manager": {
-      "version": "1.2.156",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://unityregistry-pa.googleapis.com"
-    },
-    "com.malang.baseframe": {
-      "version": "ssh://git@freewill.synology.me:30001/unity-plugins/baseframe.git?path=Assets/Plugins/BaseFrame",
+    "com.modesttree.zenject": {
+      "version": "ssh://git@github.com/HamjjiFather/00_Unity_ZenjectProject.git?path=Assets/Plugin",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "913298694a9443e58dbcf598ca4d2236a2c2ab3e"
+      "hash": "5c1f9b3cde59de2a360948456eb0e7bd3ee0ef75"
     },
-    "com.malang.sdk": {
-      "version": "ssh://git@freewill.synology.me:30001/unity-plugins/malangsdk.git?path=Assets/Plugins/MalangSDK",
+    "com.neuecc.unirx": {
+      "version": "https://github.com/neuecc/UniRx.git?path=Assets/Plugins/UniRx/Scripts",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "654a368077c0f734217e00ce80be2b2d413349c3"
+      "hash": "284d5c50d3f1ddd9fa7df3d382ea904732a9c2ff"
     },
-    "com.malang.softmask": {
-      "version": "ssh://git@freewill.synology.me:30001/unity-plugins/softmask.git",
+    "com.rhkdtjq0390.baseframe": {
+      "version": "file:D:/UnityProjects/00_FrameworkCore/Assets/Core",
       "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "d60140df8e2300e5b1a1c5e119dde7949eb2152a"
-    },
-    "com.malang.unirx": {
-      "version": "ssh://git@freewill.synology.me:30001/unity-plugins/unirx.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "4dc9573afc4da400b13c119585e28e3d4a4f670e"
-    },
-    "com.svermeulen.extenject": {
-      "version": "ssh://git@freewill.synology.me:30001/unity-plugins/zenject.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "3dd84b88dd2c770b3c8eeeae4090e0773cbcffd2"
+      "source": "local",
+      "dependencies": {}
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
@@ -63,26 +41,26 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ext.nunit": {
-      "version": "1.0.0",
+      "version": "1.0.6",
       "depth": 1,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.rider": {
-      "version": "1.2.1",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.test-framework": "1.1.1"
-      },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.ide.visualstudio": {
-      "version": "2.0.3",
+      "version": "3.0.5",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.ide.visualstudio": {
+      "version": "2.0.7",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.test-framework": "1.1.9"
+      },
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.vscode": {
@@ -93,21 +71,26 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.test-framework": {
-      "version": "1.1.18",
+      "version": "1.1.24",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.ext.nunit": "1.0.0",
+        "com.unity.ext.nunit": "1.0.6",
         "com.unity.modules.imgui": "1.0.0",
         "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },
     "com.unity.timeline": {
-      "version": "1.2.14",
+      "version": "1.5.4",
       "depth": 0,
       "source": "registry",
-      "dependencies": {},
+      "dependencies": {
+        "com.unity.modules.director": "1.0.0",
+        "com.unity.modules.animation": "1.0.0",
+        "com.unity.modules.audio": "1.0.0",
+        "com.unity.modules.particlesystem": "1.0.0"
+      },
       "url": "https://packages.unity.com"
     },
     "com.unity.ugui": {

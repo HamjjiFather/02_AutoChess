@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Helper;
+using KKSFramework;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
 using ResourcesLoad;
@@ -38,10 +39,10 @@ namespace AutoChess
 
         public override void SetArea (UnityAction<CharacterModel> areaData)
         {
-            _listElements.ForEach (element => ObjectPoolingHelper.Despawn (element.transform));
+            _listElements.Foreach (element => ObjectPoolingHelper.Despawn (element.transform));
             _listElements.Clear ();
 
-            _characterViewmodel.AllCharacterModels.ForEach (characterModel =>
+            _characterViewmodel.AllCharacterModels.Foreach (characterModel =>
             {
                 var element = ObjectPoolingHelper.Spawn<CharacterInfoListElement> (
                     ResourceRoleType.Bundles.ToString (),
@@ -65,10 +66,10 @@ namespace AutoChess
             if (!changedData) return;
             changedData = false;
 
-            _listElements.ForEach (element => ObjectPoolingHelper.Despawn (element.transform));
+            _listElements.Foreach (element => ObjectPoolingHelper.Despawn (element.transform));
             _listElements.Clear ();
 
-            _characterViewmodel.AllCharacterModels.ForEach (characterModel =>
+            _characterViewmodel.AllCharacterModels.Foreach (characterModel =>
             {
                 var element = ObjectPoolingHelper.Spawn<CharacterInfoListElement> (
                     ResourceRoleType.Bundles.ToString (),
@@ -92,10 +93,10 @@ namespace AutoChess
         
         public void SetAreaForced (UnityAction<CharacterModel> areaData, bool firstElementInvoke)
         {
-            _listElements.ForEach (element => ObjectPoolingHelper.Despawn (element.transform));
+            _listElements.Foreach (element => ObjectPoolingHelper.Despawn (element.transform));
             _listElements.Clear ();
 
-            _characterViewmodel.AllCharacterModels.ForEach (characterModel =>
+            _characterViewmodel.AllCharacterModels.Foreach (characterModel =>
             {
                 var element = ObjectPoolingHelper.Spawn<CharacterInfoListElement> (
                     ResourceRoleType.Bundles.ToString (),
@@ -122,10 +123,10 @@ namespace AutoChess
             if (!changedData) return;
             changedData = false;
 
-            _listElements.ForEach (element => ObjectPoolingHelper.Despawn (element.transform));
+            _listElements.Foreach (element => ObjectPoolingHelper.Despawn (element.transform));
             _listElements.Clear ();
 
-            characterModels.ForEach (characterModel =>
+            characterModels.Foreach (characterModel =>
             {
                 var element = ObjectPoolingHelper.Spawn<CharacterInfoListElement> (
                     ResourceRoleType.Bundles.ToString (),
@@ -149,10 +150,10 @@ namespace AutoChess
         
         public void SetAreaForced (UnityAction<CharacterModel> areaData, List<CharacterModel> characterModels, bool firstElementInvoke)
         {
-            _listElements.ForEach (element => ObjectPoolingHelper.Despawn (element.transform));
+            _listElements.Foreach (element => ObjectPoolingHelper.Despawn (element.transform));
             _listElements.Clear ();
 
-            characterModels.ForEach (characterModel =>
+            characterModels.Foreach (characterModel =>
             {
                 var element = ObjectPoolingHelper.Spawn<CharacterInfoListElement> (
                     ResourceRoleType.Bundles.ToString (),

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using KKSFramework;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -40,7 +41,7 @@ namespace AutoChess
 
         public async UniTask Clear ()
         {
-            _landElements.ForEach (element =>
+            _landElements.Foreach (element =>
             {
                 Destroy (element.gameObject);
             });

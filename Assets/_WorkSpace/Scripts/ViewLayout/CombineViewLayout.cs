@@ -1,5 +1,5 @@
 using System.Linq;
-using BaseFrame;
+using KKSFramework;
 using Cysharp.Threading.Tasks;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
@@ -9,6 +9,22 @@ namespace AutoChess
 {
     public class CombineViewLayout : ViewLayoutBase, IResolveTarget
     {
+        public struct Model
+        {
+            public Model (bool isCharacterView, ICombineMaterial combineMaterial)
+            {
+                IsCharacterView = isCharacterView;
+                CombineMaterial = combineMaterial;
+            }
+
+            public bool IsCharacterView;
+
+            public bool HasMaterial => CombineMaterial != null;
+
+            public ICombineMaterial CombineMaterial;
+        }
+
+
         #region Fields & Property
 
 #pragma warning disable CS0649
@@ -48,14 +64,16 @@ namespace AutoChess
 
         #region Methods
 
-        protected override UniTask OnActiveAsync (Parameters parameters)
+        protected override UniTask OnActiveAsync (object parameters)
         {
             if (parameters == null)
                 return UniTask.CompletedTask;
 
-            _isCharacterView = parameters.GetValueOrDefault (IsCharacterParamKey, false, false);
+            var model = (Model)parameters;
 
-            if (!parameters.ContainsKey (MaterialParamKey))
+            _isCharacterView = model.IsCharacterView;
+
+            if (!model.HasMaterial)
             {
                 _combineInfo.EmptyTargetMaterial ();
 
@@ -63,14 +81,11 @@ namespace AutoChess
                     _characterListArea.SetArea (ClickMaterialList);
                 else
                     _equipmentListArea.SetArea (ClickMaterialList);
-                
+
                 return base.OnActiveAsync (parameters);
             }
 
-            var targetMaterial =
-                parameters.GetValueOrDefault (MaterialParamKey, default (ICombineMaterial), false);
-
-            TargetMaterialState (targetMaterial);
+            TargetMaterialState (model.CombineMaterial);
 
             return base.OnActiveAsync (parameters);
         }
@@ -94,9 +109,9 @@ namespace AutoChess
             {
                 var characterList =
                     _characterViewmodel.AllCharacterModels.Where (x =>
-                        _selectedMaterial.Index.Equals (x.CharacterData.Index) &&
+                        _selectedMaterial.Index.Equals (x.CharacterData.Id) &&
                         !_combineInfo.CombineMaterials.Contains (x) &&
-                        x != _selectedMaterial && ((int) x.StarGrade).Equals (_selectedMaterial.Grade)).ToList ();
+                        x != _selectedMaterial && ((int)x.StarGrade).Equals (_selectedMaterial.Grade)).ToList ();
 
                 _characterListArea.SetAreaForced (ClickMaterialList, characterList, false);
                 return;
@@ -104,9 +119,9 @@ namespace AutoChess
 
             var equipmentList =
                 _equipmentViewmodel.EquipmentModels.Values.Where (x =>
-                    _selectedMaterial.Index.Equals (x.EquipmentData.Index) &&
+                    _selectedMaterial.Index.Equals (x.EquipmentData.Id) &&
                     !_combineInfo.CombineMaterials.Contains (x) &&
-                    x != _selectedMaterial && ((int) x.EquipmentGrade).Equals (_selectedMaterial.Grade)).ToList ();
+                    x != _selectedMaterial && ((int)x.EquipmentGrade).Equals (_selectedMaterial.Grade)).ToList ();
 
             _equipmentListArea.SetAreaForced (ClickMaterialList, equipmentList, false);
         }

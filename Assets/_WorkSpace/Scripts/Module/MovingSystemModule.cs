@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using BaseFrame;
+using KKSFramework;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;

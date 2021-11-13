@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BaseFrame;
+using KKSFramework;
 using MasterData;
 using KKSFramework.DesignPattern;
 using KKSFramework.LocalData;
@@ -85,9 +85,10 @@ namespace AutoChess
 
             if (!characterBundle.CharacterUniqueIds.Any ())
             {
-                _startCharacterIndexes.ForEach ((index, arrayIndex) =>
+                _startCharacterIndexes.Foreach ((index, arrayIndex) =>
                 {
-                    var characterModel = NewCharacter (index, AllCharacterModels);
+                    var newIdx = (int)DataType.Character + index;
+                    var characterModel = NewCharacter (newIdx, AllCharacterModels);
                     BattleCharacterModels[arrayIndex] = characterModel;
                 });
 
@@ -98,16 +99,16 @@ namespace AutoChess
                 return;
             }
 
-            characterBundle.CharacterUniqueIds.ForEach ((uid, arrayIndex) =>
+            characterBundle.CharacterUniqueIds.Foreach ((uid, arrayIndex) =>
             {
                 var characterModel = new CharacterModel ();
                 var statusGrade = characterBundle.CharacterStatusGrades[arrayIndex];
-                var characterData = Character.Manager.GetItemByIndex (characterBundle.CharacterIds[arrayIndex]);
+                var characterData = TableDataManager.Instance.CharacterDict[characterBundle.CharacterIds[arrayIndex]];
                 var characterLevel =
                     TableDataHelper.Instance.GetCharacterLevelByExp (characterBundle.CharacterExps[arrayIndex]);
                 var statusModel = GetBaseStatusModel (characterData, characterLevel, statusGrade);
-                var attackData = Skill.Manager.GetItemByIndex (characterData.AttackIndex);
-                var skillData = Skill.Manager.GetItemByIndex (characterData.SkillIndex);
+                var attackData = TableDataManager.Instance.SkillDict[characterData.AttackIndex];
+                var skillData = TableDataManager.Instance.SkillDict[characterData.SkillIndex];
 
                 characterModel.SetUniqueData (uid, characterBundle.CharacterExps[arrayIndex]);
                 characterModel.SetBaseData (characterData, attackData, skillData);
@@ -129,9 +130,9 @@ namespace AutoChess
                 AllCharacterModels.Add (characterModel);
             });
             
-            characterBundle.BattleCharacterUniqueIds.ForEach ((uid, arrayIndex) =>
+            characterBundle.BattleCharacterUniqueIds.Foreach ((uid, arrayIndex) =>
             {
-                if (uid == Constants.INVALID_INDEX)
+                if (uid == Constant.InvalidIndex)
                     return;
                 
                 var characterModel = AllCharacterModels.Single (x => x.UniqueCharacterId.Equals (uid));
@@ -153,7 +154,7 @@ namespace AutoChess
 
         public void AddCharacterExps (int exp)
         {
-            BattleCharacterModels.ForEach ((model, index) =>
+            BattleCharacterModels.Foreach ((model, index) =>
             {
                 model.AddExp (exp);
                 var characterLevel = TableDataHelper.Instance.GetCharacterLevelByExp (model.Exp.Value);
@@ -175,7 +176,7 @@ namespace AutoChess
         {
             LocalDataHelper.SaveCharacterIdData (
                 AllCharacterModels.Select (x => x.UniqueCharacterId).ToList (),
-                AllCharacterModels.Select (x => x.CharacterData.Index).ToList (),
+                AllCharacterModels.Select (x => x.CharacterData.Id).ToList (),
                 AllCharacterModels.Select (x => x.Exp.Value).ToList (),
                 AllCharacterModels.Select (x =>
                         new CharacterBundle.CharacterEquipmentUIds (x.EquipmentStatusModel.EquipmentUId.ToList ()))
@@ -205,12 +206,12 @@ namespace AutoChess
         public CharacterModel NewCharacter (int characterIndex, List<CharacterModel> modelDatas)
         {
             var characterModel = new CharacterModel ();
-            var characterData = Character.Manager.GetItemByIndex (characterIndex);
+            var characterData = TableDataManager.Instance.CharacterDict[characterIndex];
             var gradeStatusValues = NewStatusGradeValue ();
             var characterStatus = GetBaseStatusModel (characterData,
-                CharacterLevel.Manager.Values.First (), gradeStatusValues);
-            var attackData = Skill.Manager.GetItemByIndex (characterData.AttackIndex);
-            var skillData = Skill.Manager.GetItemByIndex (characterData.SkillIndex);
+                TableDataManager.Instance.CharacterLevelDict.Values.First (), gradeStatusValues);
+            var attackData = TableDataManager.Instance.SkillDict[characterData.AttackIndex];
+            var skillData = TableDataManager.Instance.SkillDict[characterData.SkillIndex];
 
             characterModel.SetUniqueData (NewUniqueId (), 0);
             characterModel.SetBaseData (characterData, attackData, skillData);
@@ -296,7 +297,7 @@ namespace AutoChess
         {
             var dict = new Dictionary<StatusType, BaseStatusModel> ();
             var enums = Enum.GetValues (typeof (StatusType)) as StatusType[];
-            enums?.Skip (1).ForEach (statustype =>
+            enums?.Skip (1).Foreach (statustype =>
             {
                 dict.Add (statustype,
                     new BaseStatusModel (TableDataHelper.Instance.GetStatus (statustype)));
@@ -318,8 +319,8 @@ namespace AutoChess
             dict[StatusType.AbilityPoint].SetStatusValue (apValue);
             dict[StatusType.Defense].SetStatusValue (defenseValue);
             dict[StatusType.AttackSpeed].SetStatusValue (character.AttackSpeed);
-            dict[StatusType.CriticalDamage].SetStatusValue (Constants.CRITICAL_DAMAGE);
-            dict[StatusType.CriticalProbability].SetStatusValue (Constants.CRITICAL_PROBABTILITY);
+            dict[StatusType.CriticalDamage].SetStatusValue (Constant.CriticalDamage);
+            dict[StatusType.CriticalProbability].SetStatusValue (Constant.CriticalProbability);
 
             return dict;
         }

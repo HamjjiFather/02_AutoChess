@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Helper;
+using KKSFramework;
 using MasterData;
 using ResourcesLoad;
 using UniRx;
@@ -144,7 +145,7 @@ namespace AutoChess
             movingSystemModule.Dispose ();
             _cancellationToken?.Cancel ();
             _cancellationToken?.Dispose ();
-            _registeredDisposables.ForEach (x => x.Dispose ());
+            _registeredDisposables.Foreach (x => x.Dispose ());
             _registeredDisposables.Clear ();
         }
 
@@ -263,14 +264,14 @@ namespace AutoChess
                 CreateBullet ();
 
             var afterSkillIndex = skillModel.SkillData.AfterSkillIndex;
-            if (afterSkillIndex == Constants.INVALID_INDEX)
+            if (afterSkillIndex == Constant.InvalidIndex)
                 return;
 
             _skillViewmodel.InvokeAfterSkill (skillModel);
 
             void CreateBullet ()
             {
-                skillModel.TargetCharacters.ForEach (character =>
+                skillModel.TargetCharacters.Foreach (character =>
                 {
                     var target = _battleViewmodel.FindCharacterElement (character);
                     var bulletModel = new BattleBulletModel
@@ -301,11 +302,11 @@ namespace AutoChess
                 // 피해를 입음.
                 if (skillModel.DamageType == DamageType.Damage)
                 {
-                    behaviourSystemModule.AddSkillValue (Constants.RESTORE_SKILL_GAGE_ON_HIT);
+                    behaviourSystemModule.AddSkillValue (Constant.RestoreSkillGageOnHit);
 
                     // 방어력.
                     var defenseValue = CharacterModel.GetTotalStatusValue (StatusType.Defense);
-                    var calcedDefenseValue = EasingDefenseValue (defenseValue * 1 / Constants.MAX_DEFENSE_VALUE);
+                    var calcedDefenseValue = EasingDefenseValue (defenseValue * 1 / Constant.MaxDefenseValue);
                     var appliedValue = skillValueModel.PreApplyValue -
                                        skillValueModel.PreApplyValue * calcedDefenseValue;
 

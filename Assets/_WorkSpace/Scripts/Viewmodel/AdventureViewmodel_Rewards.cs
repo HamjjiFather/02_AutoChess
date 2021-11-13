@@ -1,5 +1,4 @@
-using BaseFrame;
-using MasterData;
+using KKSFramework;
 using UnityEngine;
 using Zenject;
 
@@ -91,8 +90,9 @@ namespace AutoChess
             int EquipmentIndex ()
             {
                 var equipmentGroupIndex = _adventureFieldData.AppearedEquipmentGroupIndex;
-                var advEqGroup = AdvEquipmentGroup.Manager.GetItemByIndex (equipmentGroupIndex);
-                var advEqProbGroup = AdvEquipmentProbGroup.Manager.GetItemByIndex (advEqGroup.EquipmentProbIndex);
+                
+                var advEqGroup = TableDataManager.Instance.AdventureEquipmentDict[equipmentGroupIndex];
+                var advEqProbGroup = TableDataManager.Instance.AdventureEquipmentProbDict[advEqGroup.EquipmentProbIndex];
 
                 var equipmentProbPoint = Random.Range (0, 10000);
                 var stackedProbPoint = 0;
@@ -107,7 +107,7 @@ namespace AutoChess
                     }
                 }
 
-                return Constants.INVALID_INDEX;
+                return Constant.InvalidIndex;
             }
         }
 
@@ -118,7 +118,7 @@ namespace AutoChess
         public EquipmentModel NewEquipment (int equipmentIndex)
         {
             var equipmentModel = new EquipmentModel ();
-            var equipmentData = Equipment.Manager.GetItemByIndex (equipmentIndex);
+            var equipmentData = TableDataManager.Instance.EquipmentDict[equipmentIndex];
             equipmentModel.SetUniqueData (NewUniqueId ());
             equipmentModel.SetEquipmentData (equipmentData);
             var equipmentGrade = _equipmentViewmodel.SetEquipmentGrade ();

@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MasterData;
 using UniRx;
-using UnityEngine;
 
 namespace KKSFramework.LocalData
 {
@@ -15,7 +13,7 @@ namespace KKSFramework.LocalData
         public int LastEquipmentUniqueId;
     }
 
-    
+
     [Serializable]
     public class PlayerBundle : Bundle
     {
@@ -78,13 +76,18 @@ namespace KKSFramework.LocalData
             }
         }
     }
+    
+    
 
 
     [Serializable]
     public class BattleCharacterPositionBundle : Bundle
     {
+        public const string PLAYER_CHARACTER_POSITION = "1,0/2,0/3,0/4,0/5,0";
+
+        
         public StringReactiveProperty BattleCharacterPositions =
-            new StringReactiveProperty (Constants.PLAYER_CHARACTER_POSITION);
+            new StringReactiveProperty (PLAYER_CHARACTER_POSITION);
     }
 
 
@@ -129,29 +132,17 @@ namespace KKSFramework.LocalData
         /// </summary>
         public static void LoadAllGameData ()
         {
-            var playerBundle = 
-                LocalDataManager.Instance.LoadGameData<PlayerBundle> (LocalDataClass.PlayerBundle);
-            LocalDataClass.PlayerBundle = playerBundle;
-            
-            var characterBundle =
-                LocalDataManager.Instance.LoadGameData<CharacterBundle> (LocalDataClass.CharacterBundle);
-            LocalDataClass.CharacterBundle = characterBundle;
-
-            var battleCharacterPositionBundle =
-                LocalDataManager.Instance.LoadGameData<BattleCharacterPositionBundle> (LocalDataClass
-                    .BattleCharacterPositionBundle);
-            LocalDataClass.BattleCharacterPositionBundle = battleCharacterPositionBundle;
+            LocalDataManager.Instance.LoadGameData (LocalDataClass.PlayerBundle);
+            LocalDataManager.Instance.LoadGameData (LocalDataClass.CharacterBundle);
+            LocalDataManager.Instance.LoadGameData (LocalDataClass
+                .BattleCharacterPositionBundle);
             LocalDataClass.BattleCharacterPositionBundle.BattleCharacterPositions.Subscribe (value =>
             {
                 LocalDataManager.Instance.SaveGameData (LocalDataClass.BattleCharacterPositionBundle);
             });
 
-            var equipmentBundle =
-                LocalDataManager.Instance.LoadGameData<EquipmentBundle> (LocalDataClass.EquipmentBundle);
-            LocalDataClass.EquipmentBundle = equipmentBundle;
-
-            var gameBundle = LocalDataManager.Instance.LoadGameData<GameBundle> (LocalDataClass.GameBundle);
-            LocalDataClass.GameBundle = gameBundle;
+            LocalDataManager.Instance.LoadGameData (LocalDataClass.EquipmentBundle);
+            LocalDataManager.Instance.LoadGameData (LocalDataClass.GameBundle);
         }
 
 
@@ -159,23 +150,23 @@ namespace KKSFramework.LocalData
         {
             return LocalDataClass.PlayerBundle;
         }
-        
+
 
         public static CharacterBundle GetCharacterBundle ()
         {
             return LocalDataClass.CharacterBundle;
         }
-        
+
         public static BattleCharacterPositionBundle GetBattleCharacterPositionBundle ()
         {
             return LocalDataClass.BattleCharacterPositionBundle;
         }
-        
+
         public static string GetBattleCharacterPosition ()
         {
             return LocalDataClass.BattleCharacterPositionBundle.BattleCharacterPositions.Value;
         }
-        
+
 
         public static EquipmentBundle GetEquipmentBundle ()
         {
@@ -237,6 +228,7 @@ namespace KKSFramework.LocalData
                 LocalDataClass.CharacterBundle.CharacterStatusGrades.Add (
                     new CharacterBundle.CharacterStatusGrade (hp[i], attack[i], ap[i], defense[i]));
             }
+
             LocalDataManager.Instance.SaveGameData (LocalDataClass.CharacterBundle);
         }
 
@@ -295,7 +287,7 @@ namespace KKSFramework.LocalData
         public class LocalData
         {
             public GameBundle GameBundle = new GameBundle ();
-            
+
             public PlayerBundle PlayerBundle = new PlayerBundle ();
 
             public CharacterBundle CharacterBundle = new CharacterBundle ();

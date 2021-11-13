@@ -1,11 +1,11 @@
-using BaseFrame;
+using KKSFramework;
 using UnityEngine;
 using UnityEngine.UI;
 
 
 namespace Malang
 {
-    public class #SCRIPTNAME# : PopupController
+    public class #SCRIPTNAME# : PopupViewBase
     {
         #region Binding
 
@@ -28,9 +28,9 @@ namespace Malang
         #endregion
         
         
-        #region PopupController Implements
+        #region PopupViewBase Implements
                 
-        protected override void OnPush (Parameters parameters)
+        protected override void OnPush (object parameters)
         {
             base.OnPush (parameters);
 

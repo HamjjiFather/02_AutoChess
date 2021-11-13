@@ -1,10 +1,8 @@
 using System;
 using System.Threading;
-using BaseFrame;
-using UniRx;
 using Cysharp.Threading.Tasks;
 using KKSFramework;
-using MasterData;
+using UniRx;
 using UnityEngine;
 using UnityEngine.Events;
 using Zenject;
@@ -64,7 +62,7 @@ namespace AutoChess
             _skillValueDisposable = _skillGageValue.Subscribe (gageAction.Invoke);
             _skillValueAddDisposable = Observable.EveryUpdate ().Subscribe (_ =>
             {
-                if (_skillGageValue.Value >= Constants.MAX_SKILL_GAGE_VALUE)
+                if (_skillGageValue.Value >= Constant.MaxSkillGageValue)
                 {
                     if (_isFullSkillGage)
                         return;
@@ -107,8 +105,8 @@ namespace AutoChess
 
                 Debug.Log ("Attack behaviour");
                 UseSkill (characterModel, behaviourResultModel, cancellationToken, characterModel.CharacterData.AttackIndex,
-                    skillCallback, characterModel.CharacterData.BattleCharacterType == BattleCharacterType.Range);
-                AddSkillValue (Constants.RESTORE_SKILL_GAGE_ON_ATTACK);
+                    skillCallback, characterModel.CharacterData.CharacterRoleType == CharacterRoleType.Range);
+                AddSkillValue (Constant.RestoreSkillGageOnAttack);
                 await WaitForCanBehaveState ();
             }
 
@@ -157,7 +155,7 @@ namespace AutoChess
         public void AddSkillValue (float skillValue)
         {
             var calcedValue = _skillGageValue.Value + skillValue;
-            _skillGageValue.Value = Mathf.Clamp (calcedValue, 0, Constants.MAX_SKILL_GAGE_VALUE);
+            _skillGageValue.Value = Mathf.Clamp (calcedValue, 0, Constant.MaxSkillGageValue);
         }
 
         #endregion

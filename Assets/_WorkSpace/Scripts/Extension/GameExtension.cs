@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BaseFrame;
+using KKSFramework;
 using UnityEngine;
+using Random = System.Random;
 
 namespace AutoChess
 {
@@ -12,24 +13,24 @@ namespace AutoChess
         {
             return Mathf.RoundToInt (value);
         }
-        
+
         public static bool ContainIndex<TSource> (this IEnumerable<TSource> source, int index)
         {
             return Enumerable.Range (0, source.Count ()).Contains (index);
         }
-        
-        
+
+
         public static TSource MinSource<TSource> (this IEnumerable<TSource> sources, Func<TSource, int> selector)
         {
-            return sources.OrderBy(selector).First();
+            return sources.OrderBy (selector).First ();
         }
-        
-        
+
+
         public static TSource MinSource<TSource> (this IEnumerable<TSource> sources, Func<TSource, float> selector)
         {
-            return sources.OrderBy(selector).First();
+            return sources.OrderBy (selector).First ();
         }
-        
+
         public static IEnumerable<TSource> MinSources<TSource> (this IEnumerable<TSource> sources,
             Func<TSource, int> selector)
         {
@@ -43,20 +44,20 @@ namespace AutoChess
             var minValue = sources.Min (selector);
             return sources.Where (x => Math.Abs (selector.Invoke (x) - minValue) < float.Epsilon);
         }
-        
-        
+
+
         public static TSource MaxSource<TSource> (this IEnumerable<TSource> sources, Func<TSource, int> selector)
         {
-            return sources.OrderByDescending(selector).First();
+            return sources.OrderByDescending (selector).First ();
         }
-        
-        
+
+
         public static TSource MaxSource<TSource> (this IEnumerable<TSource> sources, Func<TSource, float> selector)
         {
-            return sources.OrderByDescending(selector).First();
+            return sources.OrderByDescending (selector).First ();
         }
-        
-        
+
+
         public static IEnumerable<TSource> RandomSources<TSource> (this IEnumerable<TSource> source, int count)
         {
             if (source == null)
@@ -78,15 +79,14 @@ namespace AutoChess
 
             return returnSources;
         }
-        
-        
-        
+
+
         /// <summary>
         ///     enqueue many times.
         /// </summary>
         public static void Enqueues<T> (this Queue<T> queue, IEnumerable<T> enumerable)
         {
-            enumerable.ForEach (queue.Enqueue);
+            enumerable.Foreach (queue.Enqueue);
         }
 
 
@@ -111,8 +111,15 @@ namespace AutoChess
 
             return newQueue;
         }
-        
-        
+
+
+        public static T Choice<T> (this IEnumerable<T> list)
+        {
+            var itemIdx = new Random ().Next (list.Count ());
+            return list.ToList ()[itemIdx];
+        }
+
+
         public static T Choice<T> (this IEnumerable<T> list, Func<T, bool> selector)
         {
             return list.ToArray ().Where (selector).Choice ();
@@ -121,12 +128,12 @@ namespace AutoChess
 
         public static void SetLocalReset (this Transform target)
         {
-            target.localEulerAngles = Vector3.zero; 
+            target.localEulerAngles = Vector3.zero;
             target.position = Vector3.zero;
             target.localPosition = Vector3.one;
         }
 
-        
+
         #region Int
 
         public static int RandomRange (this IEnumerable<int> bound)
@@ -136,9 +143,9 @@ namespace AutoChess
 
         #endregion
 
-        
+
         #region While
-        
+
         public static void ForWhile (this int cycle, Action invokeAction)
         {
             var i = 0;
@@ -159,7 +166,7 @@ namespace AutoChess
                 i++;
             }
         }
-        
+
         #endregion
 
 
@@ -177,7 +184,7 @@ namespace AutoChess
 
         public static void AddRange<TK, TV> (this Dictionary<TK, TV> dict, Dictionary<TK, TV> targetDict)
         {
-            targetDict.ForEach (target => { dict.ContainAndAdd (target.Key, target.Value); });
+            targetDict.Foreach (target => { dict.ContainAndAdd (target.Key, target.Value); });
         }
 
         #endregion

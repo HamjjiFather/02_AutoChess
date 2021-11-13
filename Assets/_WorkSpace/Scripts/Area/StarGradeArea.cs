@@ -1,4 +1,4 @@
-using BaseFrame;
+using KKSFramework;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
 using MasterData;
@@ -32,7 +32,7 @@ namespace AutoChess
         public override void SetArea (int grade)
         {
             context.Resolve ();
-            _onStarObj.ForEach ((obj, index) => { obj.enabled = index <= grade; });
+            _onStarObj.Foreach ((obj, index) => { obj.enabled = index <= grade; });
         }
         
         

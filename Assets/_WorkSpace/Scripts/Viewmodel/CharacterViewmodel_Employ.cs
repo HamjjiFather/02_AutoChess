@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using BaseFrame;
+using KKSFramework;
 using MasterData;
 using UniRx;
 
@@ -58,7 +58,7 @@ namespace AutoChess
 
             EmployableCharacterCount.Value.ForWhile (() =>
             {
-                var characterIndex = Character.Manager.Values.Choice ().Index;
+                var characterIndex = TableDataManager.Instance.CharacterDict.Values.Choice ().Id;
                 NewCharacter (characterIndex, AllEmployableCharacterModels);
             });
         }
@@ -76,7 +76,7 @@ namespace AutoChess
             SaveCharacterStatusGradeData ();
             IsDataChanged = true;
         }
-        
+
 
         /// <summary>
         /// 캐릭터를 고용함.
@@ -97,13 +97,13 @@ namespace AutoChess
         /// </summary>
         public int GetEmployPrice (CharacterModel characterModel)
         {
-            var gradeValue = ((int) characterModel.StarGrade + 1) * 10;
+            var gradeValue = ((int)characterModel.StarGrade + 1) * 10;
             var statusValue = characterModel.StatusModel.Status.Values.Sum (x => x.GradeValue) / 10f;
 
             return gradeValue + (int)statusValue;
         }
-        
-        
+
+
         /// <summary>
         /// 등용 가격 책정.
         /// </summary>

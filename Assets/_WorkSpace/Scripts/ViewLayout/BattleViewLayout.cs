@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BaseFrame;
 using Cysharp.Threading.Tasks;
 using Helper;
+using KKSFramework;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
-using MasterData;
+using KKSFramework.ResourcesLoad;
 using ResourcesLoad;
 using UniRx;
 using UnityEngine;
@@ -82,10 +82,9 @@ namespace AutoChess
 
         #region Methods
 
-
-        protected override UniTask OnActiveAsync (Parameters parameters)
+        protected override UniTask OnActiveAsync (object parameters)
         {
-            _lineElements.ForEach (x => x.MyVerticalLayoutGroup.SetLayoutVertical ());
+            _lineElements.Foreach (x => x.MyVerticalLayoutGroup.SetLayoutVertical ());
             return base.OnActiveAsync (parameters);
         }
 
@@ -115,11 +114,11 @@ namespace AutoChess
         /// </summary>
         private async UniTask CreateField ()
         {
-            var fieldScale = Array.ConvertAll (Constants.BATTLE_FIELD_SCALE.Split (','), int.Parse);
-            var fieldElement = await ResourcesLoadHelper.LoadResourcesAsync<LandElement> (
+            var fieldScale = Array.ConvertAll (Constant.BattleFieldScale.Split (','), int.Parse);
+            var fieldElement = await ResourcesLoadHelper.GetResourcesAsync<LandElement> (
                 ResourceRoleType.Bundles, ResourcesType.Element, nameof (LandElement));
 
-            _lineElements.ForEach ((element, i) =>
+            _lineElements.Foreach ((element, i) =>
             {
                 var count = fieldScale[i];
                 while (count > 0)
@@ -155,7 +154,7 @@ namespace AutoChess
             }
 
             _atAfterSummon = true;
-            _characterViewmodel.BattleCharacterModels.Where (x => x.IsAssigned).ForEach ((battlePlayer, index) =>
+            _characterViewmodel.BattleCharacterModels.Where (x => x.IsAssigned).Foreach ((battlePlayer, index) =>
             {
                 var landElement = GetLandElement (battlePlayer.PositionModel);
                 var characterElement = ObjectPoolingHelper.Spawn<BattleCharacterElement> (

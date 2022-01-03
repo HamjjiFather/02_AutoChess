@@ -29,7 +29,7 @@ namespace AutoChess
 #pragma warning disable CS0649
 
         [Inject]
-        private CharacterViewmodel _characterViewmodel;
+        private CharacterManager _characterViewmodel;
 
         [Inject]
         private AdventureViewmodel _adventureViewmodel;
@@ -39,9 +39,9 @@ namespace AutoChess
         /// <summary>
         /// 전투 출현 적 몬스터.
         /// </summary>
-        private readonly List<CharacterModel> _battleAiCharacterModels = new List<CharacterModel> ();
+        private readonly List<CharacterData> _battleAiCharacterModels = new List<CharacterData> ();
 
-        public List<CharacterModel> BattleAiCharacterModels => _battleAiCharacterModels;
+        public List<CharacterData> BattleAiCharacterModels => _battleAiCharacterModels;
 
         /// <summary>
         /// 플레이어 캐릭터.
@@ -124,29 +124,29 @@ namespace AutoChess
             // 적 AI 세팅.
             battleStageModel.StageData.MonsterIndexes.Where (x => x != 0).Foreach ((monsterIndex, index) =>
             {
-                var characterModel = new CharacterModel ();
+                var characterModel = new CharacterData ();
                 var characterData = TableDataManager.Instance.CharacterDict[monsterIndex];
                 var characterLevel =
                     TableDataHelper.Instance.GetCharacterLevelByLevel (battleStageModel.StageData.MonsterLevels[index]);
                 var statusGrade = MonsterStatusGradeValue ();
-                var statusModel = _characterViewmodel.GetBaseStatusModel (characterData, characterLevel, statusGrade);
-                var attackData = TableDataManager.Instance.SkillDict[characterData.AttackIndex];
-                var skillData = TableDataManager.Instance.SkillDict[characterData.SkillIndex];
+                // var statusModel = _characterViewmodel.GetBaseStatusModel (characterData, characterLevel, statusGrade);
+                // var attackData = TableDataManager.Instance.SkillDict[characterData.AttackIndex];
+                // var skillData = TableDataManager.Instance.SkillDict[characterData.SkillIndex];
 
-                characterModel.SetBaseData (characterData, attackData, skillData);
-                characterModel.SetStatusModel (statusModel);
-                characterModel.SetPositionModel (new PositionModel (battleStageModel.StageData.MonsterPosition[index]));
-                characterModel.SetEmptyEquipmentModel ();
-                characterModel.SetSide (CharacterSideType.AI);
-                characterModel.SetScale (1);
-
-                characterModel.GetBaseStatusModel (StatusType.Health).SetGradeValue (statusGrade.HealthStatusGrade);
-                characterModel.GetBaseStatusModel (StatusType.Attack).SetGradeValue (statusGrade.AttackStatusGrade);
-                characterModel.GetBaseStatusModel (StatusType.AbilityPoint)
-                    .SetGradeValue (statusGrade.AbilityPointStatusGrade);
-                characterModel.GetBaseStatusModel (StatusType.Defense).SetGradeValue (statusGrade.DefenseStatusGrade);
-
-                _battleAiCharacterModels.Add (characterModel);
+                // characterModel.SetBaseData (characterData, attackData, skillData);
+                // characterModel.SetStatusModel (statusModel);
+                // characterModel.SetPositionModel (new PositionModel (battleStageModel.StageData.MonsterPosition[index]));
+                // characterModel.SetEmptyEquipmentModel ();
+                // characterModel.SetSide (CharacterSideType.AI);
+                // characterModel.SetScale (1);
+                //
+                // characterModel.GetBaseStatusModel (StatusType.Health).SetGradeValue (statusGrade.HealthStatusGrade);
+                // characterModel.GetBaseStatusModel (StatusType.Attack).SetGradeValue (statusGrade.AttackStatusGrade);
+                // characterModel.GetBaseStatusModel (StatusType.AbilityPoint)
+                //     .SetGradeValue (statusGrade.AbilityPointStatusGrade);
+                // characterModel.GetBaseStatusModel (StatusType.Defense).SetGradeValue (statusGrade.DefenseStatusGrade);
+                //
+                // _battleAiCharacterModels.Add (characterModel);
             });
         }
 
@@ -160,14 +160,14 @@ namespace AutoChess
         }
 
 
-        private CharacterBundle.CharacterStatusGrade MonsterStatusGradeValue ()
+        private CharacterBundle.CharacterAbilityGrade MonsterStatusGradeValue ()
         {
-            return new CharacterBundle.CharacterStatusGrade
+            return new CharacterBundle.CharacterAbilityGrade
             {
-                HealthStatusGrade = Constant.MonsterStatusGradeValue,
-                AttackStatusGrade = Constant.MonsterStatusGradeValue,
-                AbilityPointStatusGrade = Constant.MonsterStatusGradeValue,
-                DefenseStatusGrade = Constant.MonsterStatusGradeValue
+                HealthAbilityGrade = Constant.MonsterStatusGradeValue,
+                AttackDamageAbilityGrade = Constant.MonsterStatusGradeValue,
+                SpellDamageAbilityGrade = Constant.MonsterStatusGradeValue,
+                DefenseAbilityGrade = Constant.MonsterStatusGradeValue
             };
         }
 
@@ -184,23 +184,23 @@ namespace AutoChess
         }
 
 
-        public BattleCharacterElement FindCharacterElement (CharacterModel characterModel)
+        public BattleCharacterElement FindCharacterElement (CharacterData characterData)
         {
-            return AllOfBattleCharacterElements.FirstOrDefault (x => x.ElementData == characterModel);
+            return AllOfBattleCharacterElements.FirstOrDefault (x => x.ElementData == characterData);
         }
 
 
-        public bool CharacterPlacable (CharacterModel characterModel, PositionModel targetPosition)
+        public bool CharacterPlacable (CharacterData characterData, PositionModel targetPosition)
         {
             var scaledPositions = PathFindingHelper.Instance.GetAroundPositionModel (_allLineModels,
-                targetPosition, characterModel.CharacterScale - 1);
+                targetPosition, characterData.CharacterScale - 1);
 
             return scaledPositions.All (position =>
             {
                 return _allLineModels.ContainsKey (position.Column) &&
                        _allLineModels[position.Column].ContainIndex (position.Row) &&
                        !position.Equals (PathFindingHelper.Instance.EmptyPosition) &&
-                       AllOfCharacterModels.Except (characterModel).All (x =>
+                       AllOfCharacterModels.Except (characterData).All (x =>
                            !x.PositionModel.Equals (position) && !x.PredicatedPositionModel.Equals (position));
             });
         }

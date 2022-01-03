@@ -3,64 +3,58 @@ using System.Collections.Generic;
 using AutoChess;
 using Cysharp.Threading.Tasks;
 using KKSFramework;
-using KKSFramework.DesignPattern;
 using KKSFramework.SceneLoad;
 using Zenject;
 
 public class ProjectInstall : MonoInstaller
 {
-    private static readonly List<Type> ViewModelTypes = new List<Type> ();
+    private static readonly List<Type> ManagerTypes = new List<Type> ();
 
     public override void InstallBindings ()
     {
-        SceneLoadManager.Instance.InitManager ();
-        BindViewmodel ();
+        SceneLoadProjectManager.Instance.InitManager ();
+        BindManager ();
     }
 
     public override void Start ()
     {
-        SceneLoadManager.Instance.ChangeSceneAsync (SceneType.Title).Forget();
+        SceneLoadProjectManager.Instance.ChangeSceneAsync (SceneType.Title).Forget();
     }
 
-    private void BindViewmodel ()
+    private void BindManager ()
     {
-        ViewModelTypes.Add (typeof(GameViewmodel));
-        ViewModelTypes.Add (typeof(BattleViewmodel));
-        ViewModelTypes.Add (typeof(CharacterViewmodel));
-        ViewModelTypes.Add (typeof(ItemViewmodel));
-        ViewModelTypes.Add (typeof(EquipmentViewmodel));
-        ViewModelTypes.Add (typeof(SkillViewmodel));
-        ViewModelTypes.Add (typeof(StatusViewmodel));
-        ViewModelTypes.Add (typeof(AdventureViewmodel));
-        ViewModelTypes.Foreach (type => { Container.Bind (type).AsSingle (); });
+        ManagerTypes.Add (typeof(AbilityManager));
+        ManagerTypes.Add (typeof(CharacterManager));
+        ManagerTypes.Add (typeof(EquipmentManager));
+        ManagerTypes.Foreach (type => { Container.Bind (type).AsSingle (); });
     }
 
-    public static void InitViewmodel ()
+    public static void Initialize ()
     {
-        ViewModelTypes.Foreach (type =>
+        ManagerTypes.Foreach (type =>
         {
-            var viewmodel = (ViewModelBase) ProjectContext.Instance.Container.Resolve (type);
-            viewmodel.Initialize ();
+            var mgr = (GameManagerBase) ProjectContext.Instance.Container.Resolve (type);
+            mgr.Initialize ();
         });
     }
 
 
-    public static void InitLocalDataViewmodel ()
+    public static void InitAfterLoadLocalData ()
     {
-        ViewModelTypes.Foreach (type =>
+        ManagerTypes.Foreach (type =>
         {
-            var viewmodel = (ViewModelBase) ProjectContext.Instance.Container.Resolve (type);
-            viewmodel.InitAfterLoadLocalData ();
+            var mgr = (GameManagerBase) ProjectContext.Instance.Container.Resolve (type);
+            mgr.InitAfterLoadLocalData ();
         });
     }
     
     
-    public static void InitTableDataViewmodel ()
+    public static void InitAfterLoadTableData ()
     {
-        ViewModelTypes.Foreach (type =>
+        ManagerTypes.Foreach (type =>
         {
-            var viewmodel = (ViewModelBase) ProjectContext.Instance.Container.Resolve (type);
-            viewmodel.InitAfterLoadTableData ();
+            var mgr = (GameManagerBase) ProjectContext.Instance.Container.Resolve (type);
+            mgr.InitAfterLoadTableData ();
         });
     }
 }

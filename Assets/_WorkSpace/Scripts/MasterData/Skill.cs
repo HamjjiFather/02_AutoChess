@@ -39,7 +39,7 @@ public class Skill : TableDataBase
 	/// <summary>
 	/// 변동 능력치 타입.
 	/// </summary>
-	public StatusType SkillStatusType;
+	public AbilityType SkillAbilityType;
 
 	/// <summary>
 	/// 변동 타입.
@@ -89,7 +89,7 @@ public class Skill : TableDataBase
 	/// <summary>
 	/// 참조 능력치 타입.
 	/// </summary>
-	public StatusType RefSkillStatusType;
+	public AbilityType RefSkillAbilityType;
 
 	/// <summary>
 	/// 참조 능력치 계수.
@@ -142,7 +142,7 @@ public class Skill : TableDataBase
 		Name = myData[rowIndex++];
 		Desc = myData[rowIndex++];
 		SkillActiveCondition = (SkillActiveCondition)Enum.Parse (typeof(SkillActiveCondition), myData[rowIndex++]);
-		SkillStatusType = (StatusType)Enum.Parse (typeof(StatusType), myData[rowIndex++]);
+		SkillAbilityType = (AbilityType)Enum.Parse (typeof(AbilityType), myData[rowIndex++]);
 		StatusChangeType = (StatusChangeType)Enum.Parse (typeof(StatusChangeType), myData[rowIndex++]);
 		InvokeCount = int.Parse(myData[rowIndex++]);
 		InvokeTime = float.Parse(myData[rowIndex++]);
@@ -152,7 +152,7 @@ public class Skill : TableDataBase
 		SkillValue = float.Parse(myData[rowIndex++]);
 		SkillValueType = (SkillValueType)Enum.Parse (typeof(SkillValueType), myData[rowIndex++]);
 		RefSkillValueTarget = (RefSkillValueTarget)Enum.Parse (typeof(RefSkillValueTarget), myData[rowIndex++]);
-		RefSkillStatusType = (StatusType)Enum.Parse (typeof(StatusType), myData[rowIndex++]);
+		RefSkillAbilityType = (AbilityType)Enum.Parse (typeof(AbilityType), myData[rowIndex++]);
 		RefSkillValueAmount = float.Parse(myData[rowIndex++]);
 		RefHealthType = (RefHealthType)Enum.Parse (typeof(RefHealthType), myData[rowIndex++]);
 		BattleStateType = (BattleStateType)Enum.Parse (typeof(BattleStateType), myData[rowIndex++]);

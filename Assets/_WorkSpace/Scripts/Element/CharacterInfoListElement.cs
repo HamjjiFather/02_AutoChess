@@ -10,9 +10,9 @@ namespace AutoChess
 {
     public class CharacterInfoListElementModel
     {
-        public CharacterModel CharacterModel;
+        public CharacterData CharacterData;
 
-        public UnityAction<CharacterModel> ElementClick;
+        public UnityAction<CharacterData> ElementClick;
     }
 
     public class CharacterInfoListElement : MonoBehaviour, IElementBase<CharacterInfoListElementModel>, IResolveTarget
@@ -56,13 +56,13 @@ namespace AutoChess
         {
             _context.Resolve (true);
             ElementData = characterInfoListElementModel;
-            _starGradeArea.SetArea (characterInfoListElementModel.CharacterModel.StarGrade);
-            _characterImage.sprite = characterInfoListElementModel.CharacterModel.IconImageResources;
-            _characterNameText.text = LocalizeHelper.FromName (characterInfoListElementModel.CharacterModel.CharacterData.Name);
+            _starGradeArea.SetArea (characterInfoListElementModel.CharacterData.StarGrade);
+            _characterImage.sprite = characterInfoListElementModel.CharacterData.IconImageResources;
+            _characterNameText.text = LocalizeHelper.FromName (characterInfoListElementModel.CharacterData.CharacterTable.Name);
             _elementButton.onClick.RemoveAllListeners ();
             _elementButton.onClick.AddListener (() =>
             {
-                characterInfoListElementModel.ElementClick.Invoke (characterInfoListElementModel.CharacterModel);
+                characterInfoListElementModel.ElementClick.Invoke (characterInfoListElementModel.CharacterData);
             });
         }
 

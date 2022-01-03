@@ -37,7 +37,7 @@ namespace AutoChess
     {
         #region Fields & Property
 
-        public CharacterModel UseCharacterModel;
+        public CharacterData UseCharacterData;
         
         public PositionModel TargetPosition;
         
@@ -47,7 +47,7 @@ namespace AutoChess
 
         public DamageType DamageType = DamageType.Damage;
 
-        public readonly List<CharacterModel> TargetCharacters = new List<CharacterModel> ();
+        public readonly List<CharacterData> TargetCharacters = new List<CharacterData> ();
 
         /// <summary>
         /// 스킬을 적용하기 전 계산된 스킬 적용값.

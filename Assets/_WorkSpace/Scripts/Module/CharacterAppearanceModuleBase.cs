@@ -39,10 +39,10 @@ namespace AutoChess
         /// 캐릭터 설정.
         /// </summary>
         [Bind, UsedImplicitly]
-        public void SetCharacterAppearance (CharacterModel characterModel)
+        public void SetCharacterAppearance (CharacterData characterData)
         {
-            SetSprite (characterModel.IconImageResources);
-            SetRuntimeAnimatorContoller (characterModel.CharacterAnimatorResources);
+            SetSprite (characterData.IconImageResources);
+            SetRuntimeAnimatorContoller (characterData.CharacterAnimatorResources);
         }
         
 

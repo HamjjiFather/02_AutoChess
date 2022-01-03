@@ -22,7 +22,7 @@ namespace AutoChess
         private BattleViewmodel _battleViewmodel;
 
         [Inject]
-        private CharacterViewmodel _characterViewmodel;
+        private CharacterManager _characterViewmodel;
 
         [Inject]
         private AdventureViewmodel _adventureViewmodel;

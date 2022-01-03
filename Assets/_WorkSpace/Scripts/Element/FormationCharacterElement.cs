@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 namespace AutoChess
 {
-    public class FormationCharacterElement : ElementBase<CharacterModel>, IResolveTarget
+    public class FormationCharacterElement : ElementBase<CharacterData>, IResolveTarget
     {
         #region Fields & Property
 
@@ -25,7 +25,7 @@ namespace AutoChess
 
 #pragma warning restore CS0649
 
-        public override CharacterModel ElementData { get; set; }
+        public override CharacterData ElementData { get; set; }
         
         public int MyIndex { get; private set; }
 
@@ -42,7 +42,7 @@ namespace AutoChess
             dragEntry.callback.AddListener (eventData =>
             {
                 var screenToWorldPoint =
-                    NavigationManager.Instance.MainCamera.ScreenToWorldPoint (eventData.currentInputModule.input.mousePosition);
+                    NavigationProjectManager.Instance.MainCamera.ScreenToWorldPoint (eventData.currentInputModule.input.mousePosition);
                 transform.position = new Vector3 (screenToWorldPoint.x, screenToWorldPoint.y, transform.position.z);
             });
             dragEntry.eventID = EventTriggerType.Drag;
@@ -66,7 +66,7 @@ namespace AutoChess
         }
 
 
-        public override void SetElement (CharacterModel elementData)
+        public override void SetElement (CharacterData elementData)
         {
             _characterImage.Value = elementData.IconImageResources;
             _characterAniamtor.runtimeAnimatorController = elementData.CharacterAnimatorResources;

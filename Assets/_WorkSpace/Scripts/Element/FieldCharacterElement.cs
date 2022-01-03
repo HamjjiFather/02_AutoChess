@@ -9,11 +9,11 @@ using Zenject;
 
 namespace AutoChess
 {
-    public class FieldCharacterElement : ElementBase<CharacterModel>, IResolveTarget
+    public class FieldCharacterElement : ElementBase<CharacterData>, IResolveTarget
     {
         #region Fields & Property
         
-        public override CharacterModel ElementData { get; set; }
+        public override CharacterData ElementData { get; set; }
 
 #pragma warning disable CS0649
         
@@ -21,7 +21,7 @@ namespace AutoChess
         private MovingSystemModule _movingSystem;
 
         [Resolver]
-        private Action<CharacterModel> _setAppearance;
+        private Action<CharacterData> _setAppearance;
 
         [Inject]
         private AdventureViewmodel _adventureViewmodel;
@@ -46,7 +46,7 @@ namespace AutoChess
 
         #region Methods
         
-        public override void SetElement (CharacterModel elementData)
+        public override void SetElement (CharacterData elementData)
         {
             _setAppearance (elementData);
             _cancellationToken = new CancellationTokenSource();

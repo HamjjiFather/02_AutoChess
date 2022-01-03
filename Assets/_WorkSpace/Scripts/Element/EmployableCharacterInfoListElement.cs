@@ -36,18 +36,18 @@ namespace AutoChess
         {
             _context.Resolve (true);
             ElementData = characterInfoListElementModel;
-            _characterImage.Value = characterInfoListElementModel.CharacterModel.IconImageResources;
-            _characterAnimator.runtimeAnimatorController = ElementData.CharacterModel.CharacterAnimatorResources;
+            _characterImage.Value = characterInfoListElementModel.CharacterData.IconImageResources;
+            _characterAnimator.runtimeAnimatorController = ElementData.CharacterData.CharacterAnimatorResources;
             GetComponent<RectTransform> ().sizeDelta = Vector2.zero;
             GetComponent<RectTransform> ().anchoredPosition = Vector2.zero;
         }
 
 
-        public void UpdateElement (CharacterModel characterModel)
+        public void UpdateElement (CharacterData characterData)
         {
-            ElementData.CharacterModel = characterModel;
-            _characterImage.Value = characterModel.IconImageResources;
-            _characterAnimator.runtimeAnimatorController = ElementData.CharacterModel.CharacterAnimatorResources;
+            ElementData.CharacterData = characterData;
+            _characterImage.Value = characterData.IconImageResources;
+            _characterAnimator.runtimeAnimatorController = ElementData.CharacterData.CharacterAnimatorResources;
             GetComponent<RectTransform> ().sizeDelta = Vector2.zero;
             GetComponent<RectTransform> ().anchoredPosition = Vector2.zero;
         }

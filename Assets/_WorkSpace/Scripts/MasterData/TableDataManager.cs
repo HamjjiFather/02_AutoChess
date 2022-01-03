@@ -14,9 +14,9 @@ public class TableDataManager : Singleton<TableDataManager>
 	 public Dictionary<int, CharacterLevel> CharacterLevelDict = new Dictionary<int, CharacterLevel> ();
 	 public Dictionary<int, Skill> SkillDict = new Dictionary<int, Skill> ();
 	 public Dictionary<int, Equipment> EquipmentDict = new Dictionary<int, Equipment> ();
-	 public Dictionary<int, EquipmentStatus> EquipmentStatusDict = new Dictionary<int, EquipmentStatus> ();
-	 public Dictionary<int, Status> StatusDict = new Dictionary<int, Status> ();
-	 public Dictionary<int, StatusGradeRange> StatusGradeRangeDict = new Dictionary<int, StatusGradeRange> ();
+	 public Dictionary<int, EquipmentAbility> EquipmentAbilityDict = new Dictionary<int, EquipmentAbility> ();
+	 public Dictionary<int, Ability> AbilityDict = new Dictionary<int, Ability> ();
+	 public Dictionary<int, AbilityGradeRange> AbilityGradeRangeDict = new Dictionary<int, AbilityGradeRange> ();
 	 public Dictionary<int, BattleStage> BattleStageDict = new Dictionary<int, BattleStage> ();
 	 public Dictionary<int, Particle> ParticleDict = new Dictionary<int, Particle> ();
 	 public Dictionary<int, BattleState> BattleStateDict = new Dictionary<int, BattleState> ();
@@ -35,9 +35,9 @@ public class TableDataManager : Singleton<TableDataManager>
 		CharacterLevelDict = (await ReadCSVData.Instance.LoadCSVData<CharacterLevel> ("TableData", nameof (CharacterLevel))).ToDictionary (x => x.Id, x => x);
 		SkillDict = (await ReadCSVData.Instance.LoadCSVData<Skill> ("TableData", nameof (Skill))).ToDictionary (x => x.Id, x => x);
 		EquipmentDict = (await ReadCSVData.Instance.LoadCSVData<Equipment> ("TableData", nameof (Equipment))).ToDictionary (x => x.Id, x => x);
-		EquipmentStatusDict = (await ReadCSVData.Instance.LoadCSVData<EquipmentStatus> ("TableData", nameof (EquipmentStatus))).ToDictionary (x => x.Id, x => x);
-		StatusDict = (await ReadCSVData.Instance.LoadCSVData<Status> ("TableData", nameof (Status))).ToDictionary (x => x.Id, x => x);
-		StatusGradeRangeDict = (await ReadCSVData.Instance.LoadCSVData<StatusGradeRange> ("TableData", nameof (StatusGradeRange))).ToDictionary (x => x.Id, x => x);
+		EquipmentAbilityDict = (await ReadCSVData.Instance.LoadCSVData<EquipmentAbility> ("TableData", nameof (EquipmentAbility))).ToDictionary (x => x.Id, x => x);
+		AbilityDict = (await ReadCSVData.Instance.LoadCSVData<Ability> ("TableData", nameof (Ability))).ToDictionary (x => x.Id, x => x);
+		AbilityGradeRangeDict = (await ReadCSVData.Instance.LoadCSVData<AbilityGradeRange> ("TableData", nameof (AbilityGradeRange))).ToDictionary (x => x.Id, x => x);
 		BattleStageDict = (await ReadCSVData.Instance.LoadCSVData<BattleStage> ("TableData", nameof (BattleStage))).ToDictionary (x => x.Id, x => x);
 		ParticleDict = (await ReadCSVData.Instance.LoadCSVData<Particle> ("TableData", nameof (Particle))).ToDictionary (x => x.Id, x => x);
 		BattleStateDict = (await ReadCSVData.Instance.LoadCSVData<BattleState> ("TableData", nameof (BattleState))).ToDictionary (x => x.Id, x => x);
@@ -53,9 +53,9 @@ public class TableDataManager : Singleton<TableDataManager>
         TotalDataDict.AddRange (CharacterLevelDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (SkillDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (EquipmentDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
-		TotalDataDict.AddRange (EquipmentStatusDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
-		TotalDataDict.AddRange (StatusDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
-		TotalDataDict.AddRange (StatusGradeRangeDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
+		TotalDataDict.AddRange (EquipmentAbilityDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
+		TotalDataDict.AddRange (AbilityDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
+		TotalDataDict.AddRange (AbilityGradeRangeDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (BattleStageDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (ParticleDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (BattleStateDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));

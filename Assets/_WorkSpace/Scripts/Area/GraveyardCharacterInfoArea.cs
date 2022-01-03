@@ -12,7 +12,7 @@ using Zenject;
 
 namespace AutoChess
 {
-    public class GraveyardCharacterInfoArea : AreaBase<CharacterModel>, IResolveTarget
+    public class GraveyardCharacterInfoArea : AreaBase<CharacterData>, IResolveTarget
     {
         #region Fields & Property
 
@@ -43,11 +43,11 @@ namespace AutoChess
         private SkillInfoArea _skillInfoArea;
 
         [Inject]
-        private CharacterViewmodel _characterViewmodel;
+        private CharacterManager _characterViewmodel;
 
 #pragma warning restore CS0649
 
-        public CharacterModel AreaData;
+        public CharacterData AreaData;
 
         #endregion
 
@@ -59,7 +59,7 @@ namespace AutoChess
 
         #region Methods
 
-        public override void SetArea (CharacterModel areaData)
+        public override void SetArea (CharacterData areaData)
         {
             var existDeathCharacter = _characterViewmodel.AllDeathCharacterModels.Any ();
             _noExistObj.SetActive (!existDeathCharacter);
@@ -78,21 +78,14 @@ namespace AutoChess
 
             void SetFixedCharacterInfo ()
             {
-                _characterNameText.Value = LocalizeHelper.FromName (areaData.CharacterData.Name);
+                _characterNameText.Value = LocalizeHelper.FromName (areaData.CharacterTable.Name);
                 _characterImage.Value = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
-                    ResourcesType.Monster, areaData.CharacterData.SpriteResName);
+                    ResourcesType.Monster, areaData.CharacterTable.SpriteResName);
             }
 
-            void ChangeCharacterInfo (CharacterModel characterModel)
+            void ChangeCharacterInfo (CharacterData characterModel)
             {
                 _starGradeArea.SetArea (characterModel.StarGrade);
-
-                _baseStatusElements[0].SetCharacterElement (StatusType.Health, characterModel);
-                _baseStatusElements[1].SetCharacterElement (StatusType.Attack, characterModel);
-                _baseStatusElements[2].SetCharacterElement (StatusType.AbilityPoint, characterModel);
-                _baseStatusElements[3].SetCharacterElement (StatusType.Defense, characterModel);
-                _baseStatusElements[4].SetCharacterElement (StatusType.AttackSpeed, characterModel);
-
                 _skillInfoArea.SetArea (characterModel);
 
                 SetEquipment ();

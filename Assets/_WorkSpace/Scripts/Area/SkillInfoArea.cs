@@ -5,7 +5,7 @@ using Zenject;
 
 namespace AutoChess
 {
-    public class SkillInfoArea : AreaBase<CharacterModel>
+    public class SkillInfoArea : AreaBase<CharacterData>
     {
         #region Fields & Property
         
@@ -30,7 +30,7 @@ namespace AutoChess
 
         #region Methods
 
-        public override void SetArea (CharacterModel areaData)
+        public override void SetArea (CharacterData areaData)
         {
             skillNameText.text = LocalizeHelper.FromName (areaData.SkillData.Name);
             skillDescText.text = SkillViewHelper.Instance.ToSkillDescriptionString (areaData);

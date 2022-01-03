@@ -92,7 +92,7 @@ namespace AutoChess
         /// </summary>
         public bool SelectMaterial (ICombineMaterial material)
         {
-            if (_CombineTarget is default (CharacterModel))
+            if (_CombineTarget is default (CharacterData))
             {
                 SetArea (material, _deselectCallback);
                 return true;

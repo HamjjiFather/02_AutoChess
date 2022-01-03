@@ -26,7 +26,7 @@ namespace AutoChess
         private ButtonExtension _combineButton;
 
         [Inject]
-        private CharacterViewmodel _characterViewmodel;
+        private CharacterManager _characterViewmodel;
 
 #pragma warning restore CS0649
 
@@ -57,9 +57,9 @@ namespace AutoChess
 
         #region EventMethods
 
-        private void ClickCharacterElement (CharacterModel characterModel)
+        private void ClickCharacterElement (CharacterData characterData)
         {
-            _characterInfoArea.SetArea (characterModel);
+            _characterInfoArea.SetArea (characterData);
         }
 
 

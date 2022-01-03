@@ -36,7 +36,7 @@ namespace AutoChess
         private BattleViewParticleManagingModule _particleManagingModule;
 
         [Inject]
-        private CharacterViewmodel _characterViewmodel;
+        private CharacterManager _characterViewmodel;
 
         [Inject]
         private BattleViewmodel _battleViewmodel;

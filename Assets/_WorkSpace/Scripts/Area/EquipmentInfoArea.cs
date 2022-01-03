@@ -31,7 +31,7 @@ namespace AutoChess
         private GameObject[] _baseStatusElementLineObjs;
 
         [Inject]
-        private CharacterViewmodel _characterViewmodel;
+        private CharacterManager _characterViewmodel;
 
 #pragma warning restore CS0649
 
@@ -66,19 +66,8 @@ namespace AutoChess
             _equipmentImage.Value = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
                 ResourcesType.Equipment, areaData.EquipmentData.SpriteResName);
 
-            _baseStatusElements.Foreach (element => element.gameObject.SetActive (false));
+            // _baseStatusElements.Foreach (element => element.gameObject.SetActive (false));
             _baseStatusElementLineObjs.Foreach (obj => obj.SetActive (false));
-            areaData.StatusList.Foreach ((status, index) =>
-            {
-                _baseStatusElements[index].gameObject.SetActive (true);
-                _baseStatusElements[index].SetElement (areaData.GetBaseStatusModel (status.StatusData.StatusType));
-
-                var objIndex = index - 1;
-
-                if (objIndex >= 0 && objIndex <= _baseStatusElementLineObjs.Length - 1)
-                    _baseStatusElementLineObjs[objIndex].SetActive (true);
-            });
-
             // SetEquipState (true);
         }
 

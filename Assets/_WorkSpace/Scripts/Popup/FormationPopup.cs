@@ -31,7 +31,7 @@ namespace AutoChess
         private BattleCharacterListArea _battleCharacterListArea;
 
         [Inject]
-        private CharacterViewmodel _characterViewmodel;
+        private CharacterManager _characterViewmodel;
 
 #pragma warning restore CS0649
 

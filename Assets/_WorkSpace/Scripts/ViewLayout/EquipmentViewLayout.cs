@@ -36,7 +36,7 @@ namespace AutoChess
         private Button _enchantButton;
 
         [Inject]
-        private CharacterViewmodel _characterViewmodel;
+        private CharacterManager _characterViewmodel;
         
 #pragma warning restore CS0649
         
@@ -92,7 +92,7 @@ namespace AutoChess
         {
             _battleCharacterListArea.SetElementClickActions (ClickCharacter);
 
-            void ClickCharacter (CharacterModel characterModel)
+            void ClickCharacter (CharacterData characterModel)
             {
                 characterModel.ChangeEquipmentModel (0, _equipmentInfoArea.AreaData);
                 _characterViewmodel.SaveCharacterData ();

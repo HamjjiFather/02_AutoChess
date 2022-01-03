@@ -56,11 +56,6 @@ namespace AutoChess
 
 #pragma warning restore CS0649
 
-        /// <summary>
-        /// 능력치.
-        /// </summary>
-        public List<BaseStatusModel> StatusList { get; set; } = new List<BaseStatusModel> ();
-
         #endregion
 
 
@@ -93,12 +88,6 @@ namespace AutoChess
         }
 
 
-        public void SetStatus (IEnumerable<BaseStatusModel> status)
-        {
-            StatusList.AddRange (status);
-        }
-
-
         public void SetStatusGrade (List<int> indexes, List<float> grades)
         {
             StatusIndexes = indexes;
@@ -110,22 +99,6 @@ namespace AutoChess
         {
             StatusIndexes.Add (index);
             StatusGrades.Add (grade);
-        }
-
-
-        public BaseStatusModel GetBaseStatusModel (StatusType statusType)
-        {
-            return StatusList.Any (x => x.StatusData.StatusType.Equals (statusType))
-                ? StatusList.First (x => x.StatusData.StatusType.Equals (statusType))
-                : new BaseStatusModel ();
-        }
-
-
-        public float GetStatusValue (StatusType statusType)
-        {
-            return StatusList.Any (x => x.StatusData.StatusType.Equals (statusType))
-                ? StatusList.Where (x => x.StatusData.StatusType.Equals (statusType)).Sum (x => x.StatusValue)
-                : 0f;
         }
 
 

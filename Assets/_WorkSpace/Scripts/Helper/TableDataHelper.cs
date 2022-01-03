@@ -17,9 +17,9 @@ namespace MasterData
         }
 
 
-        public Status GetStatus (StatusType statusType)
+        public Ability GetAbility (AbilityType abilityType)
         {
-            return GetBaseTableByEnum<Status> (DataType.Status, (int)statusType);
+            return GetBaseTableByEnum<Ability> (DataType.Ability, (int)abilityType);
         }
 
 
@@ -44,7 +44,7 @@ namespace MasterData
 
         public T GetBaseTableByEnum<T> (DataType dataType, int index) where T : TableDataBase
         {
-            return TableDataManager.Instance.TotalDataDict[(int)dataType] as T;
+            return TableDataManager.Instance.TotalDataDict[(int)dataType + index] as T;
         }
     }
 }

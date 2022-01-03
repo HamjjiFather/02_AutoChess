@@ -36,11 +36,11 @@ namespace AutoChess
 
         #region Methods
 
-        public SkillModel InvokeSkill (CharacterModel user, BehaviourResultModel behaviourResultModel, int skillIndex, bool applyBullet)
+        public SkillModel InvokeSkill (CharacterData user, BehaviourResultModel behaviourResultModel, int skillIndex, bool applyBullet)
         {
             var skillModel = new SkillModel
             {
-                UseCharacterModel = user,
+                UseCharacterData = user,
                 SkillData = TableDataManager.Instance.SkillDict[skillIndex],
                 ApplyBullet = applyBullet
             };
@@ -57,7 +57,7 @@ namespace AutoChess
         {
             var skillModel = new SkillModel
             {
-                UseCharacterModel = nowSkillModel.UseCharacterModel,
+                UseCharacterData = nowSkillModel.UseCharacterData,
                 TargetPosition = nowSkillModel.TargetPosition,
                 SkillData = nowSkillModel.SkillData,
                 SkillValueModels =
@@ -89,7 +89,7 @@ namespace AutoChess
             var isPassiveSkill = skillModel.SkillData.SkillActiveCondition != SkillActiveCondition.OnActive;
             if (isPassiveSkill)
             {
-                var key = skillModel.UseCharacterModel.UniqueCharacterId;
+                var key = skillModel.UseCharacterData.UniqueCharacterId;
                 if (!_passiveSkills.ContainsKey (key))
                     _passiveSkills.Add (key, new List<SkillModel> ());
 
@@ -142,7 +142,7 @@ namespace AutoChess
             {
                 case RefSkillValueTarget.Self:
                     var calcValue =
-                        skillModel.UseCharacterModel.GetTotalStatusValue (skillModel.SkillData.RefSkillStatusType) *
+                        // skillModel.UseCharacterData.GetTotalStatusValue (skillModel.SkillData.RefSkillStatusType) *
                         skillModel.SkillData.RefSkillValueAmount;
 
                     skillModel.SkillValueModels.AddRange (Enumerable
@@ -151,12 +151,12 @@ namespace AutoChess
                     break;
 
                 case RefSkillValueTarget.Target:
-                    skillModel.SkillValueModels.AddRange (skillModel.TargetCharacters.Select (characterModel =>
-                    {
-                        calcValue = characterModel.GetTotalStatusValue (skillModel.SkillData.RefSkillStatusType) *
-                                    skillModel.SkillData.RefSkillValueAmount;
-                        return new SkillValueModel (calcValue);
-                    }));
+                    // skillModel.SkillValueModels.AddRange (skillModel.TargetCharacters.Select (characterModel =>
+                    // {
+                    //     // calcValue = characterModel.GetTotalStatusValue (skillModel.SkillData.RefSkillStatusType) *
+                    //     //             skillModel.SkillData.RefSkillValueAmount;
+                    //     // return new SkillValueModel (calcValue);
+                    // }));
                     break;
 
                 case RefSkillValueTarget.Damage:
@@ -179,7 +179,7 @@ namespace AutoChess
                 skillModel.SkillValueModels[i].SetPositiveNegativeValue (damageType == DamageType.Heal);
 
                 Debug.Log (
-                    $"SkillIndex {skillModel.SkillData.Id}\nCount {skillModel.TargetCharacters.Count}/{i}\nSkill User {skillModel.UseCharacterModel}\nSkill Target {skillModel.TargetCharacters[i]}\nSkill Value {skillModel.SkillValueModels[i].PreApplyValue}");
+                    $"SkillIndex {skillModel.SkillData.Id}\nCount {skillModel.TargetCharacters.Count}/{i}\nSkill User {skillModel.UseCharacterData}\nSkill Target {skillModel.TargetCharacters[i]}\nSkill Value {skillModel.SkillValueModels[i].PreApplyValue}");
                 var element = _battleViewmodel.FindCharacterElement (skillModel.TargetCharacters[i]);
 
                 if (element == null || element.ElementData == null || element.ElementData.CharacterDeathInfo.Death)

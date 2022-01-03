@@ -62,8 +62,8 @@ namespace AutoChess
             _materialArea.SetActive (true);
             _slotImage.SetActive (false);
 
-            _starGradeArea.SetArea (((CharacterModel) elementData.CombineMaterialModel).StarGrade);
-            _materialImage.Value = ((CharacterModel) elementData.CombineMaterialModel).IconImageResources;
+            _starGradeArea.SetArea (((CharacterData) elementData.CombineMaterialModel).StarGrade);
+            _materialImage.Value = ((CharacterData) elementData.CombineMaterialModel).IconImageResources;
         }
 
 

@@ -52,7 +52,7 @@ namespace AutoChess
         private AdventureViewmodel _adventureViewmodel;
 
         [Inject]
-        private CharacterViewmodel _characterViewmodel;
+        private CharacterManager _characterViewmodel;
 
         [Inject]
         private BattleViewmodel _battleViewmodel;
@@ -216,7 +216,7 @@ namespace AutoChess
         /// <returns></returns>
         private async UniTask NextFloor ()
         {
-            await NavigationManager.Instance.ShowTransitionViewAsync ();
+            await NavigationProjectManager.Instance.ShowTransitionViewAsync ();
             OnBeween ();
 
             void OnBeween ()

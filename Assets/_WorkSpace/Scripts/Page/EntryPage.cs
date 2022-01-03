@@ -17,7 +17,7 @@ namespace KKSFramework.InGame
             IEnumerator WaitForSeconds ()
             {
                 yield return new WaitForSeconds (WaitSeconds);
-                SceneLoadManager.Instance.LoadSceneAsync (SceneType.Title, true);
+                SceneLoadProjectManager.Instance.LoadSceneAsync (SceneType.Title, true);
             }
         }
     }

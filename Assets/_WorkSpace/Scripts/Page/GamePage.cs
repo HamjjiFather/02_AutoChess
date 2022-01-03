@@ -7,7 +7,7 @@ using Zenject;
 
 namespace KKSFramework.InGame
 {
-    public class GamePage : PageViewBase, IResolveTarget
+    public class GamePage : PageViewBase
     {
         #region Fields & Property
         
@@ -20,7 +20,7 @@ namespace KKSFramework.InGame
         private ViewLayoutLoaderWithButton _viewLayoutLoader;
         
         [Inject]
-        private CharacterViewmodel _characterViewmodel;
+        private CharacterManager _characterViewmodel;
 
 #pragma warning restore CS0649
         

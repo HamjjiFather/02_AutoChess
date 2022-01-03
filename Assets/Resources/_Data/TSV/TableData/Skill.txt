@@ -1,4 +1,4 @@
-Id	InvokeSkillIndex	AfterSkillIndex	Name	Desc	SkillActiveCondition	SkillStatusType	StatusChangeType	InvokeCount	InvokeTime	SkillBound	SkillTargetBound	SkillTarget	SkillValue	SkillValueType	RefSkillValueTarget	RefSkillStatusType	RefSkillValueAmount	RefHealthType	BattleStateType	BattleStateSeconds	InvokeParticleIndex	ApplyParticleIndex	AfterParticleIndex
+Id	InvokeSkillIndex	AfterSkillIndex	Name	Desc	SkillActiveCondition	SkillAbilityType	StatusChangeType	InvokeCount	InvokeTime	SkillBound	SkillTargetBound	SkillTarget	SkillValue	SkillValueType	RefSkillValueTarget	RefSkillAbilityType	RefSkillValueAmount	RefHealthType	BattleStateType	BattleStateSeconds	InvokeParticleIndex	ApplyParticleIndex	AfterParticleIndex
 3000	0	0	SKILL_NAME_0000	SKILL_DESC_0000	OnActive	Health	Decrease	1	0	Target	0	Enemy	0	Number	Self	Attack	1	None	None	0	0	0	0
 3001	0	0	SKILL_NAME_0001	SKILL_DESC_0001	OnActive	Health	Increase	1	0	All	0	Ally	45	Number	Self	AbilityPoint	0.25	None	None	0	9000	9000	9000
 3002	0	40021	SKILL_NAME_0002	SKILL_DESC_0002	OnActive	Health	Decrease	1	0	Target	0	Enemy	60	Number	Self	Attack	0.15	None	None	0	9000	9000	9000

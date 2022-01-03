@@ -17,7 +17,7 @@ namespace AutoChess
 
 #pragma warning restore CS0649
 
-        private IEnumerable<CharacterModel> AllOfCharacterModels =>
+        private IEnumerable<CharacterData> AllOfCharacterModels =>
             BattleAiCharacterModels.Concat (_characterViewmodel.BattleCharacterModels).ToList ();
 
         private IEnumerable<BattleCharacterElement> AllOfBattleCharacterElements =>
@@ -147,7 +147,7 @@ namespace AutoChess
                     return resultModel;
                 }
 
-                switch (element.ElementData.CharacterData.CharacterRoleType)
+                switch (element.ElementData.CharacterTable.CharacterRoleType)
                 {
                     case CharacterRoleType.Melee:
                         if (TryFindNearbyOtherCharacterElement (element, out var targetElement))
@@ -459,10 +459,10 @@ namespace AutoChess
         }
 
 
-        public void CompleteMovement (CharacterModel characterModel, PositionModel positionModel)
+        public void CompleteMovement (CharacterData characterData, PositionModel positionModel)
         {
-            characterModel.PositionModel.Set (positionModel.Column, positionModel.Row);
-            characterModel.RemovePredicatePosition ();
+            characterData.PositionModel.Set (positionModel.Column, positionModel.Row);
+            characterData.RemovePredicatePosition ();
         }
 
         #endregion

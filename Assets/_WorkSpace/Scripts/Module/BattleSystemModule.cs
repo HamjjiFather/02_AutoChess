@@ -50,7 +50,7 @@ namespace AutoChess
 
 #pragma warning restore CS0649
 
-        public CharacterModel CharacterModel => _battleCharacterPackage.battleCharacterElement.ElementData;
+        public CharacterData CharacterData => _battleCharacterPackage.battleCharacterElement.ElementData;
 
         /// <summary>
         /// 전투 상태.
@@ -122,7 +122,7 @@ namespace AutoChess
             }
 
             _cancellationToken = new CancellationTokenSource ();
-            _health = _health ?? new FloatReactiveProperty (CharacterModel.GetTotalStatusValue (StatusType.Health));
+            // _health = _health ?? new FloatReactiveProperty (CharacterData.GetTotalStatusValue (StatusType.Health));
             _battleState = BattleState.Idle;
             _healthDisposable = _health.Subscribe (hp => { _healthEvent.Invoke ((int) hp); });
             _registeredDisposables = new List<IDisposable> ();
@@ -222,11 +222,11 @@ namespace AutoChess
         private async UniTask Move (BehaviourResultModel behaviourResultModel, float speed = 0.75f)
         {
             var position = behaviourResultModel.TargetPosition;
-            Debug.Log ($"{CharacterModel} move to {position}");
-            CharacterModel.SetPredicatePosition (position);
+            Debug.Log ($"{CharacterData} move to {position}");
+            CharacterData.SetPredicatePosition (position);
             await movingSystemModule.Moving (_battleViewLayout.GetLandElement (position), _cancellationToken.Token,
                 speed);
-            _battleViewmodel.CompleteMovement (CharacterModel, position);
+            _battleViewmodel.CompleteMovement (CharacterData, position);
             Debug.Log ("complete movement");
         }
 
@@ -237,7 +237,7 @@ namespace AutoChess
         private async UniTask Behaviour (BehaviourResultModel behaviourResultModel)
         {
             await _playAnimationAction (BattleState.Behave, _cancellationToken.Token);
-            await behaviourSystemModule.Behaviour (CharacterModel, behaviourResultModel, _cancellationToken.Token,
+            await behaviourSystemModule.Behaviour (CharacterData, behaviourResultModel, _cancellationToken.Token,
                 ApplyAfterSkill);
         }
 
@@ -284,7 +284,7 @@ namespace AutoChess
                     
                     var bulletObj = ObjectPoolingHelper.Spawn<BattleBulletElement> (
                         ResourceRoleType.Bundles.ToString (), ResourcesType.Element.ToString (),
-                        character.CharacterData.BulletResName, _bulletParents);
+                        character.CharacterTable.BulletResName, _bulletParents);
                     bulletObj.SetElement (bulletModel);
                 });
             }
@@ -296,50 +296,50 @@ namespace AutoChess
         /// </summary>
         public void CheckStatus (SkillModel skillModel, SkillValueModel skillValueModel)
         {
-            // 체력을 증감시키는 스킬이라면.
-            if (skillModel.SkillData.SkillStatusType == StatusType.Health)
-            {
-                // 피해를 입음.
-                if (skillModel.DamageType == DamageType.Damage)
-                {
-                    behaviourSystemModule.AddSkillValue (Constant.RestoreSkillGageOnHit);
-
-                    // 방어력.
-                    var defenseValue = CharacterModel.GetTotalStatusValue (StatusType.Defense);
-                    var calcedDefenseValue = EasingDefenseValue (defenseValue * 1 / Constant.MaxDefenseValue);
-                    var appliedValue = skillValueModel.PreApplyValue -
-                                       skillValueModel.PreApplyValue * calcedDefenseValue;
-
-                    skillValueModel.SetAppliedValue ((float) appliedValue);
-                    Debug.Log (
-                        $"DamageValue = {skillValueModel.PreApplyValue}, DefenseValue = {defenseValue}, CalcedValue = {calcedDefenseValue}, AppliedValue = {appliedValue}");
-
-                    double EasingDefenseValue (float value)
-                    {
-                        return 1 - Math.Pow (1 - value, 3);
-                    }
-                }
-
-                DamageElement (Math.Abs (skillValueModel.AppliedValue), skillModel.DamageType);
-                SetApplyParticle (skillModel.DamageType);
-                SetHealth (skillValueModel.AppliedValue);
-                return;
-            }
-
-            // 지속 시간이 존재함.
-            if (skillModel.SkillData.InvokeTime > 0)
-            {
-                CharacterModel.SkillStatusModel.AddStatus (skillModel.SkillData.SkillStatusType, new BaseStatusModel
-                {
-                    StatusData = TableDataHelper.Instance.GetStatus (skillModel.SkillData.SkillStatusType),
-                    StatusValue = skillValueModel.PreApplyValue
-                });
-
-                var disposable = Observable.Timer (TimeSpan.FromSeconds (skillModel.SkillData.InvokeTime)).Subscribe (
-                    _ => { });
-
-                _registeredDisposables.Add (disposable);
-            }
+            // // 체력을 증감시키는 스킬이라면.
+            // if (skillModel.SkillData.SkillStatusType == StatusType.Health)
+            // {
+            //     // 피해를 입음.
+            //     if (skillModel.DamageType == DamageType.Damage)
+            //     {
+            //         behaviourSystemModule.AddSkillValue (Constant.RestoreSkillGageOnHit);
+            //
+            //         // 방어력.
+            //         var defenseValue = CharacterData.GetTotalStatusValue (StatusType.Defense);
+            //         var calcedDefenseValue = EasingDefenseValue (defenseValue * 1 / Constant.MaxDefenseValue);
+            //         var appliedValue = skillValueModel.PreApplyValue -
+            //                            skillValueModel.PreApplyValue * calcedDefenseValue;
+            //
+            //         skillValueModel.SetAppliedValue ((float) appliedValue);
+            //         Debug.Log (
+            //             $"DamageValue = {skillValueModel.PreApplyValue}, DefenseValue = {defenseValue}, CalcedValue = {calcedDefenseValue}, AppliedValue = {appliedValue}");
+            //
+            //         double EasingDefenseValue (float value)
+            //         {
+            //             return 1 - Math.Pow (1 - value, 3);
+            //         }
+            //     }
+            //
+            //     DamageElement (Math.Abs (skillValueModel.AppliedValue), skillModel.DamageType);
+            //     SetApplyParticle (skillModel.DamageType);
+            //     SetHealth (skillValueModel.AppliedValue);
+            //     return;
+            // }
+            //
+            // // 지속 시간이 존재함.
+            // if (skillModel.SkillData.InvokeTime > 0)
+            // {
+            //     CharacterData.SkillStatusModel.AddStatus (skillModel.SkillData.SkillStatusType, new BaseStatusModel
+            //     {
+            //         StatusData = TableDataHelper.Instance.GetAbility (skillModel.SkillData.SkillStatusType),
+            //         StatusValue = skillValueModel.PreApplyValue
+            //     });
+            //
+            //     var disposable = Observable.Timer (TimeSpan.FromSeconds (skillModel.SkillData.InvokeTime)).Subscribe (
+            //         _ => { });
+            //
+            //     _registeredDisposables.Add (disposable);
+            // }
         }
 
 
@@ -348,8 +348,8 @@ namespace AutoChess
         /// </summary>
         public void SetHealth (float applyValue)
         {
-            var calcedValue = _health.Value + applyValue;
-            _health.Value = Mathf.Clamp (calcedValue, 0, CharacterModel.GetTotalStatusValue (StatusType.Health));
+            // var calcedValue = _health.Value + applyValue;
+            // _health.Value = Mathf.Clamp (calcedValue, 0, CharacterData.GetTotalStatusValue (StatusType.Health));
         }
 
 
@@ -359,8 +359,8 @@ namespace AutoChess
         /// <param name="perValue"> between 0 to 1 </param>
         public void SetHealthByPercent (float perValue)
         {
-            var applyValue = CharacterModel.GetTotalStatusValue (StatusType.Health) * perValue;
-            SetHealth (applyValue);
+            // var applyValue = CharacterData.GetTotalStatusValue (StatusType.Health) * perValue;
+            // SetHealth (applyValue);
         }
 
 

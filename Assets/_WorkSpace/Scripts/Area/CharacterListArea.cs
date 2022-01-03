@@ -11,7 +11,7 @@ using Zenject;
 
 namespace AutoChess
 {
-    public class CharacterListArea : AreaBase<UnityAction<CharacterModel>>, IResolveTarget
+    public class CharacterListArea : AreaBase<UnityAction<CharacterData>>, IResolveTarget
     {
         #region Fields & Property
 
@@ -21,7 +21,7 @@ namespace AutoChess
         private Transform _contents;
 
         [Inject]
-        private CharacterViewmodel _characterViewmodel;
+        private CharacterManager _characterViewmodel;
 
 #pragma warning restore CS0649
 
@@ -37,7 +37,7 @@ namespace AutoChess
 
         #region Methods
 
-        public override void SetArea (UnityAction<CharacterModel> areaData)
+        public override void SetArea (UnityAction<CharacterData> areaData)
         {
             _listElements.Foreach (element => ObjectPoolingHelper.Despawn (element.transform));
             _listElements.Clear ();
@@ -50,18 +50,18 @@ namespace AutoChess
 
                 element.SetElement (new CharacterInfoListElementModel
                 {
-                    CharacterModel = characterModel,
+                    CharacterData = characterModel,
                     ElementClick = areaData
                 });
                 _listElements.Add (element);
             });
 
             var firstElementData = _listElements.First ().ElementData;
-            firstElementData.ElementClick.Invoke (firstElementData.CharacterModel);
+            firstElementData.ElementClick.Invoke (firstElementData.CharacterData);
         }
         
         
-        public void SetArea (UnityAction<CharacterModel> areaData, bool firstElementInvoke, ref bool changedData)
+        public void SetArea (UnityAction<CharacterData> areaData, bool firstElementInvoke, ref bool changedData)
         {
             if (!changedData) return;
             changedData = false;
@@ -77,7 +77,7 @@ namespace AutoChess
 
                 element.SetElement (new CharacterInfoListElementModel
                 {
-                    CharacterModel = characterModel,
+                    CharacterData = characterModel,
                     ElementClick = areaData
                 });
                 _listElements.Add (element);
@@ -87,11 +87,11 @@ namespace AutoChess
                 return;
             
             var firstElementData = _listElements.First ().ElementData;
-            firstElementData.ElementClick.Invoke (firstElementData.CharacterModel);
+            firstElementData.ElementClick.Invoke (firstElementData.CharacterData);
         }
         
         
-        public void SetAreaForced (UnityAction<CharacterModel> areaData, bool firstElementInvoke)
+        public void SetAreaForced (UnityAction<CharacterData> areaData, bool firstElementInvoke)
         {
             _listElements.Foreach (element => ObjectPoolingHelper.Despawn (element.transform));
             _listElements.Clear ();
@@ -104,7 +104,7 @@ namespace AutoChess
 
                 element.SetElement (new CharacterInfoListElementModel
                 {
-                    CharacterModel = characterModel,
+                    CharacterData = characterModel,
                     ElementClick = areaData
                 });
                 _listElements.Add (element);
@@ -114,11 +114,11 @@ namespace AutoChess
                 return;
             
             var firstElementData = _listElements.First ().ElementData;
-            firstElementData.ElementClick.Invoke (firstElementData.CharacterModel);
+            firstElementData.ElementClick.Invoke (firstElementData.CharacterData);
         }
         
         
-        public void SetArea (UnityAction<CharacterModel> areaData, List<CharacterModel> characterModels, bool firstElementInvoke, ref bool changedData)
+        public void SetArea (UnityAction<CharacterData> areaData, List<CharacterData> characterModels, bool firstElementInvoke, ref bool changedData)
         {
             if (!changedData) return;
             changedData = false;
@@ -134,7 +134,7 @@ namespace AutoChess
 
                 element.SetElement (new CharacterInfoListElementModel
                 {
-                    CharacterModel = characterModel,
+                    CharacterData = characterModel,
                     ElementClick = areaData
                 });
                 _listElements.Add (element);
@@ -144,11 +144,11 @@ namespace AutoChess
                 return;
             
             var firstElementData = _listElements.First ().ElementData;
-            firstElementData.ElementClick.Invoke (firstElementData.CharacterModel);
+            firstElementData.ElementClick.Invoke (firstElementData.CharacterData);
         }
         
         
-        public void SetAreaForced (UnityAction<CharacterModel> areaData, List<CharacterModel> characterModels, bool firstElementInvoke)
+        public void SetAreaForced (UnityAction<CharacterData> areaData, List<CharacterData> characterModels, bool firstElementInvoke)
         {
             _listElements.Foreach (element => ObjectPoolingHelper.Despawn (element.transform));
             _listElements.Clear ();
@@ -161,7 +161,7 @@ namespace AutoChess
 
                 element.SetElement (new CharacterInfoListElementModel
                 {
-                    CharacterModel = characterModel,
+                    CharacterData = characterModel,
                     ElementClick = areaData
                 });
                 _listElements.Add (element);
@@ -171,7 +171,7 @@ namespace AutoChess
                 return;
             
             var firstElementData = _listElements.First ().ElementData;
-            firstElementData.ElementClick.Invoke (firstElementData.CharacterModel);
+            firstElementData.ElementClick.Invoke (firstElementData.CharacterData);
         }
         
 

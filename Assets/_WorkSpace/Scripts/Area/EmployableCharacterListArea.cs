@@ -11,7 +11,7 @@ using Zenject;
 
 namespace AutoChess
 {
-    public class EmployableCharacterListArea : AreaBase<UnityAction<CharacterModel>>, IResolveTarget
+    public class EmployableCharacterListArea : AreaBase<UnityAction<CharacterData>>, IResolveTarget
     {
         #region Fields & Property
 
@@ -21,7 +21,7 @@ namespace AutoChess
         private Transform[] _employCharacterPoint;
 
         [Inject]
-        private CharacterViewmodel _characterViewmodel;
+        private CharacterManager _characterViewmodel;
 
 #pragma warning restore CS0649
 
@@ -38,7 +38,7 @@ namespace AutoChess
 
         #region Methods
 
-        public override void SetArea (UnityAction<CharacterModel> areaData)
+        public override void SetArea (UnityAction<CharacterData> areaData)
         {
             if (!_characterViewmodel.IsNewEmployment) return;
             _characterViewmodel.IsNewEmployment = false;
@@ -57,7 +57,7 @@ namespace AutoChess
 
                 element.SetElement (new CharacterInfoListElementModel
                 {
-                    CharacterModel = characterModel,
+                    CharacterData = characterModel,
                     ElementClick = areaData
                 });
 
@@ -68,7 +68,7 @@ namespace AutoChess
                 return;
             
             var firstElementData = _employableCharacterElements.First ().ElementData;
-            firstElementData.ElementClick.Invoke (firstElementData.CharacterModel);
+            firstElementData.ElementClick.Invoke (firstElementData.CharacterData);
         }
 
 

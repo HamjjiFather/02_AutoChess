@@ -3795,18 +3795,6 @@ MonoBehaviour:
   soundPlayedCustomEvent: 
   willCleanUpDelegatesAfterStop: 1
   frames: 379
---- !u!114 &1451784542 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6637212760944291393, guid: 76e25df0fd6db4c44a852358c597af44,
-    type: 3}
-  m_PrefabInstance: {fileID: 1742099577}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57f6be1d56844aecb234c7ea79a5d55c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1572370894
 GameObject:
   m_ObjectHideFlags: 0
@@ -4580,6 +4568,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76e25df0fd6db4c44a852358c597af44, type: 3}
+--- !u!114 &1742099578 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1758352108427784872, guid: 76e25df0fd6db4c44a852358c597af44,
+    type: 3}
+  m_PrefabInstance: {fileID: 1742099577}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e293ea4c5b5bda40ba27d50ce9b381d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1794778469
 GameObject:
   m_ObjectHideFlags: 0
@@ -5937,7 +5937,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
-  - {fileID: 1451784542}
+  - {fileID: 1742099578}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:

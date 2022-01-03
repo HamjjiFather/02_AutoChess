@@ -39,10 +39,10 @@ namespace AutoChess
         private EquipmentListArea _equipmentListArea;
 
         [Inject]
-        private CharacterViewmodel _characterViewmodel;
+        private CharacterManager _characterViewmodel;
 
         [Inject]
-        private EquipmentViewmodel _equipmentViewmodel;
+        private EquipmentManager _equipmentManager;
 
 #pragma warning restore CS0649
 
@@ -109,7 +109,7 @@ namespace AutoChess
             {
                 var characterList =
                     _characterViewmodel.AllCharacterModels.Where (x =>
-                        _selectedMaterial.Index.Equals (x.CharacterData.Id) &&
+                        _selectedMaterial.Index.Equals (x.CharacterTable.Id) &&
                         !_combineInfo.CombineMaterials.Contains (x) &&
                         x != _selectedMaterial && ((int)x.StarGrade).Equals (_selectedMaterial.Grade)).ToList ();
 
@@ -118,7 +118,7 @@ namespace AutoChess
             }
 
             var equipmentList =
-                _equipmentViewmodel.EquipmentModels.Values.Where (x =>
+                _equipmentManager.EquipmentModels.Values.Where (x =>
                     _selectedMaterial.Index.Equals (x.EquipmentData.Id) &&
                     !_combineInfo.CombineMaterials.Contains (x) &&
                     x != _selectedMaterial && ((int)x.EquipmentGrade).Equals (_selectedMaterial.Grade)).ToList ();

@@ -1,9 +1,6 @@
-﻿using KKSFramework;
-using Cysharp.Threading.Tasks;
-using Helper;
+﻿using Cysharp.Threading.Tasks;
 using KKSFramework.Navigation;
 using KKSFramework.SceneLoad;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace KKSFramework.InGame
@@ -39,7 +36,7 @@ namespace KKSFramework.InGame
         {
             if (!_isLoaded) return;
             _isLoaded = false;
-            SceneLoadManager.Instance.ChangeSceneAsync (SceneType.Game).Forget();
+            SceneLoadProjectManager.Instance.ChangeSceneAsync (SceneType.Game).Forget();
         }
     }
 }

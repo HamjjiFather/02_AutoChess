@@ -28,7 +28,7 @@ namespace AutoChess
         }
     }
     
-    public class BattleCharacterElement : MonoBehaviour, IElementBase<CharacterModel>
+    public class BattleCharacterElement : MonoBehaviour, IElementBase<CharacterData>
     {
         #region Fields & Property
 
@@ -44,7 +44,7 @@ namespace AutoChess
         /// <summary>
         /// 캐릭터 데이터.
         /// </summary>
-        public CharacterModel ElementData { get; set; }
+        public CharacterData ElementData { get; set; }
 
         /// <summary>
         /// 전투 상태.
@@ -81,19 +81,19 @@ namespace AutoChess
 
         #region Methods
 
-        public void SetElement (CharacterModel characterModel)
+        public void SetElement (CharacterData characterData)
         {
-            ElementData = characterModel;
+            ElementData = characterData;
 
             battleCharacterPackage.characterAppearanceModule.SetActive (true);
 
             var sprite = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
-                ResourcesType.Monster, ElementData.CharacterData.SpriteResName);
+                ResourcesType.Monster, ElementData.CharacterTable.SpriteResName);
             var aniamtorController = ResourcesLoadHelper.GetResources<RuntimeAnimatorController> (
-                ResourceRoleType._Animation, ElementData.CharacterData.AnimatorResName);
+                ResourceRoleType._Animation, ElementData.CharacterTable.AnimatorResName);
             battleCharacterPackage.characterAppearanceModule.SetSprite (sprite);
             battleCharacterPackage.characterAppearanceModule.SetRuntimeAnimatorContoller (aniamtorController);
-            _maxHealth = ElementData.GetTotalStatusValue (StatusType.Health).FloatToInt ();
+            // _maxHealth = ElementData.GetTotalStatusValue (StatusType.Health).FloatToInt ();
             battleCharacterPackage.characterAppearanceModule.SetValueOnlyHealthGageValue (_maxHealth, _maxHealth);
             battleCharacterPackage.characterAppearanceModule.SetHealthGageColor (ElementData.CharacterSideType);
             battleCharacterPackage.characterAppearanceModule.SetScale (ElementData.CharacterScale);

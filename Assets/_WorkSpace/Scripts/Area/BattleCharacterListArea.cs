@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace AutoChess
 {
-    public class BattleCharacterListArea : AreaBase<ReactiveCollection<CharacterModel>>, IResolveTarget
+    public class BattleCharacterListArea : AreaBase<ReactiveCollection<CharacterData>>, IResolveTarget
     {
         #region Fields & Property
 
@@ -31,7 +31,7 @@ namespace AutoChess
 
         #region Methods
 
-        public override void SetArea (ReactiveCollection<CharacterModel> areaData)
+        public override void SetArea (ReactiveCollection<CharacterData> areaData)
         {
             areaData.ZipForEach (_battleCharacterInfoElements, (model, element) =>
             {
@@ -55,7 +55,7 @@ namespace AutoChess
         /// 
         /// </summary>
         /// <param name="clickActions"></param>
-        public void SetElementClickActions (Action<CharacterModel> clickActions)
+        public void SetElementClickActions (Action<CharacterData> clickActions)
         {
             _battleCharacterInfoElements.Where (x => x.IsAssigned).Foreach (element =>
             {

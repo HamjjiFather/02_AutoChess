@@ -13,7 +13,7 @@ using Zenject;
 
 namespace AutoChess
 {
-    public class BattleCharacterInfoElement : ElementBase<CharacterModel>, IResolveTarget
+    public class BattleCharacterInfoElement : ElementBase<CharacterData>, IResolveTarget
     {
         #region Fields & Property
 
@@ -57,7 +57,7 @@ namespace AutoChess
 
         public bool IsAssigned => ElementData.IsAssigned;
         
-        public override CharacterModel ElementData { get; set; }
+        public override CharacterData ElementData { get; set; }
 
         private UnityEvent _clickInfoEvent = new UnityEvent ();
 
@@ -76,9 +76,9 @@ namespace AutoChess
 
         #region Methods
 
-        public override void SetElement (CharacterModel characterModel)
+        public override void SetElement (CharacterData characterData)
         {
-            ElementData = characterModel;
+            ElementData = characterData;
             
             if (!ElementData.IsAssigned)
             {
@@ -87,20 +87,20 @@ namespace AutoChess
 
             _starGradeArea.SetArea (StarGrade.Grade1);
 
-            _characterNameText.Value = LocalizeHelper.FromName (ElementData.CharacterData.Name);
+            _characterNameText.Value = LocalizeHelper.FromName (ElementData.CharacterTable.Name);
             _characterImage.Value = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
-                ResourcesType.Monster, characterModel.CharacterData.SpriteResName);
+                ResourcesType.Monster, characterData.CharacterTable.SpriteResName);
 
-            var health = ElementData.GetTotalStatusValue (StatusType.Health).FloatToInt ();
-            _hpGageElement.SetValue (health, ElementData.StatusModel.MaxHealth.FloatToInt ());
+            // var health = ElementData.GetTotalStatusValue (StatusType.Health).FloatToInt ();
+            // _hpGageElement.SetValue (health, ElementData.StatusModel.MaxHealth.FloatToInt ());
 
-            var valueReactive = new FloatReactiveProperty (health);
-            _healthDisposable = valueReactive.Subscribe (hp =>
-            {
-                var rectT = _hpGageElement.GetComponent<RectTransform> ();
-                rectT.sizeDelta = new Vector2 (Mathf.Clamp (hp, 0, 760), rectT.sizeDelta.y);
-                _hpGageElement.SetValueAsync (hp.FloatToInt (), hp.FloatToInt ());
-            });
+            // var valueReactive = new FloatReactiveProperty (health);
+            // _healthDisposable = valueReactive.Subscribe (hp =>
+            // {
+            //     var rectT = _hpGageElement.GetComponent<RectTransform> ();
+            //     rectT.sizeDelta = new Vector2 (Mathf.Clamp (hp, 0, 760), rectT.sizeDelta.y);
+            //     _hpGageElement.SetValueAsync (hp.FloatToInt (), hp.FloatToInt ());
+            // });
 
             _expDisposable = ElementData.Exp.Subscribe (exp =>
             {
@@ -113,7 +113,7 @@ namespace AutoChess
         }
 
 
-        public void RegistActiveAction (Action<CharacterModel> unityAction)
+        public void RegistActiveAction (Action<CharacterData> unityAction)
         {
             _clickInfoEvent.AddListener (() => { unityAction.Invoke (ElementData); });
 

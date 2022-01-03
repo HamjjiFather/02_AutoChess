@@ -28,9 +28,9 @@ namespace AutoChess
         }
 
 
-        public string ValueString (StatusType statusType, float value)
+        public string ValueString (AbilityType abilityType, float value)
         {
-            var statusData = TableDataHelper.Instance.GetStatus (statusType);
+            var statusData = TableDataHelper.Instance.GetAbility (abilityType);
             return value.ToString (statusData.Format);
         }
 

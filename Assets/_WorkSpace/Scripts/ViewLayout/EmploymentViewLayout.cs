@@ -36,7 +36,7 @@ namespace AutoChess
         private Button _rejectButton;
 
         [Inject]
-        private CharacterViewmodel _characterViewmodel;
+        private CharacterManager _characterViewmodel;
 
         [Inject]
         private ItemViewmodel _itemViewmodel;
@@ -51,7 +51,7 @@ namespace AutoChess
         /// <summary>
         /// 현재 선택된 캐릭터 모델.
         /// </summary>
-        private CharacterModel _characterModel;
+        private CharacterData _characterData;
 
         /// <summary>
         /// 모두 등용 가격.
@@ -147,11 +147,11 @@ namespace AutoChess
 
         #region EventMethods
 
-        private void ClickCharacterElement (CharacterModel characterModel)
+        private void ClickCharacterElement (CharacterData characterData)
         {
-            _characterModel = characterModel;
-            _employCharacterInfoArea.SetArea (characterModel);
-            _employPrice = _characterViewmodel.GetEmployPrice (characterModel);
+            _characterData = characterData;
+            _employCharacterInfoArea.SetArea (characterData);
+            _employPrice = _characterViewmodel.GetEmployPrice (characterData);
             _employCurrencyButton.SetRequireCurrencyAmount (_employPrice);
         }
 
@@ -202,7 +202,7 @@ namespace AutoChess
                 
                 void Confirm ()
                 {
-                    _characterViewmodel.EmployCharacter (_characterModel);
+                    _characterViewmodel.EmployCharacter (_characterData);
                     UpdateLayout ();
                     _employableCharacterListArea.UpdateArea ();
                 }

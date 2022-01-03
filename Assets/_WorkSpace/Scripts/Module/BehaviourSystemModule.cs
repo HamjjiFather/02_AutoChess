@@ -87,7 +87,7 @@ namespace AutoChess
         /// <summary>
         /// 공격 / 스킬
         /// </summary>
-        public async UniTask Behaviour (CharacterModel characterModel, BehaviourResultModel behaviourResultModel,
+        public async UniTask Behaviour (CharacterData characterData, BehaviourResultModel behaviourResultModel,
             CancellationToken cancellationToken, UnityAction<SkillModel> skillCallback)
         {
             if (_canBehaviour)
@@ -95,7 +95,7 @@ namespace AutoChess
                 if (_isFullSkillGage)
                 {
                     Debug.Log ("Skill behaviour");
-                    UseSkill (characterModel, behaviourResultModel, cancellationToken, characterModel.CharacterData.SkillIndex,
+                    UseSkill (characterData, behaviourResultModel, cancellationToken, characterData.CharacterTable.SkillIndex,
                         skillCallback, false);
                     _skillGageValue.Value = 0;
                     _isFullSkillGage = false;
@@ -104,8 +104,8 @@ namespace AutoChess
                 }
 
                 Debug.Log ("Attack behaviour");
-                UseSkill (characterModel, behaviourResultModel, cancellationToken, characterModel.CharacterData.AttackIndex,
-                    skillCallback, characterModel.CharacterData.CharacterRoleType == CharacterRoleType.Range);
+                UseSkill (characterData, behaviourResultModel, cancellationToken, characterData.CharacterTable.AttackIndex,
+                    skillCallback, characterData.CharacterTable.CharacterRoleType == CharacterRoleType.Range);
                 AddSkillValue (Constant.RestoreSkillGageOnAttack);
                 await WaitForCanBehaveState ();
             }
@@ -120,11 +120,11 @@ namespace AutoChess
         /// <summary>
         /// 스킬 사용.
         /// </summary>
-        public void UseSkill (CharacterModel characterModel, BehaviourResultModel behaviourResultModel,
+        public void UseSkill (CharacterData characterData, BehaviourResultModel behaviourResultModel,
             CancellationToken cancellationToken, int index, UnityAction<SkillModel> skillCallback, bool applyBullet)
         {
-            var skillModel = _skillViewmodel.InvokeSkill (characterModel, behaviourResultModel, index, applyBullet);
-            CheckAttackSpeed (characterModel, cancellationToken).Forget ();
+            var skillModel = _skillViewmodel.InvokeSkill (characterData, behaviourResultModel, index, applyBullet);
+            CheckAttackSpeed (characterData, cancellationToken).Forget ();
             skillCallback.Invoke (skillModel);
         }
 
@@ -142,12 +142,12 @@ namespace AutoChess
         /// <summary>
         /// 공격 속도 대기.
         /// </summary>
-        private async UniTask CheckAttackSpeed (CharacterModel characterModel, CancellationToken cancellationToken)
+        private async UniTask CheckAttackSpeed (CharacterData characterData, CancellationToken cancellationToken)
         {
             _canBehaviour = false;
-            var attackDelay = 1 / characterModel.GetTotalStatusValue (StatusType.AttackSpeed);
-            await UniTask.Delay (TimeSpan.FromSeconds (attackDelay), cancellationToken: cancellationToken);
-            Debug.Log ($"{characterModel} Attack Delay = {attackDelay}");
+            // var attackDelay = 1 / characterData.GetTotalStatusValue (StatusType.AttackSpeed);
+            // await UniTask.Delay (TimeSpan.FromSeconds (attackDelay), cancellationToken: cancellationToken);
+            // Debug.Log ($"{characterData} Attack Delay = {attackDelay}");
             _canBehaviour = true;
         }
 

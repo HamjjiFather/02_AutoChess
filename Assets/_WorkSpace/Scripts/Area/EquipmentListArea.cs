@@ -22,7 +22,7 @@ namespace AutoChess
         private Transform _contents;
 
         [Inject]
-        private EquipmentViewmodel _equipmentViewmodel;
+        private EquipmentManager _equipmentManager;
 
 #pragma warning restore CS0649
 
@@ -40,13 +40,13 @@ namespace AutoChess
 
         public override void SetArea (UnityAction<EquipmentModel> areaData)
         {
-            if (!_equipmentViewmodel.IsDataChanged) return;
-            _equipmentViewmodel.IsDataChanged = false;
+            if (!_equipmentManager.IsDataChanged) return;
+            _equipmentManager.IsDataChanged = false;
 
             _listElements.Foreach (element => ObjectPoolingHelper.Despawn (element.transform));
             _listElements.Clear ();
 
-            _equipmentViewmodel.EquipmentModels.Values.Foreach (equipmentModel =>
+            _equipmentManager.EquipmentModels.Values.Foreach (equipmentModel =>
             {
                 var element = ObjectPoolingHelper.Spawn<EquipmentInfoListElement> (
                     ResourceRoleType.Bundles.ToString (),

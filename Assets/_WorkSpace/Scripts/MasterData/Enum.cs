@@ -30,17 +30,17 @@ public enum DataType
 	/// <summary>
 	/// 장비 부여 능력치 데이터.
 	/// </summary>
-	EquipmentStatus = 5000,
+	EquipmentAbility = 5000,
 
 	/// <summary>
 	/// 능력치 데이터.
 	/// </summary>
-	Status = 6000,
+	Ability = 6000,
 
 	/// <summary>
 	/// 능력치 단계 데이터.
 	/// </summary>
-	StatusGrade = 7000,
+	AbilityGrade = 7000,
 
 	/// <summary>
 	/// 스테이지 데이터.
@@ -415,7 +415,7 @@ public enum StatusGrade
 
 }
 
-public enum StatusType
+public enum AbilityType
 {
 	/// <summary>
 	/// 없음.
@@ -430,7 +430,7 @@ public enum StatusType
 	/// <summary>
 	/// 체력 재생.
 	/// </summary>
-	HealthRegen = 2,
+	HealthRecovery = 2,
 
 	/// <summary>
 	/// 스킬 게이지.
@@ -440,7 +440,7 @@ public enum StatusType
 	/// <summary>
 	/// 스킬 게이지 재생.
 	/// </summary>
-	SkillGageRegen = 4,
+	SkillGageRecovery = 4,
 
 	/// <summary>
 	/// 공격.

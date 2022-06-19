@@ -31,9 +31,6 @@ namespace AutoChess
         private Property<string> _characterNameText;
 
         [Resolver]
-        private StarGradeArea _starGradeArea;
-
-        [Resolver]
         private Property<Sprite> _characterImage;
 
         [Resolver]
@@ -81,7 +78,7 @@ namespace AutoChess
 
             void ChangeCharacterInfo (CharacterData characterModel)
             {
-                _starGradeArea.SetArea (characterModel.StarGrade);
+                // _starGradeArea.SetArea (characterModel.StarGrade);
                 _skillInfoArea.SetArea (characterModel);
             }
         }

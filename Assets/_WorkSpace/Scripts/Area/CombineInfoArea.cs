@@ -29,9 +29,6 @@ namespace AutoChess
         private GameObject _emptyTargetMaterialObj;
         
         [Resolver]
-        private StarGradeArea _starGradeArea;
-        
-        [Resolver]
         private Property<Sprite> _materialImage;
 
         [Resolver]
@@ -71,7 +68,6 @@ namespace AutoChess
             _emptyTargetMaterialObj.SetActive (false);
             
             _materialNameText.Value = LocalizeHelper.FromName (material.NameString);
-            _starGradeArea.SetArea (material.Grade);
             _materialImage.Value = material.ImageSprite;
             // _characterAnimator.runtimeAnimatorController = material.CharacterAnimatorResources;
         }
@@ -92,12 +88,12 @@ namespace AutoChess
         /// </summary>
         public bool SelectMaterial (ICombineMaterial material)
         {
-            if (_CombineTarget is default (CharacterData))
-            {
-                SetArea (material, _deselectCallback);
-                return true;
-            }
-            
+            // if (_CombineTarget is default (CharacterData))
+            // {
+            //     SetArea (material, _deselectCallback);
+            //     return true;
+            // }
+            //
             var firstElement = _selectedCombineMaterials.FirstOrDefault (element => !element.HasElementData);
             if (firstElement == null)
                 return false;

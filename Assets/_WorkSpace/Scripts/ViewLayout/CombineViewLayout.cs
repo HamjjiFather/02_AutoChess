@@ -39,10 +39,10 @@ namespace AutoChess
         private EquipmentListArea _equipmentListArea;
 
         [Inject]
-        private CharacterManager _characterViewmodel;
+        private CharacterViewmodel _characterViewmodel;
 
         [Inject]
-        private EquipmentManager _equipmentManager;
+        private EquipmentViewModel _equipmentViewModel;
 
 #pragma warning restore CS0649
 
@@ -77,10 +77,10 @@ namespace AutoChess
             {
                 _combineInfo.EmptyTargetMaterial ();
 
-                if (_isCharacterView)
-                    _characterListArea.SetArea (ClickMaterialList);
-                else
-                    _equipmentListArea.SetArea (ClickMaterialList);
+                // if (_isCharacterView)
+                //     _characterListArea.SetArea (ClickMaterialList);
+                // else
+                //     _equipmentListArea.SetArea (ClickMaterialList);
 
                 return base.OnActiveAsync (parameters);
             }
@@ -107,18 +107,18 @@ namespace AutoChess
         {
             if (_isCharacterView)
             {
-                var characterList =
-                    _characterViewmodel.AllCharacterModels.Where (x =>
-                        _selectedMaterial.Index.Equals (x.CharacterTable.Id) &&
-                        !_combineInfo.CombineMaterials.Contains (x) &&
-                        x != _selectedMaterial && ((int)x.StarGrade).Equals (_selectedMaterial.Grade)).ToList ();
-
-                _characterListArea.SetAreaForced (ClickMaterialList, characterList, false);
+                // var characterList =
+                //     _characterViewmodel.AllCharacterModels.Where (x =>
+                //         _selectedMaterial.Index.Equals (x.CharacterTable.Id) &&
+                //         !_combineInfo.CombineMaterials.Contains (x) &&
+                //         x != _selectedMaterial && ((int)x.StarGrade).Equals (_selectedMaterial.Grade)).ToList ();
+                //
+                // _characterListArea.SetAreaForced (ClickMaterialList, characterList, false);
                 return;
             }
 
             var equipmentList =
-                _equipmentManager.EquipmentModels.Values.Where (x =>
+                _equipmentViewModel.EquipmentModels.Values.Where (x =>
                     _selectedMaterial.Index.Equals (x.EquipmentData.Id) &&
                     !_combineInfo.CombineMaterials.Contains (x) &&
                     x != _selectedMaterial && ((int)x.EquipmentGrade).Equals (_selectedMaterial.Grade)).ToList ();

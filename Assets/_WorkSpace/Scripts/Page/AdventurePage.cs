@@ -19,10 +19,10 @@ namespace AutoChess
 #pragma warning disable CS0649
 
         [Inject]
-        private BattleViewmodel _battleViewmodel;
+        private BattleViewModel _battleViewModel;
 
         [Inject]
-        private CharacterManager _characterViewmodel;
+        private CharacterViewmodel _characterViewmodel;
 
         [Inject]
         private AdventureViewmodel _adventureViewmodel;
@@ -71,13 +71,13 @@ namespace AutoChess
 
             void SubscribeBattleCommand ()
             {
-                _startBattleDisposable = _battleViewmodel.StartBattleCommand.Subscribe (stageModel =>
+                _startBattleDisposable = _battleViewModel.StartBattleCommand.Subscribe (stageModel =>
                 {
                     viewLayoutLoader.SetSubView (1);
                     battleViewLayout.StartBattle ().Forget ();
                 });
 
-                _endBattleDisposable = _battleViewmodel.EndBattleCommand.Subscribe (isWin =>
+                _endBattleDisposable = _battleViewModel.EndBattleCommand.Subscribe (isWin =>
                 {
                     viewLayoutLoader.SetSubView (0);
                     fieldViewLayout.EndBattle (isWin);

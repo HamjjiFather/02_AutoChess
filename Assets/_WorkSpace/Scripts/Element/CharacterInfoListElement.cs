@@ -24,9 +24,6 @@ namespace AutoChess
 #pragma warning disable CS0649
 
         [Resolver]
-        private StarGradeArea _starGradeArea;
-
-        [Resolver]
         private Image _characterImage;
 
         [Resolver]
@@ -56,7 +53,7 @@ namespace AutoChess
         {
             _context.Resolve (true);
             ElementData = characterInfoListElementModel;
-            _starGradeArea.SetArea (characterInfoListElementModel.CharacterData.StarGrade);
+            // _starGradeArea.SetArea (characterInfoListElementModel.CharacterData.StarGrade);
             _characterImage.sprite = characterInfoListElementModel.CharacterData.IconImageResources;
             _characterNameText.text = LocalizeHelper.FromName (characterInfoListElementModel.CharacterData.CharacterTable.Name);
             _elementButton.onClick.RemoveAllListeners ();

@@ -41,7 +41,7 @@ namespace AutoChess
         
         public PositionModel TargetPosition;
         
-        public Skill SkillData;
+        public CharacterSkill SkillData;
 
         public bool ApplyBullet;
 

@@ -72,5 +72,13 @@ public class Constant
 	/// </summary>
 	public const string BattleFieldScale = "7,8,7,8,7,8,7";
 
+	/// <summary>
+	/// 확률기준값.
+	/// </summary>
+	public const int BaseProbabilityValue = 100000;
 
+	/// <summary>
+	/// 속도기준값.
+	/// </summary>
+	public const int BaseSpeedValue = 10000;
 }

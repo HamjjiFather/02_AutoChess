@@ -17,8 +17,6 @@ namespace AutoChess
     {
         #region Fields & Property
         
-        public StarGradeArea starGradeArea;
-
         public Image equipmentImage;
 
         public Text equipmentNameText;
@@ -63,7 +61,6 @@ namespace AutoChess
 
         protected void SetBaseInfo ()
         {
-            starGradeArea.SetArea (ElementData.EquipmentModel.EquipmentGrade);
             equipmentImage.sprite = ElementData.EquipmentModel.IconImageResources;
             equipmentNameText.text = LocalizeHelper.FromName (ElementData.EquipmentModel.EquipmentData.Name);
         }

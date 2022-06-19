@@ -37,7 +37,7 @@ namespace AutoChess
 #pragma warning disable CS0649
 
         [Inject]
-        private BattleViewmodel _battleViewmodel;
+        private BattleViewModel _battleViewModel;
 
 #pragma warning restore CS0649
 
@@ -96,7 +96,6 @@ namespace AutoChess
             // _maxHealth = ElementData.GetTotalStatusValue (StatusType.Health).FloatToInt ();
             battleCharacterPackage.characterAppearanceModule.SetValueOnlyHealthGageValue (_maxHealth, _maxHealth);
             battleCharacterPackage.characterAppearanceModule.SetHealthGageColor (ElementData.CharacterSideType);
-            battleCharacterPackage.characterAppearanceModule.SetScale (ElementData.CharacterScale);
             battleCharacterPackage.battleSystemModule.movingSystemModule.SetMovingTarget (transform);
             SkillGageCallback (0);
         }
@@ -125,7 +124,7 @@ namespace AutoChess
                 {
                     Dead ();
                     ElementData.CharacterDeathInfo.Death = true;
-                    _battleViewmodel.CheckCharacters (ElementData.CharacterSideType);
+                    _battleViewModel.CheckCharacters (ElementData.CharacterSideType);
                     battleCharacterPackage.characterParticleModule.PlayParticle (CharacterBuiltInParticleType.Death);
                 }
 

@@ -34,16 +34,13 @@ namespace AutoChess
         private Property<string> _characterNameText;
 
         [Resolver]
-        private StarGradeArea _starGradeArea;
-
-        [Resolver]
         private Property<Sprite> _characterImage;
 
         [Resolver]
         private SkillInfoArea _skillInfoArea;
 
         [Inject]
-        private CharacterManager _characterViewmodel;
+        private CharacterViewmodel _characterViewmodel;
 
 #pragma warning restore CS0649
 
@@ -85,7 +82,7 @@ namespace AutoChess
 
             void ChangeCharacterInfo (CharacterData characterModel)
             {
-                _starGradeArea.SetArea (characterModel.StarGrade);
+                // _starGradeArea.SetArea (characterModel.StarGrade);
                 _skillInfoArea.SetArea (characterModel);
 
                 SetEquipment ();

@@ -26,7 +26,7 @@ namespace AutoChess
         private ButtonExtension _combineButton;
 
         [Inject]
-        private CharacterManager _characterViewmodel;
+        private CharacterViewmodel _characterViewmodel;
 
 #pragma warning restore CS0649
 

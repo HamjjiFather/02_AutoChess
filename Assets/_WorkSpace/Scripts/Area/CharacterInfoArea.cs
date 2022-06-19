@@ -29,9 +29,6 @@ namespace AutoChess
         private Property<string> _characterNameText;
 
         [Resolver]
-        private StarGradeArea _starGradeArea;
-
-        [Resolver]
         private Property<Sprite> _characterImage;
 
         [Resolver]
@@ -85,7 +82,7 @@ namespace AutoChess
                 var levelData = characterModel.GetLevelData ();
                 _levelText.Value = $"Lv. {levelData.LevelString}";
                 _expGageElement.SetValue (characterModel.NowExp (), levelData.ReqExp);
-                _starGradeArea.SetArea (characterModel.StarGrade);
+                // _starGradeArea.SetArea (characterModel.StarGrade);
 
                 // _baseStatusElements[0].SetCharacterElement (StatusType.Health, characterModel);
                 // _baseStatusElements[1].SetCharacterElement (StatusType.Attack, characterModel);

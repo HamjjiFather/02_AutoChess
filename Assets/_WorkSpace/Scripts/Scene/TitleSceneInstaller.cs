@@ -12,12 +12,11 @@ namespace KKSFramework.InGame
             viewString = NavigationViewType.TitlePage.ToString ()
         };
 
-        
-        
-        protected override async UniTask InitializeAsync ()
+
+        protected override void Awake()
         {
             LocalDataProjectManager.Instance.SetSaveAction (LocalDataHelper.SaveAllGameData);
-            await base.InitializeAsync ();
+            base.Awake();
         }
     }
 }

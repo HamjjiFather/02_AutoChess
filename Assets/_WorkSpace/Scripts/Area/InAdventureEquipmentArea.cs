@@ -21,7 +21,7 @@ namespace AutoChess
         private Transform _contents;
 
         [Inject]
-        private EquipmentManager _equipmentManager;
+        private EquipmentViewModel _equipmentViewModel;
 
         [Inject]
         private AdventureViewmodel _adventureViewmodel;

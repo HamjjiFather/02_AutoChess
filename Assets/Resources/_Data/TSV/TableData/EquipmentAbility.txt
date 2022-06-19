@@ -1,14 +1,76 @@
-Id	AbilityType	Min	Max
-5000	Health	10	20
-5001	HealthRecovery	10	20
-5002	SkillGage	10	20
-5003	SkillGageRecovery	10	20
-5004	Attack	10	20
-5005	AbilityPoint	10	20
-5006	Defense	10	20
-5007	AttackSpeed	10	20
-5008	CriticalProbability	10	20
-5009	CriticalDamage	10	20
-5010	EvadeProbability	10	20
-5011	HitDamage	10	20
-5012	ShotDamage	10	20
+Id	StatusGrade	AbilityType	Min	Max
+9000	D	HealthPoint	3	12
+9001	D	HealthRecovery	2	4
+9002	D	ManaPoint	2	6
+9003	D	ManaRecovery	1	3
+9004	D	PhysicalDamage	2	10
+9005	D	MagicalDamage	3	14
+9006	D	PhysicalRegistance	480	720
+9007	D	MagicalRegistance	820	940
+9008	D	BehaveSpeed	200	400
+9009	D	CriticalProbability	600	960
+9010	D	CriticalDamagePercent	1600	2400
+9011	D	EvadeProbability	440	820
+9012	D	FlameRegistance	860	1240
+9013	D	ShockRegistance	860	1240
+9014	D	FrozenRegistance	860	1240
+9015	C	HealthPoint	12	26
+9016	C	HealthRecovery	4	7
+9017	C	ManaPoint	6	11
+9018	C	ManaRecovery	3	6
+9019	C	PhysicalDamage	10	20
+9020	C	MagicalDamage	14	28
+9021	C	PhysicalRegistance	720	1040
+9022	C	MagicalRegistance	940	1260
+9023	C	BehaveSpeed	400	640
+9024	C	CriticalProbability	960	1400
+9025	C	CriticalDamagePercent	2400	4400
+9026	C	EvadeProbability	820	1000
+9027	C	FlameRegistance	1240	1600
+9028	C	ShockRegistance	1240	1600
+9029	C	FrozenRegistance	1240	1600
+9030	B	HealthPoint	26	54
+9031	B	HealthRecovery	7	14
+9032	B	ManaPoint	11	22
+9033	B	ManaRecovery	6	11
+9034	B	PhysicalDamage	20	38
+9035	B	MagicalDamage	28	60
+9036	B	PhysicalRegistance	1040	1660
+9037	B	MagicalRegistance	1260	1920
+9038	B	BehaveSpeed	640	920
+9039	B	CriticalProbability	1400	2800
+9040	B	CriticalDamagePercent	4400	7200
+9041	B	EvadeProbability	1000	1660
+9042	B	FlameRegistance	1600	2400
+9043	B	ShockRegistance	1600	2400
+9044	B	FrozenRegistance	1600	2400
+9045	A	HealthPoint	54	106
+9046	A	HealthRecovery	14	28
+9047	A	ManaPoint	22	48
+9048	A	ManaRecovery	11	22
+9049	A	PhysicalDamage	38	64
+9050	A	MagicalDamage	60	120
+9051	A	PhysicalRegistance	1660	2420
+9052	A	MagicalRegistance	1920	2750
+9053	A	BehaveSpeed	920	1480
+9054	A	CriticalProbability	2800	5600
+9055	A	CriticalDamagePercent	7200	10000
+9056	A	EvadeProbability	1660	2120
+9057	A	FlameRegistance	2400	3600
+9058	A	ShockRegistance	2400	3600
+9059	A	FrozenRegistance	2400	3600
+9060	S	HealthPoint	106	212
+9061	S	HealthRecovery	28	48
+9062	S	ManaPoint	48	96
+9063	S	ManaRecovery	22	44
+9064	S	PhysicalDamage	64	128
+9065	S	MagicalDamage	120	240
+9066	S	PhysicalRegistance	2420	4840
+9067	S	MagicalRegistance	2750	5500
+9068	S	BehaveSpeed	1480	2960
+9069	S	CriticalProbability	5600	12200
+9070	S	CriticalDamagePercent	10000	20000
+9071	S	EvadeProbability	2120	4240
+9072	S	FlameRegistance	3600	5120
+9073	S	ShockRegistance	3600	5120
+9074	S	FrozenRegistance	3600	5120

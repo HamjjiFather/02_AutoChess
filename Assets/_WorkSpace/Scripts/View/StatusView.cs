@@ -15,12 +15,6 @@ namespace AutoChess
 
 #pragma warning disable CS0649
 
-        [Inject]
-        private LobbyViewmodel _lobbyViewmodel;
-
-        [Inject]
-        private ItemViewmodel _itemViewmodel;
-
         [Resolver]
         private CurrencyElement[] _currencyElements;
 
@@ -48,18 +42,18 @@ namespace AutoChess
 
         #region Methods
 
-        public void InitializeStatusView (UnityAction backButtonAction)
+        public void InitializeStatusView (LobbyViewmodel lobbyViewmodel, ItemViewmodel itemViewmodel, UnityAction backButtonAction)
         {
             _settingButton.onClick.AddListener (OnClickSettingButton);
 
             _currencyElements.Foreach ((x, index) =>
             {
-                x.SetElement (_itemViewmodel.CurrencyModels[(CurrencyType) index]);
+                x.SetElement (itemViewmodel.CurrencyModels[(CurrencyType) index]);
             });
 
-            _playerLevelText.Value = _lobbyViewmodel.PlayerExpModel.PlayerLevelTable.LevelString;
-            _playerExpGage.Value = _lobbyViewmodel.PlayerExpModel.ExpProportion;
-            _lobbyViewmodel.ChangePlayerExpModel.Subscribe (expModel =>
+            _playerLevelText.Value = lobbyViewmodel.PlayerExpModel.PlayerLevelTable.LevelString;
+            _playerExpGage.Value = lobbyViewmodel.PlayerExpModel.ExpProportion;
+            lobbyViewmodel.ChangePlayerExpModel.Subscribe (expModel =>
             {
                 _playerExpGage.Value = expModel.IsMaxLevel ? 1 : expModel.Exp / expModel.PlayerLevelTable.ReqExp;
                 _playerLevelText.Value = expModel.PlayerLevelTable.LevelString;

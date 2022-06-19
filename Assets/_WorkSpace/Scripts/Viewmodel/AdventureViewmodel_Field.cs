@@ -37,8 +37,8 @@ namespace AutoChess
 
         private void Initialize_Field ()
         {
-            _fieldTypeAction.Add (FieldSpecialType.Battle, fieldModel => _battleViewmodel.StartBattle ());
-            _fieldTypeAction.Add (FieldSpecialType.BossBattle, fieldModel => _battleViewmodel.StartBattle ());
+            _fieldTypeAction.Add (FieldSpecialType.Battle, fieldModel => _battleViewModel.StartBattle ());
+            _fieldTypeAction.Add (FieldSpecialType.BossBattle, fieldModel => _battleViewModel.StartBattle ());
             _fieldTypeAction.Add (FieldSpecialType.Reward, _ => { RewardCheck (); });
             _fieldTypeAction.Add (FieldSpecialType.RecoverSmall,
                 fieldModel => RecoverHealth (CharacterSideType.Player, 0.1f));

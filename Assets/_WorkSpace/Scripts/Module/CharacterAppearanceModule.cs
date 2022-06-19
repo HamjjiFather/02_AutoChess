@@ -85,12 +85,6 @@ namespace AutoChess
         }
 
 
-        public void SetScale (int scale)
-        {
-            transform.localScale = new Vector3 (scale, scale, scale);
-        }
-        
-
         #endregion
     }
 }

@@ -8,89 +8,89 @@ public enum DataType
 	None = 0,
 
 	/// <summary>
+	/// 플레이어 레벨.
+	/// </summary>
+	PlayerLevel = 1000,
+
+	/// <summary>
 	/// 캐릭터 데이터.
 	/// </summary>
-	Character = 1000,
+	Character = 2000,
 
 	/// <summary>
 	/// 캐릭터 레벨 데이터.
 	/// </summary>
-	CharacterLevel = 2000,
+	CharacterLevel = 3000,
 
 	/// <summary>
-	/// 스킬 데이터.
+	/// 캐릭터 스킬 데이터.
 	/// </summary>
-	Skill = 3000,
-
-	/// <summary>
-	/// 장비 데이터.
-	/// </summary>
-	Equipment = 4000,
-
-	/// <summary>
-	/// 장비 부여 능력치 데이터.
-	/// </summary>
-	EquipmentAbility = 5000,
+	CharacterSkill = 4000,
 
 	/// <summary>
 	/// 능력치 데이터.
 	/// </summary>
-	Ability = 6000,
+	Ability = 5000,
 
 	/// <summary>
-	/// 능력치 단계 데이터.
+	/// 능력치 범위 확률 데이터.
 	/// </summary>
-	AbilityGrade = 7000,
-
-	/// <summary>
-	/// 스테이지 데이터.
-	/// </summary>
-	BattleStage = 8000,
-
-	/// <summary>
-	/// 파티클 데이터.
-	/// </summary>
-	Particle = 9000,
-
-	/// <summary>
-	/// 전투상태 데이터.
-	/// </summary>
-	BattleState = 10000,
+	AbilityGradeRangeProb = 6000,
 
 	/// <summary>
 	/// 조합 데이터.
 	/// </summary>
-	Combination = 11000,
+	Combination = 7000,
+
+	/// <summary>
+	/// 장비 데이터.
+	/// </summary>
+	Equipment = 8000,
+
+	/// <summary>
+	/// 장비 부여 능력치 데이터.
+	/// </summary>
+	EquipmentAbility = 9000,
+
+	/// <summary>
+	/// 장비 부여 능력치 범위 데이터.
+	/// </summary>
+	EquipmentGradeProb = 10000,
+
+	/// <summary>
+	/// 전투 데이터.
+	/// </summary>
+	BattleStage = 11000,
+
+	/// <summary>
+	/// 파티클 데이터.
+	/// </summary>
+	Particle = 12000,
+
+	/// <summary>
+	/// 전투 상태 데이터.
+	/// </summary>
+	BattleState = 13000,
 
 	/// <summary>
 	/// 재화 데이터.
 	/// </summary>
-	Currency = 12000,
+	Currency = 14000,
 
 	/// <summary>
 	/// 모험 필드 데이터.
 	/// </summary>
-	AdventureField = 13000,
+	AdventureField = 15000,
 
 	/// <summary>
 	/// 모험 필드 출현 장비 데이터.
 	/// </summary>
-	AdventureEquipment = 14000,
+	AdventureEquipment = 16000,
 
 	/// <summary>
 	/// 모험 필드 출현 장비 확률 데이터.
 	/// </summary>
-	AdventureEquipmentProb = 15000,
-
-	/// <summary>
-	/// 장비 등급 부여 확률.
-	/// </summary>
-	EquipmentGradeProb = 16000,
-
-	/// <summary>
-	/// 플레이어 레벨.
-	/// </summary>
-	PlayerLevel = 17000,
+	AdventureEquipmentProb = 17000,
 
 
 }
@@ -106,41 +106,6 @@ public enum GlobalLanguageType
 	/// 영어.
 	/// </summary>
 	English = 1,
-
-
-}
-
-public enum StarGrade
-{
-	/// <summary>
-	/// 없음.
-	/// </summary>
-	None = -1,
-
-	/// <summary>
-	/// 1등급.
-	/// </summary>
-	Grade1 = 0,
-
-	/// <summary>
-	/// 2등급.
-	/// </summary>
-	Grade2 = 1,
-
-	/// <summary>
-	/// 3등급.
-	/// </summary>
-	Grade3 = 2,
-
-	/// <summary>
-	/// 4등급.
-	/// </summary>
-	Grade4 = 3,
-
-	/// <summary>
-	/// 5등급.
-	/// </summary>
-	Grade5 = 4,
 
 
 }
@@ -373,44 +338,29 @@ public enum RefSkillValueTarget
 public enum StatusGrade
 {
 	/// <summary>
-	/// F.
-	/// </summary>
-	Grade1 = 0,
-
-	/// <summary>
 	/// D.
 	/// </summary>
-	Grade2 = 1,
+	D = 0,
 
 	/// <summary>
 	/// C.
 	/// </summary>
-	Grade3 = 2,
+	C = 1,
 
 	/// <summary>
 	/// B.
 	/// </summary>
-	Grade4 = 3,
+	B = 2,
 
 	/// <summary>
 	/// A.
 	/// </summary>
-	Grade5 = 4,
+	A = 3,
 
 	/// <summary>
 	/// S.
 	/// </summary>
-	Grade6 = 5,
-
-	/// <summary>
-	/// SS.
-	/// </summary>
-	Grade7 = 6,
-
-	/// <summary>
-	/// SSS.
-	/// </summary>
-	Grade8 = 7,
+	S = 4,
 
 
 }
@@ -420,47 +370,52 @@ public enum AbilityType
 	/// <summary>
 	/// 없음.
 	/// </summary>
-	None = 0,
+	None = -1,
 
 	/// <summary>
-	/// 체력.
+	/// 체력 수치.
 	/// </summary>
-	Health = 1,
+	HealthPoint = 0,
 
 	/// <summary>
 	/// 체력 재생.
 	/// </summary>
-	HealthRecovery = 2,
+	HealthRecovery = 1,
 
 	/// <summary>
-	/// 스킬 게이지.
+	/// 마력 수치.
 	/// </summary>
-	SkillGage = 3,
+	ManaPoint = 2,
 
 	/// <summary>
-	/// 스킬 게이지 재생.
+	/// 마력 재생.
 	/// </summary>
-	SkillGageRecovery = 4,
+	ManaRecovery = 3,
 
 	/// <summary>
-	/// 공격.
+	/// 물리 피해량.
 	/// </summary>
-	Attack = 5,
+	PhysicalDamage = 4,
 
 	/// <summary>
-	/// 주문력.
+	/// 마법 피해량.
 	/// </summary>
-	AbilityPoint = 6,
+	MagicalDamage = 5,
 
 	/// <summary>
-	/// 방어.
+	/// 물리 저항력.
 	/// </summary>
-	Defense = 7,
+	PhysicalRegistance = 6,
 
 	/// <summary>
-	/// 공속.
+	/// 마법 저항력.
 	/// </summary>
-	AttackSpeed = 8,
+	MagicalRegistance = 7,
+
+	/// <summary>
+	/// 행동 속도.
+	/// </summary>
+	BehaveSpeed = 8,
 
 	/// <summary>
 	/// 치명타 확률.
@@ -470,7 +425,7 @@ public enum AbilityType
 	/// <summary>
 	/// 치명타 데미지 배율.
 	/// </summary>
-	CriticalDamage = 10,
+	CriticalDamagePercent = 10,
 
 	/// <summary>
 	/// 회피 확률.
@@ -478,29 +433,34 @@ public enum AbilityType
 	EvadeProbability = 11,
 
 	/// <summary>
-	/// 가하는 피해량.
+	/// 화염 저항력.
 	/// </summary>
-	HitDamage = 12,
+	FlameRegistance = 12,
 
 	/// <summary>
-	/// 받는 피해량.
+	/// 전격 저항력.
 	/// </summary>
-	ShotDamage = 13,
+	ShockRegistance = 13,
 
 	/// <summary>
-	/// 가하는 회복량.
+	/// 빙결 저항력.
 	/// </summary>
-	HitHeal = 14,
+	FrozenRegistance = 14,
+
+
+}
+
+public enum AbilityProcType
+{
+	/// <summary>
+	/// None.
+	/// </summary>
+	Number = 0,
 
 	/// <summary>
-	/// 받는 회복량.
+	/// None.
 	/// </summary>
-	ShotHeal = 15,
-
-	/// <summary>
-	/// 이동속도.
-	/// </summary>
-	MoveSpeed = 16,
+	Percent = 1,
 
 
 }

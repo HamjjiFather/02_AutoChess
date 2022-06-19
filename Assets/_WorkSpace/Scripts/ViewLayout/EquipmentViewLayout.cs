@@ -36,11 +36,9 @@ namespace AutoChess
         private Button _enchantButton;
 
         [Inject]
-        private CharacterManager _characterViewmodel;
+        private CharacterViewmodel _characterViewmodel;
         
 #pragma warning restore CS0649
-        
-        private GamePage _gamePage;
 
         #endregion
         
@@ -59,7 +57,6 @@ namespace AutoChess
         
         protected override void OnInitialized ()
         {
-            _gamePage = ProjectContext.Instance.Container.Resolve<GamePage> ();
         }
 
 

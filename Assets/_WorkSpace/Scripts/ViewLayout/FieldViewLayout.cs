@@ -52,10 +52,10 @@ namespace AutoChess
         private AdventureViewmodel _adventureViewmodel;
 
         [Inject]
-        private CharacterManager _characterViewmodel;
+        private CharacterViewmodel _characterViewmodel;
 
         [Inject]
-        private BattleViewmodel _battleViewmodel;
+        private BattleViewModel _battleViewModel;
 
 #pragma warning restore CS0649
 

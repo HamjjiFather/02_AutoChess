@@ -36,10 +36,10 @@ namespace AutoChess
         private BattleViewParticleManagingModule _particleManagingModule;
 
         [Inject]
-        private CharacterManager _characterViewmodel;
+        private CharacterViewmodel _characterViewmodel;
 
         [Inject]
-        private BattleViewmodel _battleViewmodel;
+        private BattleViewModel _battleViewModel;
 
 #pragma warning restore CS0649
 
@@ -95,7 +95,7 @@ namespace AutoChess
             SummonPlayerCharacter ();
             await SummonEnemyCharacter ();
 
-            _endBattleDisposable = _battleViewmodel.EndBattleCommand.Subscribe (EndBattle);
+            _endBattleDisposable = _battleViewModel.EndBattleCommand.Subscribe (EndBattle);
 
             _playerBattleCharacterElements.ForEach (element =>
             {
@@ -165,7 +165,7 @@ namespace AutoChess
                 characterElement.SetElement (battlePlayer);
 
                 _playerBattleCharacterElements.Add (characterElement);
-                _battleViewmodel.AddPlayerBattleCharacterElement (characterElement);
+                _battleViewModel.AddPlayerBattleCharacterElement (characterElement);
             });
         }
 
@@ -175,7 +175,7 @@ namespace AutoChess
         /// </summary>
         public async UniTask SummonEnemyCharacter ()
         {
-            _battleViewmodel.BattleAiCharacterModels.ForEach (battleMonster =>
+            _battleViewModel.BattleAiCharacterModels.ForEach (battleMonster =>
             {
                 var landElement = _lineElements[battleMonster.PositionModel.Column]
                     .GetLandElement (battleMonster.PositionModel.Row);
@@ -186,7 +186,7 @@ namespace AutoChess
                 characterElement.SetElement (battleMonster);
 
                 _aiBattleCharacterElements.Add (characterElement);
-                _battleViewmodel.AddAiBattleCharacterElement (characterElement);
+                _battleViewModel.AddAiBattleCharacterElement (characterElement);
             });
         }
 
@@ -197,7 +197,7 @@ namespace AutoChess
 
         private void ClickStartButton ()
         {
-            _endBattleDisposable = _battleViewmodel.EndBattleCommand.Subscribe (EndBattle);
+            _endBattleDisposable = _battleViewModel.EndBattleCommand.Subscribe (EndBattle);
 
             _playerBattleCharacterElements.ForEach (element =>
             {

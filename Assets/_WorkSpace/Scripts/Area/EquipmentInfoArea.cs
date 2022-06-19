@@ -22,16 +22,13 @@ namespace AutoChess
         private Property<Sprite> _equipmentImage;
 
         [Resolver]
-        private StarGradeArea _starGradeArea;
-
-        [Resolver]
         private StatusElement[] _baseStatusElements;
 
         [Resolver]
         private GameObject[] _baseStatusElementLineObjs;
 
         [Inject]
-        private CharacterManager _characterViewmodel;
+        private CharacterViewmodel _characterViewmodel;
 
 #pragma warning restore CS0649
 
@@ -62,7 +59,6 @@ namespace AutoChess
         {
             AreaData = areaData;
             _equipmentName.Value = LocalizeHelper.FromName (areaData.EquipmentData.Name);
-            _starGradeArea.SetArea (areaData.EquipmentGrade);
             _equipmentImage.Value = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,
                 ResourcesType.Equipment, areaData.EquipmentData.SpriteResName);
 

@@ -14,13 +14,6 @@ namespace KKSFramework.InGame
         };
 
 
-        protected override async UniTask InitializeAsync ()
-        {
-            SceneLoadProjectManager.Instance.InitManager ();
-            await base.InitializeAsync ();
-            await UniTask.CompletedTask;
-        }
-        
         public override void Start ()
         {
             base.Start ();

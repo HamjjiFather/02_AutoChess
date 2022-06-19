@@ -12,14 +12,14 @@ public class Ability : TableDataBase
 	public int Id;
 
 	/// <summary>
-	/// 능력치 이름 키값.
-	/// </summary>
-	public string NameKey;
-
-	/// <summary>
 	/// 능력치 타입.
 	/// </summary>
 	public AbilityType AbilityType;
+
+	/// <summary>
+	/// 능력치 이름 키값.
+	/// </summary>
+	public string NameKey;
 
 	/// <summary>
 	/// 아이콘 이미지 이름.
@@ -52,8 +52,8 @@ public class Ability : TableDataBase
     {
         var rowIndex = 0;
         Id = int.Parse(myData[rowIndex++]);
-		NameKey = myData[rowIndex++];
 		AbilityType = (AbilityType)Enum.Parse (typeof(AbilityType), myData[rowIndex++]);
+		NameKey = myData[rowIndex++];
 		IconImage = myData[rowIndex++];
 		BaseValue = int.Parse(myData[rowIndex++]);
 		MaxValue = int.Parse(myData[rowIndex++]);

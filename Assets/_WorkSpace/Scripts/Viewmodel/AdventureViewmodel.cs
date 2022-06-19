@@ -19,7 +19,7 @@ namespace AutoChess
 #pragma warning disable CS0649
 
         [Inject]
-        private BattleViewmodel _battleViewmodel;
+        private BattleViewModel _battleViewModel;
 
 #pragma warning restore CS0649
 
@@ -73,7 +73,7 @@ namespace AutoChess
             });
 
             EndAdventureCommand = new ReactiveCommand ();
-            _battleViewmodel.StartAdventure ();
+            _battleViewModel.StartAdventure ();
 
             await UniTask.Delay (TimeSpan.FromSeconds (1));
 
@@ -85,7 +85,7 @@ namespace AutoChess
         {
             EndAdventureCommand.Execute ();
             EndAdventureCommand.DisposeSafe ();
-            _battleViewmodel.EndAdventure ();
+            _battleViewModel.EndAdventure ();
         }
 
 
@@ -127,7 +127,7 @@ namespace AutoChess
 
         public void RecoverHealth (CharacterSideType sideType, float recoverPercent)
         {
-            var characters = _battleViewmodel.GetAllOfEqualElements (sideType);
+            var characters = _battleViewModel.GetAllOfEqualElements (sideType);
             characters.Foreach (element =>
                 element.battleCharacterPackage.battleSystemModule.SetHealthByPercent (recoverPercent));
         }

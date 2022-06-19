@@ -36,7 +36,7 @@ namespace AutoChess
         private Button _rejectButton;
 
         [Inject]
-        private CharacterManager _characterViewmodel;
+        private CharacterViewmodel _characterViewmodel;
 
         [Inject]
         private ItemViewmodel _itemViewmodel;

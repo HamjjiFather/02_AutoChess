@@ -47,7 +47,7 @@ namespace AutoChess
         /// 값 + 계수 추가치 (계수 계수 능력치 이름)
         /// ex) 50 + 25 (0.5 공격력)
         /// </summary>
-        private string ToValueString (CharacterData characterData, Skill skillData)
+        private string ToValueString (CharacterData characterData, CharacterSkill skillData)
         {
             return string.Empty;
             

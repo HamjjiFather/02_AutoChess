@@ -28,6 +28,8 @@ namespace AutoChess
     {
         #region Fields & Property
 
+        public BattleAIBase BattleAIBase;
+
         public MovingSystemModule movingSystemModule;
 
         public BehaviourSystemModule behaviourSystemModule;
@@ -37,7 +39,7 @@ namespace AutoChess
 #pragma warning disable CS0649
 
         [Inject]
-        private BattleViewmodel _battleViewmodel;
+        private BattleViewModel _battleViewModel;
 
         [Inject]
         private SkillViewmodel _skillViewmodel;
@@ -171,7 +173,7 @@ namespace AutoChess
         /// <param name="atFirst"> 암살자 점프를 위한 플래그. </param>
         public async UniTask CheckNextBehaviour (bool atFirst = false)
         {
-            var result = _battleViewmodel.CheckBehaviour (_battleCharacterPackage.battleCharacterElement, atFirst);
+            var result = _battleViewModel.CheckBehaviour (_battleCharacterPackage.battleCharacterElement, atFirst);
             _battleState = result.ResultState;
 
             switch (_battleState)
@@ -226,7 +228,7 @@ namespace AutoChess
             CharacterData.SetPredicatePosition (position);
             await movingSystemModule.Moving (_battleViewLayout.GetLandElement (position), _cancellationToken.Token,
                 speed);
-            _battleViewmodel.CompleteMovement (CharacterData, position);
+            _battleViewModel.CompleteMovement (CharacterData, position);
             Debug.Log ("complete movement");
         }
 
@@ -273,7 +275,7 @@ namespace AutoChess
             {
                 skillModel.TargetCharacters.Foreach (character =>
                 {
-                    var target = _battleViewmodel.FindCharacterElement (character);
+                    var target = _battleViewModel.FindCharacterElement (character);
                     var bulletModel = new BattleBulletModel
                     {
                         SkillModel = skillModel,

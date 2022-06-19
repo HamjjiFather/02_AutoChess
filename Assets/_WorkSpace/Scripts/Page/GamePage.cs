@@ -1,6 +1,5 @@
 ﻿using AutoChess;
 using Cysharp.Threading.Tasks;
-using KKSFramework;
 using KKSFramework.DataBind;
 using KKSFramework.Navigation;
 using Zenject;
@@ -10,30 +9,30 @@ namespace KKSFramework.InGame
     public class GamePage : PageViewBase
     {
         #region Fields & Property
-        
-#pragma warning disable CS0649
-        
-        [Resolver]
-        private StatusView _statusView;
 
-        [Resolver]
-        private ViewLayoutLoaderWithButton _viewLayoutLoader;
-        
-        [Inject]
-        private CharacterManager _characterViewmodel;
+#pragma warning disable CS0649
+
+        [Inject] private CharacterViewmodel _characterViewmodel;
+
+        [Inject] private LobbyViewmodel _lobbyViewmodel;
+
+        [Inject] private ItemViewmodel _itemViewmodel;
+
+        [Resolver] private StatusView _statusView;
+
+        [Resolver] private ViewLayoutLoaderWithButton _viewLayoutLoader;
+
 
 #pragma warning restore CS0649
-        
 
         #endregion
 
 
         #region UnityMethods
 
-        protected void Awake ()
+        protected void Awake()
         {
-            ProjectContext.Instance.Container.BindInstance (this);
-            _viewLayoutLoader.Initialize ();
+            _viewLayoutLoader.Initialize();
         }
 
         #endregion
@@ -41,32 +40,30 @@ namespace KKSFramework.InGame
 
         #region Methods
 
-        protected override UniTask OnPush (object pushValue = null)
+        protected override UniTask OnPush(object pushValue = null)
         {
-            _statusView.InitializeStatusView (BackToMain);
-            _viewLayoutLoader.SetChangeAction (ChangeViewLayoutLoader);
-            BackToMain ();
+            _statusView.InitializeStatusView(_lobbyViewmodel, _itemViewmodel, BackToMain);
+            _viewLayoutLoader.SetChangeAction(ChangeViewLayoutLoader);
+            BackToMain();
 
-            void ChangeViewLayoutLoader (int nowLayout)
+            void ChangeViewLayoutLoader(int nowLayout)
             {
-                _statusView.ConvertButton (nowLayout < 0);
+                _statusView.ConvertButton(nowLayout < 0);
             }
-            
-            return base.OnPush (pushValue);
-        }
-        
 
-        public void BackToMain ()
+            return base.OnPush(pushValue);
+        }
+
+
+        public void BackToMain()
         {
-            _viewLayoutLoader.CloseViewLayout ();
+            _viewLayoutLoader.CloseViewLayout();
         }
 
-        
         #endregion
 
 
         #region EventMethods
-        
 
         #endregion
     }

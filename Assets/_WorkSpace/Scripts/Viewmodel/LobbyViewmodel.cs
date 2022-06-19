@@ -52,6 +52,12 @@ namespace AutoChess
         }
 
 
+        public override void InitFinally()
+        {
+            base.InitFinally();
+        }
+
+
         #region Subscribe
 
         #endregion

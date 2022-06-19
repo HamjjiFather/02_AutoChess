@@ -16,7 +16,7 @@ namespace AutoChess
 #pragma warning disable CS0649
 
         [Inject]
-        private BattleViewmodel _battleViewmodel;
+        private BattleViewModel _battleViewModel;
 
         [Inject]
         private SkillViewmodel _skillViewmodel;

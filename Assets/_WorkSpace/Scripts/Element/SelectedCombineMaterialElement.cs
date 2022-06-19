@@ -12,9 +12,6 @@ namespace AutoChess
 #pragma warning disable CS0649
 
         [Resolver]
-        private StarGradeArea _starGradeArea;
-
-        [Resolver]
         private Property<Sprite> _materialImage;
 
         [Resolver]
@@ -62,7 +59,7 @@ namespace AutoChess
             _materialArea.SetActive (true);
             _slotImage.SetActive (false);
 
-            _starGradeArea.SetArea (((CharacterData) elementData.CombineMaterialModel).StarGrade);
+            // _starGradeArea.SetArea (((CharacterData) elementData.CombineMaterialModel).StarGrade);
             _materialImage.Value = ((CharacterData) elementData.CombineMaterialModel).IconImageResources;
         }
 

@@ -14,7 +14,7 @@ namespace AutoChess
         private GameSetting _gameSetting;
 
         [Inject]
-        private EquipmentManager _equipmentManager;
+        private EquipmentViewModel _equipmentViewModel;
 
 #pragma warning restore CS0649
 
@@ -121,9 +121,9 @@ namespace AutoChess
             var equipmentData = TableDataManager.Instance.EquipmentDict[equipmentIndex];
             equipmentModel.SetUniqueData (NewUniqueId ());
             equipmentModel.SetEquipmentData (equipmentData);
-            var equipmentGrade = _equipmentManager.SetEquipmentGrade ();
+            var equipmentGrade = _equipmentViewModel.SetEquipmentGrade ();
             equipmentModel.SetEquipmentGrade (equipmentGrade);
-            _equipmentManager.SetEquipmentStatus (equipmentModel);
+            _equipmentViewModel.SetEquipmentStatus (equipmentModel);
 
             return equipmentModel;
 

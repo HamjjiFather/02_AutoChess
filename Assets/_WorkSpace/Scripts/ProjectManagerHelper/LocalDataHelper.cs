@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoChess;
 using UniRx;
 
 namespace KKSFramework.LocalData
@@ -26,7 +27,7 @@ namespace KKSFramework.LocalData
     [Serializable]
     public class CharacterBundle : Bundle
     {
-        public List<CharacterAbilityGrade> CharacterAbilityGrades = new List<CharacterAbilityGrade> ();
+        public List<CharacterPrimeAbility> CharacterAbilityGrades = new List<CharacterPrimeAbility> ();
 
         public List<int> CharacterUniqueIds = new List<int> ();
 
@@ -46,40 +47,6 @@ namespace KKSFramework.LocalData
             public CharacterEquipmentUIds (IEnumerable<int> uids)
             {
                 EquipmentUIds = uids.ToList ();
-            }
-        }
-
-        /// <summary>
-        /// 캐릭터 능력치 등급.
-        /// </summary>
-        [Serializable]
-        public class CharacterAbilityGrade
-        {
-            public float HealthAbilityGrade;
-
-            public float AttackDamageAbilityGrade;
-
-            public float SpellDamageAbilityGrade;
-
-            public float DefenseAbilityGrade;
-
-
-            public CharacterAbilityGrade ()
-            {
-                HealthAbilityGrade = UnityEngine.Random.Range (0, 1f);
-                AttackDamageAbilityGrade = UnityEngine.Random.Range (0, 1f);
-                SpellDamageAbilityGrade = UnityEngine.Random.Range (0, 1f);
-                DefenseAbilityGrade = UnityEngine.Random.Range (0, 1f);
-            }
-
-
-            public CharacterAbilityGrade (float healthAbilityGrade, float attackDamageAbilityGrade,
-                float spellDamageAbilityGrade, float defenseAbilityGrade)
-            {
-                HealthAbilityGrade = healthAbilityGrade;
-                AttackDamageAbilityGrade = attackDamageAbilityGrade;
-                SpellDamageAbilityGrade = spellDamageAbilityGrade;
-                DefenseAbilityGrade = defenseAbilityGrade;
             }
         }
     }
@@ -226,14 +193,13 @@ namespace KKSFramework.LocalData
         }
 
 
-        public static void SaveCharacterStatusGradeData (List<float> hp, List<float> attack, List<float> ap,
-            List<float> defense)
+        public static void SaveCharacterStatusGradeData (List<float> hp, List<float> power, List<float> mentality)
         {
             LocalDataClass.CharacterBundle.CharacterAbilityGrades.Clear ();
             for (var i = 0; i < hp.Count; i++)
             {
-                LocalDataClass.CharacterBundle.CharacterAbilityGrades.Add (
-                    new CharacterBundle.CharacterAbilityGrade (hp[i], attack[i], ap[i], defense[i]));
+                // LocalDataClass.CharacterBundle.CharacterAbilityGrades.Add (
+                //     new CharacterPrimeAbility (hp[i], power[i], mentality[i]));
             }
 
             LocalDataProjectManager.Instance.SaveGameData (LocalDataClass.CharacterBundle);

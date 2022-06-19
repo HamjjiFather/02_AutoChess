@@ -17,7 +17,7 @@ namespace AutoChess
         private StatusViewmodel _statusViewmodel;
 
         [Inject]
-        private BattleViewmodel _battleViewmodel;
+        private BattleViewModel _battleViewModel;
 
         [Inject]
         private CommonColorSetting _commonColorSetting;
@@ -41,7 +41,7 @@ namespace AutoChess
             var skillModel = new SkillModel
             {
                 UseCharacterData = user,
-                SkillData = TableDataManager.Instance.SkillDict[skillIndex],
+                SkillData = TableDataManager.Instance.CharacterSkillDict[skillIndex],
                 ApplyBullet = applyBullet
             };
 
@@ -180,7 +180,7 @@ namespace AutoChess
 
                 Debug.Log (
                     $"SkillIndex {skillModel.SkillData.Id}\nCount {skillModel.TargetCharacters.Count}/{i}\nSkill User {skillModel.UseCharacterData}\nSkill Target {skillModel.TargetCharacters[i]}\nSkill Value {skillModel.SkillValueModels[i].PreApplyValue}");
-                var element = _battleViewmodel.FindCharacterElement (skillModel.TargetCharacters[i]);
+                var element = _battleViewModel.FindCharacterElement (skillModel.TargetCharacters[i]);
 
                 if (element == null || element.ElementData == null || element.ElementData.CharacterDeathInfo.Death)
                     continue;

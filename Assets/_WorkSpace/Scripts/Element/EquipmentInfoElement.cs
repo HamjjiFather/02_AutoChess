@@ -23,9 +23,6 @@ namespace AutoChess
         [Resolver]
         private Image _equipmentImage;
 
-        [Resolver]
-        private StarGradeArea _equipmentStarGradeArea;
-
 #pragma warning restore CS0649
 
         #endregion
@@ -50,7 +47,6 @@ namespace AutoChess
             _equipmentObj.SetActive (!isEmpty);
 
             if (isEmpty) return;
-            _equipmentStarGradeArea.SetArea (elementData.EquipmentGrade);
             _equipmentImage.sprite = elementData.IconImageResources;
         }
 

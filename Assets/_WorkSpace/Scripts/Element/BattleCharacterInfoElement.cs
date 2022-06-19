@@ -20,9 +20,6 @@ namespace AutoChess
 #pragma warning disable CS0649
 
         [Resolver]
-        private StarGradeArea _starGradeArea;
-
-        [Resolver]
         private Property<Sprite> _characterImage;
 
         [Resolver]
@@ -51,7 +48,7 @@ namespace AutoChess
         private GameObject _inductSelectImage;
 
         [Inject]
-        private BattleViewmodel _battleViewmodel;
+        private BattleViewModel _battleViewModel;
 
 #pragma warning restore CS0649
 
@@ -84,8 +81,6 @@ namespace AutoChess
             {
                 return;
             }
-
-            _starGradeArea.SetArea (StarGrade.Grade1);
 
             _characterNameText.Value = LocalizeHelper.FromName (ElementData.CharacterTable.Name);
             _characterImage.Value = ResourcesLoadHelper.GetResources<Sprite> (ResourceRoleType._Image,

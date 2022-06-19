@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoChess;
 using Cysharp.Threading.Tasks;
 using KKSFramework.DesignPattern;
@@ -12,68 +13,70 @@ namespace KKSFramework.InGame
 {
     public class GameSceneInstaller : SceneInstaller
     {
-        private readonly List<Type> ViewModelTypes = new List<Type> ();
-        
+        private readonly List<Type> _viewModelTypes = new List<Type>();
+
 
         public override InitNavigationData InitPageInitNavigationData => new InitNavigationData
         {
-            viewString = nameof (NavigationViewType.GamePage),
+            viewString = nameof(NavigationViewType.GamePage),
             actionOnFirst = OpenQuitPopup
         };
 
-        
-        protected override async UniTask InitializeAsync()
-        {
-            BindViewmodel ();
-            ProjectInstall.Initialize ();
-            await TableDataManager.Instance.LoadTableDatas ();
-            ProjectInstall.InitAfterLoadLocalData ();
-            ProjectInstall.InitAfterLoadTableData ();
-            InitViewmodel ();
 
-            CreateCommonView ();
-            base.InitializeAsync ().Forget();
+        public override void InstallBindings()
+        {
+            BindViewmodel();
+            base.InstallBindings();
+        }
 
-            void CreateCommonView ()
-            {
-                
-            }
-        }
-        
-        
-        private void BindViewmodel ()
+
+
+        protected override async void Awake()
         {
-            ViewModelTypes.Add (typeof(LobbyViewmodel));
-            ViewModelTypes.Add (typeof(BattleViewmodel));
-            ViewModelTypes.Add (typeof(ItemViewmodel));
-            ViewModelTypes.Add (typeof(SkillViewmodel));
-            ViewModelTypes.Add (typeof(StatusViewmodel));
-            ViewModelTypes.Add (typeof(AdventureViewmodel));
-            ViewModelTypes.Foreach (type => { Container.Bind (type).AsSingle (); });
+            await TableDataManager.Instance.LoadTableDatas();
+            InitViewmodel();
+            await base.AwakeAsync();
         }
-        
-        
-        
-        public void InitViewmodel ()
+
+
+        private void BindViewmodel()
         {
-            ViewModelTypes.Foreach (type =>
+            _viewModelTypes.Add(typeof(CharacterViewmodel));
+            _viewModelTypes.Add(typeof(ItemViewmodel));
+            _viewModelTypes.Add(typeof(SkillViewmodel));
+            _viewModelTypes.Add(typeof(StatusViewmodel));
+            _viewModelTypes.Add(typeof(AdventureViewmodel));
+            _viewModelTypes.Add(typeof(LobbyViewmodel));
+            _viewModelTypes.Foreach(type => { Container.Bind(type).AsSingle(); });
+        }
+
+
+        public void InitViewmodel()
+        {
+            var vmBase = _viewModelTypes.Select(x => (ViewModelBase) Container.Resolve(x)).ToList();
+            
+            vmBase.Foreach(vm =>
             {
-                var viewmodel = (ViewModelBase) Container.Resolve (type);
-                viewmodel.Initialize ();
+                vm.Initialize();
+            });
+            
+            vmBase.Foreach(vm =>
+            {
+                vm.InitFinally();
             });
         }
-
         
-        private void OpenQuitPopup ()
+
+        private void OpenQuitPopup()
         {
             var popupStruct = new MessagePopup.Model
             {
                 confirmAction = Application.Quit,
                 msg = "?게임을 나가시겠습니까?"
             };
-                
+
             // NavigationManager.Instance.
-            NavigationHelper.OpenPopup (NavigationViewType.MessagePopup, popupStruct).Forget();
+            NavigationHelper.OpenPopup(NavigationViewType.MessagePopup, popupStruct).Forget();
         }
     }
 }

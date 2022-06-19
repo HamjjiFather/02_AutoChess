@@ -21,7 +21,7 @@ namespace AutoChess
         private Transform _contents;
 
         [Inject]
-        private CharacterManager _characterViewmodel;
+        private CharacterViewmodel _characterViewmodel;
 
 #pragma warning restore CS0649
 

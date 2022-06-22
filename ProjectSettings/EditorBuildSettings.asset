@@ -14,4 +14,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_WorkSpace/Scenes/Bootstrap.unity
     guid: 3d67f4dd18c2d48fa998969886552eea
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000,
+      guid: f6715756901d94e46bb50ae7b0785f8f, type: 2}

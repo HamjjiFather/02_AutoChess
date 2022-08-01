@@ -1,0 +1,32 @@
+{
+    "name": "AutoChess.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
+        "GUID:d8299faf3b04723448b957ffb6f9c761",
+        "GUID:fe791a9c4d474e009641403a94deccdb",
+        "GUID:54a07986af4847fb8a626cce1268eddb",
+        "GUID:13f3e875120042db8a9d3471ed79da9b",
+        "GUID:0155176602e64bd5ade8a489ea54c8d7",
+        "GUID:b2ab019753ac4209aa19d63dda8cb2b1",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:029c1c1b674aaae47a6841a0b89ad80e",
+        "GUID:5c01796d064528144a599661eaab93a6",
+        "GUID:dc47925d1a5fa2946bdd37746b2b5d48",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:0a72d1d436d814076a6900cf0466a38f",
+        "GUID:de5e809297b7c4ba18ecc5053fc3f81a",
+        "GUID:db2875c6bc6e11c4fb8730f4afcd8265",
+        "GUID:2c18b7b6ba79f4a85804441246f75192"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

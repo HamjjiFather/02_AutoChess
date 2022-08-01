@@ -1,0 +1,3 @@
+rep "FrameWork_KKS@keum_kwangsub@cloud"
+  path "/"
+    smartbranch "/main"

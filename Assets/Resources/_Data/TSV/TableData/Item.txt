@@ -1,0 +1,5 @@
+Id	GlobalIndex	Name	Stackable
+0	ITEM_0000	몬스터 이빨 1	true
+1	ITEM_0001	동료 시체	false
+2	ITEM_0002	식별되지 않은 무기	false
+3	ITEM_0003	식별되지 않은 방어구	false

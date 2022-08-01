@@ -1,4 +1,4 @@
 Id	CurrencyType
-14000	Gold
-14001	SoulStone
-14002	StoneOfInheritance
+0	Gold
+1	SoulStone
+2	StoneOfInheritance

@@ -14,9 +14,9 @@ namespace AutoChess.Presenter
         private AdvItemListRequestUseCase _advItemListRequestUseCase;
 
         [Inject]
-        private NewItemUseCase _newItemUseCase;
+        private AdvNewItemUseCase _advNewItemUseCase;
 
-        private List<InventoryItemModel> _inventoryItemModels;
+        private List<ItemModel> _inventoryItemModels;
 
         #endregion
 
@@ -29,7 +29,7 @@ namespace AutoChess.Presenter
         {
             _inventoryItemModels = _advItemListRequestUseCase.Execute();
             
-            _newItemUseCase.Execute(0, 1);
+            _advNewItemUseCase.Execute(0, 1);
         }
 
         #endregion

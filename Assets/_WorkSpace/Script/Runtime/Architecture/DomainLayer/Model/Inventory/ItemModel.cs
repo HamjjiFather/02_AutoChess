@@ -2,8 +2,19 @@ namespace AutoChess.Domain
 {
     public enum ItemType
     {
+        /// <summary>
+        /// 잡동사니.
+        /// </summary>
         Junk,
+        
+        /// <summary>
+        /// 식별되지 않은 장비.
+        /// </summary>
         UnidentifiedGear,
+        
+        /// <summary>
+        /// 시체.
+        /// </summary>
         Corps,
     }
     
@@ -13,8 +24,9 @@ namespace AutoChess.Domain
 
         public int ItemAmount { get; set; }
     }
+
     
-    public class InventoryItemModel : IItem, IGetSprite
+    public class ItemModel : IItem, IGetSprite
     {
         public Item ItemTableData;
         
@@ -28,7 +40,7 @@ namespace AutoChess.Domain
 
         public float Weight;
 
-        public InventoryItemModel(int uniqueIndex, int itemIndex, int itemAmount)
+        public ItemModel(int uniqueIndex, int itemIndex, int itemAmount)
         {
             UniqueIndex = uniqueIndex;
             ItemIndex = itemIndex;

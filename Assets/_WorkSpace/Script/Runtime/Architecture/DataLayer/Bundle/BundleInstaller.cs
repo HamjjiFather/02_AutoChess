@@ -1,11 +1,10 @@
-﻿using System.IO;
-using AutoChess.Bundle;
-using UnityEngine;
-using Zenject;
+﻿using System;
+using System.Linq;
+using KKSFramework.Base;
 
 namespace KKSFramework.Data
 {
-    public class BundleInstaller : MonoInstaller
+    public class BundleInstaller : InstallerBase<IBundleBase>
     {
         #region Fields & Property
 
@@ -16,20 +15,16 @@ namespace KKSFramework.Data
 
         #region Override
 
-        public override void InstallBindings()
-        {
-            RegisterInstallItem<CharacterBundle>();
-            RegisterInstallItem<AdventureInventoryBundle>();
-            RegisterInstallItem<AdventureBundle>();
-        }
+        protected override BindOption BindOption => BindOption.AsSingle;
 
 
-        public void RegisterInstallItem<TV>() where TV : BundleBase, new()
+        public override void PrepareInstaller()
         {
-            var bundle = new TV();
-            bundle.FromJsonData();
-            bundle.Initialize();
-            Container.BindInstance(bundle).AsSingle();
+            var mscorlib = typeof(BundleInstaller).Assembly;
+            foreach (var type in mscorlib.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(IBundleBase))))
+            {
+                RegisterInstallItem(type);
+            }
         }
 
 
@@ -37,10 +32,6 @@ namespace KKSFramework.Data
 
 
         #region This
-        
-        
-        
-
 
         #endregion
 

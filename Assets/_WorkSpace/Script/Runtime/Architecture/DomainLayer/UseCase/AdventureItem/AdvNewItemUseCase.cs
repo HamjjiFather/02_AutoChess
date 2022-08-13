@@ -6,7 +6,7 @@ using Zenject;
 
 namespace AutoChess.UseCase
 {
-    public class NewItemUseCase : IUseCaseBase
+    public class AdvNewItemUseCase : IUseCaseBase
     {
         #region Fields & Property
 

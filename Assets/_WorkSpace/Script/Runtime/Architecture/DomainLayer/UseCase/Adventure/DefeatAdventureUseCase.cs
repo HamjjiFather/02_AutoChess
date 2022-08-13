@@ -1,18 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AutoChess.Domain;
-using AutoChess.Repository;
+﻿using AutoChess.Repository;
 using JetBrains.Annotations;
 using KKSFramework.Domain;
 using Zenject;
 
 namespace AutoChess.UseCase
 {
+    /// <summary>
+    /// 탐험에서 패배함.
+    /// </summary>
     [UsedImplicitly]
-    public class AdvItemListRequestUseCase : IUseCaseBase
+    public class DefeatAdventureUseCase : IUseCaseBase
     {
         #region Fields & Property
-
+        
         [Inject]
         private AdventureInventoryRepository _adventureInventoryRepository;
 
@@ -22,22 +22,21 @@ namespace AutoChess.UseCase
         #region Methods
 
         #region Override
-
+        
         public void Initialize()
         {
-        }
-
-
-        public List<InventoryItemModel> Execute()
-        {
-            var request = _adventureInventoryRepository.Request();
-            return request.Select(x => new InventoryItemModel(x.UniqueIndex, x.ItemIndex, x.Amount)).ToList();
+            
         }
 
         #endregion
 
 
         #region This
+
+        public void Execute()
+        {
+            
+        }
 
         #endregion
 
@@ -47,5 +46,7 @@ namespace AutoChess.UseCase
         #endregion
 
         #endregion
+
+       
     }
 }

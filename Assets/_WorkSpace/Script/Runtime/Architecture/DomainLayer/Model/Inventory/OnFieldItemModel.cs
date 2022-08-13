@@ -1,12 +1,11 @@
-﻿using AutoChess.Domain;
-
-namespace AutoChess.Domain
+﻿namespace AutoChess.Domain
 {
-    public class AdventureItemModel : ItemModel
+    public class OnFieldItemModel : ItemModel
     {
-        public AdventureItemModel(int uniqueIndex, int itemIndex, int itemAmount) : base(uniqueIndex, itemIndex, itemAmount)
+        public OnFieldItemModel(int uniqueIndex, int itemIndex, int itemAmount) : base(uniqueIndex, itemIndex, itemAmount)
         {
         }
+        
         
         #region Fields & Property
 

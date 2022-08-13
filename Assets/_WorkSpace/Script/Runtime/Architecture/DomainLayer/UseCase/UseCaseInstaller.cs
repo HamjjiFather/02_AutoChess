@@ -1,4 +1,4 @@
-﻿using AutoChess.UseCase;
+﻿using System.Linq;
 using KKSFramework.Base;
 
 namespace KKSFramework.Domain
@@ -24,10 +24,11 @@ namespace KKSFramework.Domain
 
         public override void PrepareInstaller()
         {
-            RegisterInstallItem<CharacterListRequestUseCase>();
-            RegisterInstallItem<AdvItemListRequestUseCase>();
-            RegisterInstallItem<AdvCharListUseCase>();
-            RegisterInstallItem<NewItemUseCase>();
+            var mscorlib = typeof(UseCaseInstaller).Assembly;
+            foreach (var type in mscorlib.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(IUseCaseBase))))
+            {
+                RegisterInstallItem(type);
+            }
         }
 
         public void Installation()

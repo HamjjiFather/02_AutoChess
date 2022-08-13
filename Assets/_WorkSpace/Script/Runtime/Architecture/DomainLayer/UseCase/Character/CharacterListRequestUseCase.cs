@@ -7,6 +7,9 @@ using Zenject;
 
 namespace AutoChess.UseCase
 {
+    /// <summary>
+    /// 전체 보유한 캐릭터 리스트 요청.
+    /// </summary>
     public class CharacterListRequestUseCase : IUseCaseBase
     {
         public void Initialize()

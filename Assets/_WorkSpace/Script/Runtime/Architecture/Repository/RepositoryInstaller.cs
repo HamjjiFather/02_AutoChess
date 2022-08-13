@@ -1,5 +1,4 @@
-﻿using AutoChess;
-using AutoChess.Repository;
+﻿using System.Linq;
 using KKSFramework.Base;
 
 namespace KKSFramework.Repository
@@ -24,9 +23,11 @@ namespace KKSFramework.Repository
 
         public override void PrepareInstaller()
         {
-            RegisterInstallItem<AdventureInventoryRepository>();
-            RegisterInstallItem<AdventureRepository>();
-            RegisterInstallItem<CharacterRepository>();
+            var mscorlib = typeof(RepositoryInstaller).Assembly;
+            foreach (var type in mscorlib.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(IRepository))))
+            {
+                RegisterInstallItem(type);
+            }
         }
 
         #endregion

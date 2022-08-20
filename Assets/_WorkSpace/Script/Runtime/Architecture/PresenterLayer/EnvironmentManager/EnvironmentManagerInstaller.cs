@@ -1,10 +1,9 @@
 ﻿using System.Linq;
-using AutoChess.Presenter;
 using KKSFramework.Base;
 
 namespace KKSFramework.Presenter
 {
-    public class ViewModelInstaller : InstallerBase<IViewModel>
+    public class EnvironmentManagerInstaller : InstallerBase<IEnvironmentManager>
     {
         #region Fields & Property
 
@@ -24,8 +23,8 @@ namespace KKSFramework.Presenter
 
         public override void PrepareInstaller()
         {
-            var mscorlib = typeof(ViewModelInstaller).Assembly;
-            foreach (var type in mscorlib.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(IViewModel))))
+            var mscorlib = typeof(EnvironmentManagerInstaller).Assembly;
+            foreach (var type in mscorlib.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(IEnvironmentManager))))
             {
                 RegisterInstallItem(type);
             }

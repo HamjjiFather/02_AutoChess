@@ -1,8 +1,9 @@
-﻿using KKSFramework.Presenter;
+﻿using System;
+using KKSFramework.Base;
 
-namespace AutoChess.Presenter
+namespace AutoChess
 {
-    public class AdventureEnvironmentModel : IEnvironmentModel
+    public class ManagerBase : IInstallItem
     {
         #region Fields & Property
 
@@ -12,10 +13,10 @@ namespace AutoChess.Presenter
         #region Methods
 
         #region Override
-        
-        public void Initialize()
+
+        public virtual void Initialize()
         {
-            throw new System.NotImplementedException();
+            
         }
 
         #endregion

@@ -53,7 +53,7 @@ namespace AutoChess.Presenter
     }
     
     [UsedImplicitly]
-    public class CharacterViewmodel : IViewModel
+    public class CharacterViewModel : IViewModel
     {
         #region Fields & Property
 

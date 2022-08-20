@@ -474,3 +474,73 @@ public enum CharacterRoleType
 
 
 }
+
+public enum OfficeSkillBranchType
+{
+	/// <summary>
+	/// 전투 .
+	/// </summary>
+	Battle = 0,
+
+	/// <summary>
+	/// 탐험.
+	/// </summary>
+	Adventure = 1,
+
+	/// <summary>
+	/// 운영.
+	/// </summary>
+	Management = 2,
+
+
+}
+
+public enum OfficeSkillSpentType
+{
+	/// <summary>
+	/// 퍽.
+	/// </summary>
+	Perk = 0,
+
+	/// <summary>
+	/// 스킬.
+	/// </summary>
+	Skill = 1,
+
+
+}
+
+public enum GameSystemType
+{
+	/// <summary>
+	/// 없음.
+	/// </summary>
+	None = 0,
+
+	/// <summary>
+	/// 우선 목표 지정 기능.
+	/// </summary>
+	PrimeTarget = 1,
+
+	/// <summary>
+	/// 적 규모 파악 기능.
+	/// </summary>
+	FigureOutEnemySize = 2,
+
+	/// <summary>
+	/// 적 상세 정보 파악 기능.
+	/// </summary>
+	FigureOutEnemyDetail = 3,
+
+	/// <summary>
+	/// 미식별 장비 등급 파악 기능.
+	/// </summary>
+	FigureOutUnIdentifiedGear = 4,
+
+	/// <summary>
+	/// 숲 지형에서 적 기습.
+	/// </summary>
+	AmbushInForest = 5,
+
+
+}

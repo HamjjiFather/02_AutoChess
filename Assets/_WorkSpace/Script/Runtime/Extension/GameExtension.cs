@@ -141,6 +141,13 @@ namespace AutoChess
             return UnityEngine.Random.Range (bound.Min (), bound.Max ());
         }
 
+
+        public static int CirculationRange(this int t, int min, int max)
+        {
+            var value = t > max ? min : t < min ? max : t;
+            return value;
+        }
+
         #endregion
 
 

@@ -13,7 +13,7 @@ namespace AutoChess.Presenter
 
 #pragma warning disable CS0649
 
-        [Inject] private CharacterViewmodel _characterViewmodel;
+        [Inject] private CharacterViewModel _characterViewModel;
 
         [Resolver] private ViewLayoutLoaderWithButton _viewLayoutLoader;
 

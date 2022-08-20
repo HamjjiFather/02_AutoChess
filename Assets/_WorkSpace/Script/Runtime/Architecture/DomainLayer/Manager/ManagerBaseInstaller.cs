@@ -1,14 +1,14 @@
 ﻿using System.Linq;
-using AutoChess.Presenter;
+using AutoChess;
 using KKSFramework.Base;
 
-namespace KKSFramework.Presenter
+namespace KKSFramework.Repository
 {
-    public class ViewModelInstaller : InstallerBase<IViewModel>
+    public class ManagerBaseInstaller : InstallerBase<ManagerBase>
     {
         #region Fields & Property
 
-        protected override BindOption BindOption => BindOption.AsSingle;
+        protected override BindOption BindOption => BindOption.AsTransient;
 
         #endregion
 
@@ -24,8 +24,8 @@ namespace KKSFramework.Presenter
 
         public override void PrepareInstaller()
         {
-            var mscorlib = typeof(ViewModelInstaller).Assembly;
-            foreach (var type in mscorlib.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(IViewModel))))
+            var mscorlib = typeof(ManagerBaseInstaller).Assembly;
+            foreach (var type in mscorlib.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(ManagerBase))))
             {
                 RegisterInstallItem(type);
             }

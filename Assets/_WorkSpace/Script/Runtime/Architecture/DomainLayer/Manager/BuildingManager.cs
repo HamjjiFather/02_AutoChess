@@ -1,13 +1,15 @@
-﻿using KKSFramework.Base;
+﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using KKSFramework.Presenter;
 
 namespace AutoChess.Presenter
 {
-    public class EnvironmentModelInstaller: InstallerBase<IEnvironmentModel>
+    [UsedImplicitly]
+    public class BuildingManager : ManagerBase
     {
         #region Fields & Property
 
-        protected override BindOption BindOption => BindOption.AsSingle;
+        private List<BuildingBase> _buldings;
 
         #endregion
 
@@ -15,16 +17,16 @@ namespace AutoChess.Presenter
         #region Methods
 
         #region Override
+        
+        public void Initialize()
+        {
+            
+        }
 
         #endregion
 
 
         #region This
-
-        public override void PrepareInstaller()
-        {
-            RegisterInstallItem<AdventureEnvironmentModel>();
-        }
 
         #endregion
 

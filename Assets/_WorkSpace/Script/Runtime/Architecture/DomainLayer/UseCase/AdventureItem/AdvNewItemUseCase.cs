@@ -56,7 +56,8 @@ namespace AutoChess.UseCase
             var latestIssuancedUniqueIndex = _adventureRepository.GetIssuanceUniqueIndex;
             latestIssuancedUniqueIndex += 1;
             _adventureRepository.Update(latestIssuancedUniqueIndex);
-            _adventureInventoryRepository.Update(new AdventureInventoryDto(latestIssuancedUniqueIndex, itemIndex, amount));
+            _adventureInventoryRepository.Update(new AdventureInventoryDto(latestIssuancedUniqueIndex, itemIndex,
+                amount));
         }
 
         #endregion

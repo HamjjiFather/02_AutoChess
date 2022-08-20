@@ -21,7 +21,7 @@ namespace KKSFramework.Data
         public override void PrepareInstaller()
         {
             var mscorlib = typeof(BundleInstaller).Assembly;
-            foreach (var type in mscorlib.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(IBundleBase))))
+            foreach (var type in mscorlib.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(BundleBase))))
             {
                 RegisterInstallItem(type);
             }

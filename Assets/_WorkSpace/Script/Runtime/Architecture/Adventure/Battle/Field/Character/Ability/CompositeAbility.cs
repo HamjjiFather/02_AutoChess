@@ -21,7 +21,9 @@
         public float GetAbilityValue()
         {
             var numberValue = NumberValue.GetValue();
-            return numberValue + numberValue * PercentValue.GetValue();
+            var percentValue = PercentValue.GetValue();
+            var toRatio = (float)FormulaHelper.PercentLerp01Unclamped(percentValue);
+            return numberValue + numberValue * toRatio;
         }
         
         #endregion

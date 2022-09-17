@@ -12,13 +12,6 @@ namespace AutoChess
         #region Fields & Property
 
         /// <summary>
-        /// 비율 기준 값.
-        /// 100f일 경우 백분율.
-        /// 10000f일 경우 만분율.
-        /// </summary>
-        public const double BasePercent = 10000f;
-
-        /// <summary>
         /// 공격 속도 기준 값.
         /// </summary>
         public const float AttackSpeedBasePercent = 10000f;
@@ -54,7 +47,7 @@ namespace AutoChess
         /// </summary>
         public static double PercentLerp01Unclamped (double value)
         {
-            var r = value / BasePercent;
+            var r = value / Constant.BasePercentValue;
             return r;
         }
 

@@ -81,4 +81,9 @@ public class Constant
 	/// 속도기준값.
 	/// </summary>
 	public const int BaseSpeedValue = 10000;
+
+	/// <summary>
+	/// 퍼센트기준값.
+	/// </summary>
+	public const int BasePercentValue = 100000;
 }

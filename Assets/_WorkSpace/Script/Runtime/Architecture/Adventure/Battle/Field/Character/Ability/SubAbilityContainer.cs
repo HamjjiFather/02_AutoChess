@@ -23,7 +23,7 @@ namespace AutoChess
     }
     
 
-    public abstract class SubAbilityContainer : IAbilityContainer
+    public abstract class SubAbilityContainer : AbilityContainer
     {
         #region Fields & Property
 

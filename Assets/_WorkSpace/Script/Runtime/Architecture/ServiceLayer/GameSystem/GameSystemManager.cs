@@ -6,7 +6,7 @@ using KKSFramework.Base;
 using UniRx;
 using Zenject;
 
-namespace AutoChess.Domain
+namespace AutoChess.Service
 {
     [UsedImplicitly]
     public class GameSystemManager : ManagerBase

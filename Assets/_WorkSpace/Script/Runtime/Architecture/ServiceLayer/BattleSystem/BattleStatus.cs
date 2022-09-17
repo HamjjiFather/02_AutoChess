@@ -1,9 +1,6 @@
-﻿using System;
-using KKSFramework.Base;
-
-namespace AutoChess
+﻿namespace AutoChess
 {
-    public class ManagerBase : IInstallItem
+    public class BattleStatus
     {
         #region Fields & Property
 
@@ -13,11 +10,6 @@ namespace AutoChess
         #region Methods
 
         #region Override
-
-        public virtual void Initialize()
-        {
-            
-        }
 
         #endregion
 

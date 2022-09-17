@@ -1,5 +1,6 @@
 ﻿using AutoChess.Domain;
 using AutoChess.Repository;
+using AutoChess.Service;
 using JetBrains.Annotations;
 using KKSFramework.Domain;
 using Zenject;
@@ -23,7 +24,7 @@ namespace AutoChess.UseCase
         #region Methods
 
         #region Override
-        
+
         public void Initialize()
         {
         }

@@ -1,8 +1,9 @@
 ﻿using System.Linq;
 using AutoChess;
+using AutoChess.Service;
 using KKSFramework.Base;
 
-namespace KKSFramework.Repository
+namespace KKSFramework.Service
 {
     public class ManagerBaseInstaller : InstallerBase<ManagerBase>
     {

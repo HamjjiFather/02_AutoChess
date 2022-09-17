@@ -2,7 +2,7 @@
 using JetBrains.Annotations;
 using KKSFramework.Presenter;
 
-namespace AutoChess.Presenter
+namespace AutoChess.Service
 {
     [UsedImplicitly]
     public class BuildingManager : ManagerBase

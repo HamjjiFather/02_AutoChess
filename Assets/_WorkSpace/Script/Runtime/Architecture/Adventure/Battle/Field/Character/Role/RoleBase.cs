@@ -69,7 +69,7 @@
         
         public ICharacterSkill SkillBase;
 
-        public IAbilityContainer AbilityContainer;
+        public AbilityContainer AbilityContainer;
 
         #endregion
 

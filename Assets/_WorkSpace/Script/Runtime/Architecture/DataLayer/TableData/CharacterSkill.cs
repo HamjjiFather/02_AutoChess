@@ -57,16 +57,6 @@ public class CharacterSkill : TableDataBase
 	public float InvokeTime;
 
 	/// <summary>
-	/// 스킬 범위 타입.
-	/// </summary>
-	public SkillBound SkillBound;
-
-	/// <summary>
-	/// 스킬 범위.
-	/// </summary>
-	public int SkillTargetBound;
-
-	/// <summary>
 	/// 스킬 대상.
 	/// </summary>
 	public SkillTarget SkillTarget;
@@ -146,8 +136,6 @@ public class CharacterSkill : TableDataBase
 		StatusChangeType = (StatusChangeType)Enum.Parse (typeof(StatusChangeType), myData[rowIndex++]);
 		InvokeCount = int.Parse(myData[rowIndex++]);
 		InvokeTime = float.Parse(myData[rowIndex++]);
-		SkillBound = (SkillBound)Enum.Parse (typeof(SkillBound), myData[rowIndex++]);
-		SkillTargetBound = int.Parse(myData[rowIndex++]);
 		SkillTarget = (SkillTarget)Enum.Parse (typeof(SkillTarget), myData[rowIndex++]);
 		SkillValue = float.Parse(myData[rowIndex++]);
 		SkillValueType = (SkillValueType)Enum.Parse (typeof(SkillValueType), myData[rowIndex++]);

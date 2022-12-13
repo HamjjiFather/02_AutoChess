@@ -15,21 +15,6 @@ public enum GlobalLanguageType
 
 }
 
-public enum CharacterGroundType
-{
-	/// <summary>
-	/// 지면에 위치함.
-	/// </summary>
-	Ground = 0,
-
-	/// <summary>
-	/// 공중에 위치함.
-	/// </summary>
-	Air = 1,
-
-
-}
-
 public enum EquipmentType
 {
 	/// <summary>
@@ -141,66 +126,6 @@ public enum StatusChangeType
 	/// 감소.
 	/// </summary>
 	Decrease = 1,
-
-
-}
-
-public enum SkillBound
-{
-	/// <summary>
-	/// 자신.
-	/// </summary>
-	Self = 0,
-
-	/// <summary>
-	/// 공격 대상.
-	/// </summary>
-	Target = 1,
-
-	/// <summary>
-	/// 자신과 주변.
-	/// </summary>
-	SelfArea = 2,
-
-	/// <summary>
-	/// 대상과 주변.
-	/// </summary>
-	TargetArea = 3,
-
-	/// <summary>
-	/// 자신 제외 주변.
-	/// </summary>
-	SelfAreaOnly = 4,
-
-	/// <summary>
-	/// 대상 제외 주변.
-	/// </summary>
-	TargetAreaOnly = 5,
-
-	/// <summary>
-	/// 대상 방향.
-	/// </summary>
-	TargetDirection = 6,
-
-	/// <summary>
-	/// 부채꼴.
-	/// </summary>
-	FanShape = 7,
-
-	/// <summary>
-	/// 가장 가까운.
-	/// </summary>
-	Nearest = 8,
-
-	/// <summary>
-	/// 가장 먼.
-	/// </summary>
-	Furthest = 9,
-
-	/// <summary>
-	/// 전체.
-	/// </summary>
-	All = 10,
 
 
 }
@@ -358,12 +283,12 @@ public enum AbilityType
 public enum AbilityProcType
 {
 	/// <summary>
-	/// None.
+	/// 수량.
 	/// </summary>
 	Number = 0,
 
 	/// <summary>
-	/// None.
+	/// 퍼센트.
 	/// </summary>
 	Percent = 1,
 
@@ -541,6 +466,106 @@ public enum GameSystemType
 	/// 숲 지형에서 적 기습.
 	/// </summary>
 	AmbushInForest = 5,
+
+
+}
+
+public enum BattleInteractableAreaType
+{
+	/// <summary>
+	/// 자신.
+	/// </summary>
+	Me = 0,
+
+	/// <summary>
+	/// 자신 주변 1칸.
+	/// </summary>
+	Around1 = 1,
+
+	/// <summary>
+	/// 자신 주변 2칸.
+	/// </summary>
+	Around2 = 2,
+
+	/// <summary>
+	/// 자신 주변 3칸.
+	/// </summary>
+	Around3 = 3,
+
+	/// <summary>
+	/// 6방향으로 2칸.
+	/// </summary>
+	Star1 = 4,
+
+	/// <summary>
+	/// 6방향으로 3칸.
+	/// </summary>
+	Star2 = 5,
+
+	/// <summary>
+	/// 6방향으로 4칸.
+	/// </summary>
+	Star3 = 6,
+
+	/// <summary>
+	/// 앞방향 1칸.
+	/// </summary>
+	Front1 = 7,
+
+	/// <summary>
+	/// 앞방향 2칸.
+	/// </summary>
+	Front2 = 8,
+
+	/// <summary>
+	/// 앞방향 3칸.
+	/// </summary>
+	Front3 = 9,
+
+	/// <summary>
+	/// 전방 3방향으로 1칸.
+	/// </summary>
+	Fork1 = 10,
+
+	/// <summary>
+	/// 전방 3방향으로 2칸.
+	/// </summary>
+	Fork2 = 11,
+
+	/// <summary>
+	/// 전방 3방향으로 3칸.
+	/// </summary>
+	Fork3 = 12,
+
+	/// <summary>
+	/// 자신 기준 2칸.
+	/// </summary>
+	Artillery1 = 13,
+
+	/// <summary>
+	/// 자신 기준 3칸.
+	/// </summary>
+	Artillery2 = 14,
+
+	/// <summary>
+	/// 자신 기준 4칸.
+	/// </summary>
+	Artillery3 = 15,
+
+
+}
+
+public enum BattleSideType
+{
+	/// <summary>
+	/// 플레이어 유닛.
+	/// </summary>
+	Player = 0,
+
+	/// <summary>
+	/// 적 유닛.
+	/// </summary>
+	Enemy = 1,
 
 
 }

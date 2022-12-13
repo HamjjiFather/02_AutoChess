@@ -23,8 +23,8 @@ namespace AutoChess
 
         #region Override
 
-        public float GetAbilityValue(SubAbilities abilityType) =>
-            EquipmentUnits.Sum(eu => eu.GetAbilityValue(abilityType));
+        public float GetAbilityValue(SubAbilityType abilityTypeType) =>
+            default;
 
         #endregion
 

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using CodeStage.AntiCheat.ObscuredTypes;
 
 namespace AutoChess
 {
@@ -17,7 +16,7 @@ namespace AutoChess
         {
             public GrantedAbilityType GrantedAbilityType;
 
-            public ObscuredFloat AbilityValue;
+            public float AbilityValue;
         }
         
         

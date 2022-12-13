@@ -1,4 +1,3 @@
-using PathologicalGames;
 using UnityEngine;
 
 #if BF_ZENJECT
@@ -20,7 +19,7 @@ namespace Helper
         public static void Despawn (Transform poolObject)
         {
             Debug.Log ($"Despawn Request SpawnPath:{SpawnPath}, Transform:{poolObject.name}");
-            PoolManager.Pools[SpawnPath].Despawn (poolObject.transform);
+            // PoolManager.Pools[SpawnPath].Despawn (poolObject.transform);
         }
 
         /// <summary>
@@ -29,34 +28,31 @@ namespace Helper
         public static T Spawn<T> (string roleType, string type, string resourceName,
             Transform parents, bool useInject = true) where T : MonoBehaviour
         {
-            var fullPath = $"{roleType}/{type}/{resourceName}";
-
-            var res = Resources.Load<T> (fullPath);
-
-            if (!PoolManager.Pools.ContainsKey (SpawnPath))
-            {
-                PoolManager.Pools.Create (SpawnPath);
-            }
-
-            if (!PoolManager.Pools[SpawnPath].prefabPools.ContainsKey (resourceName))
-            {
-                PoolManager.Pools[SpawnPath].CreatePrefabPool (new PrefabPool (res.transform));
-            }
-
-            var obj = PoolManager.Pools[SpawnPath].Spawn (resourceName).GetComponent<T> ();
-            obj.gameObject.name = resourceName;
-            var t = obj.transform;
-            t.SetParent (parents);
-            t.localPosition = Vector3.zero;
-            t.localRotation = Quaternion.identity;
-            t.localScale = Vector3.one;
-
-#if BF_ZENJECT
-            if (useInject)
-                ProjectContext.Instance.Container.InjectGameObject (obj.gameObject);
-#endif
-
-            return obj;
+            return default;
+            // if (!PoolManager.Pools.ContainsKey (SpawnPath))
+            // {
+            //     PoolManager.Pools.Create (SpawnPath);
+            // }
+            //
+            // if (!PoolManager.Pools[SpawnPath].prefabPools.ContainsKey (resourceName))
+            // {
+            //     PoolManager.Pools[SpawnPath].CreatePrefabPool (new PrefabPool (res.transform));
+            // }
+            //
+            // var obj = PoolManager.Pools[SpawnPath].Spawn (resourceName).GetComponent<T> ();
+//             obj.gameObject.name = resourceName;
+//             var t = obj.transform;
+//             t.SetParent (parents);
+//             t.localPosition = Vector3.zero;
+//             t.localRotation = Quaternion.identity;
+//             t.localScale = Vector3.one;
+//
+// #if BF_ZENJECT
+//             if (useInject)
+//                 ProjectContext.Instance.Container.InjectGameObject (obj.gameObject);
+// #endif
+//
+//             return obj;
         }
 
         #endregion

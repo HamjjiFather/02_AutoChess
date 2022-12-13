@@ -6,8 +6,10 @@ namespace AutoChess
     {
         #region Fields & Property
 
+        public global::Character CharacterTableData;
+
         public EquipmentContainer equipmentContainer { get; set; }
-        
+
         public SkillContainer skillContainer { get; set; }
 
         #endregion
@@ -17,13 +19,13 @@ namespace AutoChess
 
         #region Override
 
-        
-        public virtual float GetAbilityValue(SubAbilities abilityType)
+        public virtual float GetAbilityValue(SubAbilityType abilityTypeType)
         {
-            var baseValue = base.GetAbilityValue(abilityType);
-            var equipmentValue = equipmentContainer.GetAbilityValue(abilityType);
-            var skillValue = skillContainer.GetAbilityValue(abilityType);
-            return baseValue + equipmentValue + skillValue;
+            // var baseValue = base.GetAbilityValue(abilityTypeType);
+            // var equipmentValue = equipmentContainer.GetAbilityValue(abilityTypeType);
+            // var skillValue = skillContainer.GetAbilityValue(abilityTypeType);
+            // return baseValue + equipmentValue + skillValue;
+            return default;
         }
 
         #endregion
@@ -39,7 +41,5 @@ namespace AutoChess
         #endregion
 
         #endregion
-
-
     }
 }

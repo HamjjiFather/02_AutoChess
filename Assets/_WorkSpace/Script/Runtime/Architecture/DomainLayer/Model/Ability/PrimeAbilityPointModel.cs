@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using CodeStage.AntiCheat.ObscuredTypes;
 using KKSFramework;
 
 namespace AutoChess
@@ -27,7 +26,7 @@ namespace AutoChess
         /// <summary>
         /// 포인트.
         /// </summary>
-        public ObscuredInt PointValue;
+        public int PointValue;
 
         #endregion
 

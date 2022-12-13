@@ -1,5 +1,4 @@
-﻿using CodeStage.AntiCheat.ObscuredTypes;
-
+﻿
 namespace AutoChess
 {
     public enum PrimePointType
@@ -60,7 +59,7 @@ namespace AutoChess
 
         public AdditionalAbilityType AdditionalAbilityType;
 
-        public ObscuredFloat AbilityValue;
+        public float AbilityValue;
 
         #endregion
 

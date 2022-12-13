@@ -15,7 +15,7 @@ namespace AutoChess.Presenter
 
     public class CharacterModelBase : LevelBase, ICharacterAbility, ICharacterSkill, IGetSprite
     {
-        public CharacterModelBase(int uniqueIndex, Character characterTable)
+        public CharacterModelBase(int uniqueIndex, global::Character characterTable)
         {
             UniqueIndex = uniqueIndex;
             CharacterTableData = characterTable;
@@ -28,12 +28,12 @@ namespace AutoChess.Presenter
         /// </summary>
         public int UniqueIndex;
 
-        public Character CharacterTableData { get; set; }
+        public global::Character CharacterTableData { get; set; }
         
         /// <summary>
         /// 캐릭터 등급.
         /// </summary>
-        public PrimeAbilityContainer PrimeAbilityContainer { get; set; }
+        public PrimeAbilityComponentBase PrimeAbilityComponentBase { get; set; }
         
         /// <summary>
         /// 스킬 인덱스.

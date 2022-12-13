@@ -11,7 +11,7 @@ public class TableDataManager : Singleton<TableDataManager>
     public readonly Dictionary<int, TableDataBase> TotalDataDict = new Dictionary<int, TableDataBase> ();
 
     public Dictionary<int, PlayerLevel> PlayerLevelDict = new Dictionary<int, PlayerLevel> ();
-	 public Dictionary<int, Character> CharacterDict = new Dictionary<int, Character> ();
+	 public Dictionary<int, Enemy> EnemyDict = new Dictionary<int, Enemy> ();
 	 public Dictionary<int, CharacterLevel> CharacterLevelDict = new Dictionary<int, CharacterLevel> ();
 	 public Dictionary<int, CharacterSkill> CharacterSkillDict = new Dictionary<int, CharacterSkill> ();
 	 public Dictionary<int, Ability> AbilityDict = new Dictionary<int, Ability> ();
@@ -35,7 +35,7 @@ public class TableDataManager : Singleton<TableDataManager>
     public async UniTask LoadTableDatas ()
     {
         PlayerLevelDict = (await ReadCSVData.Instance.LoadCSVData<PlayerLevel> ("TableData", nameof (PlayerLevel))).ToDictionary (x => x.Id, x => x);
-		CharacterDict = (await ReadCSVData.Instance.LoadCSVData<Character> ("TableData", nameof (Character))).ToDictionary (x => x.Id, x => x);
+		EnemyDict = (await ReadCSVData.Instance.LoadCSVData<Enemy> ("TableData", nameof (Enemy))).ToDictionary (x => x.Id, x => x);
 		CharacterLevelDict = (await ReadCSVData.Instance.LoadCSVData<CharacterLevel> ("TableData", nameof (CharacterLevel))).ToDictionary (x => x.Id, x => x);
 		CharacterSkillDict = (await ReadCSVData.Instance.LoadCSVData<CharacterSkill> ("TableData", nameof (CharacterSkill))).ToDictionary (x => x.Id, x => x);
 		AbilityDict = (await ReadCSVData.Instance.LoadCSVData<Ability> ("TableData", nameof (Ability))).ToDictionary (x => x.Id, x => x);
@@ -57,7 +57,7 @@ public class TableDataManager : Singleton<TableDataManager>
 		
 
         TotalDataDict.AddRange (PlayerLevelDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
-		TotalDataDict.AddRange (CharacterDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
+		TotalDataDict.AddRange (EnemyDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (CharacterLevelDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (CharacterSkillDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (AbilityDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));

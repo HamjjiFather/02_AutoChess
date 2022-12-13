@@ -16,9 +16,9 @@ namespace AutoChess
         #region Methods
 
         #region Override
-        
-        public float GetAbilityValue(SubAbilities abilityType) =>
-            SkillUnits.Sum(eu => eu.GetAbilityValue(abilityType));
+
+        public float GetAbilityValue(SubAbilityType abilityTypeType) =>
+            default;
 
         #endregion
 

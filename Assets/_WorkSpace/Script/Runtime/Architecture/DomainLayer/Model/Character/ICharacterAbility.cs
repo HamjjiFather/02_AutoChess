@@ -2,8 +2,8 @@
 {
     public interface ICharacterAbility
     {
-        public Character CharacterTableData { get; set; }
+        public global::Character CharacterTableData { get; set; }
         
-        public PrimeAbilityContainer PrimeAbilityContainer { get; set; }
+        public PrimeAbilityComponentBase PrimeAbilityComponentBase { get; set; }
     }
 }

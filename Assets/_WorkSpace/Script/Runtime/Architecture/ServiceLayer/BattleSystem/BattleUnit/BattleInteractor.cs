@@ -1,6 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Threading;
+using AutoChess.Service;
+using Cysharp.Threading.Tasks;
+using UnityEngine;
 
-namespace AutoChess.Service
+namespace AutoChess
 {
     public class HealthContainer
     {
@@ -25,21 +28,49 @@ namespace AutoChess.Service
             NowHealth += health;
             return NowHealth;
         }
+
+        /// <summary>
+        /// 사망.
+        /// </summary>
+        public bool Death => NowHealthRatio <= 0;
     }
     
-    public class BattleInteractor
+    
+    /// <summary>
+    /// 전투원 데이터 모델.
+    /// </summary>
+    public class BattleInteractableUnit : IBattleStateReceiver
     {
-        public BattleInteractor(CharacterUnit characterUnit)
+        public BattleInteractableUnit(BattleSideType sideType, CharacterUnit characterUnit)
         {
+            BattleSideType = sideType;
             CharacterUnit = characterUnit;
-            HealthContainer = new HealthContainer(CharacterUnit.GetAbilityValue(SubAbilities.Health).FloatToInt());
+            HealthContainer = new HealthContainer(CharacterUnit.GetAbilityValue(SubAbilityType.Health).FloatToInt());
+            
+            BattleFsmRunner = new BattleFsmRunner();
+            BattleFsmRunner.RegistFsmState(BehaviourState.FindTarget, FindTargetFsmStateAsync);
+            BattleFsmRunner.RegistFsmState(BehaviourState.CheckInteractionArea, CheckInteractionAreaFsmStateAsync);
+            BattleFsmRunner.RegistFsmState(BehaviourState.FindInteractableArea, FindInteractableAreaFsmStateAsync);
+            BattleFsmRunner.RegistFsmState(BehaviourState.DoInteract, DoInteractFsmStateAsync);
+            BattleFsmRunner.RegistFsmState(BehaviourState.DoMove, DoMoveFsmStateAsync);
+            BattleFsmRunner.RegistFsmState(BehaviourState.WaitForNextBehaviour, WaitForNextBehaviourStateAsync);
+
+            BattleStatus = new BattleStatus();
         }
 
         #region Fields & Property
 
+        public BattleSideType BattleSideType;
+
         public CharacterUnit CharacterUnit;
 
         public HealthContainer HealthContainer;
+
+        public BattleFsmRunner BattleFsmRunner;
+
+        public BattleStatus BattleStatus;
+
+        public bool Death => HealthContainer.Death;
         
         #endregion
 
@@ -48,20 +79,60 @@ namespace AutoChess.Service
 
         #region Override
 
+        public void StartBattle()
+        {
+            BattleFsmRunner.StartFsm(BehaviourState.FindTarget);
+        }
+
+        
+        public void EndBattle()
+        {
+            
+        }
+
         #endregion
 
 
         #region This
 
-        public void OnHit()
+        #endregion
+
+
+        #region Fsm
+
+        public UniTask FindTargetFsmStateAsync(CancellationTokenSource cts)
         {
-            
+            return UniTask.CompletedTask;
         }
-
-
-        public void OnBeat()
+        
+        
+        public UniTask CheckInteractionAreaFsmStateAsync(CancellationTokenSource cts)
         {
-            
+            return UniTask.CompletedTask;
+        }
+        
+        
+        public UniTask FindInteractableAreaFsmStateAsync(CancellationTokenSource cts)
+        {
+            return UniTask.CompletedTask;
+        }
+        
+        
+        public UniTask DoInteractFsmStateAsync(CancellationTokenSource cts)
+        {
+            return UniTask.CompletedTask;
+        }
+        
+        
+        public UniTask DoMoveFsmStateAsync(CancellationTokenSource cts)
+        {
+            return UniTask.CompletedTask;
+        }
+        
+        
+        public UniTask WaitForNextBehaviourStateAsync(CancellationTokenSource cts)
+        {
+            return UniTask.CompletedTask;
         }
 
         #endregion

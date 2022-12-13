@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoChess;
-using RelationsInspector.Extensions;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 

@@ -1,13 +1,18 @@
 ﻿namespace AutoChess
 {
-    public class SubAbilityComponent : IAbilityComponent
+    public class SubAbilityComponent : IGetSubAbility
     {
-        public SubAbilityComponent(int value)
+        public SubAbilityComponent(SubAbilityType subAbilityType, int value)
         {
+            SubAbilityType = subAbilityType;
             Value = value;
         }
 
         #region Fields & Property
+
+        public readonly SubAbilityType SubAbilityType;
+
+        public readonly int Value;
 
         #endregion
 
@@ -16,7 +21,10 @@
 
         #region Override
 
-        public int Value { get; set; }
+        public int GetSubAbilityValue(SubAbilityType subAbilityType)
+        {
+            return SubAbilityType.Equals(subAbilityType) ? Value : default;
+        }
 
         #endregion
 

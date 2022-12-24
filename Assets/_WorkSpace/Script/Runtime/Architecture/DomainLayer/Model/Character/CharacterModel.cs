@@ -33,7 +33,7 @@ namespace AutoChess.Presenter
         /// <summary>
         /// 캐릭터 등급.
         /// </summary>
-        public PrimeAbilityComponentBase PrimeAbilityComponentBase { get; set; }
+        public PrimeAbilityBase PrimeAbilityBase { get; set; }
         
         /// <summary>
         /// 스킬 인덱스.

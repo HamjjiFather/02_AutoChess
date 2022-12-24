@@ -33,8 +33,14 @@ namespace AutoChess
         Speed
     }
     
-    public abstract class PrimeAbilityComponentBase : IPrimeAbilityComponent
+    public abstract class PrimeAbilityBase : IPrimeAbility
     {
+        protected PrimeAbilityBase(int value, int investedValue)
+        {
+            Value = value;
+            InvestedValue = investedValue;
+        }
+
         #region Fields & Property
         
         #endregion
@@ -58,6 +64,11 @@ namespace AutoChess
         /// 주요 능력치 타입.
         /// </summary>
         public PrimeAbilityType PrimeAbilityType => PrimeAbilityType.Body;
+
+        /// <summary>
+        /// 이 주요 능력치로 변동되는 보조 능력치 타입들.
+        /// </summary>
+        public abstract SubAbilityType[] SubAbilityTypes { get; set; }
 
         /// <summary>
         /// 보조 능력치 리턴.

@@ -4,6 +4,6 @@
     {
         public global::Character CharacterTableData { get; set; }
         
-        public PrimeAbilityComponentBase PrimeAbilityComponentBase { get; set; }
+        public PrimeAbilityBase PrimeAbilityBase { get; set; }
     }
 }

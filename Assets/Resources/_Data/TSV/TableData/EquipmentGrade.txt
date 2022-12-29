@@ -1,0 +1,9 @@
+Id	EquipmentGradeType	SlotAmount
+0	BadlyMade	0
+1	Common	1
+2	WellMade	2
+3	MasterPiece	4
+4	Unique	1
+5	Exclusive	2
+6	Legendary	4
+7	Relic	4

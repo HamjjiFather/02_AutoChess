@@ -26,7 +26,7 @@ namespace KKSFramework.Service
         public override void PrepareInstaller()
         {
             var mscorlib = typeof(ManagerBaseInstaller).Assembly;
-            foreach (var type in mscorlib.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(ManagerBase))))
+            foreach (var type in mscorlib.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(IManagerBase))))
             {
                 RegisterInstallItem(type);
             }

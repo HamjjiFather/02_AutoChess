@@ -1,0 +1,6 @@
+Id	EnemyGradeType	EquipmentProb
+0	Rookie	60000/0/0
+1	Elite	100000/24000/0
+2	Named	100000/80000/0
+3	Notorious	100000/100000/64000
+4	Legendary	100000/100000/100000

@@ -11,7 +11,7 @@ namespace AutoChess
         {
             _subAbilityTypes = new[]
             {
-                SubAbilityType.Health
+                SubAbilityType.HealthPoint
             };
         }
         
@@ -42,7 +42,7 @@ namespace AutoChess
             
             return subAbilityType switch
             {
-                SubAbilityType.Health => Value * 10,
+                SubAbilityType.HealthPoint => Value * 10,
                 _ => default
             };
         }

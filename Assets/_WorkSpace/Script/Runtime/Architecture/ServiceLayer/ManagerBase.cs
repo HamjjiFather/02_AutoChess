@@ -3,7 +3,12 @@ using KKSFramework.Base;
 
 namespace AutoChess.Service
 {
-    public class ManagerBase : IInstallItem
+    public interface IManagerBase : IInstallItem
+    {
+        
+    }
+    
+    public class ManagerBase : IManagerBase
     {
         #region Fields & Property
 

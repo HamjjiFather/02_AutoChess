@@ -14,7 +14,7 @@ public class Ability : TableDataBase
 	/// <summary>
 	/// 능력치 타입.
 	/// </summary>
-	public AbilityType AbilityType;
+	public SubAbilityType AbilityType;
 
 	/// <summary>
 	/// 능력치 이름 키값.
@@ -52,7 +52,7 @@ public class Ability : TableDataBase
     {
         var rowIndex = 0;
         Id = int.Parse(myData[rowIndex++]);
-		AbilityType = (AbilityType)Enum.Parse (typeof(AbilityType), myData[rowIndex++]);
+		AbilityType = (SubAbilityType)Enum.Parse (typeof(SubAbilityType), myData[rowIndex++]);
 		NameKey = myData[rowIndex++];
 		IconImage = myData[rowIndex++];
 		BaseValue = int.Parse(myData[rowIndex++]);

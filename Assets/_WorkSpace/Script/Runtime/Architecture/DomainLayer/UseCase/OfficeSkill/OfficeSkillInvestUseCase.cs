@@ -1,5 +1,4 @@
-﻿using AutoChess.Domain;
-using AutoChess.Repository;
+﻿using AutoChess.Repository;
 using AutoChess.Service;
 using JetBrains.Annotations;
 using KKSFramework.Domain;
@@ -11,9 +10,6 @@ namespace AutoChess.UseCase
     public class OfficeSkillInvestUseCase : IUseCaseBase
     {
         #region Fields & Property
-
-        [Inject]
-        private OfficeSkillSystemManager _officeSkillSystemManager;
 
         [Inject]
         private OfficeSkillRepository _officeSkillRepository;
@@ -36,7 +32,6 @@ namespace AutoChess.UseCase
 
         public void Execute(OfficeSkillBranchType branchType, int index, int amount)
         {
-            _officeSkillSystemManager.InvestOfficeSkill(branchType, index, amount);
             _officeSkillRepository.Update(new OfficeSkillDao(index, 1));
         }
 

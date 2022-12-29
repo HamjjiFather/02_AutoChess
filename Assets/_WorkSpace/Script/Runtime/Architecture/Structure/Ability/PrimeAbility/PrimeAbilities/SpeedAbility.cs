@@ -9,7 +9,7 @@
         {
             _subAbilityTypes = new[]
             {
-                SubAbilityType.Health
+                SubAbilityType.HealthPoint
             };
         }
         
@@ -37,7 +37,7 @@
         {
             return subAbilityType switch
             {
-                SubAbilityType.CriticalDamage => Value * 10,
+                SubAbilityType.CriticalDamagePercent => Value * 10,
                 _ => default
             };
         }

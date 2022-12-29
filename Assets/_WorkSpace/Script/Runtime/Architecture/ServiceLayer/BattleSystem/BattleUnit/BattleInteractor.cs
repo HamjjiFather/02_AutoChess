@@ -45,7 +45,7 @@ namespace AutoChess
         {
             BattleSideType = sideType;
             CharacterUnit = characterUnit;
-            HealthContainer = new HealthContainer(CharacterUnit.GetAbilityValue(SubAbilityType.Health).FloatToInt());
+            HealthContainer = new HealthContainer(CharacterUnit.GetAbilityValue(SubAbilityType.HealthPoint).FloatToInt());
             
             BattleFsmRunner = new BattleFsmRunner();
             BattleFsmRunner.RegistFsmState(BehaviourState.FindTarget, FindTargetFsmStateAsync);

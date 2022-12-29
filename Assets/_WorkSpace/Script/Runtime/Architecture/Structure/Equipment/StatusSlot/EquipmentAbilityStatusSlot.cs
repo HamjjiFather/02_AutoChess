@@ -6,6 +6,8 @@
     public class EquipmentAbilityStatusSlot : IEquipmentStatusSlot, IGetSubAbility
     {
         public IGetSubAbility GetSubAbility;
+        
+        public EquipmentStatusSlotState EquipmentStatusSlotState => EquipmentStatusSlotState.Ability;
 
         public int GetSubAbilityValue(SubAbilityType subAbilityType) =>
             GetSubAbility.GetSubAbilityValue(subAbilityType);

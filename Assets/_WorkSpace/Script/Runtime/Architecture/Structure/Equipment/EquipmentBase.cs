@@ -7,9 +7,11 @@ namespace AutoChess
     /// </summary>
     public class EquipmentBase : IGetSubAbility
     {
-        public EquipmentBase(Equipment equipmentTableData)
+        public EquipmentBase(Equipment equipmentTableData, int slotAmount)
         {
             EquipmentTableData = equipmentTableData;
+            AttachedStatusSlots = new UnIdentifiedEquipmentStatusSlot[slotAmount];
+            SlotIndex = 0;
         }
 
         #region Fields & Property
@@ -22,7 +24,17 @@ namespace AutoChess
         /// <summary>
         /// 장비의 슬롯.
         /// </summary>
-        public IEquipmentStatusSlot[] AttachedAbilities;
+        public IEquipmentStatusSlot[] AttachedStatusSlots;
+
+        /// <summary>
+        /// 현재 슬롯.
+        /// </summary>
+        public int SlotIndex;
+
+        /// <summary>
+        /// 비어있는 슬롯이 있는지?
+        /// </summary>
+        public bool RemainSlot => SlotIndex < AttachedStatusSlots.Length;
 
         #endregion
 
@@ -33,7 +45,7 @@ namespace AutoChess
 
         public int GetSubAbilityValue(SubAbilityType subAbilityType)
         {
-            var sum = AttachedAbilities
+            var sum = AttachedStatusSlots
                 .OfType<EquipmentAbilityStatusSlot>()
                 .Sum(aa => aa.GetSubAbilityValue(subAbilityType));
             return sum;
@@ -44,6 +56,15 @@ namespace AutoChess
 
         #region This
 
+        public void AttachAbilityInSlot(SubAbilityType subAbilityType, int value)
+        {
+            var slot = new EquipmentAbilityStatusSlot
+            {
+                GetSubAbility = new SubAbilityComponent(subAbilityType, value)
+            };
+            AttachedStatusSlots[SlotIndex++] = slot;
+        }
+        
         #endregion
 
 

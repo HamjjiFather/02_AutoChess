@@ -15,47 +15,92 @@ public enum GlobalLanguageType
 
 }
 
-public enum EquipmentType
+public enum EnemyGradeType
 {
 	/// <summary>
-	/// 랜덤으로 능력치가 부여됨.
+	/// 신입.
 	/// </summary>
-	Random = 0,
+	Rookie = 0,
 
 	/// <summary>
-	/// 고정된 능력치가 있음.
+	/// 숙련.
 	/// </summary>
-	Artifact = 1,
+	Elite = 1,
+
+	/// <summary>
+	/// 이름있는.
+	/// </summary>
+	Named = 2,
+
+	/// <summary>
+	/// 악명높은.
+	/// </summary>
+	Notorious = 3,
+
+	/// <summary>
+	/// 전설적인.
+	/// </summary>
+	Legendary = 4,
 
 
 }
 
-public enum EquipmentGrade
+public enum EquipmentDropType
 {
 	/// <summary>
-	/// 1등급.
+	/// 장비 대분류 타입 - 공용.
 	/// </summary>
-	Grade1 = 0,
+	Common = 0,
 
 	/// <summary>
-	/// 2등급.
+	/// 장비 대분류 타입 - 고유.
 	/// </summary>
-	Grade2 = 1,
+	Unique = 1,
+
+
+}
+
+public enum EquipmentGradeType
+{
+	/// <summary>
+	/// 장비 소분류 - 잘 못 만든.
+	/// </summary>
+	BadlyMade = 0,
 
 	/// <summary>
-	/// 3등급.
+	/// 공용 - 흔한.
 	/// </summary>
-	Grade3 = 2,
+	Common = 1,
 
 	/// <summary>
-	/// 4등급.
+	/// 공용 - 잘 만든.
 	/// </summary>
-	Grade4 = 3,
+	WellMade = 2,
 
 	/// <summary>
-	/// 5등급.
+	/// 공용 - 걸작의.
 	/// </summary>
-	Grade5 = 4,
+	MasterPiece = 3,
+
+	/// <summary>
+	/// 고유 - 일반.
+	/// </summary>
+	Unique = 4,
+
+	/// <summary>
+	/// 고유 - 전용의.
+	/// </summary>
+	Exclusive = 5,
+
+	/// <summary>
+	/// 고유 - 전설적인.
+	/// </summary>
+	Legendary = 6,
+
+	/// <summary>
+	/// 고유 - 유물.
+	/// </summary>
+	Relic = 7,
 
 
 }
@@ -195,7 +240,37 @@ public enum StatusGrade
 
 }
 
-public enum AbilityType
+public enum PrimeAbilityType
+{
+	/// <summary>
+	/// 신체.
+	/// </summary>
+	Body = 0,
+
+	/// <summary>
+	/// 정신.
+	/// </summary>
+	Mentality = 1,
+
+	/// <summary>
+	/// 기술.
+	/// </summary>
+	Skill = 2,
+
+	/// <summary>
+	/// 속도.
+	/// </summary>
+	Speed = 3,
+
+	/// <summary>
+	/// 지혜.
+	/// </summary>
+	Wisdom = 4,
+
+
+}
+
+public enum SubAbilityType
 {
 	/// <summary>
 	/// 없음.
@@ -208,74 +283,69 @@ public enum AbilityType
 	HealthPoint = 0,
 
 	/// <summary>
-	/// 체력 재생.
-	/// </summary>
-	HealthRecovery = 1,
-
-	/// <summary>
 	/// 마력 수치.
 	/// </summary>
-	ManaPoint = 2,
+	ManaPoint = 1,
 
 	/// <summary>
-	/// 마력 재생.
+	/// 물리 공격력.
 	/// </summary>
-	ManaRecovery = 3,
+	PhysicalDamage = 2,
 
 	/// <summary>
-	/// 물리 피해량.
+	/// 마법 공격력.
 	/// </summary>
-	PhysicalDamage = 4,
-
-	/// <summary>
-	/// 마법 피해량.
-	/// </summary>
-	MagicalDamage = 5,
+	MagicalDamage = 3,
 
 	/// <summary>
 	/// 물리 저항력.
 	/// </summary>
-	PhysicalRegistance = 6,
+	PhysicalRegistance = 4,
 
 	/// <summary>
 	/// 마법 저항력.
 	/// </summary>
-	MagicalRegistance = 7,
+	MagicalRegistance = 5,
 
 	/// <summary>
 	/// 행동 속도.
 	/// </summary>
-	BehaveSpeed = 8,
+	BehaveSpeed = 6,
 
 	/// <summary>
 	/// 치명타 확률.
 	/// </summary>
-	CriticalProbability = 9,
+	CriticalProbability = 7,
 
 	/// <summary>
 	/// 치명타 데미지 배율.
 	/// </summary>
-	CriticalDamagePercent = 10,
+	CriticalDamagePercent = 8,
 
 	/// <summary>
-	/// 회피 확률.
+	/// 명중률.
 	/// </summary>
-	EvadeProbability = 11,
+	HitProbability = 9,
+
+	/// <summary>
+	/// 회피율.
+	/// </summary>
+	EvadeProbability = 10,
 
 	/// <summary>
 	/// 화염 저항력.
 	/// </summary>
-	FlameRegistance = 12,
+	FlameRegistance = 11,
 
 	/// <summary>
 	/// 전격 저항력.
 	/// </summary>
-	ShockRegistance = 13,
+	ShockRegistance = 12,
 
 	/// <summary>
 	/// 빙결 저항력.
 	/// </summary>
-	FrozenRegistance = 14,
+	FrozenRegistance = 13,
 
 
 }

@@ -24,7 +24,7 @@ public class Character : TableDataBase
 	/// <summary>
 	/// 공격 범위 타입.
 	/// </summary>
-	public int AttackRangeType;
+	public bool AttackRangeType;
 
 	/// <summary>
 	/// 캐릭터 유형.

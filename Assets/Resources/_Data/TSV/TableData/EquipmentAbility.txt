@@ -1,76 +1,71 @@
-Id	StatusGrade	AbilityType	Min	Max
-0	D	HealthPoint	3	12
-1	D	HealthRecovery	2	4
-2	D	ManaPoint	2	6
-3	D	ManaRecovery	1	3
-4	D	PhysicalDamage	2	10
-5	D	MagicalDamage	3	14
-6	D	PhysicalRegistance	480	720
-7	D	MagicalRegistance	820	940
-8	D	BehaveSpeed	200	400
-9	D	CriticalProbability	600	960
-10	D	CriticalDamagePercent	1600	2400
-11	D	EvadeProbability	440	820
-12	D	FlameRegistance	860	1240
-13	D	ShockRegistance	860	1240
-14	D	FrozenRegistance	860	1240
-15	C	HealthPoint	12	26
-16	C	HealthRecovery	4	7
-17	C	ManaPoint	6	11
-18	C	ManaRecovery	3	6
-19	C	PhysicalDamage	10	20
-20	C	MagicalDamage	14	28
-21	C	PhysicalRegistance	720	1040
-22	C	MagicalRegistance	940	1260
-23	C	BehaveSpeed	400	640
-24	C	CriticalProbability	960	1400
-25	C	CriticalDamagePercent	2400	4400
-26	C	EvadeProbability	820	1000
-27	C	FlameRegistance	1240	1600
-28	C	ShockRegistance	1240	1600
-29	C	FrozenRegistance	1240	1600
-30	B	HealthPoint	26	54
-31	B	HealthRecovery	7	14
-32	B	ManaPoint	11	22
-33	B	ManaRecovery	6	11
-34	B	PhysicalDamage	20	38
-35	B	MagicalDamage	28	60
-36	B	PhysicalRegistance	1040	1660
-37	B	MagicalRegistance	1260	1920
-38	B	BehaveSpeed	640	920
-39	B	CriticalProbability	1400	2800
-40	B	CriticalDamagePercent	4400	7200
-41	B	EvadeProbability	1000	1660
-42	B	FlameRegistance	1600	2400
-43	B	ShockRegistance	1600	2400
-44	B	FrozenRegistance	1600	2400
-45	A	HealthPoint	54	106
-46	A	HealthRecovery	14	28
-47	A	ManaPoint	22	48
-48	A	ManaRecovery	11	22
-49	A	PhysicalDamage	38	64
-50	A	MagicalDamage	60	120
-51	A	PhysicalRegistance	1660	2420
-52	A	MagicalRegistance	1920	2750
-53	A	BehaveSpeed	920	1480
-54	A	CriticalProbability	2800	5600
-55	A	CriticalDamagePercent	7200	10000
-56	A	EvadeProbability	1660	2120
-57	A	FlameRegistance	2400	3600
-58	A	ShockRegistance	2400	3600
-59	A	FrozenRegistance	2400	3600
-60	S	HealthPoint	106	212
-61	S	HealthRecovery	28	48
-62	S	ManaPoint	48	96
-63	S	ManaRecovery	22	44
-64	S	PhysicalDamage	64	128
-65	S	MagicalDamage	120	240
-66	S	PhysicalRegistance	2420	4840
-67	S	MagicalRegistance	2750	5500
-68	S	BehaveSpeed	1480	2960
-69	S	CriticalProbability	5600	12200
-70	S	CriticalDamagePercent	10000	20000
-71	S	EvadeProbability	2120	4240
-72	S	FlameRegistance	3600	5120
-73	S	ShockRegistance	3600	5120
-74	S	FrozenRegistance	3600	5120
+Id	AbilityType	Min	Max
+0	HealthPoint	3	12
+1	ManaPoint	2	4
+2	PhysicalDamage	2	6
+3	MagicalDamage	1	3
+4	PhysicalRegistance	2	10
+5	MagicalRegistance	3	14
+6	BehaveSpeed	480	720
+7	CriticalProbability	820	940
+8	CriticalDamagePercent	200	400
+9	HitProbability	600	960
+10	EvadeProbability	1600	2400
+11	FlameRegistance	440	820
+12	ShockRegistance	860	1240
+13	FrozenRegistance	860	1240
+14	HealthPoint	3	12
+15	ManaPoint	2	4
+16	PhysicalDamage	2	6
+17	MagicalDamage	1	3
+18	PhysicalRegistance	2	10
+19	MagicalRegistance	3	14
+20	BehaveSpeed	480	720
+21	CriticalProbability	820	940
+22	CriticalDamagePercent	200	400
+23	HitProbability	600	960
+24	EvadeProbability	1600	2400
+25	FlameRegistance	440	820
+26	ShockRegistance	860	1240
+27	FrozenRegistance	860	1240
+28	HealthPoint	3	12
+29	ManaPoint	2	4
+30	PhysicalDamage	2	6
+31	MagicalDamage	1	3
+32	PhysicalRegistance	2	10
+33	MagicalRegistance	3	14
+34	BehaveSpeed	480	720
+35	CriticalProbability	820	940
+36	CriticalDamagePercent	200	400
+37	HitProbability	600	960
+38	EvadeProbability	1600	2400
+39	FlameRegistance	440	820
+40	ShockRegistance	860	1240
+41	FrozenRegistance	860	1240
+42	HealthPoint	3	12
+43	ManaPoint	2	4
+44	PhysicalDamage	2	6
+45	MagicalDamage	1	3
+46	PhysicalRegistance	2	10
+47	MagicalRegistance	3	14
+48	BehaveSpeed	480	720
+49	CriticalProbability	820	940
+50	CriticalDamagePercent	200	400
+51	HitProbability	600	960
+52	EvadeProbability	1600	2400
+53	FlameRegistance	440	820
+54	ShockRegistance	860	1240
+55	FrozenRegistance	860	1240
+56	HealthPoint	3	12
+57	ManaPoint	2	4
+58	PhysicalDamage	2	6
+59	MagicalDamage	1	3
+60	PhysicalRegistance	2	10
+61	MagicalRegistance	3	14
+62	BehaveSpeed	480	720
+63	CriticalProbability	820	940
+64	CriticalDamagePercent	200	400
+65	HitProbability	600	960
+66	EvadeProbability	1600	2400
+67	FlameRegistance	440	820
+68	ShockRegistance	860	1240
+69	FrozenRegistance	860	1240

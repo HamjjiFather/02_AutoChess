@@ -5,6 +5,6 @@
     /// </summary>
     public class EquipmentSkillStatusSlot : IEquipmentStatusSlot
     {
-        
+        public EquipmentStatusSlotState EquipmentStatusSlotState => EquipmentStatusSlotState.Skill;
     }
 }

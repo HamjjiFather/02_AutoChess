@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace AutoChess
+﻿namespace AutoChess
 {
-    public class CharacterAbilitySet
+    public class UnIdentifiedEquipmentStatusSlot : IEquipmentStatusSlot
     {
         #region Fields & Property
+
+        public EquipmentStatusSlotState EquipmentStatusSlotState => EquipmentStatusSlotState.UnIdentified;
 
         #endregion
 

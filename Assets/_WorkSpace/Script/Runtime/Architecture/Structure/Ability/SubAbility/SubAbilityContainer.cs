@@ -3,27 +3,6 @@ using KKSFramework;
 
 namespace AutoChess
 {
-    /// <summary>
-    /// 보조 능력치.
-    /// </summary>
-    public enum SubAbilityType
-    {
-        Health,
-        Mana,
-        PhysicalDamage,
-        MagicalDamage,
-        PhysicalDefense,
-        MagicalRegistance,
-        CriticalProbability,
-        CriticalDamage,
-        Speed,
-        Tough,
-        FlameRegistance,
-        LightningRegistance,
-        FrostRegistance
-    }
-
-
     public class SubAbilityContainer : IGetSubAbility
     {
         #region Fields & Property

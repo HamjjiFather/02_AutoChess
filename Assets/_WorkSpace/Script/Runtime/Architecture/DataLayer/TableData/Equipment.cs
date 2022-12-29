@@ -24,15 +24,15 @@ public class Equipment : TableDataBase
 	/// <summary>
 	/// 장비 타입.
 	/// </summary>
-	public EquipmentType EquipmentType;
+	public EquipmentGradeType EquipmentGradeType;
 
 	/// <summary>
-	/// 기본 능력치 인덱스.
+	/// 고정 능력치 인덱스 - EquipmentAbility참조.
 	/// </summary>
 	public int[] BaseEquipmentStatusIndexes;
 
 	/// <summary>
-	/// 부여 가능 능력치 인덱스.
+	/// 랜덤 부여 가능 능력치 인덱스 - EquipmentAbility참조.
 	/// </summary>
 	public int[] AvailEquipmentTypeIndex;
 
@@ -54,7 +54,7 @@ public class Equipment : TableDataBase
         Id = int.Parse(myData[rowIndex++]);
 		GlobalIndex = myData[rowIndex++];
 		Name = myData[rowIndex++];
-		EquipmentType = (EquipmentType)Enum.Parse (typeof(EquipmentType), myData[rowIndex++]);
+		EquipmentGradeType = (EquipmentGradeType)Enum.Parse (typeof(EquipmentGradeType), myData[rowIndex++]);
 		BaseEquipmentStatusIndexes = Array.ConvertAll (myData[rowIndex++].Split ('/'), int.Parse);
 		AvailEquipmentTypeIndex = Array.ConvertAll (myData[rowIndex++].Split ('/'), int.Parse);
 		SpriteResName = myData[rowIndex++];

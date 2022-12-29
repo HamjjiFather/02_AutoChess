@@ -13,9 +13,6 @@ namespace AutoChess.UseCase
         #region Fields & Property
         
         [Inject]
-        private OfficeSkillSystemManager _officeSkillSystemManager;
-
-        [Inject]
         private OfficeSkillRepository _officeSkillRepository;
 
         #endregion
@@ -37,7 +34,6 @@ namespace AutoChess.UseCase
 
         public void Execute(OfficeSkillBranchType branchType)
         {
-            var dto = _officeSkillSystemManager.ResetInvestmentPoint(branchType);
         }
 
         #endregion

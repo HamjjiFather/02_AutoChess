@@ -39,7 +39,7 @@ public class Enemy : Character
         Id = int.Parse(myData[rowIndex++]);
 		Name = myData[rowIndex++];
 		Desc = myData[rowIndex++];
-		AttackRangeType = int.Parse(myData[rowIndex++]);
+		AttackRangeType = bool.Parse(myData[rowIndex++]);
 		CharacterRoleType = (CharacterRoleType)Enum.Parse (typeof(CharacterRoleType), myData[rowIndex++]);
 		AttackIndex = int.Parse(myData[rowIndex++]);
 		SkillIndex = int.Parse(myData[rowIndex++]);

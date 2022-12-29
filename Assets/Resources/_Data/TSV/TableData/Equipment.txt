@@ -1,6 +1,6 @@
 Id	GlobalIndex	Name	EquipmentGradeType	BaseEquipmentStatusIndexes	AvailEquipmentTypeIndex	SpriteResName
-0	Equipment_0000	EQUIPMENT_NAME_0000	Common	2	0/1/2/3/4	FineSteelBlade5
-1	Equipment_0001	EQUIPMENT_NAME_0001	Common	2	0/1/2/3/4	FineSteelBlade6
+0	Equipment_0000	EQUIPMENT_NAME_0000	BadlyMade	2	0/1/2/3/4	FineSteelBlade5
+1	Equipment_0001	EQUIPMENT_NAME_0001	BadlyMade	2	0/1/2/3/4	FineSteelBlade6
 2	Equipment_0002	EQUIPMENT_NAME_0002	Common	2	0/1/2/3/4	FineSteelAxe
 3	Equipment_0003	EQUIPMENT_NAME_0003	Common	2	0/1/2/3/4	Mace2
 4	Equipment_0004	EQUIPMENT_NAME_0004	Common	2	0/1/2/3/4	FineSteelBow
@@ -8,10 +8,10 @@ Id	GlobalIndex	Name	EquipmentGradeType	BaseEquipmentStatusIndexes	AvailEquipment
 6	Equipment_0006	EQUIPMENT_NAME_0006	Common	3	0/1/2/3/4	Wand1
 7	Equipment_0007	EQUIPMENT_NAME_0007	Common	2/3	0/1/2/3/4	AdamantiteBlade2
 8	Equipment_0008	EQUIPMENT_NAME_0008	Common	4	0/1/2/3/4	FineSteelHelm
-9	Equipment_0009	EQUIPMENT_NAME_0009	Common	4	0/1/2/3/4	FineSteelChest
-10	Equipment_0010	EQUIPMENT_NAME_0010	Common	4	0/1/2/3/4	FineSteelGauntlets
-11	Equipment_0011	EQUIPMENT_NAME_0011	Common	4	0/1/2/3/4	BootsB1
-12	Equipment_0012	EQUIPMENT_NAME_0012	Common	4/5	0/1/2/3/4	Shield21
+9	Equipment_0009	EQUIPMENT_NAME_0009	WellMade	4	0/1/2/3/4	FineSteelChest
+10	Equipment_0010	EQUIPMENT_NAME_0010	WellMade	4	0/1/2/3/4	FineSteelGauntlets
+11	Equipment_0011	EQUIPMENT_NAME_0011	MasterPiece	4	0/1/2/3/4	BootsB1
+12	Equipment_0012	EQUIPMENT_NAME_0012	MasterPiece	4/5	0/1/2/3/4	Shield21
 13	Equipment_0013	EQUIPMENT_NAME_0013	Unique	5	0/1/2/3/4	CloakA1
 14	Equipment_0014	EQUIPMENT_NAME_0014	Unique	4	0/1/2/3/4	ChestA3
 15	Equipment_0015	EQUIPMENT_NAME_0015	Unique	4	0/1/2/3/4	ChestG3

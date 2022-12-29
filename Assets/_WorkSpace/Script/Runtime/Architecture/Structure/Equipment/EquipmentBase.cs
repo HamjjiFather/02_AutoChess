@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace AutoChess
 {
@@ -10,7 +11,8 @@ namespace AutoChess
         public EquipmentBase(Equipment equipmentTableData, int slotAmount)
         {
             EquipmentTableData = equipmentTableData;
-            AttachedStatusSlots = new UnIdentifiedEquipmentStatusSlot[slotAmount];
+            AttachedStatusSlots = new List<IEquipmentStatusSlot>(slotAmount);
+            SlotLimit = slotAmount;
             SlotIndex = 0;
         }
 
@@ -24,7 +26,7 @@ namespace AutoChess
         /// <summary>
         /// 장비의 슬롯.
         /// </summary>
-        public IEquipmentStatusSlot[] AttachedStatusSlots;
+        public List<IEquipmentStatusSlot> AttachedStatusSlots;
 
         /// <summary>
         /// 현재 슬롯.
@@ -32,9 +34,14 @@ namespace AutoChess
         public int SlotIndex;
 
         /// <summary>
+        /// 슬롯 제한.
+        /// </summary>
+        public int SlotLimit;
+
+        /// <summary>
         /// 비어있는 슬롯이 있는지?
         /// </summary>
-        public bool RemainSlot => SlotIndex < AttachedStatusSlots.Length;
+        public bool RemainSlot => SlotIndex < SlotLimit;
 
         #endregion
 
@@ -62,7 +69,8 @@ namespace AutoChess
             {
                 GetSubAbility = new SubAbilityComponent(subAbilityType, value)
             };
-            AttachedStatusSlots[SlotIndex++] = slot;
+            AttachedStatusSlots.Add(slot);
+            SlotIndex++;
         }
         
         #endregion

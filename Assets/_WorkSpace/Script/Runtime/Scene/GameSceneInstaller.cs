@@ -18,7 +18,7 @@ namespace KKSFramework.InGame
         [UsedImplicitly]
         public void PushRootView()
         {
-            // base.PushRootView().Forget();
+            base.PushRootView().Forget();
         }
 
 

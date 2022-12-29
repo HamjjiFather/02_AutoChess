@@ -19,16 +19,16 @@ namespace AutoChess
         public static Dictionary<EquipmentGradeType, int> CommonEquipmentDropProb = new()
         {
             {EquipmentGradeType.BadlyMade, 15000},
-            {EquipmentGradeType.Common, 45000},
-            {EquipmentGradeType.WellMade, 25000},
-            {EquipmentGradeType.MasterPiece, 15000}
+            {EquipmentGradeType.Common, 15000 + 45000},
+            {EquipmentGradeType.WellMade, 15000 + 45000 + 25000},
+            {EquipmentGradeType.MasterPiece, 15000 + 45000 + 25000 + 15000}
         };
 
 
         /// <summary>
         /// 장비 생성시 슬롯이 오픈될 확률. 
         /// </summary>
-        public static int OpenSlotProbability = 20000;
+        public static int OpenSlotProbability = 100000;
     }
 
 
@@ -49,8 +49,6 @@ namespace AutoChess
         /// <summary>
         /// 적 캐릭터의 장비 생성 시도.
         /// </summary>
-        /// <param name="enemyGradeType"></param>
-        /// <returns></returns>
         public static EquipmentBase[] GenerateEquipmentsForEnemy(EnemyGradeType enemyGradeType,
             int uniqueEquipmentIndexes = default)
         {
@@ -123,8 +121,6 @@ namespace AutoChess
             return equipment;
         }
 
-
-        // public void Set
 
         #endregion
     }

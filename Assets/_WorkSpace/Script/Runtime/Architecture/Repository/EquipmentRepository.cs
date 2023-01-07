@@ -11,11 +11,10 @@ namespace AutoChess
     }
     
     [UsedImplicitly]
-    public class EquipmentRepository : IRepository<EquipmentDao>
+    public class EquipmentRepository : IRepository<EquipmentDao>, IUniqueIndexIssuancer
     {
         #region Fields & Property
 
-        [Inject]
         private EquipmentBundle _equipmentBundle;
         
         #endregion
@@ -39,12 +38,21 @@ namespace AutoChess
         }
 
 
-        public int UpdateUniqueIndex => _equipmentBundle.uniqueIndex++;
+        public int UniqueIndex { get; set; }
+        
+        public int GetUniqueIndex() => _equipmentBundle.uniqueIndex++;
 
         #endregion
 
 
         #region This
+
+        private void Construct(EquipmentBundle equipmentBundle)
+        {
+            _equipmentBundle = equipmentBundle;
+            UniqueIndex = _equipmentBundle.uniqueIndex;
+            EquipmentGenerator.UniqueIndexIssuancer = this;
+        }
 
         #endregion
 

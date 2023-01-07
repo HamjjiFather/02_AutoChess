@@ -6,18 +6,28 @@ namespace AutoChess
     {
         #region Fields & Property
         
-        public override bool Extendable { get; set; }
-
         #endregion
 
 
         #region Methods
 
         #region Override
-        
-        public override void OnExtendedBuilding()
+
+        protected override void OnLevelUp(int level)
         {
-            
+            throw new System.NotImplementedException();
+        }
+
+
+        public override void Build()
+        {
+            throw new System.NotImplementedException();
+        }
+
+
+        public override void SpendTime()
+        {
+            throw new System.NotImplementedException();
         }
 
         #endregion

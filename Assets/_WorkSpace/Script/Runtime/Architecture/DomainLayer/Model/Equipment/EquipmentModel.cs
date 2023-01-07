@@ -41,8 +41,11 @@ namespace AutoChess
         // public Sprite ImageSprite => IconImageResources;
         
         public int Index { get; }
+        
         public string NameString { get; }
+        
         public int Grade { get; }
+        
         public Sprite ImageSprite { get; }
         
         #endregion

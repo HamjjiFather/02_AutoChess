@@ -8,8 +8,9 @@ namespace AutoChess
     /// </summary>
     public class EquipmentBase : IGetSubAbility
     {
-        public EquipmentBase(Equipment equipmentTableData, int slotAmount)
+        public EquipmentBase(int uniqueIndex, Equipment equipmentTableData, int slotAmount)
         {
+            UniqueIndex = uniqueIndex;
             EquipmentTableData = equipmentTableData;
             AttachedStatusSlots = new List<IEquipmentStatusSlot>(slotAmount);
             SlotLimit = slotAmount;
@@ -18,10 +19,14 @@ namespace AutoChess
 
         #region Fields & Property
 
+        public int UniqueIndex;
+
         /// <summary>
         /// 장비 테이블 데이터.
         /// </summary>
         public Equipment EquipmentTableData;
+
+        #region Slot
 
         /// <summary>
         /// 장비의 슬롯.
@@ -42,6 +47,17 @@ namespace AutoChess
         /// 비어있는 슬롯이 있는지?
         /// </summary>
         public bool RemainSlot => SlotIndex < SlotLimit;
+        
+        #endregion
+
+        #region
+
+        /// <summary>
+        /// 내구도.
+        /// </summary>
+        public EquipmentDurability EquipmentDurability;
+
+        #endregion
 
         #endregion
 
@@ -56,6 +72,11 @@ namespace AutoChess
                 .OfType<EquipmentAbilityStatusSlot>()
                 .Sum(aa => aa.GetSubAbilityValue(subAbilityType));
             return sum;
+        }
+
+        public override string ToString()
+        {
+            return $"장비(UID: {UniqueIndex}), {EquipmentTableData.Name}";
         }
 
         #endregion

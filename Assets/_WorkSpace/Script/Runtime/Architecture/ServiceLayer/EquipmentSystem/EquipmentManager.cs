@@ -4,7 +4,7 @@ using Zenject;
 namespace AutoChess.Service
 {
     [UsedImplicitly]
-    public class EquipmentManager : ManagerBase, IUniqueIndexProvider
+    public class EquipmentManager : ManagerBase
     {
         public EquipmentManager()
         {
@@ -21,8 +21,6 @@ namespace AutoChess.Service
         #region Methods
 
         #region Override
-
-        public int GetUniqueIndex => _equipmentRepository.UpdateUniqueIndex;
 
         #endregion
 

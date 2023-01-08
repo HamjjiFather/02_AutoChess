@@ -55,7 +55,16 @@ namespace AutoChess
 
         #region Fields & Property
 
-        #region Product
+        /// <summary>
+        /// 제작 가능한 기본 장비 수량.
+        /// </summary>
+        public const int BaseProdEquipmentAmount = 1;
+
+        /// <summary>
+        /// 장비 제작 기본 기간.
+        /// </summary>
+        public const int BaseProdEquipmentDuration = 1;
+
 
         /// <summary>
         /// 제작 가능한 장비의 수량.
@@ -64,7 +73,7 @@ namespace AutoChess
         {
             get
             {
-                return BuildingDefine.BaseProductableEquipmentAmount + GetAdditionalProductableEquipmentAmount();
+                return BaseProdEquipmentAmount + GetAdditionalProductableEquipmentAmount();
 
                 int GetAdditionalProductableEquipmentAmount()
                 {
@@ -81,7 +90,7 @@ namespace AutoChess
         /// <summary>
         /// 장비 제작 기간.
         /// </summary>
-        public int GetProductDuration => BuildingDefine.BaseProductEquipmentDuration;
+        public int GetProdDuration => BaseProdEquipmentDuration;
 
         /// <summary>
         /// 제작 장비 모델.
@@ -101,8 +110,6 @@ namespace AutoChess
                 };
             }
         }
-
-        #endregion
 
         #endregion
 
@@ -176,7 +183,7 @@ namespace AutoChess
 
             var emptyIndex = ProductEquipmentModels.Values.ToList().FindIndex(x => x.ProductState == ProductState.Empty);
             ProductEquipmentModels[emptyIndex].ProductState = ProductState.Reserved;
-            ProductEquipmentModels[emptyIndex].ProductObject = BuildingDefine.BaseProductEquipmentDuration;
+            ProductEquipmentModels[emptyIndex].ProductObject = BaseProdEquipmentDuration;
             return true;
         }
 

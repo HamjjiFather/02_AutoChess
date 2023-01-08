@@ -51,5 +51,29 @@ namespace Tests
                 Debug.Log($"대장간 장비 생산: {equipment}");
             });
         }
+
+
+        [Test]
+        public void 대장간_장비_강화()
+        {
+            var uidIssuancer = new TestUIdIssuancer(); 
+            
+            TableDataManager.Instance.LoadTableDatas().Forget();
+            EquipmentGenerator.UniqueIndexIssuancer = uidIssuancer;
+
+            var equipment = EquipmentGenerator.GenerateEquipment(EquipmentDefine.CommonEquipmentDropProbTable);
+            var blackSmith = new BlackSmithBuilding();
+            blackSmith.Level = blackSmith.MaxLevel;
+            blackSmith.Initialize();
+
+            for (var i = 0; i < EquipmentDefine.MaxEnhanceLevel; i++)
+            {
+                blackSmith.EnhanceEquipment(equipment);
+                for (var z = 0; z < equipment.AttachedStatusSlots.Count; z++)
+                {
+                    Debug.Log($"장비 강화됨, 레벨: {equipment.Level}, {equipment.AttachedStatusSlots[z]}");
+                }
+            }
+        }
     }
 }

@@ -1,20 +1,25 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using KKSFramework.GameSystem;
+using UnityEngine;
 
 namespace AutoChess
 {
     /// <summary>
     /// 장비의 베이스 클래스.
     /// </summary>
-    public class EquipmentBase : IGetSubAbility
+    public class EquipmentBase : IGetSubAbility, ILevelCore
     {
         public EquipmentBase(int uniqueIndex, Equipment equipmentTableData, int slotAmount)
         {
             UniqueIndex = uniqueIndex;
             EquipmentTableData = equipmentTableData;
+            EquipmentGradeTableData =
+                TableDataManager.Instance.EquipmentGradeDict[(int) equipmentTableData.EquipmentGradeType];
             AttachedStatusSlots = new List<IEquipmentStatusSlot>(slotAmount);
             SlotLimit = slotAmount;
             SlotIndex = 0;
+            EquipmentDurability = new EquipmentDurability(100, 100);
         }
 
         #region Fields & Property
@@ -22,9 +27,24 @@ namespace AutoChess
         public int UniqueIndex;
 
         /// <summary>
+        /// 강화 레벨.
+        /// </summary>
+        public int Level { get; set; }
+
+        /// <summary>
+        /// 최대 강화 레벨.
+        /// </summary>
+        public int MaxLevel { get; set; } = EquipmentDefine.MaxEnhanceLevel;
+
+        /// <summary>
         /// 장비 테이블 데이터.
         /// </summary>
         public Equipment EquipmentTableData;
+
+        /// <summary>
+        /// 장비 등급 테이블 데이터.
+        /// </summary>
+        public EquipmentGrade EquipmentGradeTableData;
 
         #region Slot
 
@@ -47,7 +67,7 @@ namespace AutoChess
         /// 비어있는 슬롯이 있는지?
         /// </summary>
         public bool RemainSlot => SlotIndex < SlotLimit;
-        
+
         #endregion
 
         #region
@@ -79,21 +99,28 @@ namespace AutoChess
             return $"장비(UID: {UniqueIndex}), {EquipmentTableData.Name}";
         }
 
+
+        #region Enhance
+
+        public void AddLevel(int levelAmount)
+        {
+            Level = Mathf.Clamp(Level + levelAmount, 0, MaxLevel);
+        }
+
+        #endregion
+
         #endregion
 
 
         #region This
 
-        public void AttachAbilityInSlot(SubAbilityType subAbilityType, int value)
+        public void AttachAbilityInSlot(EquipmentAbility equipmentAbility)
         {
-            var slot = new EquipmentAbilityStatusSlot
-            {
-                GetSubAbility = new SubAbilityComponent(subAbilityType, value)
-            };
+            var slot = new EquipmentAbilityStatusSlot(this, equipmentAbility);
             AttachedStatusSlots.Add(slot);
             SlotIndex++;
         }
-        
+
         #endregion
 
 

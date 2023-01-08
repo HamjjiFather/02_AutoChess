@@ -15,12 +15,14 @@ namespace AutoChess
         /// <summary>
         /// 일반 등급의 장비가 생성될 확률.
         /// </summary>
-        public static EquipmentProbabilityTable CommonEquipmentDropProb = new(new[]
+        public static EquipmentProbabilityTable CommonEquipmentDropProbTable = new(new[]
         {
             15000, 45000, 25000, 15000
         });
 
-
+        /// <summary>
+        /// 장비 생성시 출현 가능한 등급들.
+        /// </summary>
         public static EquipmentGradeType[] UsedEquipmentGradeTypes =
         {
             EquipmentGradeType.BadlyMade,
@@ -29,13 +31,16 @@ namespace AutoChess
             EquipmentGradeType.MasterPiece
         };
 
-
         /// <summary>
         /// 장비 생성시 슬롯이 오픈될 확률. 
         /// </summary>
-        public static int OpenSlotProbability = 100000;
+        public const int OpenSlotProbability = 100000;
+        
+        /// <summary>
+        /// 장비의 최대 강화 레벨.
+        /// </summary>
+        public const int MaxEnhanceLevel = 10; 
     }
-
 
 
     /// <summary>
@@ -65,7 +70,7 @@ namespace AutoChess
 
             var equipments = enemyGradeTable.EquipmentProb
                 .Where(ep => ProbabilityHelper.Chance(ep))
-                .Select(_ => GenerateEquipment(EquipmentDefine.CommonEquipmentDropProb))
+                .Select(_ => GenerateEquipment(EquipmentDefine.CommonEquipmentDropProbTable))
                 .ToArray();
 
             return equipments;
@@ -74,7 +79,7 @@ namespace AutoChess
 
         public static EquipmentBase ChoiceEquipmentTable(EnemyGradeType enemyGradeType)
         {
-            return GenerateEquipment(EquipmentDefine.CommonEquipmentDropProb);
+            return GenerateEquipment(EquipmentDefine.CommonEquipmentDropProbTable);
         }
 
 
@@ -102,8 +107,7 @@ namespace AutoChess
                     return;
 
                 var eaTable = TableDataManager.Instance.EquipmentAbilityDict[ei];
-                var value = Random.Range(eaTable.Min, eaTable.Max).FloatToInt();
-                equipment.AttachAbilityInSlot(eaTable.AbilityType, value);
+                equipment.AttachAbilityInSlot(eaTable);
             });
 
             // 빈 슬롯이 없을 때 까지 슬롯을 오픈을 시도한다.
@@ -116,8 +120,7 @@ namespace AutoChess
                 {
                     var ei = eTable.AvailEquipmentTypeIndex.Choice();
                     var eaTable = TableDataManager.Instance.EquipmentAbilityDict[ei];
-                    var value = Random.Range(eaTable.Min, eaTable.Max).FloatToInt();
-                    equipment.AttachAbilityInSlot(eaTable.AbilityType, value);
+                    equipment.AttachAbilityInSlot(eaTable);
                 }
                 else
                 {

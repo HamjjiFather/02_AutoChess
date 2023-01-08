@@ -17,14 +17,14 @@ public class EquipmentAbility : TableDataBase
 	public SubAbilityType AbilityType;
 
 	/// <summary>
-	/// 최소값(포함).
+	/// 기본 값.
 	/// </summary>
-	public float Min;
+	public int BaseValue;
 
 	/// <summary>
-	/// 최대값(포함).
+	/// 레벨업시 추가되는 값.
 	/// </summary>
-	public float Max;
+	public int AddValuePerLevel;
 
 
 
@@ -38,8 +38,8 @@ public class EquipmentAbility : TableDataBase
         var rowIndex = 0;
         Id = int.Parse(myData[rowIndex++]);
 		AbilityType = (SubAbilityType)Enum.Parse (typeof(SubAbilityType), myData[rowIndex++]);
-		Min = float.Parse(myData[rowIndex++]);
-		Max = float.Parse(myData[rowIndex++]);
+		BaseValue = int.Parse(myData[rowIndex++]);
+		AddValuePerLevel = int.Parse(myData[rowIndex++]);
 		
     }
 }

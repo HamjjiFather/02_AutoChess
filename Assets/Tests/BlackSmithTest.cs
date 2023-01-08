@@ -1,4 +1,5 @@
 ﻿using System.Drawing.Printing;
+using System.Linq;
 using AutoChess;
 using Cysharp.Threading.Tasks;
 using KKSFramework;
@@ -14,7 +15,7 @@ namespace Tests
         public void 대장간_레벨업()
         {
             TableDataManager.Instance.LoadTableDatas().Forget();
-            
+
             var blackSmith = new BlackSmithBuilding();
 
             for (var i = 0; i < blackSmith.MaxLevel; i++)
@@ -28,11 +29,11 @@ namespace Tests
         [Test]
         public void 대장간_장비_생산()
         {
-            var uidIssuancer = new TestUIdIssuancer(); 
-            
+            var uidIssuancer = new TestUIdIssuancer();
+
             TableDataManager.Instance.LoadTableDatas().Forget();
             EquipmentGenerator.UniqueIndexIssuancer = uidIssuancer;
-            
+
             var blackSmith = new BlackSmithBuilding();
             blackSmith.Level = blackSmith.MaxLevel;
             blackSmith.Initialize();
@@ -42,9 +43,9 @@ namespace Tests
             {
                 Debug.Log($"대장간 장비 생산 의뢰 남은 시간: {blackSmith.ProductEquipmentModels[index++].GetRemainProductDuration}");
             }
-            
+
             blackSmith.SpendTime();
-            
+
             blackSmith.ProductEquipmentModels.Foreach(pem =>
             {
                 var equipment = pem.Value.ProductObject as EquipmentBase;
@@ -56,8 +57,8 @@ namespace Tests
         [Test]
         public void 대장간_장비_강화()
         {
-            var uidIssuancer = new TestUIdIssuancer(); 
-            
+            var uidIssuancer = new TestUIdIssuancer();
+
             TableDataManager.Instance.LoadTableDatas().Forget();
             EquipmentGenerator.UniqueIndexIssuancer = uidIssuancer;
 
@@ -73,6 +74,29 @@ namespace Tests
                 {
                     Debug.Log($"장비 강화됨, 레벨: {equipment.Level}, {equipment.AttachedStatusSlots[z]}");
                 }
+            }
+        }
+
+
+        [Test]
+        public void 대장간_장비_감정()
+        {
+            var uidIssuancer = new TestUIdIssuancer();
+
+            TableDataManager.Instance.LoadTableDatas().Forget();
+            EquipmentGenerator.UniqueIndexIssuancer = uidIssuancer;
+
+            var equipment = EquipmentGenerator.GenerateEquipment(EquipmentDefine.CommonEquipmentDropProbTable);
+            var blackSmith = new BlackSmithBuilding();
+            blackSmith.Level = blackSmith.MaxLevel;
+            blackSmith.Initialize();
+
+            while (equipment.RemainSlot)
+            {
+                blackSmith.AppraisalEquipment(equipment);
+                var slotAbility = equipment.AttachedStatusSlots.Last(x =>
+                    x.EquipmentStatusSlotState == EquipmentStatusSlotState.Ability);
+                Debug.Log($"장비 감정 됨: {slotAbility}");
             }
         }
     }

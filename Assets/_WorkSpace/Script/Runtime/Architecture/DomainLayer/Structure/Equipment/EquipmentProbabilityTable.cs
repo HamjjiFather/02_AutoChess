@@ -12,7 +12,7 @@ namespace AutoChess
                 return;
             }
 
-            Probabilities = probabilities;
+            Probabilities = probabilities.Select((p, i) => p + probabilities.Take(i).Sum()).ToArray();
         }
 
         #region Fields & Property

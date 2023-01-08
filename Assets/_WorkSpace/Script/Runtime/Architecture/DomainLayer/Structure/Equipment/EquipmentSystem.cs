@@ -34,7 +34,7 @@ namespace AutoChess
         /// <summary>
         /// 장비 생성시 슬롯이 오픈될 확률. 
         /// </summary>
-        public const int OpenSlotProbability = 100000;
+        public const int OpenSlotProbability = 20000;
         
         /// <summary>
         /// 장비의 최대 강화 레벨.
@@ -88,6 +88,7 @@ namespace AutoChess
             var prob = ProbabilityHelper.RandomValue;
             var pickedGradeType = probList.Chance(prob);
 
+            Debug.Log(pickedGradeType);
             var egTable =
                 TableDataManager.Instance.EquipmentGradeDict.Values.First(x =>
                     x.EquipmentGradeType.Equals(pickedGradeType));
@@ -118,9 +119,7 @@ namespace AutoChess
 
                 if (isOpen)
                 {
-                    var ei = eTable.AvailEquipmentTypeIndex.Choice();
-                    var eaTable = TableDataManager.Instance.EquipmentAbilityDict[ei];
-                    equipment.AttachAbilityInSlot(eaTable);
+                    OpenEquipmentSlot(equipment);
                 }
                 else
                 {
@@ -129,6 +128,17 @@ namespace AutoChess
             }
 
             return equipment;
+        }
+
+
+        /// <summary>
+        /// 장비 슬롯을 오픈함.
+        /// </summary>
+        public static void OpenEquipmentSlot(EquipmentBase equipment)
+        {
+            var ei = equipment.EquipmentTableData.AvailEquipmentTypeIndex.Choice();
+            var eaTable = TableDataManager.Instance.EquipmentAbilityDict[ei];
+            equipment.AttachAbilityInSlot(eaTable);
         }
 
         #endregion

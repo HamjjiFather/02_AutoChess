@@ -1,14 +1,16 @@
-﻿namespace AutoChess
+﻿using System.Linq;
+
+namespace AutoChess
 {
     public partial class BlackSmithBuilding
     {
         #region Fields & Property
-        
+
         /// <summary>
         /// 장비 강화에 필요한 기본 내구도.
         /// </summary>
         public const int BaseRequireDurabilityForEnhance = 20;
-        
+
         /// <summary>
         /// 제작 가능한 장비의 수량.
         /// </summary>
@@ -60,10 +62,17 @@
         /// </summary>
         public bool CanEnhanceEquipment(EquipmentBase equipmentBase)
         {
+            // 최대 레벨이 아님.
             var isNotMaxLevel = equipmentBase.MaxLevel.Equals(equipmentBase.Level);
+            
+            // 내구도가 충분함.
             var enoughDurability = equipmentBase.EquipmentDurability.EnoughDurability(GetReqDurability);
             
-            return isNotMaxLevel && enoughDurability;
+            // 모든 슬롯에 감정을 완료함.
+            var allSlotAppraisaled = equipmentBase.AttachedStatusSlots.All(ss =>
+                ss.EquipmentStatusSlotState != EquipmentStatusSlotState.UnIdentified);
+
+            return isNotMaxLevel && enoughDurability && allSlotAppraisaled;
         }
 
         #endregion
@@ -78,10 +87,10 @@
         {
             var gt = equipmentBase.EquipmentGradeTableData;
             var amount = gt.BaseReqCurrencyAmountForEnhance + equipmentBase.Level * gt.AddReqCurrencyAmountForEnhance;
-            
+
             // 레벨업.
             equipmentBase.AddLevel(1);
-            
+
             // 내구도 감소.
             equipmentBase.EquipmentDurability.Damaged(GetReqDurability);
         }

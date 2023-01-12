@@ -22,12 +22,12 @@ namespace AutoChess
         /// <summary>
         /// 최대 내구도.
         /// </summary>
-        protected int MaxDurability;
+        public int MaxDurability { get; private set; }
 
         /// <summary>
         /// 현재 내구도.
         /// </summary>
-        protected int CurrentDurability;
+        public int CurrentDurability { get; private set; }
 
         #endregion
 
@@ -46,7 +46,7 @@ namespace AutoChess
         /// </summary>
         public bool EnoughDurability(int reqDurability) => CurrentDurability >= reqDurability;
 
-        
+
         /// <summary>
         /// 내구도 손상.
         /// </summary>
@@ -65,7 +65,7 @@ namespace AutoChess
             CurrentDurability = Mathf.Min(CurrentDurability, MaxDurability);
         }
 
-        
+
         /// <summary>
         /// 내구도 회복.
         /// </summary>

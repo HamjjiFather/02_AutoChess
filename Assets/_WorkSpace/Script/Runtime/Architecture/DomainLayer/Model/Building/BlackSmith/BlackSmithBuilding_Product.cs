@@ -41,7 +41,7 @@ namespace AutoChess
             /// <summary>
             /// 생산까지 남은 시간.
             /// </summary>
-            public int GetRemainProductDuration
+            public int GetRemainProductPeriod
             {
                 get
                 {
@@ -73,9 +73,9 @@ namespace AutoChess
         {
             get
             {
-                return BaseProdEquipmentAmount + GetAdditionalProductableEquipmentAmount();
+                return BaseProdEquipmentAmount + GetAdditionalAmount();
 
-                int GetAdditionalProductableEquipmentAmount()
+                int GetAdditionalAmount()
                 {
                     return Level switch
                     {
@@ -98,7 +98,7 @@ namespace AutoChess
         public Dictionary<int, ProductSlotModel> ProductEquipmentModels;
 
         /// <summary>
-        /// 장비 생성 확률.
+        /// 제작 장비 생성 확률.
         /// </summary>
         public EquipmentProbabilityTable ProductProbabilityTable
         {
@@ -117,6 +117,15 @@ namespace AutoChess
         #region Methods
 
         #region Override
+        
+        private void Initialize_Product()
+        {
+            // TODO: 저장된 데이터를 가져와야 한다.
+            ProductEquipmentModels = new Dictionary<int, ProductSlotModel>(GetProductableEquipmentAmount);
+            ProductEquipmentModels.AddRange(Enumerable.Range(0, GetProductableEquipmentAmount)
+                .ToDictionary(i => i, _ => new ProductSlotModel(ProductState.Empty)));
+        }
+
 
         private void OnLevelUp_Product()
         {
@@ -135,14 +144,14 @@ namespace AutoChess
                 .Where(pe => pe.ProductState == ProductState.Reserved)
                 .Foreach(pe =>
                 {
-                    var dur = pe.GetRemainProductDuration;
+                    var dur = pe.GetRemainProductPeriod;
                     pe.ProductObject = Mathf.Max(dur - 1, 0);
                 });
             
             // 모든 제작중이면서 기간이 0인 장비 슬롯에 장비를 추가함.
             ProductEquipmentModels
                 .Where(pe =>
-                    pe.Value.ProductState == ProductState.Reserved && pe.Value.GetRemainProductDuration.Equals(0))
+                    pe.Value.ProductState == ProductState.Reserved && pe.Value.GetRemainProductPeriod.Equals(0))
                 .ToList()
                 .Foreach(kvp =>
                 {
@@ -157,14 +166,7 @@ namespace AutoChess
 
         #region This
 
-        private void Initialize_Product()
-        {
-            // TODO: 저장된 데이터를 가져와야 한다.
-            ProductEquipmentModels = new Dictionary<int, ProductSlotModel>(GetProductableEquipmentAmount);
-            ProductEquipmentModels.AddRange(Enumerable.Range(0, GetProductableEquipmentAmount)
-                .ToDictionary(i => i, _ => new ProductSlotModel(ProductState.Empty)));
-        }
-
+        
         #endregion
 
 

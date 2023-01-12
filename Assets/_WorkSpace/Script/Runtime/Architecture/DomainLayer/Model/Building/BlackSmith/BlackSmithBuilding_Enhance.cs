@@ -9,7 +9,7 @@ namespace AutoChess
         /// <summary>
         /// 장비 강화에 필요한 기본 내구도.
         /// </summary>
-        public const int BaseRequireDurabilityForEnhance = 20;
+        public const int BaseRequireDurabilityForEnhance = 10;
 
         /// <summary>
         /// 제작 가능한 장비의 수량.

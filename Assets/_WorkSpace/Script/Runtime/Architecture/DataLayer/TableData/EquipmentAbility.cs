@@ -17,6 +17,11 @@ public class EquipmentAbility : TableDataBase
 	public SubAbilityType AbilityType;
 
 	/// <summary>
+	/// 장비 능력치 등급 인덱스.
+	/// </summary>
+	public int EquipmentAbilityGradeIndex;
+
+	/// <summary>
 	/// 기본 값.
 	/// </summary>
 	public int BaseValue;
@@ -38,6 +43,7 @@ public class EquipmentAbility : TableDataBase
         var rowIndex = 0;
         Id = int.Parse(myData[rowIndex++]);
 		AbilityType = (SubAbilityType)Enum.Parse (typeof(SubAbilityType), myData[rowIndex++]);
+		EquipmentAbilityGradeIndex = int.Parse(myData[rowIndex++]);
 		BaseValue = int.Parse(myData[rowIndex++]);
 		AddValuePerLevel = int.Parse(myData[rowIndex++]);
 		

@@ -1,9 +1,9 @@
-Id	EquipmentGradeType	SlotAmount	BaseReqCurrencyAmountForEnhance	AddReqCurrencyAmountForEnhance
-0	BadlyMade	1	500	250
-1	Common	2	1000	500
-2	WellMade	3	2500	1250
-3	MasterPiece	4	5000	2500
-4	Unique	3	5000	2500
-5	Exclusive	3	10000	5000
-6	Legendary	4	20000	10000
-7	Relic	4	40000	20000
+Id	EquipmentGradeType	SlotAmount	BaseDurability	BaseReqCurrencyAmountForEnhance	AddReqCurrencyAmountForEnhance	BasePrice
+0	BadlyMade	1	40	500	250	1000
+1	Common	2	80	1000	500	2000
+2	WellMade	3	140	2500	1250	4000
+3	MasterPiece	4	200	5000	2500	25000
+4	Unique	3	120	5000	2500	100000
+5	Exclusive	3	120	10000	5000	140000
+6	Legendary	4	200	20000	10000	200000
+7	Relic	4	0	40000	20000	400000

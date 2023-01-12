@@ -23,14 +23,16 @@ namespace AutoChess
         #region Methods
 
         #region Override
-        
+
         public void Initialize()
         {
             Initialize_Product();
+            Initialize_Purchase();
         }
 
         protected override void OnLevelUp(int level)
         {
+            OnLevelUp_Product();
             OnLevelUp_Product();
         }
 
@@ -41,6 +43,7 @@ namespace AutoChess
         public override void SpendTime()
         {
             SpendTime_Product();
+            SpendTime_Purchase();
         }
 
         #endregion

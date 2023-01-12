@@ -41,7 +41,7 @@ namespace Tests
             var index = 0;
             while (blackSmith.ProductReserveEquipment())
             {
-                Debug.Log($"대장간 장비 생산 의뢰 남은 시간: {blackSmith.ProductEquipmentModels[index++].GetRemainProductDuration}");
+                Debug.Log($"대장간 장비 생산 의뢰 남은 시간: {blackSmith.ProductEquipmentModels[index++].GetRemainProductPeriod}");
             }
 
             blackSmith.SpendTime();

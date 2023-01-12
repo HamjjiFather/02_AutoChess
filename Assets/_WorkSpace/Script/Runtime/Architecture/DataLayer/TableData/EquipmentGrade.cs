@@ -22,6 +22,11 @@ public class EquipmentGrade : TableDataBase
 	public int SlotAmount;
 
 	/// <summary>
+	/// 기본 내구도.
+	/// </summary>
+	public int BaseDurability;
+
+	/// <summary>
 	/// 강화에 필요한 기본 재화량.
 	/// </summary>
 	public int BaseReqCurrencyAmountForEnhance;
@@ -30,6 +35,11 @@ public class EquipmentGrade : TableDataBase
 	/// 레벨당 강화에 필요한 추가 재화량.
 	/// </summary>
 	public int AddReqCurrencyAmountForEnhance;
+
+	/// <summary>
+	/// 기본 가격.
+	/// </summary>
+	public int BasePrice;
 
 
 
@@ -44,8 +54,10 @@ public class EquipmentGrade : TableDataBase
         Id = int.Parse(myData[rowIndex++]);
 		EquipmentGradeType = (EquipmentGradeType)Enum.Parse (typeof(EquipmentGradeType), myData[rowIndex++]);
 		SlotAmount = int.Parse(myData[rowIndex++]);
+		BaseDurability = int.Parse(myData[rowIndex++]);
 		BaseReqCurrencyAmountForEnhance = int.Parse(myData[rowIndex++]);
 		AddReqCurrencyAmountForEnhance = int.Parse(myData[rowIndex++]);
+		BasePrice = int.Parse(myData[rowIndex++]);
 		
     }
 }

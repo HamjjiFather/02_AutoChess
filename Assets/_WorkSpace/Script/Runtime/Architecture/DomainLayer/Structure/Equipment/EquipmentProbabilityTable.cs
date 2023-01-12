@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using UnityEngine;
 
 namespace AutoChess
 {
@@ -8,16 +9,17 @@ namespace AutoChess
         {
             if (!probabilities.Sum().Equals(Constant.BaseProbabilityValue))
             {
-                Probabilities = default;
+                Debug.LogError($"확률의 합이 {Constant.BaseProbabilityValue}가 아니다. 확인 필요.");
+                _probabilities = default;
                 return;
             }
 
-            Probabilities = probabilities.Select((p, i) => p + probabilities.Take(i).Sum()).ToArray();
+            _probabilities = probabilities.Select((p, i) => p + probabilities.Take(i).Sum()).ToArray();
         }
 
         #region Fields & Property
 
-        public readonly int[] Probabilities;
+        private readonly int[] _probabilities;
 
         #endregion
 
@@ -33,9 +35,9 @@ namespace AutoChess
 
         public EquipmentGradeType Chance(int prob)
         {
-            for (var i = 0; i < Probabilities.Length; i++)
+            for (var i = 0; i < _probabilities.Length; i++)
             {
-                var chance = ProbabilityHelper.Chance(prob, Probabilities[i]);
+                var chance = ProbabilityHelper.Chance(prob, _probabilities[i]);
                 
                 if (chance)
                     return EquipmentDefine.UsedEquipmentGradeTypes[i];

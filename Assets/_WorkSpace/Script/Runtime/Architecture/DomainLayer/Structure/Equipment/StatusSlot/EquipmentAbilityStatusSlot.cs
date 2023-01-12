@@ -13,11 +13,14 @@ namespace AutoChess
             _equipmentAbilityTableData = equipmentAbility;
         }
 
+        public EquipmentStatusSlotState EquipmentStatusSlotState => EquipmentStatusSlotState.Ability;
+
         private ILevelCore _levelBase;
 
         private EquipmentAbility _equipmentAbilityTableData;
 
-        public EquipmentStatusSlotState EquipmentStatusSlotState => EquipmentStatusSlotState.Ability;
+        public EquipmentAbility EquipmentAbilityTableData => _equipmentAbilityTableData;
+
 
         public int GetSubAbilityValue(SubAbilityType subAbilityType)
         {

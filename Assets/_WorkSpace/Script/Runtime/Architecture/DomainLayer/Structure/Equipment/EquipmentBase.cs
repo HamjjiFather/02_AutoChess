@@ -46,6 +46,9 @@ namespace AutoChess
         /// </summary>
         public EquipmentGrade EquipmentGradeTableData;
 
+        // 장비 등급.
+        public EquipmentGradeType EquipmentGradeType => EquipmentGradeTableData.EquipmentGradeType;
+
         #region Slot
 
         /// <summary>

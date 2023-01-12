@@ -39,7 +39,42 @@ namespace AutoChess
         /// <summary>
         /// 장비의 최대 강화 레벨.
         /// </summary>
-        public const int MaxEnhanceLevel = 10; 
+        public const int MaxEnhanceLevel = 10;
+
+        /// <summary>
+        /// 판매가율.
+        /// </summary>
+        public const int SellingPricePercent = 20000;
+    }
+
+
+    public static class EquipmentHelper
+    {
+        /// <summary>
+        /// 장비 아이템의 구매 가격.
+        /// </summary>
+        public static int BasePrice(EquipmentBase equipment)
+        {
+            var basePrice = equipment.EquipmentGradeTableData.BasePrice;
+            var openSlotAmount = equipment.SlotIndex;
+            var closedSlotAmount = equipment.SlotLimit - openSlotAmount;
+
+            var openSlotPrice = equipment.AttachedStatusSlots
+                .Where(x => x.EquipmentStatusSlotState == EquipmentStatusSlotState.Ability)
+                .Sum(x => TableDataManager.Instance.EquipmentAbilityGradeDict[((EquipmentAbilityStatusSlot)x).EquipmentAbilityTableData.EquipmentAbilityGradeIndex].BasePrice);
+
+            var closeSlotPrice = closedSlotAmount * 1000;
+
+            return basePrice + openSlotPrice + closeSlotPrice;
+        }
+
+
+        public static int SellingPrice(EquipmentBase equipment)
+        {
+            var basePrice = BasePrice(equipment);
+            var lp = FormulaHelper.PercentLerp01Unclamped(EquipmentDefine.SellingPricePercent);
+            return (int)(basePrice * lp); 
+        }
     }
 
 

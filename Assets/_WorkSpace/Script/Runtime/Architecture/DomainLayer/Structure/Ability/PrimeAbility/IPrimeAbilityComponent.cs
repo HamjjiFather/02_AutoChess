@@ -15,7 +15,7 @@
         /// <summary>
         /// 기본 능력치.
         /// </summary>
-        int Value { get; set; }
+        int BaseValue { get; set; }
 
         /// <summary>
         /// 투자된 능력치.

@@ -1,6 +1,8 @@
-﻿namespace AutoChess
+﻿using AutoChess.Service;
+
+namespace AutoChess
 {
-    public static class CharacterDefines
+    public class AdventureManager : ManagerBase
     {
         #region Fields & Property
 
@@ -16,8 +18,10 @@
 
         #region This
 
-        public static string GetCharacterAbilityOwnerString (int uid) => $"Character_{uid}_Ability";
-
+        public void StartAdventure(OutpostBuilding startOutpost)
+        {
+            
+        }
 
         #endregion
 

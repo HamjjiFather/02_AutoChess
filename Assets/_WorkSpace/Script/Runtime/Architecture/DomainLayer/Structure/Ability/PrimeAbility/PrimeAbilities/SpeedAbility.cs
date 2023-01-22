@@ -37,7 +37,7 @@
         {
             return subAbilityType switch
             {
-                SubAbilityType.CriticalDamagePercent => Value * 10,
+                SubAbilityType.CriticalDamagePercent => BaseValue * 10,
                 _ => default
             };
         }

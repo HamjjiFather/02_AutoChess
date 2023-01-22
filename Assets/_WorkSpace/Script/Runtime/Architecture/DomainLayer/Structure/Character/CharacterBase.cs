@@ -1,17 +1,25 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using KKSFramework.GameSystem;
 
 namespace AutoChess
 {
     /// <summary>
     /// 캐릭터.
     /// </summary>
-    public class CharacterBase : IGetSubAbility
+    public class CharacterBase : ExpLevelModel, IGetSubAbility
     {
-        public CharacterBase(Character tableData, IEnumerable<int> baseValues, IEnumerable<int> investedValues)
+        public CharacterBase(PlayableCharacter tableData, IEnumerable<int> baseValues, IEnumerable<int> investedValues,
+            int level, double exp)
         {
             _characterTableData = tableData;
             _primeAbilityContainer = new PrimeAbilityContainer(baseValues, investedValues);
             _subAbilityContainer = new SubAbilityContainer();
+
+            Level = level;
+            MaxLevel = CharacterDefine.MaxCharacterLevel;
+            Exp = exp;
+            RequireExps = TableDataManager.Instance.PlayerLevelDict.Values.Select(x => (double) x.ReqExp).ToArray();
         }
 
         #region Fields & Property
@@ -19,7 +27,7 @@ namespace AutoChess
         /// <summary>
         /// 캐릭터 테이블 데이터.
         /// </summary>
-        private readonly Character _characterTableData;
+        private readonly PlayableCharacter _characterTableData;
 
         /// <summary>
         /// 캐릭터 롤.

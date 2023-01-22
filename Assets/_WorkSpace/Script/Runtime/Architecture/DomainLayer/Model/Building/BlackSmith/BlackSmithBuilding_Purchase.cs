@@ -75,12 +75,12 @@ namespace AutoChess
             {
                 return Level switch
                 {
-                    0 => new EquipmentProbabilityTable(new[] { 76000, 24000, 0, 0 }),
-                    1 => new EquipmentProbabilityTable(new[] { 60000, 38000, 2000, 0 }),
-                    2 => new EquipmentProbabilityTable(new[] { 36000, 46000, 8000, 0 }),
-                    3 => new EquipmentProbabilityTable(new[] { 20000, 56000, 12000, 2000 }),
-                    4 => new EquipmentProbabilityTable(new[] { 10000, 69000, 16500, 4500 }),
-                    5 => new EquipmentProbabilityTable(new[] { 0, 72000, 20000, 8000 }),
+                    0 => new EquipmentProbabilityTable(new[] {76000, 24000, 0, 0}),
+                    1 => new EquipmentProbabilityTable(new[] {60000, 38000, 2000, 0}),
+                    2 => new EquipmentProbabilityTable(new[] {36000, 46000, 8000, 0}),
+                    3 => new EquipmentProbabilityTable(new[] {20000, 56000, 12000, 2000}),
+                    4 => new EquipmentProbabilityTable(new[] {10000, 69000, 16500, 4500}),
+                    5 => new EquipmentProbabilityTable(new[] {0, 72000, 20000, 8000}),
                     _ => default
                 };
             }

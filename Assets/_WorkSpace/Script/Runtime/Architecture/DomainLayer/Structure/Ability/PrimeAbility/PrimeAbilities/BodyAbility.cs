@@ -42,7 +42,7 @@ namespace AutoChess
             
             return subAbilityType switch
             {
-                SubAbilityType.HealthPoint => Value * 10,
+                SubAbilityType.HealthPoint => TotalValue * 10,
                 _ => default
             };
         }

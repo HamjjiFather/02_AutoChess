@@ -61,7 +61,7 @@ namespace AutoChess.Service
             if (!battleInteractableUnit.Death)
                 return default;
 
-            if (battleInteractableUnit.CharacterUnit.CharacterTableData is not Enemy enemyTableData) return default;
+            if (battleInteractableUnit.CharacterUnit.CharacterTableData is not PlayableCharacter enemyTableData) return default;
             
             var probabilities = enemyTableData.DropItemProbabilities;
             var pickedItems = ProbabilityHelper.GetItemsForAll(probabilities).ToList();

@@ -1,11 +1,15 @@
 ﻿namespace AutoChess
 {
-    /// <summary>
-    /// 아군 캐릭터 생성기.
-    /// </summary>
-    public static class CharacterGenerator
+    public readonly struct CharacterGenerateParameter
     {
+        public CharacterGenerateParameter((int, int) startLevelRange)
+        {
+            StartLevelRange = startLevelRange;
+        }
+
         #region Fields & Property
+
+        public readonly (int, int) StartLevelRange;
 
         #endregion
 
@@ -13,7 +17,7 @@
         #region Methods
 
         #region Override
-        
+
         #endregion
 
 

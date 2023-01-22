@@ -1,30 +1,33 @@
-﻿using AutoChess.Domain;
+﻿using Zenject;
 
 namespace AutoChess
 {
-    public class ExploreOfficeBuilding : BuildingBase
+    public partial class EmploymentOfficeBuilding
     {
         #region Fields & Property
-        
+
         #endregion
 
 
         #region Methods
 
         #region Override
-
-        protected override void OnLevelUp(int level)
+        
+        public void Initialize_Dismissal()
         {
         }
 
-
-        public override void Build()
+        public void Build_Dismissal()
         {
         }
 
-
-        public override void SpendTime()
+        public void SpendTime_Dismissal()
         {
+        }
+
+        protected void OnLevelUp_Dismissal(int level)
+        {
+            throw new System.NotImplementedException();
         }
 
         #endregion

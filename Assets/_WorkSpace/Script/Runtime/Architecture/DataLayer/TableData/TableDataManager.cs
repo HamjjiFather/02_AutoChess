@@ -11,7 +11,7 @@ public class TableDataManager : Singleton<TableDataManager>
     public readonly Dictionary<int, TableDataBase> TotalDataDict = new Dictionary<int, TableDataBase> ();
 
     public Dictionary<int, PlayerLevel> PlayerLevelDict = new Dictionary<int, PlayerLevel> ();
-	 public Dictionary<int, Enemy> EnemyDict = new Dictionary<int, Enemy> ();
+	 public Dictionary<int, PlayableCharacter> PlayableCharacterDict = new Dictionary<int, PlayableCharacter> ();
 	 public Dictionary<int, EnemyGrade> EnemyGradeDict = new Dictionary<int, EnemyGrade> ();
 	 public Dictionary<int, CharacterLevel> CharacterLevelDict = new Dictionary<int, CharacterLevel> ();
 	 public Dictionary<int, CharacterSkill> CharacterSkillDict = new Dictionary<int, CharacterSkill> ();
@@ -37,7 +37,7 @@ public class TableDataManager : Singleton<TableDataManager>
     public async UniTask LoadTableDatas ()
     {
         PlayerLevelDict = (await ReadCSVData.Instance.LoadCSVData<PlayerLevel> ("TableData", nameof (PlayerLevel))).ToDictionary (x => x.Id, x => x);
-		EnemyDict = (await ReadCSVData.Instance.LoadCSVData<Enemy> ("TableData", nameof (Enemy))).ToDictionary (x => x.Id, x => x);
+		PlayableCharacterDict = (await ReadCSVData.Instance.LoadCSVData<PlayableCharacter> ("TableData", nameof (PlayableCharacter))).ToDictionary (x => x.Id, x => x);
 		EnemyGradeDict = (await ReadCSVData.Instance.LoadCSVData<EnemyGrade> ("TableData", nameof (EnemyGrade))).ToDictionary (x => x.Id, x => x);
 		CharacterLevelDict = (await ReadCSVData.Instance.LoadCSVData<CharacterLevel> ("TableData", nameof (CharacterLevel))).ToDictionary (x => x.Id, x => x);
 		CharacterSkillDict = (await ReadCSVData.Instance.LoadCSVData<CharacterSkill> ("TableData", nameof (CharacterSkill))).ToDictionary (x => x.Id, x => x);
@@ -61,7 +61,7 @@ public class TableDataManager : Singleton<TableDataManager>
 		
 
         TotalDataDict.AddRange (PlayerLevelDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
-		TotalDataDict.AddRange (EnemyDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
+		TotalDataDict.AddRange (PlayableCharacterDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (EnemyGradeDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (CharacterLevelDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (CharacterSkillDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));

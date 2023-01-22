@@ -2,7 +2,7 @@
 
 namespace AutoChess
 {
-    public class EmploymentOfficeBuilding : BuildingBase, IInitializable
+    public partial class EmploymentOfficeBuilding : BuildingBase, IInitializable
     {
         #region Fields & Property
 
@@ -15,22 +15,30 @@ namespace AutoChess
 
         public override void Build()
         {
-            throw new System.NotImplementedException();
+            Build_Employ();
+            Build_Evaluation();
+            Build_Dismissal();
         }
 
         public override void SpendTime()
         {
-            throw new System.NotImplementedException();
+            SpendTime_Employ();
+            SpendTime_Evaluation();
+            SpendTime_Dismissal();
         }
 
         protected override void OnLevelUp(int level)
         {
-            throw new System.NotImplementedException();
+            OnLevelUp_Employ(level);
+            OnLevelUp_Evaluation(level);
+            OnLevelUp_Dismissal(level);
         }
 
         public void Initialize()
         {
-            throw new System.NotImplementedException();
+            Initialize_Employ();
+            Initialize_Evaluation();
+            Initialize_Dismissal();
         }
 
         #endregion

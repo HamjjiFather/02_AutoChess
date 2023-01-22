@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using KKSFramework.TableData;
 
-public class Enemy : Character
+public class PlayableCharacter : Character
 {
 	/// <summary>
 	/// 부여되는 기본 주요 능력치.
@@ -28,7 +28,7 @@ public class Enemy : Character
 
 		
 
-    public Enemy ()
+    public PlayableCharacter ()
     {
     }
 

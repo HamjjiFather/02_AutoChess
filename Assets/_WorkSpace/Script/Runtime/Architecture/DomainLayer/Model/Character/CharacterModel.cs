@@ -28,7 +28,7 @@ namespace AutoChess.Presenter
         /// </summary>
         public int UniqueIndex;
 
-        public global::Character CharacterTableData { get; set; }
+        public Character CharacterTableData { get; set; }
         
         /// <summary>
         /// 캐릭터 등급.

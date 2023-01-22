@@ -37,7 +37,7 @@ namespace AutoChess
     {
         protected PrimeAbilityBase(int value, int investedValue)
         {
-            Value = value;
+            BaseValue = value;
             InvestedValue = investedValue;
         }
 
@@ -53,7 +53,7 @@ namespace AutoChess
         /// <summary>
         /// 기본 주요 능력치.
         /// </summary>
-        public int Value { get; set; }
+        public int BaseValue { get; set; }
 
         /// <summary>
         /// 투자된 주요 능력치.
@@ -83,7 +83,7 @@ namespace AutoChess
         /// <summary>
         /// 총 주요 능력치(기본 + 투자됨)
         /// </summary>
-        public int GetTotalValue => Value + InvestedValue;
+        public int TotalValue => BaseValue + InvestedValue;
 
         #endregion
 

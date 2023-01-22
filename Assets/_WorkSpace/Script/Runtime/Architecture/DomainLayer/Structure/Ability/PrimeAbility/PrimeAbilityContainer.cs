@@ -9,12 +9,8 @@ namespace AutoChess
         {
             PrimeAbilities = baseValues
                 .Zip(investedValues, (bv, iv) => (bv, iv))
-                .Select((tp, i) =>
-                {
-                    var pa = GetPrimeAbility(i, tp.bv, tp.iv);
-                    return pa;
-                })
-                .ToArray();
+                .Select((tp, i) => (tp.bv, tp.iv, i))
+                .ToDictionary(tp => (PrimeAbilityType) tp.i, tp => GetPrimeAbility(tp.i, tp.bv, tp.iv));
 
             IPrimeAbility GetPrimeAbility(int index, int baseValue, int investedValue)
             {
@@ -46,7 +42,7 @@ namespace AutoChess
         /// <summary>
         /// 주요 능력치들.
         /// </summary>
-        public readonly IPrimeAbility[] PrimeAbilities;
+        public readonly Dictionary<PrimeAbilityType, IPrimeAbility> PrimeAbilities;
 
         #endregion
 
@@ -57,7 +53,7 @@ namespace AutoChess
 
         public int GetSubAbilityValue(SubAbilityType subAbilityType)
         {
-            var sum = PrimeAbilities.Sum(pa => pa.GetSubAbilityValue(subAbilityType));
+            var sum = PrimeAbilities.Values.Sum(pa => pa.GetSubAbilityValue(subAbilityType));
             return sum;
         }
 
@@ -65,6 +61,11 @@ namespace AutoChess
 
 
         #region This
+
+        public void InvestPoint(PrimeAbilityType primeAbility, int value)
+        {
+            PrimeAbilities[primeAbility].InvestedValue += value;
+        }
 
         #endregion
 

@@ -28,6 +28,11 @@ namespace AutoChess
 
         #region Override
 
+        public static EquipmentProbabilityTable operator +(EquipmentProbabilityTable a, EquipmentProbabilityTable b)
+        {
+            return new EquipmentProbabilityTable(a._probabilities.Zip(b._probabilities, (ap, bp) => ap + bp).ToArray());
+        }
+
         #endregion
 
 
@@ -38,7 +43,7 @@ namespace AutoChess
             for (var i = 0; i < _probabilities.Length; i++)
             {
                 var chance = ProbabilityHelper.Chance(prob, _probabilities[i]);
-                
+
                 if (chance)
                     return EquipmentDefine.UsedEquipmentGradeTypes[i];
             }

@@ -8,7 +8,7 @@ namespace AutoChess.Bundle
     [Serializable]
     public class CharacterBundleSet : IBundleSet
     {
-        public int uniqueIndex;
+        public string uniqueIndexString;
         
         public int characterIndex;
 
@@ -40,8 +40,8 @@ namespace AutoChess.Bundle
 
         #region Override
 
-        public override Dictionary<int, CharacterBundleSet> ToDictionaryLinq =>
-            bundleSets.ToDictionary(x => x.uniqueIndex, x => x);
+        public override Dictionary<string, CharacterBundleSet> ToDictionaryLinq =>
+            bundleSets.ToDictionary(x => x.uniqueIndexString, x => x);
 
         #endregion
 

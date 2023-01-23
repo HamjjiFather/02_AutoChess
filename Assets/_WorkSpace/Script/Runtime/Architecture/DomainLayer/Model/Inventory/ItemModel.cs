@@ -20,7 +20,7 @@ namespace AutoChess.Domain
     
     public interface IItem
     {
-        public int ItemIndex { get; set; }
+        public string ItemIndex { get; set; }
 
         public int ItemAmount { get; set; }
     }
@@ -32,7 +32,7 @@ namespace AutoChess.Domain
         
         public int UniqueIndex { get; set; }
 
-        public int ItemIndex { get; set; }
+        public string ItemIndex { get; set; }
         
         public int ItemAmount { get; set; }
 
@@ -40,13 +40,13 @@ namespace AutoChess.Domain
 
         public float Weight;
 
-        public ItemModel(int uniqueIndex, int itemIndex, int itemAmount)
+        public ItemModel(int uniqueIndex, string itemIndex, int itemAmount)
         {
             UniqueIndex = uniqueIndex;
             ItemIndex = itemIndex;
             ItemAmount = itemAmount;
 
-            ItemTableData = TableDataManager.Instance.ItemDict[itemIndex];
+            // ItemTableData = TableDataManager.Instance.ItemDict[itemIndex];
         }
     }
 }

@@ -28,7 +28,7 @@ namespace AutoChess
             throw new System.NotImplementedException();
         }
 
-        public CharacterDAO Read(int index)
+        public CharacterDAO Read(string index)
         {
             throw new System.NotImplementedException();
         }

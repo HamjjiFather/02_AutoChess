@@ -1,35 +1,35 @@
-Id	GlobalIndex	Name	EquipmentGradeType	BaseEquipmentStatusIndexes	AvailEquipmentTypeIndex	SpriteResName
-0	Equipment_0000	EQUIPMENT_NAME_0000	BadlyMade	2	0/1/2/3/4	FineSteelBlade5
-1	Equipment_0001	EQUIPMENT_NAME_0001	BadlyMade	2	0/1/2/3/4	FineSteelBlade6
-2	Equipment_0002	EQUIPMENT_NAME_0002	Common	2	0/1/2/3/4	FineSteelAxe
-3	Equipment_0003	EQUIPMENT_NAME_0003	Common	2	0/1/2/3/4	Mace2
-4	Equipment_0004	EQUIPMENT_NAME_0004	Common	2	0/1/2/3/4	FineSteelBow
-5	Equipment_0005	EQUIPMENT_NAME_0005	Common	3	0/1/2/3/4	StaffA1
-6	Equipment_0006	EQUIPMENT_NAME_0006	Common	3	0/1/2/3/4	Wand1
-7	Equipment_0007	EQUIPMENT_NAME_0007	Common	2/3	0/1/2/3/4	AdamantiteBlade2
-8	Equipment_0008	EQUIPMENT_NAME_0008	Common	4	0/1/2/3/4	FineSteelHelm
-9	Equipment_0009	EQUIPMENT_NAME_0009	WellMade	4	0/1/2/3/4	FineSteelChest
-10	Equipment_0010	EQUIPMENT_NAME_0010	WellMade	4	0/1/2/3/4	FineSteelGauntlets
-11	Equipment_0011	EQUIPMENT_NAME_0011	MasterPiece	4	0/1/2/3/4	BootsB1
-12	Equipment_0012	EQUIPMENT_NAME_0012	MasterPiece	4/5	0/1/2/3/4	Shield21
-13	Equipment_0013	EQUIPMENT_NAME_0013	Unique	5	0/1/2/3/4	CloakA1
-14	Equipment_0014	EQUIPMENT_NAME_0014	Unique	4	0/1/2/3/4	ChestA3
-15	Equipment_0015	EQUIPMENT_NAME_0015	Unique	4	0/1/2/3/4	ChestG3
-16	Equipment_0016	EQUIPMENT_NAME_0016	Unique	4	0/1/2/3/4	ChestH0
-17	Equipment_0017	EQUIPMENT_NAME_0017	Unique	5	0/1/2/3/4	ChestG0
-18	Equipment_0018	EQUIPMENT_NAME_0018	Unique	5	0/1/2/3/4	ShoesF0
-19	Equipment_0019	EQUIPMENT_NAME_0019	Unique	5	0/1/2/3/4	RingE1
-20	Equipment_0020	EQUIPMENT_NAME_0020	Unique	5	0/1/2/3/4	RingC6
-21	Equipment_0021	EQUIPMENT_NAME_0021	Unique	5	0/1/2/3/4	Gloves3
-22	Equipment_0022	EQUIPMENT_NAME_0022	Unique	5	0/1/2/3/4	Hat3
-23	Equipment_0023	EQUIPMENT_NAME_0023	Unique	5	0/1/2/3/4	HelmE1
-24	Equipment_0024	EQUIPMENT_NAME_0024	Unique	5	0/1/2/3/4	NeckTooth0
-25	Equipment_0025	EQUIPMENT_NAME_0025	Unique	5	0/1/2/3/4	ProjectileA2
-26	Equipment_0026	EQUIPMENT_NAME_0026	Unique	5	0/1/2/3/4	Shield11
-27	Equipment_0027	EQUIPMENT_NAME_0027	Unique	5	0/1/2/3/4	Shield24
-28	Equipment_0028	EQUIPMENT_NAME_0028	Unique	5	0/1/2/3/4	BloodyBlade6
-29	Equipment_0029	EQUIPMENT_NAME_0029	Unique	5	0/1/2/3/4	CheapClub
-30	Equipment_0030	EQUIPMENT_NAME_0030	Unique	5	0/1/2/3/4	CursedBlade7
-31	Equipment_0031	EQUIPMENT_NAME_0031	Unique	5	0/1/2/3/4	DarkMace
-32	Equipment_0032	EQUIPMENT_NAME_0032	Unique	5	0/1/2/3/4	SoldierShield
-33	Equipment_0033	EQUIPMENT_NAME_0033	Unique	5	0/1/2/3/4	VolcanicAxe
+Id	GlobalIndex	StackAmount	SellingPrice	Name	EquipmentGradeType	BaseEquipmentStatusIndexes	AvailEquipmentTypeIndex	SpriteResName
+0	Equipment_Item_0000	1	10	EQUIPMENT_NAME_0000	BadlyMade	2	0/1/2/3/4	FineSteelBlade5
+1	Equipment_Item_0001	1	10	EQUIPMENT_NAME_0001	BadlyMade	2	0/1/2/3/4	FineSteelBlade6
+2	Equipment_Item_0002	1	10	EQUIPMENT_NAME_0002	Common	2	0/1/2/3/4	FineSteelAxe
+3	Equipment_Item_0003	1	10	EQUIPMENT_NAME_0003	Common	2	0/1/2/3/4	Mace2
+4	Equipment_Item_0004	1	10	EQUIPMENT_NAME_0004	Common	2	0/1/2/3/4	FineSteelBow
+5	Equipment_Item_0005	1	10	EQUIPMENT_NAME_0005	Common	3	0/1/2/3/4	StaffA1
+6	Equipment_Item_0006	1	10	EQUIPMENT_NAME_0006	Common	3	0/1/2/3/4	Wand1
+7	Equipment_Item_0007	1	10	EQUIPMENT_NAME_0007	Common	2/3	0/1/2/3/4	AdamantiteBlade2
+8	Equipment_Item_0008	1	10	EQUIPMENT_NAME_0008	Common	4	0/1/2/3/4	FineSteelHelm
+9	Equipment_Item_0009	1	10	EQUIPMENT_NAME_0009	WellMade	4	0/1/2/3/4	FineSteelChest
+10	Equipment_Item_0010	1	10	EQUIPMENT_NAME_0010	WellMade	4	0/1/2/3/4	FineSteelGauntlets
+11	Equipment_Item_0011	1	10	EQUIPMENT_NAME_0011	MasterPiece	4	0/1/2/3/4	BootsB1
+12	Equipment_Item_0012	1	10	EQUIPMENT_NAME_0012	MasterPiece	4/5	0/1/2/3/4	Shield21
+13	Equipment_Item_0013	1	10	EQUIPMENT_NAME_0013	Unique	5	0/1/2/3/4	CloakA1
+14	Equipment_Item_0014	1	10	EQUIPMENT_NAME_0014	Unique	4	0/1/2/3/4	ChestA3
+15	Equipment_Item_0015	1	10	EQUIPMENT_NAME_0015	Unique	4	0/1/2/3/4	ChestG3
+16	Equipment_Item_0016	1	10	EQUIPMENT_NAME_0016	Unique	4	0/1/2/3/4	ChestH0
+17	Equipment_Item_0017	1	10	EQUIPMENT_NAME_0017	Unique	5	0/1/2/3/4	ChestG0
+18	Equipment_Item_0018	1	10	EQUIPMENT_NAME_0018	Unique	5	0/1/2/3/4	ShoesF0
+19	Equipment_Item_0019	1	10	EQUIPMENT_NAME_0019	Unique	5	0/1/2/3/4	RingE1
+20	Equipment_Item_0020	1	10	EQUIPMENT_NAME_0020	Unique	5	0/1/2/3/4	RingC6
+21	Equipment_Item_0021	1	10	EQUIPMENT_NAME_0021	Unique	5	0/1/2/3/4	Gloves3
+22	Equipment_Item_0022	1	10	EQUIPMENT_NAME_0022	Unique	5	0/1/2/3/4	Hat3
+23	Equipment_Item_0023	1	10	EQUIPMENT_NAME_0023	Unique	5	0/1/2/3/4	HelmE1
+24	Equipment_Item_0024	1	10	EQUIPMENT_NAME_0024	Unique	5	0/1/2/3/4	NeckTooth0
+25	Equipment_Item_0025	1	10	EQUIPMENT_NAME_0025	Unique	5	0/1/2/3/4	ProjectileA2
+26	Equipment_Item_0026	1	10	EQUIPMENT_NAME_0026	Unique	5	0/1/2/3/4	Shield11
+27	Equipment_Item_0027	1	10	EQUIPMENT_NAME_0027	Unique	5	0/1/2/3/4	Shield24
+28	Equipment_Item_0028	1	10	EQUIPMENT_NAME_0028	Unique	5	0/1/2/3/4	BloodyBlade6
+29	Equipment_Item_0029	1	10	EQUIPMENT_NAME_0029	Unique	5	0/1/2/3/4	CheapClub
+30	Equipment_Item_0030	1	10	EQUIPMENT_NAME_0030	Unique	5	0/1/2/3/4	CursedBlade7
+31	Equipment_Item_0031	1	10	EQUIPMENT_NAME_0031	Unique	5	0/1/2/3/4	DarkMace
+32	Equipment_Item_0032	1	10	EQUIPMENT_NAME_0032	Unique	5	0/1/2/3/4	SoldierShield
+33	Equipment_Item_0033	1	10	EQUIPMENT_NAME_0033	Unique	5	0/1/2/3/4	VolcanicAxe

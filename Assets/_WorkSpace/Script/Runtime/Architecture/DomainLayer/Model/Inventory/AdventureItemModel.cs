@@ -4,7 +4,7 @@ namespace AutoChess.Domain
 {
     public class AdventureItemModel : ItemModel
     {
-        public AdventureItemModel(int uniqueIndex, int itemIndex, int itemAmount) : base(uniqueIndex, itemIndex, itemAmount)
+        public AdventureItemModel(int uniqueIndex, string itemIndex, int itemAmount) : base(uniqueIndex, itemIndex, itemAmount)
         {
         }
         

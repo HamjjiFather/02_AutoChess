@@ -4,12 +4,12 @@
     {
         public int UniqueIndex;
         
-        public int ItemIndex;
+        public string ItemIndex;
 
         public int Amount;
 
         
-        public AdventureInventoryDto(int uniqueIndex, int itemIndex, int amount)
+        public AdventureInventoryDto(int uniqueIndex, string itemIndex, int amount)
         {
             UniqueIndex = uniqueIndex;
             ItemIndex = itemIndex;

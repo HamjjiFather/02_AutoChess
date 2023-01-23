@@ -71,8 +71,8 @@ namespace AutoChess.Service
     {
         #region Fields & Property
 
-        [Inject]
-        private OfficeSkillRepository _officeSkillRepository;
+        // [Inject]
+        // private OfficeSkillRepository _officeSkillRepository;
 
         [Inject]
         private GameSystemManager _gameSystemManager;
@@ -88,15 +88,15 @@ namespace AutoChess.Service
 
         public override void Initialize()
         {
-            OfficeSkillBranches = TableDataManager.Instance.OfficeSkillDict.Values
-                .Select(x =>
-                {
-                    var dao = _officeSkillRepository.Read(x.Id);
-                    return new OfficeSkillInvestment(x, dao.SpentPointAmount);
-                })
-                .GroupBy(x => x.OfficeSkillTableData.BranchType)
-                .ToDictionary(x => x.Key, x => new OfficeSkillBranch(x
-                    .ToDictionary(osm => osm.OfficeSkillTableData.Id, osm => osm)));
+            // OfficeSkillBranches = TableDataManager.Instance.OfficeSkillDict.Values
+            //     .Select(x =>
+            //     {
+            //         var dao = _officeSkillRepository.Read(x.Id);
+            //         return new OfficeSkillInvestment(x, dao.SpentPointAmount);
+            //     })
+            //     .GroupBy(x => x.OfficeSkillTableData.BranchType)
+            //     .ToDictionary(x => x.Key, x => new OfficeSkillBranch(x
+            //         .ToDictionary(osm => osm.OfficeSkillTableData.Id, osm => osm)));
         }
 
         #endregion
@@ -119,12 +119,12 @@ namespace AutoChess.Service
         }
 
 
-        public OfficeSkillResetDto ResetInvestmentPoint(OfficeSkillBranchType branchType)
-        {
-            var (indexes, gameSystems) = OfficeSkillBranches[branchType].Reset();
-            var dto = new OfficeSkillResetDto(indexes, gameSystems);
-            return dto;
-        }
+        // public OfficeSkillResetDto ResetInvestmentPoint(OfficeSkillBranchType branchType)
+        // {
+        //     var (indexes, gameSystems) = OfficeSkillBranches[branchType].Reset();
+        //     var dto = new OfficeSkillResetDto(indexes, gameSystems);
+        //     return dto;
+        // }
 
         #endregion
 

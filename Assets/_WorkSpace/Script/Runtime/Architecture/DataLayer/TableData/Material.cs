@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using KKSFramework.TableData;
 
-public class Currency : Item
+public class Material : Item
 {
 
 
-    public Currency ()
+    public Material ()
     {
     }
 

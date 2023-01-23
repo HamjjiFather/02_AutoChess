@@ -24,7 +24,7 @@ namespace AutoChess
 
         #region Override
         
-        public EquipmentDao Read(int index)
+        public EquipmentDao Read(string index)
         {
             return default;
         }

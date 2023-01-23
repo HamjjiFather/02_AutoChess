@@ -17,14 +17,14 @@ public class Item : TableDataBase
 	public string GlobalIndex;
 
 	/// <summary>
-	/// 이름.
+	/// 중첩 수량.
 	/// </summary>
-	public string Name;
+	public int StackAmount;
 
 	/// <summary>
-	/// 중첩 가능 여부.
+	/// 판매 가격.
 	/// </summary>
-	public bool Stackable;
+	public int SellingPrice;
 
 
 
@@ -35,11 +35,6 @@ public class Item : TableDataBase
 
     public override void SetData (List<string> myData)
     {
-        var rowIndex = 0;
-        Id = int.Parse(myData[rowIndex++]);
-		GlobalIndex = myData[rowIndex++];
-		Name = myData[rowIndex++];
-		Stackable = bool.Parse(myData[rowIndex++]);
-		
+        return;
     }
 }

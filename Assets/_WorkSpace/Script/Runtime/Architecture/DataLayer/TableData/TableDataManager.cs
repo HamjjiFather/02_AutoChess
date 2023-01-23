@@ -18,7 +18,9 @@ public class TableDataManager : Singleton<TableDataManager>
 	 public Dictionary<int, Ability> AbilityDict = new Dictionary<int, Ability> ();
 	 public Dictionary<int, AbilityGradeRangeProb> AbilityGradeRangeProbDict = new Dictionary<int, AbilityGradeRangeProb> ();
 	 public Dictionary<int, Combination> CombinationDict = new Dictionary<int, Combination> ();
-	 public Dictionary<int, Item> ItemDict = new Dictionary<int, Item> ();
+	 public Dictionary<int, Trophy> TrophyDict = new Dictionary<int, Trophy> ();
+	 public Dictionary<int, Currency> CurrencyDict = new Dictionary<int, Currency> ();
+	 public Dictionary<int, Material> MaterialDict = new Dictionary<int, Material> ();
 	 public Dictionary<int, Equipment> EquipmentDict = new Dictionary<int, Equipment> ();
 	 public Dictionary<int, EquipmentGrade> EquipmentGradeDict = new Dictionary<int, EquipmentGrade> ();
 	 public Dictionary<int, EquipmentAbility> EquipmentAbilityDict = new Dictionary<int, EquipmentAbility> ();
@@ -26,7 +28,6 @@ public class TableDataManager : Singleton<TableDataManager>
 	 public Dictionary<int, BattleStage> BattleStageDict = new Dictionary<int, BattleStage> ();
 	 public Dictionary<int, Particle> ParticleDict = new Dictionary<int, Particle> ();
 	 public Dictionary<int, BattleState> BattleStateDict = new Dictionary<int, BattleState> ();
-	 public Dictionary<int, Currency> CurrencyDict = new Dictionary<int, Currency> ();
 	 public Dictionary<int, AdventureField> AdventureFieldDict = new Dictionary<int, AdventureField> ();
 	 public Dictionary<int, AdventureEquipment> AdventureEquipmentDict = new Dictionary<int, AdventureEquipment> ();
 	 public Dictionary<int, AdventureEquipmentProb> AdventureEquipmentProbDict = new Dictionary<int, AdventureEquipmentProb> ();
@@ -44,7 +45,9 @@ public class TableDataManager : Singleton<TableDataManager>
 		AbilityDict = (await ReadCSVData.Instance.LoadCSVData<Ability> ("TableData", nameof (Ability))).ToDictionary (x => x.Id, x => x);
 		AbilityGradeRangeProbDict = (await ReadCSVData.Instance.LoadCSVData<AbilityGradeRangeProb> ("TableData", nameof (AbilityGradeRangeProb))).ToDictionary (x => x.Id, x => x);
 		CombinationDict = (await ReadCSVData.Instance.LoadCSVData<Combination> ("TableData", nameof (Combination))).ToDictionary (x => x.Id, x => x);
-		ItemDict = (await ReadCSVData.Instance.LoadCSVData<Item> ("TableData", nameof (Item))).ToDictionary (x => x.Id, x => x);
+		TrophyDict = (await ReadCSVData.Instance.LoadCSVData<Trophy> ("TableData", nameof (Trophy))).ToDictionary (x => x.Id, x => x);
+		CurrencyDict = (await ReadCSVData.Instance.LoadCSVData<Currency> ("TableData", nameof (Currency))).ToDictionary (x => x.Id, x => x);
+		MaterialDict = (await ReadCSVData.Instance.LoadCSVData<Material> ("TableData", nameof (Material))).ToDictionary (x => x.Id, x => x);
 		EquipmentDict = (await ReadCSVData.Instance.LoadCSVData<Equipment> ("TableData", nameof (Equipment))).ToDictionary (x => x.Id, x => x);
 		EquipmentGradeDict = (await ReadCSVData.Instance.LoadCSVData<EquipmentGrade> ("TableData", nameof (EquipmentGrade))).ToDictionary (x => x.Id, x => x);
 		EquipmentAbilityDict = (await ReadCSVData.Instance.LoadCSVData<EquipmentAbility> ("TableData", nameof (EquipmentAbility))).ToDictionary (x => x.Id, x => x);
@@ -52,7 +55,6 @@ public class TableDataManager : Singleton<TableDataManager>
 		BattleStageDict = (await ReadCSVData.Instance.LoadCSVData<BattleStage> ("TableData", nameof (BattleStage))).ToDictionary (x => x.Id, x => x);
 		ParticleDict = (await ReadCSVData.Instance.LoadCSVData<Particle> ("TableData", nameof (Particle))).ToDictionary (x => x.Id, x => x);
 		BattleStateDict = (await ReadCSVData.Instance.LoadCSVData<BattleState> ("TableData", nameof (BattleState))).ToDictionary (x => x.Id, x => x);
-		CurrencyDict = (await ReadCSVData.Instance.LoadCSVData<Currency> ("TableData", nameof (Currency))).ToDictionary (x => x.Id, x => x);
 		AdventureFieldDict = (await ReadCSVData.Instance.LoadCSVData<AdventureField> ("TableData", nameof (AdventureField))).ToDictionary (x => x.Id, x => x);
 		AdventureEquipmentDict = (await ReadCSVData.Instance.LoadCSVData<AdventureEquipment> ("TableData", nameof (AdventureEquipment))).ToDictionary (x => x.Id, x => x);
 		AdventureEquipmentProbDict = (await ReadCSVData.Instance.LoadCSVData<AdventureEquipmentProb> ("TableData", nameof (AdventureEquipmentProb))).ToDictionary (x => x.Id, x => x);
@@ -68,7 +70,9 @@ public class TableDataManager : Singleton<TableDataManager>
 		TotalDataDict.AddRange (AbilityDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (AbilityGradeRangeProbDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (CombinationDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
-		TotalDataDict.AddRange (ItemDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
+		TotalDataDict.AddRange (TrophyDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
+		TotalDataDict.AddRange (CurrencyDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
+		TotalDataDict.AddRange (MaterialDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (EquipmentDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (EquipmentGradeDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (EquipmentAbilityDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
@@ -76,7 +80,6 @@ public class TableDataManager : Singleton<TableDataManager>
 		TotalDataDict.AddRange (BattleStageDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (ParticleDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (BattleStateDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
-		TotalDataDict.AddRange (CurrencyDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (AdventureFieldDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (AdventureEquipmentDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (AdventureEquipmentProbDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));

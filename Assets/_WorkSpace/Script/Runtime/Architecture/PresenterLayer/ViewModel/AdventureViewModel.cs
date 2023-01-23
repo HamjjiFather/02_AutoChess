@@ -29,7 +29,7 @@ namespace AutoChess.Presenter
         {
             _inventoryItemModels = _advItemListRequestUseCase.Execute();
             
-            _advNewItemUseCase.Execute(0, 1);
+            // _advNewItemUseCase.Execute(0, 1);
         }
 
         #endregion

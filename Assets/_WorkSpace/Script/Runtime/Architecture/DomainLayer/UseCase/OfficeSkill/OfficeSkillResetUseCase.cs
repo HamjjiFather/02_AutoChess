@@ -12,8 +12,8 @@ namespace AutoChess.UseCase
     {
         #region Fields & Property
         
-        [Inject]
-        private OfficeSkillRepository _officeSkillRepository;
+        // [Inject]
+        // private OfficeSkillRepository _officeSkillRepository;
 
         #endregion
 

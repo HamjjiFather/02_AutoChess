@@ -11,8 +11,8 @@ namespace AutoChess.UseCase
     {
         #region Fields & Property
 
-        [Inject]
-        private OfficeSkillRepository _officeSkillRepository;
+        // [Inject]
+        // private OfficeSkillRepository _officeSkillRepository;
 
         #endregion
 
@@ -30,10 +30,10 @@ namespace AutoChess.UseCase
 
         #region This
 
-        public void Execute(OfficeSkillBranchType branchType, int index, int amount)
-        {
-            _officeSkillRepository.Update(new OfficeSkillDao(index, 1));
-        }
+        // public void Execute(OfficeSkillBranchType branchType, int index, int amount)
+        // {
+        //     _officeSkillRepository.Update(new OfficeSkillDao(index, 1));
+        // }
 
         #endregion
 

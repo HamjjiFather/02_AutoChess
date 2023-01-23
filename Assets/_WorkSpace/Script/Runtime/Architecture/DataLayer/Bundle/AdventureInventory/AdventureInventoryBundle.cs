@@ -10,11 +10,11 @@ namespace AutoChess.Bundle
     [Serializable]
     public class AdventureInventoryItemBundleSet : IBundleSet
     {
-        public int uniqueIndex;
+        public string uniqueIndexString;
 
         public ItemType itemType;
 
-        public int itemIndex;
+        public string itemIndex;
 
         public int amount;
     }
@@ -25,8 +25,8 @@ namespace AutoChess.Bundle
     {
         #region Fields & Property
 
-        public override Dictionary<int, AdventureInventoryItemBundleSet> ToDictionaryLinq =>
-            bundleSets.ToDictionary(x => x.uniqueIndex, x => x);
+        public override Dictionary<string, AdventureInventoryItemBundleSet> ToDictionaryLinq =>
+            bundleSets.ToDictionary(x => x.uniqueIndexString, x => x);
 
         #endregion
 
@@ -40,14 +40,15 @@ namespace AutoChess.Bundle
 
         #region This
 
-        public void Bind(int uid, int itemIndex, int amount)
+        public void Bind(int uid, string itemIndex, int amount)
         {
-            var bundleSet = Resolve(uid);
+            var id = uid.ToString();
+            var bundleSet = Load(id);
 
-            bundleSet.itemIndex = itemIndex;
-            bundleSet.amount = amount;
+            // bundleSet.itemIndex = itemIndex;
+            // bundleSet.amount = amount;
 
-            base.Bind(uid, bundleSet);
+            base.Save(id, bundleSet);
         }
 
 

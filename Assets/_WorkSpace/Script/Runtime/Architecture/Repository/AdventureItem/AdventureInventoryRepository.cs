@@ -47,7 +47,11 @@ namespace AutoChess.Repository
         public List<AdventureInventoryDto> Request()
         {
             var bundleSets = _adventureInventoryBundle.bundleSets
-                .Select(x => new AdventureInventoryDto(x.uniqueIndex, x.itemIndex, x.amount)).ToList();
+                .Select(x =>
+                {
+                    var toStr = int.Parse(x.uniqueIndexString);
+                    return new AdventureInventoryDto(toStr, x.itemIndex, x.amount);
+                }).ToList();
             return bundleSets;
         }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoChess.Domain;
-using AutoChess.Service;
+using AutoChess;
 using JetBrains.Annotations;
 using KKSFramework;
 using KKSFramework.Presenter;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using KKSFramework;
+using KKSFramework.InGame;
 
 namespace AutoChess
 {
@@ -23,6 +24,9 @@ namespace AutoChess
         /// </summary>
         public const int BasePurEquipmentPeriod = 2;
 
+        /// <summary>
+        /// 장비 구매 슬롯.
+        /// </summary>
         public Dictionary<int, PurchaseSlotModel> PurchaseSlotModels;
 
         /// <summary>
@@ -142,9 +146,14 @@ namespace AutoChess
 
         #region Event
 
+        /// <summary>
+        /// 장비 구매.
+        /// </summary>
         public void PurchaseEquipment(int arrayIndex)
         {
             var equipment = PurchaseSlotModels[arrayIndex].PurchaseEquipment;
+            var useCase = GameSceneInstaller.Instance.Resolve<PurchaseEquipmentUseCase>();
+            useCase.Execute(equipment);
         }
 
         #endregion

@@ -8,7 +8,7 @@ namespace AutoChess
         
     }
     
-    public class CharacterRepository : IRepository<CharacterDAO>
+    public class CharacterRepository : IRepository
     {
         #region Fields & Property
 
@@ -23,30 +23,6 @@ namespace AutoChess
         {
         }
 
-        public List<CharacterDAO> ReadAll()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public CharacterDAO Read(string index)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Create(CharacterDAO entity)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Update(CharacterDAO entity)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Delete(CharacterDAO entity)
-        {
-            throw new System.NotImplementedException();
-        }
 
         #endregion
 

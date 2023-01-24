@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AutoChess.Domain;
 using KKSFramework;
 using Zenject;
 
-namespace AutoChess.Service
+namespace AutoChess
 {
     public enum BehaviourState
     {
@@ -51,51 +52,5 @@ namespace AutoChess.Service
         }
 
         #endregion
-        
-        
-        /// <summary>
-        /// 사망한 적 캐릭터를 갈무리함.
-        /// </summary>
-        public InvestigateResult InvestigateEnemy(BattleInteractableUnit battleInteractableUnit)
-        {
-            if (!battleInteractableUnit.Death)
-                return default;
-
-            if (battleInteractableUnit.CharacterUnit.CharacterTableData is not PlayableCharacter enemyTableData) return default;
-            
-            var probabilities = enemyTableData.DropItemProbabilities;
-            var pickedItems = ProbabilityHelper.GetItemsForAll(probabilities).ToList();
-            if (!pickedItems.Any())
-                return default;
-
-            var globalIndexes = pickedItems
-                .Select(pi =>
-                    new ItemBase(enemyTableData.DropItemGlobalIndexes[pi], enemyTableData.DropItemAmounts[pi]));
-            var result = new InvestigateResult(globalIndexes.ToList());
-            return result;
-        }
-    }
-
-    public struct ItemBase
-    {
-        public ItemBase(string globalIndex, int itemAmount)
-        {
-            GlobalIndex = globalIndex;
-            ItemAmount = itemAmount;
-        }
-
-        public string GlobalIndex;
-
-        public int ItemAmount;
-    }
-
-    public class InvestigateResult
-    {
-        public InvestigateResult(List<ItemBase> resultItems)
-        {
-            ResultItems = resultItems;
-        }
-
-        public List<ItemBase> ResultItems;
     }
 }

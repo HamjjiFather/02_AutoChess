@@ -2,9 +2,9 @@
 
 namespace AutoChess.Domain
 {
-    public class AdventureItemModel : ItemModel
+    public class AdventureItemBase : ItemBase
     {
-        public AdventureItemModel(int uniqueIndex, string itemIndex, int itemAmount) : base(uniqueIndex, itemIndex, itemAmount)
+        public AdventureItemBase(int uniqueIndex, string itemIndex, int itemAmount) : base(uniqueIndex, itemIndex, itemAmount)
         {
         }
         

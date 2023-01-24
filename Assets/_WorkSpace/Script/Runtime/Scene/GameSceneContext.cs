@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
-using Zenject;
+﻿using Zenject;
 
 namespace AutoChess
 {

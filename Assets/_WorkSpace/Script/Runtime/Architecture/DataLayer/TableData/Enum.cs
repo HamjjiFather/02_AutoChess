@@ -438,14 +438,14 @@ public enum CurrencyType
 	Gold = 0,
 
 	/// <summary>
-	/// 영혼석.
+	/// 전승지식.
 	/// </summary>
-	SoulStone = 1,
+	Lore = 1,
 
 	/// <summary>
-	/// 계승의 돌.
+	/// 탐험물자.
 	/// </summary>
-	StoneOfInheritance = 2,
+	ExploreGoods = 2,
 
 
 }

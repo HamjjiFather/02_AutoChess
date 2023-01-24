@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using AutoChess;
-using AutoChess.Service;
+using AutoChess;
 using KKSFramework.Base;
 
 namespace KKSFramework.Service

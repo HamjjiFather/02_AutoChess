@@ -28,10 +28,10 @@ namespace AutoChess.UseCase
         }
 
 
-        public List<ItemModel> Execute()
+        public List<Domain.ItemBase> Execute()
         {
             var request = _adventureInventoryRepository.Request();
-            return request.Select(x => new ItemModel(x.UniqueIndex, x.ItemIndex, x.Amount)).ToList();
+            return request.Select(x => new Domain.ItemBase(x.UniqueIndex, x.ItemIndex, x.Amount)).ToList();
         }
 
         #endregion

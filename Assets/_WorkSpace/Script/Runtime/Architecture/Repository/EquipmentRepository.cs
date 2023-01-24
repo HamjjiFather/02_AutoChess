@@ -11,7 +11,7 @@ namespace AutoChess
     }
     
     [UsedImplicitly]
-    public class EquipmentRepository : IRepository<EquipmentDao>, IUniqueIndexIssuancer
+    public class EquipmentRepository : IRepository, IUniqueIndexIssuancer
     {
         #region Fields & Property
 
@@ -24,20 +24,6 @@ namespace AutoChess
 
         #region Override
         
-        public EquipmentDao Read(string index)
-        {
-            return default;
-        }
-
-        public void Update(EquipmentDao entity)
-        {
-        }
-
-        public void Delete(EquipmentDao entity)
-        {
-        }
-
-
         public int UniqueIndex { get; set; }
         
         public int GetUniqueIndex() => _equipmentBundle.uniqueIndex++;

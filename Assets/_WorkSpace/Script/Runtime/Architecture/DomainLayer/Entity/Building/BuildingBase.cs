@@ -2,6 +2,8 @@
 {
     public abstract class BuildingBase : IConstructor, ITimeBase
     {
+        public delegate void OnLevelUpDelegate(int level);
+        
         #region Fields & Property
 
         public Building BuildingTableData { get; set; }
@@ -15,6 +17,13 @@
         public double[] RequireExps { get; set; } = BuildingDefine.RequireExp;
 
         public int MaxLevel { get; set; } = BuildingDefine.MaxLevel;
+
+        /// <summary>
+        /// 레벨업시 호출되는 이벤트.
+        /// 레벨업 처리 후 호출된다.
+        /// </summary>
+        public event OnLevelUpDelegate OnLevelUpEvent;
+
 
         #endregion
 
@@ -32,7 +41,10 @@
 
         #region This
 
-        protected abstract void OnLevelUp(int level);
+        protected virtual void OnLevelUp(int level)
+        {
+            OnLevelUpEvent?.Invoke(level);
+        }
 
         #endregion
 

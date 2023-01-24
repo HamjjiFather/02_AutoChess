@@ -1,8 +1,18 @@
-﻿namespace AutoChess
+﻿using AutoChess.Domain;
+
+namespace AutoChess
 {
     public static class ItemDefine
     {
-        
+        /// <summary>
+        /// 기본 인벤토리 슬롯 수량.
+        /// </summary>
+        public const int BaseInventorySpace = 50;
+
+        /// <summary>
+        /// 재화의 총량.
+        /// </summary>
+        public const int LimitCurrencyAmount = 999_999_999;
     }
     
     public static class ItemHelper
@@ -20,7 +30,7 @@
 
 
         #region This
-
+        
         #endregion
 
 

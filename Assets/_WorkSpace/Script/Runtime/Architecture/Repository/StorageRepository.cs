@@ -1,8 +1,13 @@
-﻿using Zenject;
+﻿using KKSFramework.Repository;
 
 namespace AutoChess
 {
-    public class WarehouseBuilding : BuildingBase, IInitializable
+    public struct StorageDao : IDAO
+    {
+        
+    }
+    
+    public class StorageRepository : IRepository
     {
         #region Fields & Property
 
@@ -13,17 +18,28 @@ namespace AutoChess
 
         #region Override
 
-        public override void Build()
+        // public List<StorageDao> ReadAll(IEnumerable<string> indexes)
+        // {
+        //     throw new System.NotImplementedException();
+        // }
+
+        public StorageDao Read(string index)
+        {
+            // throw new System.NotImplementedException();
+            return default;
+        }
+
+        public void Create(StorageDao entity)
         {
             // throw new System.NotImplementedException();
         }
 
-        public override void SpendTime()
+        public void Update(StorageDao entity)
         {
             // throw new System.NotImplementedException();
         }
 
-        protected override void OnLevelUp(int level)
+        public void Delete(StorageDao entity)
         {
             // throw new System.NotImplementedException();
         }

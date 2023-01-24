@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using AutoChess.Service;
+using AutoChess;
 
 namespace AutoChess
 {

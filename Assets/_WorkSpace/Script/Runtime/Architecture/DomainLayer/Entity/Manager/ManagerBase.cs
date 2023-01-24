@@ -1,7 +1,7 @@
 ﻿using System;
 using KKSFramework.Base;
 
-namespace AutoChess.Service
+namespace AutoChess
 {
     public interface IManagerBase : IInstallItem
     {

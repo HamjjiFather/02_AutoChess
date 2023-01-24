@@ -236,9 +236,9 @@ MonoBehaviour:
   - {fileID: 959273659}
   - {fileID: 2097498752}
   - {fileID: 219910553}
-  - {fileID: 1872917303}
   - {fileID: 2100590031}
   - {fileID: 1974412583}
+  - {fileID: 1872917303}
   - {fileID: 1667774578}
   _installerPrefabs: []
   _autoRun: 1

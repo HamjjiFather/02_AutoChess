@@ -39,8 +39,8 @@ namespace AutoChess.Repository
         /// <returns></returns>
         public void Update(AdventureInventoryDto adventureInventoryDto)
         {
-            _adventureInventoryBundle.Bind(adventureInventoryDto.UniqueIndex, adventureInventoryDto.ItemIndex,
-                adventureInventoryDto.Amount);
+            // _adventureInventoryBundle.Bind(adventureInventoryDto.UniqueIndex, adventureInventoryDto.ItemIndex,
+            //     adventureInventoryDto.Amount);
         }
 
 
@@ -49,7 +49,7 @@ namespace AutoChess.Repository
             var bundleSets = _adventureInventoryBundle.bundleSets
                 .Select(x =>
                 {
-                    var toStr = int.Parse(x.uniqueIndexString);
+                    var toStr = int.Parse(x.Index);
                     return new AdventureInventoryDto(toStr, x.itemIndex, x.amount);
                 }).ToList();
             return bundleSets;

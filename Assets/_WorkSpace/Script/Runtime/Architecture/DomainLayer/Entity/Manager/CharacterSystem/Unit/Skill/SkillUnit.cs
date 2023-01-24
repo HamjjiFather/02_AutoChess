@@ -1,4 +1,4 @@
-﻿using AutoChess.Service;
+﻿using AutoChess;
 
 namespace AutoChess
 {

@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using AutoChess.Service;
+﻿using System;
+using System.Collections.Generic;
+using AutoChess;
 using JetBrains.Annotations;
 
 namespace AutoChess
@@ -70,6 +71,25 @@ namespace AutoChess
 
 
         #region This
+
+        public T GetBuilding<T>() where T : BuildingBase => _buildingDict[ToBuildingType(typeof(T))] as T;
+
+
+        private BuildingType ToBuildingType(Type type)
+        {
+            if (type == typeof(BlackSmithBuilding))
+                return BuildingType.BlackSmith;
+            if (type == typeof(WarehouseBuilding))
+                return BuildingType.Warehouse;
+            if (type == typeof(ExploreOfficeBuilding))
+                return BuildingType.ExploreOffice;
+            if (type == typeof(GraveyardBuilding))
+                return BuildingType.Graveyard;
+            if (type == typeof(EmploymentOfficeBuilding))
+                return BuildingType.EmploymentOffice;
+
+            return BuildingType.ExploreOffice;
+        }
 
         #endregion
 

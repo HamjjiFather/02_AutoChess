@@ -1,7 +1,7 @@
 ﻿using JetBrains.Annotations;
 using Zenject;
 
-namespace AutoChess.Service
+namespace AutoChess
 {
     [UsedImplicitly]
     public class EquipmentManager : ManagerBase

@@ -1,4 +1,4 @@
-﻿namespace AutoChess.Service
+﻿namespace AutoChess
 {
     public class BattleInteraction
     {

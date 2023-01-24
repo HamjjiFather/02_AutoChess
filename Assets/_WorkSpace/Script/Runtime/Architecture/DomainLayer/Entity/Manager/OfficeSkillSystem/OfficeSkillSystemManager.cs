@@ -9,7 +9,7 @@ using KKSFramework;
 using KKSFramework.Base;
 using Zenject;
 
-namespace AutoChess.Service
+namespace AutoChess
 {
     public class OfficeSkillInvestment
     {

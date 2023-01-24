@@ -1,5 +1,5 @@
 ﻿using AutoChess.Repository;
-using AutoChess.Service;
+using AutoChess;
 using JetBrains.Annotations;
 using KKSFramework.Domain;
 using Zenject;

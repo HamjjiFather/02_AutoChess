@@ -1,5 +1,5 @@
 ﻿using System.Threading;
-using AutoChess.Service;
+using AutoChess;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 

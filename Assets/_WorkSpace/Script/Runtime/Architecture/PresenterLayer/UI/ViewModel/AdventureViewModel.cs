@@ -16,7 +16,7 @@ namespace AutoChess.Presenter
         [Inject]
         private AdvNewItemUseCase _advNewItemUseCase;
 
-        private List<ItemModel> _inventoryItemModels;
+        private List<Domain.ItemBase> _inventoryItemModels;
 
         #endregion
 

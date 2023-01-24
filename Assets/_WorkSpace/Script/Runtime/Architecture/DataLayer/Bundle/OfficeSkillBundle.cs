@@ -8,7 +8,9 @@ namespace AutoChess.Bundle
     [Serializable]
     public class OfficeSkillBundleSet : IBundleSet
     {
-        public string index;
+        public string index = string.Empty;
+        
+        public string Index { get => index; set => index = value; }
 
         public int investmentPoint;
     }

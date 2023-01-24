@@ -8,7 +8,7 @@ namespace AutoChess.Bundle
     [Serializable]
     public class CharacterBundleSet : IBundleSet
     {
-        public string uniqueIndexString;
+        public string uniqueIndexString = string.Empty;
         
         public int characterIndex;
 
@@ -25,6 +25,8 @@ namespace AutoChess.Bundle
         public int[] skillLevels;
 
         public bool death;
+        
+        public string Index { get => uniqueIndexString; set => uniqueIndexString = value; }
     }
     
     

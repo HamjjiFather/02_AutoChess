@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace AutoChess.Service
+namespace AutoChess
 {
     public class BehaviourUnit : AbilityUnit, IFieldObject
     {

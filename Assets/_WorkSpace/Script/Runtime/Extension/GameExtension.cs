@@ -194,6 +194,19 @@ namespace AutoChess
             targetDict.Foreach (target => { dict.ContainAndAdd (target.Key, target.Value); });
         }
 
+
+        /// <summary>
+        /// 해당 수량 만큼의 딕셔너리 메모리를 공간을 확보하고 디폴트 데이터를 추가해놓음. 
+        /// </summary>
+        public static void EnsureCapacityOrAdd<TV>(this Dictionary<int, TV> dict, int ensureAmount) where TV : new()
+        {
+            dict.EnsureCapacity(ensureAmount);
+            for (var i = 0; i < ensureAmount - dict.Count; i++)
+            {
+                dict.Add(dict.Count - 1, new TV());
+            }
+        }
+
         #endregion
     }
 }

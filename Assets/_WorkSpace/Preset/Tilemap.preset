@@ -1,0 +1,843 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!181963792 &2655988077585873504
+Preset:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Tilemap
+  m_TargetType:
+    m_NativeTypeID: 1839735485
+    m_ManagedTypePPtr: {fileID: 0}
+    m_ManagedTypeFallback: 
+  m_Properties:
+  - target: {fileID: 0}
+    propertyPath: m_Enabled
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.size
+    value: 13
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[0].first.x
+    value: 23
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[0].first.y
+    value: -4
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[0].first.z
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[0].second.m_TileIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[0].second.m_TileSpriteIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[0].second.m_TileMatrixIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[0].second.m_TileColorIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[0].second.m_TileObjectToInstantiateIndex
+    value: 65535
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[0].second.dummyAlignment
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[0].second.m_AllTileFlags
+    value: 2147483649
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[1].first.x
+    value: 24
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[1].first.y
+    value: -4
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[1].first.z
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[1].second.m_TileIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[1].second.m_TileSpriteIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[1].second.m_TileMatrixIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[1].second.m_TileColorIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[1].second.m_TileObjectToInstantiateIndex
+    value: 65535
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[1].second.dummyAlignment
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[1].second.m_AllTileFlags
+    value: 2147483649
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[2].first.x
+    value: 23
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[2].first.y
+    value: -3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[2].first.z
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[2].second.m_TileIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[2].second.m_TileSpriteIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[2].second.m_TileMatrixIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[2].second.m_TileColorIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[2].second.m_TileObjectToInstantiateIndex
+    value: 65535
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[2].second.dummyAlignment
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[2].second.m_AllTileFlags
+    value: 2147483649
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[3].first.x
+    value: 24
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[3].first.y
+    value: -3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[3].first.z
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[3].second.m_TileIndex
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[3].second.m_TileSpriteIndex
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[3].second.m_TileMatrixIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[3].second.m_TileColorIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[3].second.m_TileObjectToInstantiateIndex
+    value: 65535
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[3].second.dummyAlignment
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[3].second.m_AllTileFlags
+    value: 2147483649
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[4].first.x
+    value: 25
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[4].first.y
+    value: -3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[4].first.z
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[4].second.m_TileIndex
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[4].second.m_TileSpriteIndex
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[4].second.m_TileMatrixIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[4].second.m_TileColorIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[4].second.m_TileObjectToInstantiateIndex
+    value: 65535
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[4].second.dummyAlignment
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[4].second.m_AllTileFlags
+    value: 2147483649
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[5].first.x
+    value: 24
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[5].first.y
+    value: -2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[5].first.z
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[5].second.m_TileIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[5].second.m_TileSpriteIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[5].second.m_TileMatrixIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[5].second.m_TileColorIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[5].second.m_TileObjectToInstantiateIndex
+    value: 65535
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[5].second.dummyAlignment
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[5].second.m_AllTileFlags
+    value: 2147483649
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[6].first.x
+    value: 25
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[6].first.y
+    value: -2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[6].first.z
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[6].second.m_TileIndex
+    value: 3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[6].second.m_TileSpriteIndex
+    value: 3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[6].second.m_TileMatrixIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[6].second.m_TileColorIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[6].second.m_TileObjectToInstantiateIndex
+    value: 65535
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[6].second.dummyAlignment
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[6].second.m_AllTileFlags
+    value: 2147483649
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[7].first.x
+    value: 26
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[7].first.y
+    value: -2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[7].first.z
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[7].second.m_TileIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[7].second.m_TileSpriteIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[7].second.m_TileMatrixIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[7].second.m_TileColorIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[7].second.m_TileObjectToInstantiateIndex
+    value: 65535
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[7].second.dummyAlignment
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[7].second.m_AllTileFlags
+    value: 2147483649
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[8].first.x
+    value: 23
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[8].first.y
+    value: -1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[8].first.z
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[8].second.m_TileIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[8].second.m_TileSpriteIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[8].second.m_TileMatrixIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[8].second.m_TileColorIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[8].second.m_TileObjectToInstantiateIndex
+    value: 65535
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[8].second.dummyAlignment
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[8].second.m_AllTileFlags
+    value: 2147483649
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[9].first.x
+    value: 24
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[9].first.y
+    value: -1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[9].first.z
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[9].second.m_TileIndex
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[9].second.m_TileSpriteIndex
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[9].second.m_TileMatrixIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[9].second.m_TileColorIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[9].second.m_TileObjectToInstantiateIndex
+    value: 65535
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[9].second.dummyAlignment
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[9].second.m_AllTileFlags
+    value: 2147483649
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[10].first.x
+    value: 22
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[10].first.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[10].first.z
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[10].second.m_TileIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[10].second.m_TileSpriteIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[10].second.m_TileMatrixIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[10].second.m_TileColorIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[10].second.m_TileObjectToInstantiateIndex
+    value: 65535
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[10].second.dummyAlignment
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[10].second.m_AllTileFlags
+    value: 2147483649
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[11].first.x
+    value: 23
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[11].first.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[11].first.z
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[11].second.m_TileIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[11].second.m_TileSpriteIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[11].second.m_TileMatrixIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[11].second.m_TileColorIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[11].second.m_TileObjectToInstantiateIndex
+    value: 65535
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[11].second.dummyAlignment
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[11].second.m_AllTileFlags
+    value: 2147483649
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[12].first.x
+    value: 24
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[12].first.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[12].first.z
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[12].second.m_TileIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[12].second.m_TileSpriteIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[12].second.m_TileMatrixIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[12].second.m_TileColorIndex
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[12].second.m_TileObjectToInstantiateIndex
+    value: 65535
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[12].second.dummyAlignment
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Tiles.Array.data[12].second.m_AllTileFlags
+    value: 2147483649
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_AnimatedTiles.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileAssetArray.Array.size
+    value: 4
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileAssetArray.Array.data[0].m_RefCount
+    value: 9
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileAssetArray.Array.data[0].m_Data
+    value: 
+    objectReference: {fileID: 11400000, guid: 023c72202b93ef54caed5cb948a2035e, type: 2}
+  - target: {fileID: 0}
+    propertyPath: m_TileAssetArray.Array.data[1].m_RefCount
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileAssetArray.Array.data[1].m_Data
+    value: 
+    objectReference: {fileID: 11400000, guid: 746656ef5015e1644b6f40c46da30570, type: 2}
+  - target: {fileID: 0}
+    propertyPath: m_TileAssetArray.Array.data[2].m_RefCount
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileAssetArray.Array.data[2].m_Data
+    value: 
+    objectReference: {fileID: 11400000, guid: 2a6567dc6a3e10d4b9759f05f21313ba, type: 2}
+  - target: {fileID: 0}
+    propertyPath: m_TileAssetArray.Array.data[3].m_RefCount
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileAssetArray.Array.data[3].m_Data
+    value: 
+    objectReference: {fileID: 11400000, guid: 81a11d1ac27bf594c825216ec9165266, type: 2}
+  - target: {fileID: 0}
+    propertyPath: m_TileSpriteArray.Array.size
+    value: 4
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileSpriteArray.Array.data[0].m_RefCount
+    value: 9
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileSpriteArray.Array.data[0].m_Data
+    value: 
+    objectReference: {fileID: 21300000, guid: 93312d4222ad61446be900d97031204b, type: 3}
+  - target: {fileID: 0}
+    propertyPath: m_TileSpriteArray.Array.data[1].m_RefCount
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileSpriteArray.Array.data[1].m_Data
+    value: 
+    objectReference: {fileID: 21300000, guid: 5f80ab8898b7b0743850c4ee3cbe87ff, type: 3}
+  - target: {fileID: 0}
+    propertyPath: m_TileSpriteArray.Array.data[2].m_RefCount
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileSpriteArray.Array.data[2].m_Data
+    value: 
+    objectReference: {fileID: 21300000, guid: 5ad37662d488fc14a9c5c854022b9e06, type: 3}
+  - target: {fileID: 0}
+    propertyPath: m_TileSpriteArray.Array.data[3].m_RefCount
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileSpriteArray.Array.data[3].m_Data
+    value: 
+    objectReference: {fileID: 21300000, guid: 222aae9b94ca9b748a0dd182a2ec47f3, type: 3}
+  - target: {fileID: 0}
+    propertyPath: m_TileMatrixArray.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileMatrixArray.Array.data[0].m_RefCount
+    value: 13
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileMatrixArray.Array.data[0].m_Data.e00
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileMatrixArray.Array.data[0].m_Data.e01
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileMatrixArray.Array.data[0].m_Data.e02
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileMatrixArray.Array.data[0].m_Data.e03
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileMatrixArray.Array.data[0].m_Data.e10
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileMatrixArray.Array.data[0].m_Data.e11
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileMatrixArray.Array.data[0].m_Data.e12
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileMatrixArray.Array.data[0].m_Data.e13
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileMatrixArray.Array.data[0].m_Data.e20
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileMatrixArray.Array.data[0].m_Data.e21
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileMatrixArray.Array.data[0].m_Data.e22
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileMatrixArray.Array.data[0].m_Data.e23
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileMatrixArray.Array.data[0].m_Data.e30
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileMatrixArray.Array.data[0].m_Data.e31
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileMatrixArray.Array.data[0].m_Data.e32
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileMatrixArray.Array.data[0].m_Data.e33
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileColorArray.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileColorArray.Array.data[0].m_RefCount
+    value: 13
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileColorArray.Array.data[0].m_Data.r
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileColorArray.Array.data[0].m_Data.g
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileColorArray.Array.data[0].m_Data.b
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileColorArray.Array.data[0].m_Data.a
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileObjectToInstantiateArray.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_AnimationFrameRate
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Color.r
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Color.g
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Color.b
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Color.a
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Origin.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Origin.y
+    value: -4
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Origin.z
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Size.x
+    value: 27
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Size.y
+    value: 5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_Size.z
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileAnchor.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileAnchor.y
+    value: -0.66666
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileAnchor.z
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileOrientation
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileOrientationMatrix.e00
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileOrientationMatrix.e01
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileOrientationMatrix.e02
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileOrientationMatrix.e03
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileOrientationMatrix.e10
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileOrientationMatrix.e11
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileOrientationMatrix.e12
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileOrientationMatrix.e13
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileOrientationMatrix.e20
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileOrientationMatrix.e21
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileOrientationMatrix.e22
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileOrientationMatrix.e23
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileOrientationMatrix.e30
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileOrientationMatrix.e31
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileOrientationMatrix.e32
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_TileOrientationMatrix.e33
+    value: 1
+    objectReference: {fileID: 0}
+  m_ExcludedProperties: []

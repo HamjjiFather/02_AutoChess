@@ -1,7 +1,4 @@
-﻿using AutoChess;
-using AutoChess.Presenter;
-using Cysharp.Threading.Tasks;
-using KKSFramework.DataBind;
+﻿using Cysharp.Threading.Tasks;
 using KKSFramework.Navigation;
 using Zenject;
 

@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using AutoChess;
+using AutoChess.Presenter;
 using KKSFramework.Base;
 
 namespace KKSFramework.Presenter
@@ -8,6 +10,8 @@ namespace KKSFramework.Presenter
         #region Fields & Property
 
         protected override BindOption BindOption => BindOption.AsSingle;
+
+        public EnvironmentConverter environmentConverter;
 
         #endregion
 
@@ -28,6 +32,8 @@ namespace KKSFramework.Presenter
             {
                 RegisterInstallItem(type);
             }
+
+            Container.BindInstance(environmentConverter).AsSingle();
         }
 
         #endregion

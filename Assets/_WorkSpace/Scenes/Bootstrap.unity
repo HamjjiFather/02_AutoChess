@@ -104,7 +104,7 @@ NavMeshSettings:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_BuildSettings:
-    serializedVersion: 2
+    serializedVersion: 3
     agentTypeID: 0
     agentRadius: 0.5
     agentHeight: 2
@@ -117,272 +117,86 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualTileSize: 0
     tileSize: 256
-    accuratePlacement: 0
+    buildHeightMesh: 0
     maxJobWorkers: 0
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &1145567243
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1145567249}
-  - component: {fileID: 1145567248}
-  - component: {fileID: 1145567247}
-  - component: {fileID: 1145567246}
-  - component: {fileID: 1145567245}
-  - component: {fileID: 1145567244}
-  - component: {fileID: 1145567250}
-  m_Layer: 0
-  m_Name: Anti-Cheat Toolkit
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1145567244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1145567243}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cb994d96ecfe4d4697d649e0e7d5100, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  keepAlive: 1
-  instancesInScene: 0
-  autoStart: 1
-  autoDispose: 1
-  <IsCheatDetected>k__BackingField: 0
-  detectionEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - {m_Target: {fileID: 0}, m_TargetAssemblyTypeName: , m_MethodName: DetectCheat, m_Mode: 1, m_Arguments: {m_ObjectArgument: {fileID: 0},
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0,
-          m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
-    m_CallsDirty: 1
-  detectionEventHasListener: 0
-  started: 0
-  isRunning: 0
-  requestUrl: https://google.com
-  requestMethod: 0
-  timeoutSeconds: 10
-  interval: 5
-  realCheatThreshold: 65
-  wrongTimeThreshold: 65
-  ignoreSetCorrectTime: 1
-  <LastError>k__BackingField: 0
-  <LastResult>k__BackingField: 0
-  <IsCheckingForCheat>k__BackingField: 0
-  timeElapsed: 0
-  updateAfterPause: 0
-  lastOnlineSecondsUtc: 0
---- !u!114 &1145567245
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1145567243}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d123a0bf35a94004aa342821cfcc3ea8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  keepAlive: 1
-  instancesInScene: 0
-  autoStart: 1
-  autoDispose: 1
-  <IsCheatDetected>k__BackingField: 0
-  detectionEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - {m_Target: {fileID: 0}, m_TargetAssemblyTypeName: , m_MethodName: DetectCheat, m_Mode: 1, m_Arguments: {m_ObjectArgument: {fileID: 0},
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0,
-          m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
-    m_CallsDirty: 1
-  detectionEventHasListener: 0
-  started: 0
-  isRunning: 0
-  checkRigidbody: 1
-  checkController: 1
-  checkWireframe: 1
-  checkRaycast: 1
-  wireframeDelay: 10
-  raycastDelay: 10
-  spawnPosition: {x: 0, y: 0, z: 0}
-  maxFalsePositives: 3
-  serviceContainer: {fileID: 0}
-  solidWall: {fileID: 0}
-  thinWall: {fileID: 0}
-  wfCamera: {fileID: 0}
-  foregroundRenderer: {fileID: 0}
-  backgroundRenderer: {fileID: 0}
-  wfColor1:
-    r: 0
-    g: 0
-    b: 0
-    a: 1
-  wfColor2:
-    r: 0
-    g: 0
-    b: 0
-    a: 1
-  wfShader: {fileID: 0}
-  wfMaterial: {fileID: 0}
-  shaderTexture: {fileID: 0}
-  targetTexture: {fileID: 0}
-  renderTexture: {fileID: 0}
-  whLayer: -1
-  raycastMask: -1
-  rigidPlayer: {fileID: 0}
-  charControllerPlayer: {fileID: 0}
-  charControllerVelocity: 0
-  rigidbodyDetections: 0
-  controllerDetections: 0
-  wireframeDetections: 0
-  raycastDetections: 0
-  wireframeDetected: 0
---- !u!114 &1145567246
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1145567243}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0d04994c2cd96140a8cf16a1ede4fb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  keepAlive: 1
-  instancesInScene: 0
-  autoStart: 1
-  autoDispose: 1
-  <IsCheatDetected>k__BackingField: 0
-  detectionEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - {m_Target: {fileID: 0}, m_TargetAssemblyTypeName: , m_MethodName: DetectCheat, m_Mode: 1, m_Arguments: {m_ObjectArgument: {fileID: 0},
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0,
-          m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
-    m_CallsDirty: 1
-  detectionEventHasListener: 0
-  started: 0
-  isRunning: 0
-  interval: 1
-  threshold: 0.2
-  maxFalsePositives: 3
-  coolDown: 30
-  currentFalsePositives: 0
-  currentCooldownShots: 0
-  previousReliableTicks: 0
-  previousVulnerableEnvironmentTicks: 0
-  previousVulnerableRealtimeTicks: 0
---- !u!114 &1145567247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1145567243}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a30ad7dd9c3245a488e57ae755cf870e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  keepAlive: 1
-  instancesInScene: 0
-  autoStart: 1
-  autoDispose: 1
-  <IsCheatDetected>k__BackingField: 0
-  detectionEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - {m_Target: {fileID: 0}, m_TargetAssemblyTypeName: , m_MethodName: DetectCheat, m_Mode: 1, m_Arguments: {m_ObjectArgument: {fileID: 0},
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0,
-          m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
-    m_CallsDirty: 1
-  detectionEventHasListener: 0
-  started: 0
-  isRunning: 0
-  doubleEpsilon: 0.0001
-  floatEpsilon: 0.0001
-  vector2Epsilon: 0.1
-  vector3Epsilon: 0.1
-  quaternionEpsilon: 0.1
---- !u!114 &1145567248
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1145567243}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c0c2cd00b8d16c43b34c7f120c7df15, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  keepAlive: 1
-  instancesInScene: 0
-  autoStart: 1
-  autoDispose: 1
-  <IsCheatDetected>k__BackingField: 0
-  detectionEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - {m_Target: {fileID: 0}, m_TargetAssemblyTypeName: , m_MethodName: DetectCheat, m_Mode: 1, m_Arguments: {m_ObjectArgument: {fileID: 0},
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0,
-          m_FloatArgument: 0, m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
-    m_CallsDirty: 1
-  detectionEventHasListener: 0
-  started: 0
-  isRunning: 0
-  signaturesAreMissing: 0
-  signaturesAreNotGenuine: 0
-  hexTable: []
---- !u!4 &1145567249
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1145567243}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1145567250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1145567243}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74e591bbe72a4255b90154ef2f5d22f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1742099577
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1208429082459809731, guid: 76e25df0fd6db4c44a852358c597af44,
+        type: 3}
+      propertyPath: m_MoveAction
+      value: 
+      objectReference: {fileID: -7592291071604068212, guid: 9b567b222a090da4fba73b6d37eb9d7c,
+        type: 3}
+    - target: {fileID: 1208429082459809731, guid: 76e25df0fd6db4c44a852358c597af44,
+        type: 3}
+      propertyPath: m_PointAction
+      value: 
+      objectReference: {fileID: -6222011038453196106, guid: 9b567b222a090da4fba73b6d37eb9d7c,
+        type: 3}
+    - target: {fileID: 1208429082459809731, guid: 76e25df0fd6db4c44a852358c597af44,
+        type: 3}
+      propertyPath: m_ActionsAsset
+      value: 
+      objectReference: {fileID: -944628639613478452, guid: 9b567b222a090da4fba73b6d37eb9d7c,
+        type: 3}
+    - target: {fileID: 1208429082459809731, guid: 76e25df0fd6db4c44a852358c597af44,
+        type: 3}
+      propertyPath: m_CancelAction
+      value: 
+      objectReference: {fileID: -1967631576421560919, guid: 9b567b222a090da4fba73b6d37eb9d7c,
+        type: 3}
+    - target: {fileID: 1208429082459809731, guid: 76e25df0fd6db4c44a852358c597af44,
+        type: 3}
+      propertyPath: m_SubmitAction
+      value: 
+      objectReference: {fileID: 559417426404351288, guid: 9b567b222a090da4fba73b6d37eb9d7c,
+        type: 3}
+    - target: {fileID: 1208429082459809731, guid: 76e25df0fd6db4c44a852358c597af44,
+        type: 3}
+      propertyPath: m_LeftClickAction
+      value: 
+      objectReference: {fileID: -139337234157751219, guid: 9b567b222a090da4fba73b6d37eb9d7c,
+        type: 3}
+    - target: {fileID: 1208429082459809731, guid: 76e25df0fd6db4c44a852358c597af44,
+        type: 3}
+      propertyPath: m_RightClickAction
+      value: 
+      objectReference: {fileID: 3837173908680883260, guid: 9b567b222a090da4fba73b6d37eb9d7c,
+        type: 3}
+    - target: {fileID: 1208429082459809731, guid: 76e25df0fd6db4c44a852358c597af44,
+        type: 3}
+      propertyPath: m_MiddleClickAction
+      value: 
+      objectReference: {fileID: 2105093570539255659, guid: 9b567b222a090da4fba73b6d37eb9d7c,
+        type: 3}
+    - target: {fileID: 1208429082459809731, guid: 76e25df0fd6db4c44a852358c597af44,
+        type: 3}
+      propertyPath: m_ScrollWheelAction
+      value: 
+      objectReference: {fileID: 2541504472562317825, guid: 9b567b222a090da4fba73b6d37eb9d7c,
+        type: 3}
+    - target: {fileID: 1208429082459809731, guid: 76e25df0fd6db4c44a852358c597af44,
+        type: 3}
+      propertyPath: m_TrackedDevicePositionAction
+      value: 
+      objectReference: {fileID: -7899674659989033140, guid: 9b567b222a090da4fba73b6d37eb9d7c,
+        type: 3}
+    - target: {fileID: 1208429082459809731, guid: 76e25df0fd6db4c44a852358c597af44,
+        type: 3}
+      propertyPath: m_TrackedDeviceOrientationAction
+      value: 
+      objectReference: {fileID: 1025543830046995696, guid: 9b567b222a090da4fba73b6d37eb9d7c,
+        type: 3}
     - target: {fileID: 6637212760944291406, guid: 76e25df0fd6db4c44a852358c597af44,
         type: 3}
       propertyPath: m_RootOrder
@@ -453,7 +267,11 @@ PrefabInstance:
       propertyPath: m_ReferenceResolution.y
       value: 1920
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7010278470899710571, guid: 76e25df0fd6db4c44a852358c597af44, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76e25df0fd6db4c44a852358c597af44, type: 3}
 --- !u!114 &1742099578 stripped
 MonoBehaviour:

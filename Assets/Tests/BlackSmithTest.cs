@@ -16,7 +16,7 @@ namespace Tests
         {
             TableDataManager.Instance.LoadTableDatas().Forget();
 
-            var blackSmith = new BlackSmithBuilding();
+            var blackSmith = new BlackSmithBuildingModel();
 
             for (var i = 0; i < blackSmith.MaxLevel; i++)
             {
@@ -34,7 +34,7 @@ namespace Tests
             TableDataManager.Instance.LoadTableDatas().Forget();
             EquipmentGenerator.UniqueIndexIssuancer = uidIssuancer;
 
-            var blackSmith = new BlackSmithBuilding();
+            var blackSmith = new BlackSmithBuildingModel();
             blackSmith.Level = blackSmith.MaxLevel;
             blackSmith.Initialize();
 
@@ -63,7 +63,7 @@ namespace Tests
             EquipmentGenerator.UniqueIndexIssuancer = uidIssuancer;
 
             var equipment = EquipmentGenerator.GenerateEquipment(EquipmentDefine.CommonEquipmentDropProbTable);
-            var blackSmith = new BlackSmithBuilding();
+            var blackSmith = new BlackSmithBuildingModel();
             blackSmith.Level = blackSmith.MaxLevel;
             blackSmith.Initialize();
 
@@ -87,7 +87,7 @@ namespace Tests
             EquipmentGenerator.UniqueIndexIssuancer = uidIssuancer;
 
             var equipment = EquipmentGenerator.GenerateEquipment(EquipmentDefine.CommonEquipmentDropProbTable);
-            var blackSmith = new BlackSmithBuilding();
+            var blackSmith = new BlackSmithBuildingModel();
             blackSmith.Level = blackSmith.MaxLevel;
             blackSmith.Initialize();
 

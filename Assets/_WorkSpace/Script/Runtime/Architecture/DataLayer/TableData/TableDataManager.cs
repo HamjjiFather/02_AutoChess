@@ -16,7 +16,6 @@ public class TableDataManager : Singleton<TableDataManager>
 	 public Dictionary<int, CharacterLevel> CharacterLevelDict = new Dictionary<int, CharacterLevel> ();
 	 public Dictionary<int, CharacterSkill> CharacterSkillDict = new Dictionary<int, CharacterSkill> ();
 	 public Dictionary<int, Ability> AbilityDict = new Dictionary<int, Ability> ();
-	 public Dictionary<int, AbilityGradeRangeProb> AbilityGradeRangeProbDict = new Dictionary<int, AbilityGradeRangeProb> ();
 	 public Dictionary<int, Combination> CombinationDict = new Dictionary<int, Combination> ();
 	 public Dictionary<int, Trophy> TrophyDict = new Dictionary<int, Trophy> ();
 	 public Dictionary<int, Currency> CurrencyDict = new Dictionary<int, Currency> ();
@@ -43,7 +42,6 @@ public class TableDataManager : Singleton<TableDataManager>
 		CharacterLevelDict = (await ReadCSVData.Instance.LoadCSVData<CharacterLevel> ("TableData", nameof (CharacterLevel))).ToDictionary (x => x.Id, x => x);
 		CharacterSkillDict = (await ReadCSVData.Instance.LoadCSVData<CharacterSkill> ("TableData", nameof (CharacterSkill))).ToDictionary (x => x.Id, x => x);
 		AbilityDict = (await ReadCSVData.Instance.LoadCSVData<Ability> ("TableData", nameof (Ability))).ToDictionary (x => x.Id, x => x);
-		AbilityGradeRangeProbDict = (await ReadCSVData.Instance.LoadCSVData<AbilityGradeRangeProb> ("TableData", nameof (AbilityGradeRangeProb))).ToDictionary (x => x.Id, x => x);
 		CombinationDict = (await ReadCSVData.Instance.LoadCSVData<Combination> ("TableData", nameof (Combination))).ToDictionary (x => x.Id, x => x);
 		TrophyDict = (await ReadCSVData.Instance.LoadCSVData<Trophy> ("TableData", nameof (Trophy))).ToDictionary (x => x.Id, x => x);
 		CurrencyDict = (await ReadCSVData.Instance.LoadCSVData<Currency> ("TableData", nameof (Currency))).ToDictionary (x => x.Id, x => x);
@@ -68,7 +66,6 @@ public class TableDataManager : Singleton<TableDataManager>
 		TotalDataDict.AddRange (CharacterLevelDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (CharacterSkillDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (AbilityDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
-		TotalDataDict.AddRange (AbilityGradeRangeProbDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (CombinationDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (TrophyDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (CurrencyDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));

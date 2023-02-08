@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Formation
   - UICamera
+  - Forest
   layers:
   - Default
   - TransparentFX
@@ -16,8 +17,8 @@ TagManager:
   - 
   - 
   - Field
-  - 
-  - 
+  - Player
+  - Forest
   - 
   - 
   - 
@@ -52,6 +53,9 @@ TagManager:
   - name: UpperCharacter
     uniqueID: 263808769
     locked: 0
-  - name: Popup
+  - name: Forest
     uniqueID: 2038463037
+    locked: 0
+  - name: New Layer 5
+    uniqueID: 712037023
     locked: 0

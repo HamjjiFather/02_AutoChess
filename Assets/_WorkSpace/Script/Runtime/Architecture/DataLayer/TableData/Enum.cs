@@ -210,7 +210,7 @@ public enum RefSkillValueTarget
 
 }
 
-public enum StatusGrade
+public enum ItemGrade
 {
 	/// <summary>
 	/// D.

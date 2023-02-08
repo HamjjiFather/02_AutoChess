@@ -46,19 +46,19 @@ namespace AutoChess
         /// <summary>
         /// 건축물.
         /// </summary>
-        private Dictionary<BuildingType, BuildingBase> _buildingDict = new()
+        private Dictionary<BuildingType, BuildingModelBase> _buildingDict = new()
         {
-            {BuildingType.BlackSmith, new BlackSmithBuilding()},
-            {BuildingType.Warehouse, new WarehouseBuilding()},
-            {BuildingType.ExploreOffice, new ExploreOfficeBuilding()},
-            {BuildingType.Graveyard, new GraveyardBuilding()},
-            {BuildingType.EmploymentOffice, new EmploymentOfficeBuilding()}
+            {BuildingType.BlackSmith, new BlackSmithBuildingModel()},
+            {BuildingType.Warehouse, new WarehouseBuildingModel()},
+            {BuildingType.ExploreOffice, new ExploreOfficeBuildingModel()},
+            {BuildingType.Graveyard, new GraveyardBuildingModel()},
+            {BuildingType.EmploymentOffice, new EmploymentOfficeBuildingModel()}
         };
 
         /// <summary>
         /// 전초기지.
         /// </summary>
-        private Dictionary<int, OutpostBuilding> _outpostBuildings;
+        private Dictionary<int, OutpostBuildingModel> _outpostBuildings;
 
         #endregion
 
@@ -72,20 +72,20 @@ namespace AutoChess
 
         #region This
 
-        public T GetBuilding<T>() where T : BuildingBase => _buildingDict[ToBuildingType(typeof(T))] as T;
+        public T GetBuilding<T>() where T : BuildingModelBase => _buildingDict[ToBuildingType(typeof(T))] as T;
 
 
         private BuildingType ToBuildingType(Type type)
         {
-            if (type == typeof(BlackSmithBuilding))
+            if (type == typeof(BlackSmithBuildingModel))
                 return BuildingType.BlackSmith;
-            if (type == typeof(WarehouseBuilding))
+            if (type == typeof(WarehouseBuildingModel))
                 return BuildingType.Warehouse;
-            if (type == typeof(ExploreOfficeBuilding))
+            if (type == typeof(ExploreOfficeBuildingModel))
                 return BuildingType.ExploreOffice;
-            if (type == typeof(GraveyardBuilding))
+            if (type == typeof(GraveyardBuildingModel))
                 return BuildingType.Graveyard;
-            if (type == typeof(EmploymentOfficeBuilding))
+            if (type == typeof(EmploymentOfficeBuildingModel))
                 return BuildingType.EmploymentOffice;
 
             return BuildingType.ExploreOffice;

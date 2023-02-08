@@ -6,7 +6,12 @@ using KKSFramework.TableData;
 
 public class Trophy : Item
 {
+	/// <summary>
+	/// 아이템 등급.
+	/// </summary>
+	public ItemGrade ItemGrade;
 
+		
 
     public Trophy ()
     {
@@ -20,6 +25,7 @@ public class Trophy : Item
 		GlobalIndex = myData[rowIndex++];
 		StackAmount = int.Parse(myData[rowIndex++]);
 		SellingPrice = int.Parse(myData[rowIndex++]);
+		ItemGrade = (ItemGrade)Enum.Parse (typeof(ItemGrade), myData[rowIndex++]);
 		
     }
 }

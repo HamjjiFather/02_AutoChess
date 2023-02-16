@@ -2,7 +2,7 @@
 
 namespace AutoChess
 {
-    public partial class EmploymentOfficeBuildingModel
+    public partial class EmploymentOfficeBuildingEntity
     {
         #region Fields & Property
 

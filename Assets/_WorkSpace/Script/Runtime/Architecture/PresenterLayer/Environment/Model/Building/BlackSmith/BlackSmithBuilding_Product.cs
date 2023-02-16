@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace AutoChess
 {
-    public partial class BlackSmithBuildingModel
+    public partial class BlackSmithBuildingEntity
     {
         /// <summary>
         /// 장비 생산 상태.

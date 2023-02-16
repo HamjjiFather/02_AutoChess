@@ -5,6 +5,7 @@ namespace KKSFramework.Navigation
         EntryPage,
         TitlePage,
         GamePage = 1000,
+        BasePage,
         AdventurePage,
         QuitPopup,
         MessagePopup,
@@ -12,5 +13,7 @@ namespace KKSFramework.Navigation
         FormationPopup,
         EndAdventurePopup,
         NextFloorConfirmPopup,
+        
+        BlackSmithPurchasePopup,
     }
 }

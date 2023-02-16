@@ -5,9 +5,9 @@ using KKSFramework.InGame;
 
 namespace AutoChess
 {
-    public partial class BlackSmithBuildingModel
+    public partial class BlackSmithBuildingEntity
     {
-        public class PurchaseSlotModel
+        public class PurchaseSlotEntity
         {
             public EquipmentBase PurchaseEquipment;
         }
@@ -27,7 +27,7 @@ namespace AutoChess
         /// <summary>
         /// 장비 구매 슬롯.
         /// </summary>
-        public Dictionary<int, PurchaseSlotModel> PurchaseSlotModels;
+        public Dictionary<int, PurchaseSlotEntity> PurchaseSlotEntityMap;
 
         /// <summary>
         /// 구매 가능한 장비의 수량.
@@ -102,18 +102,18 @@ namespace AutoChess
         private void Initialize_Purchase()
         {
             // TODO: 저장된 데이터를 가져와야 한다.
-            PurchaseSlotModels = new Dictionary<int, PurchaseSlotModel>(GetProductableEquipmentAmount);
-            PurchaseSlotModels.AddRange(Enumerable.Range(0, GetProductableEquipmentAmount)
-                .ToDictionary(i => i, _ => new PurchaseSlotModel()));
+            PurchaseSlotEntityMap = new Dictionary<int, PurchaseSlotEntity>(GetPurchasableEquipmentAmount);
+            PurchaseSlotEntityMap.AddRange(Enumerable.Range(0, GetPurchasableEquipmentAmount)
+                .ToDictionary(i => i, _ => new PurchaseSlotEntity()));
         }
 
 
         private void OnLevelUp_Purchase()
         {
-            PurchaseSlotModels.EnsureCapacity(GetProductableEquipmentAmount);
-            for (var i = 0; i < GetProductableEquipmentAmount - PurchaseSlotModels.Count; i++)
+            PurchaseSlotEntityMap.EnsureCapacity(GetPurchasableEquipmentAmount);
+            for (var i = 0; i < GetPurchasableEquipmentAmount - PurchaseSlotEntityMap.Count; i++)
             {
-                PurchaseSlotModels.Add(PurchaseSlotModels.Count - 1, new PurchaseSlotModel());
+                PurchaseSlotEntityMap.Add(PurchaseSlotEntityMap.Count - 1, new PurchaseSlotEntity());
             }
         }
 
@@ -134,7 +134,7 @@ namespace AutoChess
 
         private void CreateEquipmentsForPurchase()
         {
-            PurchaseSlotModels.Values.Foreach(psm =>
+            PurchaseSlotEntityMap.Values.Foreach(psm =>
             {
                 var newEquipment = EquipmentGenerator.GenerateEquipment(PurchaseProbabilityTable);
                 psm.PurchaseEquipment = newEquipment;
@@ -151,7 +151,7 @@ namespace AutoChess
         /// </summary>
         public void PurchaseEquipment(int arrayIndex)
         {
-            var equipment = PurchaseSlotModels[arrayIndex].PurchaseEquipment;
+            var equipment = PurchaseSlotEntityMap[arrayIndex].PurchaseEquipment;
             var useCase = GameSceneInstaller.Instance.Resolve<PurchaseEquipmentUseCase>();
             useCase.Execute(equipment);
         }

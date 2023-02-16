@@ -39,7 +39,7 @@ namespace KKSFramework.InGame
         
         public override InitNavigationData InitPageInitNavigationData => new()
         {
-            viewString = nameof(NavigationViewType.GamePage),
+            viewString = nameof(NavigationViewType.BasePage),
             actionOnFirst = OpenQuitPopup
         };
 

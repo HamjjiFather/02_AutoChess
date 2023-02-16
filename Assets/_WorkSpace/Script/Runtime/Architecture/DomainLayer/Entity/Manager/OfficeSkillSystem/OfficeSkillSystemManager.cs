@@ -27,7 +27,7 @@ namespace AutoChess
             InvestedPoint = investedPoint;
         }
 
-        public int InvestablePoint => OfficeSkillTableData.RequireLevels.Length;
+        public int InvestablePoint => OfficeSkillTableData.Id;
 
         public bool IsInvestable => InvestablePoint > InvestedPoint;
     }
@@ -47,7 +47,8 @@ namespace AutoChess
         public GameSystemType InvestSkill(int index, int amount = 1)
         {
             OfficeSkillSpentModels[index].InvestedPoint += amount;
-            return OfficeSkillSpentModels[index].OfficeSkillTableData.UnlockGameSystem;
+            return GameSystemType.None;
+            // return OfficeSkillSpentModels[index].OfficeSkillTableData.UnlockGameSystem;
         }
 
         public (int[], GameSystemType[]) Reset()
@@ -57,8 +58,8 @@ namespace AutoChess
             OfficeSkillSpentModels.Values.Foreach(m =>
             {
                 m.InvestedPoint = 0;
-                gameSystems.Add(m.OfficeSkillTableData.UnlockGameSystem);
-                indexes.Add(m.OfficeSkillTableData.Id);
+                // gameSystems.Add(m.OfficeSkillTableData.UnlockGameSystem);
+                // indexes.Add(m.OfficeSkillTableData.Id);
             });
 
             return (indexes.ToArray(), gameSystems.Distinct().ToArray());

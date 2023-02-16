@@ -1,0 +1,122 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3628174940836342197
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3071731449555555387, guid: 1131032d798a38a4cb46fe005ee5a4c4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3071731449555555387, guid: 1131032d798a38a4cb46fe005ee5a4c4,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3071731449555555387, guid: 1131032d798a38a4cb46fe005ee5a4c4,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3071731449555555387, guid: 1131032d798a38a4cb46fe005ee5a4c4,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3071731449555555387, guid: 1131032d798a38a4cb46fe005ee5a4c4,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3071731449555555387, guid: 1131032d798a38a4cb46fe005ee5a4c4,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3071731449555555387, guid: 1131032d798a38a4cb46fe005ee5a4c4,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3071731449555555387, guid: 1131032d798a38a4cb46fe005ee5a4c4,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3071731449555555387, guid: 1131032d798a38a4cb46fe005ee5a4c4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3071731449555555387, guid: 1131032d798a38a4cb46fe005ee5a4c4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3071731449555555387, guid: 1131032d798a38a4cb46fe005ee5a4c4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128026502546877104, guid: 1131032d798a38a4cb46fe005ee5a4c4,
+        type: 3}
+      propertyPath: m_Name
+      value: GraveyardBuildingTile Variant
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6128026502546877104, guid: 1131032d798a38a4cb46fe005ee5a4c4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4944655367092594486}
+  m_SourcePrefab: {fileID: 100100000, guid: 1131032d798a38a4cb46fe005ee5a4c4, type: 3}
+--- !u!114 &3154553902558518341 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1846167903726253552, guid: 1131032d798a38a4cb46fe005ee5a4c4,
+    type: 3}
+  m_PrefabInstance: {fileID: 3628174940836342197}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c9a555a052a4e31954c17fa8f05db8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!212 &4692535102778794411 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8306579667748931614, guid: 1131032d798a38a4cb46fe005ee5a4c4,
+    type: 3}
+  m_PrefabInstance: {fileID: 3628174940836342197}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7445226714834813701 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6128026502546877104, guid: 1131032d798a38a4cb46fe005ee5a4c4,
+    type: 3}
+  m_PrefabInstance: {fileID: 3628174940836342197}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4944655367092594486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7445226714834813701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f08bc2624c04248b1283b6e953e719e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingTileByLevel:
+  - {fileID: 21300000, guid: d9dd4047a152bd940a8ab07fc29c68ef, type: 3}
+  - {fileID: 21300000, guid: d9dd4047a152bd940a8ab07fc29c68ef, type: 3}
+  - {fileID: 21300000, guid: d9dd4047a152bd940a8ab07fc29c68ef, type: 3}
+  - {fileID: 21300000, guid: d9dd4047a152bd940a8ab07fc29c68ef, type: 3}
+  buildingSrenderer: {fileID: 4692535102778794411}
+  tileTriggerCollider: {fileID: 3154553902558518341}

@@ -26,7 +26,7 @@ namespace AutoChess.Presenter
         /// <summary>
         /// 환경이 활성화 됨.
         /// </summary>
-        public abstract void OnEnvironmentEnabled(EnvironmentParameterBase parameter);
+        public abstract void OnEnvironmentEnabled(EnvironmentParameterBase environmentParameter);
 
         /// <summary>
         /// 환경이 비활성화 됨.

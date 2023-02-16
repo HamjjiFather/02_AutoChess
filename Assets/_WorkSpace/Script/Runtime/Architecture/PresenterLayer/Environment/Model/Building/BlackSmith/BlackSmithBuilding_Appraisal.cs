@@ -2,7 +2,7 @@
 
 namespace AutoChess
 {
-    public partial class BlackSmithBuildingModel
+    public partial class BlackSmithBuildingEntity
     {
         #region Fields & Property
 

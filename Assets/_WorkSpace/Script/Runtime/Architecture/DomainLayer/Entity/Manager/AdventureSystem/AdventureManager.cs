@@ -18,7 +18,7 @@ namespace AutoChess
 
         #region This
 
-        public void StartAdventure(OutpostBuildingModel startOutpost)
+        public void StartAdventure(OutpostBuildingEntity startOutpost)
         {
             
         }

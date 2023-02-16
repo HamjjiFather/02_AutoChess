@@ -5,7 +5,7 @@ using KKSFramework;
 
 namespace AutoChess
 {
-    public partial class EmploymentOfficeBuildingModel
+    public partial class EmploymentOfficeBuildingEntity
     {
         public class EmployCharacterSlotModel
         {

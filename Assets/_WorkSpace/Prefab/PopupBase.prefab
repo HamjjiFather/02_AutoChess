@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8264066554161724158}
   - component: {fileID: 6904887906768749440}
   - component: {fileID: 919415103242206184}
-  - component: {fileID: 3911056007759675541}
   m_Layer: 0
   m_Name: PopupTitleLabel
   m_TagString: Untagged
@@ -29,14 +28,15 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 760762570983497445}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -50}
-  m_SizeDelta: {x: 0, y: 100}
+  m_AnchoredPosition: {x: -12, y: -24}
+  m_SizeDelta: {x: -24, y: 36}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &6904887906768749440
 CanvasRenderer:
@@ -67,33 +67,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 3f72085c91a039340bbf310a580ae58b, type: 3}
+    m_Font: {fileID: 12800000, guid: 2d34fbcd6f496c84bb39f26b76c9160b, type: 3}
     m_FontSize: 75
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 2
     m_MaxSize: 75
-    m_Alignment: 4
+    m_Alignment: 5
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\uD31D\uC5C5 \uC774\uB984"
---- !u!114 &3911056007759675541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1513048740347853863}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  containerPath: _popupTitleText
-  targetComponent: {fileID: 919415103242206184}
 --- !u!1 &2564531935954435145
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,8 +91,8 @@ GameObject:
   - component: {fileID: 1023121878922897957}
   - component: {fileID: 3467767297652800555}
   - component: {fileID: 6658973198752036819}
-  - component: {fileID: 108765066782458256}
-  - component: {fileID: 5378233441412032480}
+  - component: {fileID: 886866420125121055}
+  - component: {fileID: 5183411904449387371}
   m_Layer: 0
   m_Name: CloseButton
   m_TagString: Untagged
@@ -124,15 +110,16 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 760762570983497445}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 24, y: -24}
+  m_SizeDelta: {x: 36, y: 36}
+  m_Pivot: {x: 0, y: 1}
 --- !u!222 &3467767297652800555
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -171,7 +158,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &108765066782458256
+--- !u!114 &886866420125121055
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -180,7 +167,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2564531935954435145}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e3d5784336242139f13db8bab96e8e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -215,17 +202,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
-  soundTypeEnum: 0
-  buttonText: {fileID: 0}
-  useHoldingAction: 0
-  defaultHoldDuration: 2
-  cancelEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  useScaleEffect: 0
-  scaleEffectDuration: 0.1
-  toScaleValue: {x: 1.1, y: 1.1, z: 1.1}
---- !u!114 &5378233441412032480
+--- !u!114 &5183411904449387371
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -234,11 +211,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 2564531935954435145}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
+  m_Script: {fileID: 11500000, guid: edd89e2f72ea400caa2474661cddea65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  containerPath: _closeButton
-  targetComponent: {fileID: 108765066782458256}
+  sfxModule:
+    useModule: 1
+    initPointType: 0
+  holdOnModule:
+    useModule: 0
+    initPointType: 0
+    baseHoldOnDurationSeconds: 0.1
+    throttleDurationSecondsAtFirst: 0.2
+    minDurationSeconds: 0.02
+    decDurationSecPerCallEvent: 0.02
+    Initialized: 0
+  scaleTweenModule:
+    useModule: 1
+    initPointType: 0
+    scale: {x: 1.05, y: 1.05, z: 1}
+    durationSeconds: 0.1
+    targetIsSelf: 1
+    target: {fileID: 0}
+  freezeModule:
+    useModule: 0
+    initPointType: 0
+    cooldownSeconds: 0.5
+  interactableModule:
+    useModule: 0
+    initPointType: 0
+    interactableEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    oppositionInteractableEvent:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &4306108780562145193
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,7 +256,6 @@ GameObject:
   - component: {fileID: 760762570983497445}
   - component: {fileID: 782053340299692819}
   - component: {fileID: 9177580398300645893}
-  - component: {fileID: 2113044990779825629}
   m_Layer: 0
   m_Name: Root
   m_TagString: Untagged
@@ -268,6 +273,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8264066554161724158}
   - {fileID: 1023121878922897957}
@@ -312,20 +318,6 @@ MonoBehaviour:
     duration: 0.2
     effectEase: 6
     viewEffectType: 1
---- !u!114 &2113044990779825629
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4306108780562145193}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  containerPath: _viewEffector
-  targetComponent: {fileID: 9177580398300645893}
 --- !u!1 &4954185239519902655
 GameObject:
   m_ObjectHideFlags: 0
@@ -337,8 +329,8 @@ GameObject:
   - component: {fileID: 4467991482546187827}
   - component: {fileID: 5375852285802576298}
   - component: {fileID: 7000949305295623554}
-  - component: {fileID: 7738620804281632470}
-  - component: {fileID: 8745041376333450664}
+  - component: {fileID: 5903116337560866554}
+  - component: {fileID: 3790652994593211007}
   m_Layer: 0
   m_Name: BackgroundImage
   m_TagString: Untagged
@@ -356,6 +348,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6268243224747598274}
   m_RootOrder: 0
@@ -403,7 +396,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7738620804281632470
+--- !u!114 &5903116337560866554
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -412,7 +405,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4954185239519902655}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e3d5784336242139f13db8bab96e8e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -447,17 +440,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
-  soundTypeEnum: 3
-  buttonText: {fileID: 0}
-  useHoldingAction: 0
-  defaultHoldDuration: 2
-  cancelEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  useScaleEffect: 0
-  scaleEffectDuration: 0.1
-  toScaleValue: {x: 1.1, y: 1.1, z: 1.1}
---- !u!114 &8745041376333450664
+--- !u!114 &3790652994593211007
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -466,11 +449,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 4954185239519902655}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
+  m_Script: {fileID: 11500000, guid: edd89e2f72ea400caa2474661cddea65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  containerPath: _bgButton
-  targetComponent: {fileID: 7738620804281632470}
+  sfxModule:
+    useModule: 1
+    initPointType: 0
+  holdOnModule:
+    useModule: 0
+    initPointType: 0
+    baseHoldOnDurationSeconds: 0.1
+    throttleDurationSecondsAtFirst: 0.2
+    minDurationSeconds: 0.02
+    decDurationSecPerCallEvent: 0.02
+    Initialized: 0
+  scaleTweenModule:
+    useModule: 1
+    initPointType: 0
+    scale: {x: 1.05, y: 1.05, z: 1}
+    durationSeconds: 0.1
+    targetIsSelf: 1
+    target: {fileID: 0}
+  freezeModule:
+    useModule: 0
+    initPointType: 0
+    cooldownSeconds: 0.5
+  interactableModule:
+    useModule: 0
+    initPointType: 0
+    interactableEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    oppositionInteractableEvent:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &5312361194431070627
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,7 +492,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 480515646230930523}
-  - component: {fileID: 5056182219576643747}
   m_Layer: 0
   m_Name: Contents
   m_TagString: Untagged
@@ -498,29 +509,16 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 760762570983497445}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -30}
+  m_SizeDelta: {x: -48, y: -108}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5056182219576643747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5312361194431070627}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a0abeba269948869575f41789d34919, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  containerPath: _contentRoot
-  targetComponent: {fileID: 5312361194431070627}
 --- !u!1 &5403100422453267148
 GameObject:
   m_ObjectHideFlags: 0
@@ -531,7 +529,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6268243224747598274}
   - component: {fileID: 1579549402062151019}
-  - component: {fileID: 7776408437991426784}
   m_Layer: 0
   m_Name: PopupBase
   m_TagString: Untagged
@@ -549,11 +546,12 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4467991482546187827}
   - {fileID: 760762570983497445}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -572,16 +570,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8363b8cce6c141e439c7c776736e0bc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7776408437991426784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5403100422453267148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b79eb51b6ff47cd9fb95df1f4e71705, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  autoRun: 1
+  showOnPush: 1
+  viewEffector: {fileID: 9177580398300645893}
+  bgButton: {fileID: 5903116337560866554}
+  closeButton: {fileID: 886866420125121055}
+  popupTitleText: {fileID: 919415103242206184}
+  contentRoot: {fileID: 480515646230930523}

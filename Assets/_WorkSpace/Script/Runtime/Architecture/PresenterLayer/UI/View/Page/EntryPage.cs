@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Cysharp.Threading.Tasks;
 using KKSFramework.Navigation;
 using KKSFramework.SceneLoad;
 using UnityEngine;
@@ -9,15 +10,16 @@ namespace AutoChess.Presenter
     {
         private const float WaitSeconds = 2f;
 
-        protected override void Showed ()
+
+        protected override async UniTask OnShow(object pushValue = null)
         {
+            await base.OnShow(pushValue);
             StartCoroutine (WaitForSeconds ());
-            base.Showed ();
 
             IEnumerator WaitForSeconds ()
             {
                 yield return new WaitForSeconds (WaitSeconds);
-                SceneLoadProjectManager.Instance.LoadSceneAsync (SceneType.Title, true);
+                SceneLoadProjectManager.Instance.LoadSceneAsync (SceneType.Title, true).Forget();
             }
         }
     }

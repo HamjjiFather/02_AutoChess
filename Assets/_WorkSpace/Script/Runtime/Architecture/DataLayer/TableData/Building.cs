@@ -11,6 +11,16 @@ public class Building : TableDataBase
 	/// </summary>
 	public int Id;
 
+	/// <summary>
+	/// 건물 타입.
+	/// </summary>
+	public BuildingType BuildingType;
+
+	/// <summary>
+	/// 건물 이름.
+	/// </summary>
+	public string BuildingName;
+
 
 
     public Building ()
@@ -22,6 +32,8 @@ public class Building : TableDataBase
     {
         var rowIndex = 0;
         Id = int.Parse(myData[rowIndex++]);
+		BuildingType = (BuildingType)Enum.Parse (typeof(BuildingType), myData[rowIndex++]);
+		BuildingName = myData[rowIndex++];
 		
     }
 }

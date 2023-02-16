@@ -14,7 +14,7 @@ namespace KKSFramework.Navigation
         /// <summary>
         /// 페이지 오픈.
         /// </summary>
-        public static async UniTask OpenPage (NavigationViewType navigationViewType,
+        public static async UniTask OpenPageAsync (NavigationViewType navigationViewType,
             NavigationTriggerState triggerState = NavigationTriggerState.CloseAndOpen,
             object pushValue = null, UnityAction actionOnFirst = null)
         {
@@ -25,7 +25,7 @@ namespace KKSFramework.Navigation
         /// <summary>
         /// 팝업 오픈.
         /// </summary>
-        public static async UniTask OpenPopup (NavigationViewType navigationViewType, object pushValue = null)
+        public static async UniTask OpenPopupAsync (NavigationViewType navigationViewType, object pushValue = null)
         {
             await NavigationProjectManager.Instance.OpenPopup (navigationViewType.ToString (), pushValue);
         }
@@ -34,7 +34,7 @@ namespace KKSFramework.Navigation
         /// <summary>
         /// CommonView 오픈.
         /// </summary>
-        public static async UniTask OpenCommonView<T> (string viewName) where T : PoolingComponent
+        public static async UniTask OpenCommonViewAsync<T> (string viewName) where T : PoolingComponent
         {
             await NavigationProjectManager.Instance.OpenCommonView<T> (viewName);
         }

@@ -2,40 +2,12 @@
 using System.Collections.Generic;
 using AutoChess;
 using JetBrains.Annotations;
+using KKSFramework;
 
 namespace AutoChess
 {
-    public enum BuildingType
-    {
-        /// <summary>
-        /// 탐험대.
-        /// </summary>
-        ExploreOffice,
-
-        /// <summary>
-        /// 대장간.
-        /// </summary>
-        BlackSmith,
-
-        /// <summary>
-        /// 고용소.
-        /// </summary>
-        EmploymentOffice,
-
-        /// <summary>
-        /// 창고.
-        /// </summary>
-        Warehouse,
-
-        /// <summary>
-        /// 묘지.
-        /// </summary>
-        Graveyard,
-    }
-
-
     [UsedImplicitly]
-    public class BuildingManager : ManagerBase
+    public class BuildingManager : IManagerBase
     {
         public BuildingManager()
         {
@@ -46,19 +18,35 @@ namespace AutoChess
         /// <summary>
         /// 건축물.
         /// </summary>
-        private Dictionary<BuildingType, BuildingModelBase> _buildingDict = new()
+        private readonly Dictionary<BuildingType, BuildingEntityBase> _buildingEntityMap = new()
         {
-            {BuildingType.BlackSmith, new BlackSmithBuildingModel()},
-            {BuildingType.Warehouse, new WarehouseBuildingModel()},
-            {BuildingType.ExploreOffice, new ExploreOfficeBuildingModel()},
-            {BuildingType.Graveyard, new GraveyardBuildingModel()},
-            {BuildingType.EmploymentOffice, new EmploymentOfficeBuildingModel()}
+            {
+                BuildingType.BlackSmith,
+                new BlackSmithBuildingEntity(TableDataManager.Instance.BuildingDict[(int) BuildingType.BlackSmith])
+            },
+            {
+                BuildingType.Warehouse,
+                new WarehouseBuildingEntity(TableDataManager.Instance.BuildingDict[(int) BuildingType.Warehouse])
+            },
+            {
+                BuildingType.ExploreOffice,
+                new ExploreOfficeBuildingEntity(TableDataManager.Instance.BuildingDict[(int) BuildingType.ExploreOffice])
+            },
+            {
+                BuildingType.Graveyard,
+                new GraveyardBuildingEntity(TableDataManager.Instance.BuildingDict[(int) BuildingType.Graveyard])
+            },
+            {
+                BuildingType.EmploymentOffice,
+                new EmploymentOfficeBuildingEntity(
+                    TableDataManager.Instance.BuildingDict[(int) BuildingType.EmploymentOffice])
+            }
         };
 
         /// <summary>
         /// 전초기지.
         /// </summary>
-        private Dictionary<int, OutpostBuildingModel> _outpostBuildings;
+        private Dictionary<int, OutpostBuildingEntity> _outpostBuildings;
 
         #endregion
 
@@ -67,25 +55,30 @@ namespace AutoChess
 
         #region Override
 
+        public void Initialize()
+        {
+            _buildingEntityMap.Values.Foreach(entity => entity.Initialize());
+        }
+
         #endregion
 
 
         #region This
 
-        public T GetBuilding<T>() where T : BuildingModelBase => _buildingDict[ToBuildingType(typeof(T))] as T;
+        public BuildingEntityBase GetBuilding(BuildingType buildingType) => _buildingEntityMap[buildingType];
 
 
         private BuildingType ToBuildingType(Type type)
         {
-            if (type == typeof(BlackSmithBuildingModel))
+            if (type == typeof(BlackSmithBuildingEntity))
                 return BuildingType.BlackSmith;
-            if (type == typeof(WarehouseBuildingModel))
+            if (type == typeof(WarehouseBuildingEntity))
                 return BuildingType.Warehouse;
-            if (type == typeof(ExploreOfficeBuildingModel))
+            if (type == typeof(ExploreOfficeBuildingEntity))
                 return BuildingType.ExploreOffice;
-            if (type == typeof(GraveyardBuildingModel))
+            if (type == typeof(GraveyardBuildingEntity))
                 return BuildingType.Graveyard;
-            if (type == typeof(EmploymentOfficeBuildingModel))
+            if (type == typeof(EmploymentOfficeBuildingEntity))
                 return BuildingType.EmploymentOffice;
 
             return BuildingType.ExploreOffice;

@@ -1,7 +1,7 @@
-Id	BranchType	SpentType	RequireLevels	UnlockGameSystem
-0	Battle	Skill	1/7/12	None
-1	Battle	Perk	5	PrimeTarget
-2	Adventure	Skill	1/7/12	None
-3	Adventure	Perk	5	FigureOutEnemySize
-4	Management	Skill	1/7/12	None
-5	Management	Perk	5	AmbushInForest
+Id
+0
+1
+2
+3
+4
+5

@@ -2,7 +2,7 @@
 
 namespace AutoChess
 {
-    public partial class EmploymentOfficeBuildingModel
+    public partial class EmploymentOfficeBuildingEntity
     {
         #region Fields & Property
 
@@ -15,22 +15,22 @@ namespace AutoChess
         
         public void Initialize_Evaluation()
         {
-            throw new System.NotImplementedException();
+            // throw new System.NotImplementedException();
         }
 
         public void Build_Evaluation()
         {
-            throw new System.NotImplementedException();
+            // throw new System.NotImplementedException();
         }
 
         public void SpendTime_Evaluation()
         {
-            throw new System.NotImplementedException();
+            // throw new System.NotImplementedException();
         }
 
         protected void OnLevelUp_Evaluation(int level)
         {
-            throw new System.NotImplementedException();
+            // throw new System.NotImplementedException();
         }
 
         #endregion

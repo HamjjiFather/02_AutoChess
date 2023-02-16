@@ -318,12 +318,12 @@ public enum SubAbilityType
 	CriticalProbability = 7,
 
 	/// <summary>
-	/// 치명타 데미지 배율.
+	/// 치명타 피해량.
 	/// </summary>
 	CriticalDamagePercent = 8,
 
 	/// <summary>
-	/// 명중률.
+	/// 명중율.
 	/// </summary>
 	HitProbability = 9,
 
@@ -333,19 +333,29 @@ public enum SubAbilityType
 	EvadeProbability = 10,
 
 	/// <summary>
-	/// 화염 저항력.
+	/// 가하는 피해량.
 	/// </summary>
-	FlameRegistance = 11,
+	InflictedDamage = 10,
 
 	/// <summary>
-	/// 전격 저항력.
+	/// 받는 피해량.
 	/// </summary>
-	ShockRegistance = 12,
+	IncomeDamage = 11,
 
 	/// <summary>
-	/// 빙결 저항력.
+	/// 가하는 회복량.
 	/// </summary>
-	FrozenRegistance = 13,
+	InflictedHeal = 12,
+
+	/// <summary>
+	/// 받는 회복량.
+	/// </summary>
+	IncomeHeal = 13,
+
+	/// <summary>
+	/// 흡혈.
+	/// </summary>
+	Bloodthirst = 14,
 
 
 }
@@ -636,6 +646,36 @@ public enum BattleSideType
 	/// 적 유닛.
 	/// </summary>
 	Enemy = 1,
+
+
+}
+
+public enum BuildingType
+{
+	/// <summary>
+	/// 탐험대.
+	/// </summary>
+	ExploreOffice = 0,
+
+	/// <summary>
+	/// 대장간.
+	/// </summary>
+	BlackSmith = 1,
+
+	/// <summary>
+	/// 고용소.
+	/// </summary>
+	EmploymentOffice = 2,
+
+	/// <summary>
+	/// 창고.
+	/// </summary>
+	Warehouse = 3,
+
+	/// <summary>
+	/// 묘지.
+	/// </summary>
+	Graveyard = 4,
 
 
 }

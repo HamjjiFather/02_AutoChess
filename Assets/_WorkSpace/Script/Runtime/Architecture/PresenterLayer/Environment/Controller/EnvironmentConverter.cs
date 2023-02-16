@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -50,6 +51,12 @@ namespace AutoChess.Presenter
             _gameEnvironments.Add(EnvironmentType.Base, baseEnvironment);
             _gameEnvironments.Add(EnvironmentType.Adventure, adventureEnvironment);
             _gameEnvironments.Add(EnvironmentType.Battle, battleEnvironment);
+        }
+
+
+        private void Start()
+        {
+            ChangeEnvironment(EnvironmentType.Base, default);
         }
 
         #endregion

@@ -9,7 +9,7 @@ namespace AutoChess
 
         public Dictionary<int, ItemSlotBase> StoredItems { get; set; }
 
-        private WarehouseBuildingModel _warehouseBuildingModel;
+        private WarehouseBuildingEntity _warehouseBuildingEntity;
 
         #endregion
 
@@ -40,14 +40,14 @@ namespace AutoChess
         /// </summary>
         public void SyncStorageSpace(BuildingManager buildingManager)
         {
-            _warehouseBuildingModel = buildingManager.GetBuilding<WarehouseBuildingModel>();
-            StoredItems = new Dictionary<int, ItemSlotBase>(_warehouseBuildingModel.InventorySpace);
+            _warehouseBuildingEntity = buildingManager.GetBuilding(BuildingType.Warehouse) as WarehouseBuildingEntity;
+            StoredItems = new Dictionary<int, ItemSlotBase>(_warehouseBuildingEntity.InventorySpace);
 
-            _warehouseBuildingModel.OnLevelUpEvent += OnWarehouseLevelUp;
+            _warehouseBuildingEntity.OnLevelUpEvent += OnWarehouseLevelUp;
 
             void OnWarehouseLevelUp(int _)
             {
-                StoredItems.EnsureCapacityOrAdd(_warehouseBuildingModel.InventorySpace);
+                StoredItems.EnsureCapacityOrAdd(_warehouseBuildingEntity.InventorySpace);
             }
         }
 

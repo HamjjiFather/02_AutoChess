@@ -1,15 +1,14 @@
 ﻿using System.Linq;
 using AutoChess;
-using AutoChess;
 using KKSFramework.Base;
 
 namespace KKSFramework.Service
 {
-    public class ManagerBaseInstaller : InstallerBase<ManagerBase>
+    public class ManagerBaseInstaller : InstallerBase<IManagerBase>
     {
         #region Fields & Property
 
-        protected override BindOption BindOption => BindOption.AsTransient;
+        protected override BindOption BindOption => BindOption.AsSingle;
 
         #endregion
 

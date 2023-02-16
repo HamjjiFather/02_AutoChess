@@ -10,9 +10,6 @@ Id	AbilityType	EquipmentAbilityGradeIndex	BaseValue	AddValuePerLevel
 8	CriticalDamagePercent	0	200	20
 9	HitProbability	0	600	60
 10	EvadeProbability	0	1600	160
-11	FlameRegistance	0	440	44
-12	ShockRegistance	0	860	86
-13	FrozenRegistance	0	860	86
 14	HealthPoint	1	3	2
 15	ManaPoint	1	2	1
 16	PhysicalDamage	1	2	1
@@ -24,9 +21,6 @@ Id	AbilityType	EquipmentAbilityGradeIndex	BaseValue	AddValuePerLevel
 22	CriticalDamagePercent	1	200	20
 23	HitProbability	1	600	60
 24	EvadeProbability	1	1600	160
-25	FlameRegistance	1	440	44
-26	ShockRegistance	1	860	86
-27	FrozenRegistance	1	860	86
 28	HealthPoint	2	3	2
 29	ManaPoint	2	2	1
 30	PhysicalDamage	2	2	1
@@ -38,9 +32,6 @@ Id	AbilityType	EquipmentAbilityGradeIndex	BaseValue	AddValuePerLevel
 36	CriticalDamagePercent	2	200	20
 37	HitProbability	2	600	60
 38	EvadeProbability	2	1600	160
-39	FlameRegistance	2	440	44
-40	ShockRegistance	2	860	86
-41	FrozenRegistance	2	860	86
 42	HealthPoint	3	3	2
 43	ManaPoint	3	2	1
 44	PhysicalDamage	3	2	1
@@ -52,9 +43,6 @@ Id	AbilityType	EquipmentAbilityGradeIndex	BaseValue	AddValuePerLevel
 50	CriticalDamagePercent	3	200	20
 51	HitProbability	3	600	60
 52	EvadeProbability	3	1600	160
-53	FlameRegistance	3	440	44
-54	ShockRegistance	3	860	86
-55	FrozenRegistance	3	860	86
 56	HealthPoint	4	3	2
 57	ManaPoint	4	2	1
 58	PhysicalDamage	4	2	1
@@ -66,6 +54,3 @@ Id	AbilityType	EquipmentAbilityGradeIndex	BaseValue	AddValuePerLevel
 64	CriticalDamagePercent	4	200	20
 65	HitProbability	4	600	60
 66	EvadeProbability	4	1600	160
-67	FlameRegistance	4	440	44
-68	ShockRegistance	4	860	86
-69	FrozenRegistance	4	860	86

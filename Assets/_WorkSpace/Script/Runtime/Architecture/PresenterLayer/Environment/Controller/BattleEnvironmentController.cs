@@ -21,7 +21,7 @@
 
         #region Event
 
-        public override void OnEnvironmentEnabled(EnvironmentParameterBase environmentParameterBase)
+        public override void OnEnvironmentEnabled(EnvironmentParameterBase environmentParameter)
         {
             throw new System.NotImplementedException();
         }

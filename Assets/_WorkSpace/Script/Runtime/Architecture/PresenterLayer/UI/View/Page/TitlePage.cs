@@ -25,10 +25,10 @@ namespace AutoChess.Presenter
             titleButton.onClick.AddListener (ClickTitle);
         }
 
-        protected override UniTask OnShow ()
+        protected override UniTask OnShow (object pushValue = null)
         {
             _isLoaded = true;
-            return base.OnShow ();
+            return base.OnShow (pushValue);
         }
 
 

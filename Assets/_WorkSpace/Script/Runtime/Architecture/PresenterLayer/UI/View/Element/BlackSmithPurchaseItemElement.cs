@@ -3,6 +3,7 @@ using System.Linq;
 using KKSFramework;
 using KKSFramework.Navigation;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace AutoChess
 {
@@ -11,6 +12,8 @@ namespace AutoChess
         #region Fields & Property
 
         public GameObject[] stateObjs;
+
+        public Image itemIcon;
 
         private Dictionary<BlackSmithPurchaseSlotState, GameObject> _stateObjMap;
 
@@ -36,6 +39,12 @@ namespace AutoChess
 
             var state = elementData?.SlotState ?? BlackSmithPurchaseSlotState.Locked;
             _stateObjMap[state].gameObject.SetActive(true);
+
+            if (state == BlackSmithPurchaseSlotState.Selling)
+            {
+                itemIcon.sprite = ItemHelper.GetEquipmentSprite
+                    (ElementModel.PurchaseSlotEntity.PurchaseEquipment.EquipmentTableData.SpriteResName);
+            }
         }
 
         #endregion

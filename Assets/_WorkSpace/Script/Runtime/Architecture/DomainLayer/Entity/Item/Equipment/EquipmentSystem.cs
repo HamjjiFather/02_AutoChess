@@ -53,7 +53,7 @@ namespace AutoChess
         /// <summary>
         /// 장비 아이템의 구매 가격.
         /// </summary>
-        public static int BasePrice(EquipmentBase equipment)
+        public static int BasePrice(EquipmentEntity equipment)
         {
             var basePrice = equipment.EquipmentGradeTableData.BasePrice;
             var openSlotAmount = equipment.SlotIndex;
@@ -69,7 +69,7 @@ namespace AutoChess
         }
 
 
-        public static int SellingPrice(EquipmentBase equipment)
+        public static int SellingPrice(EquipmentEntity equipment)
         {
             var basePrice = BasePrice(equipment);
             var lp = FormulaHelper.PercentLerp01Unclamped(EquipmentDefine.SellingPricePercent);
@@ -97,7 +97,7 @@ namespace AutoChess
         /// <summary>
         /// 적 캐릭터의 장비 생성 시도.
         /// </summary>
-        public static EquipmentBase[] GenerateEquipmentsForEnemy(EnemyGradeType enemyGradeType,
+        public static EquipmentEntity[] GenerateEquipmentsForEnemy(EnemyGradeType enemyGradeType,
             int uniqueEquipmentIndexes = default)
         {
             var enemyGradeTable = TableDataManager.Instance.EnemyGradeDict.Values
@@ -112,13 +112,13 @@ namespace AutoChess
         }
 
 
-        public static EquipmentBase ChoiceEquipmentTable(EnemyGradeType enemyGradeType)
+        public static EquipmentEntity ChoiceEquipmentTable(EnemyGradeType enemyGradeType)
         {
             return GenerateEquipment(EquipmentDefine.CommonEquipmentDropProbTable);
         }
 
 
-        public static EquipmentBase GenerateEquipment(EquipmentProbabilityTable probList)
+        public static EquipmentEntity GenerateEquipment(EquipmentProbabilityTable probList)
         {
             var prob = ProbabilityHelper.RandomValue;
             var pickedGradeType = probList.Chance(prob);
@@ -134,7 +134,7 @@ namespace AutoChess
 
             // 장비 생성.
             // 장비 생성시 부여된 슬롯 수량만큼 빈 슬롯을 만들어놓는다.
-            var equipment = new EquipmentBase(UniqueIndexIssuancer.GetUniqueIndex(), eTable, egTable.SlotAmount);
+            var equipment = new EquipmentEntity(UniqueIndexIssuancer.GetUniqueIndex(), eTable, egTable.SlotAmount);
 
             // 기본으로 부여될 능력치를 슬롯에 부여함.
             eTable.BaseEquipmentStatusIndexes.Foreach(ei =>
@@ -169,7 +169,7 @@ namespace AutoChess
         /// <summary>
         /// 장비 슬롯을 오픈함.
         /// </summary>
-        public static void OpenEquipmentSlot(EquipmentBase equipment)
+        public static void OpenEquipmentSlot(EquipmentEntity equipment)
         {
             var ei = equipment.EquipmentTableData.AvailEquipmentTypeIndex.Choice();
             var eaTable = TableDataManager.Instance.EquipmentAbilityDict[ei];

@@ -4,6 +4,8 @@
     {
         #region Fields & Property
 
+        public int SlotIndex => Constant.InvalidIndex;
+
         public EquipmentStatusSlotState EquipmentStatusSlotState => EquipmentStatusSlotState.UnIdentified;
 
         #endregion

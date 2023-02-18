@@ -45,9 +45,9 @@ namespace AutoChess
 
         #region Event
 
-        public void SellingEquipment(EquipmentBase equipmentBase)
+        public void SellingEquipment(EquipmentEntity equipmentEntity)
         {
-            var sellingPrice = EquipmentHelper.SellingPrice(equipmentBase);
+            var sellingPrice = EquipmentHelper.SellingPrice(equipmentEntity);
         }
 
         #endregion

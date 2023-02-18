@@ -60,16 +60,16 @@ namespace AutoChess
         /// <summary>
         /// 강화 가능 여부.
         /// </summary>
-        public bool CanEnhanceEquipment(EquipmentBase equipmentBase)
+        public bool CanEnhanceEquipment(EquipmentEntity equipmentEntity)
         {
             // 최대 레벨이 아님.
-            var isNotMaxLevel = equipmentBase.MaxLevel.Equals(equipmentBase.Level);
+            var isNotMaxLevel = equipmentEntity.MaxLevel.Equals(equipmentEntity.Level);
             
             // 내구도가 충분함.
-            var enoughDurability = equipmentBase.EquipmentDurability.EnoughDurability(GetReqDurability);
+            var enoughDurability = equipmentEntity.EquipmentDurability.EnoughDurability(GetReqDurability);
             
             // 모든 슬롯에 감정을 완료함.
-            var allSlotAppraisaled = equipmentBase.AttachedStatusSlots.All(ss =>
+            var allSlotAppraisaled = equipmentEntity.AttachedStatusSlots.All(ss =>
                 ss.EquipmentStatusSlotState != EquipmentStatusSlotState.UnIdentified);
 
             return isNotMaxLevel && enoughDurability && allSlotAppraisaled;
@@ -83,16 +83,16 @@ namespace AutoChess
         /// <summary>
         /// 장비 강화.
         /// </summary>
-        public void EnhanceEquipment(EquipmentBase equipmentBase)
+        public void EnhanceEquipment(EquipmentEntity equipmentEntity)
         {
-            var gt = equipmentBase.EquipmentGradeTableData;
-            var amount = gt.BaseReqCurrencyAmountForEnhance + equipmentBase.Level * gt.AddReqCurrencyAmountForEnhance;
+            var gt = equipmentEntity.EquipmentGradeTableData;
+            var amount = gt.BaseReqCurrencyAmountForEnhance + equipmentEntity.Level * gt.AddReqCurrencyAmountForEnhance;
 
             // 레벨업.
-            equipmentBase.AddLevel(1);
+            equipmentEntity.AddLevel(1);
 
             // 내구도 감소.
-            equipmentBase.EquipmentDurability.Damaged(GetReqDurability);
+            equipmentEntity.EquipmentDurability.Damaged(GetReqDurability);
         }
 
         #endregion

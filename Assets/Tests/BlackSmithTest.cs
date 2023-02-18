@@ -48,7 +48,7 @@ namespace Tests
 
             blackSmith.ProductEquipmentModels.Foreach(pem =>
             {
-                var equipment = pem.Value.ProductObject as EquipmentBase;
+                var equipment = pem.Value.ProductObject as EquipmentEntity;
                 Debug.Log($"대장간 장비 생산: {equipment}");
             });
         }

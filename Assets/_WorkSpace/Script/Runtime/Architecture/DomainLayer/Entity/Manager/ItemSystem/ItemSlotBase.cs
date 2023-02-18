@@ -14,7 +14,7 @@ namespace AutoChess
         /// <summary>
         /// 보관된 아이템.
         /// </summary>
-        public int StoredItemUniqueIndex;
+        public int StoredItemUniqueIndex = Constant.InvalidIndex;
 
         #endregion
 

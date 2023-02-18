@@ -9,7 +9,7 @@ namespace AutoChess
     {
         public class PurchaseSlotEntity
         {
-            public EquipmentBase PurchaseEquipment;
+            public EquipmentEntity PurchaseEquipment;
         }
 
         #region Fields & Property

@@ -40,6 +40,11 @@ namespace AutoChess
             EquipmentGenerator.UniqueIndexIssuancer = this;
         }
 
+        public void UpdateEquipment(EquipmentDto dto)
+        {
+            
+        }
+
         #endregion
 
 

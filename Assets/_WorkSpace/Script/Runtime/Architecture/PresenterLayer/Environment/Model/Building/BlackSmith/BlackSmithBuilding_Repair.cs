@@ -71,13 +71,13 @@ namespace AutoChess
         /// <summary>
         /// 내구도 수리.
         /// </summary>
-        public void RepairEquipment(EquipmentBase equipmentBase)
+        public void RepairEquipment(EquipmentEntity equipmentEntity)
         {
             var reduceChance = ProbabilityHelper.Chance(GetReduceDurabilityProb);
-            var durability = equipmentBase.EquipmentDurability;
+            var durability = equipmentEntity.EquipmentDurability;
             if (reduceChance)
             {
-                var baseDurability = equipmentBase.EquipmentGradeTableData.BaseDurability;
+                var baseDurability = equipmentEntity.EquipmentGradeTableData.BaseDurability;
                 var reduceAmount =
                     (int) (baseDurability * FormulaHelper.PercentLerp01Unclamped(BaseReduceDurabilityAmount));
                 durability.ResetMaxDurability(Mathf.Max(durability.MaxDurability - reduceAmount, 0));

@@ -34,9 +34,9 @@ namespace AutoChess
         /// <summary>
         /// 감정 가능 여부.
         /// </summary>
-        public bool CanAppraisalEquipment(EquipmentBase equipmentBase)
+        public bool CanAppraisalEquipment(EquipmentEntity equipmentEntity)
         {
-            var anyExistEmptySlot = equipmentBase.RemainSlot;
+            var anyExistEmptySlot = equipmentEntity.RemainSlot;
             return anyExistEmptySlot;
         }
 
@@ -48,11 +48,11 @@ namespace AutoChess
         /// <summary>
         /// 장비 감정.
         /// </summary>
-        public void AppraisalEquipment(EquipmentBase equipmentBase)
+        public void AppraisalEquipment(EquipmentEntity equipmentEntity)
         {
-            if (CanAppraisalEquipment(equipmentBase))
+            if (CanAppraisalEquipment(equipmentEntity))
             {
-                EquipmentGenerator.OpenEquipmentSlot(equipmentBase);
+                EquipmentGenerator.OpenEquipmentSlot(equipmentEntity);
             }
         }
 

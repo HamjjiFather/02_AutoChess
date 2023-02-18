@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using Zenject;
 
 namespace AutoChess
@@ -14,7 +15,12 @@ namespace AutoChess
 
         [Inject]
         private EquipmentRepository _equipmentRepository;
-        
+
+        /// <summary>
+        /// 장비 아이템.
+        /// </summary>
+        private Dictionary<int, EquipmentEntity> _equipmentMap;
+
         #endregion
 
 
@@ -26,6 +32,25 @@ namespace AutoChess
 
 
         #region This
+
+        /// <summary>
+        /// 장비를 획득함.
+        /// </summary>
+        public void ObtainEquipment(EquipmentEntity entity)
+        {
+            _equipmentMap.Add(entity.UniqueIndex, entity);
+            var dto = new EquipmentDto(entity);
+            _equipmentRepository.UpdateEquipment(dto);
+        }
+
+
+        /// <summary>
+        /// 장비 데이터가 삭제됨.
+        /// </summary>
+        public void DeleteEquipment(int uniqueIndex)
+        {
+            _equipmentMap.Remove(uniqueIndex);
+        }
 
         #endregion
 

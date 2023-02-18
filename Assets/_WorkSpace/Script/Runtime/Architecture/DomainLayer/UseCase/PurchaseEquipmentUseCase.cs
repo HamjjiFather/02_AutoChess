@@ -6,14 +6,14 @@ namespace AutoChess
     [UsedImplicitly]
     public class PurchaseEquipmentUseCase : IUseCaseBase
     {
-        public PurchaseEquipmentUseCase(CurrencySystemManager currencySystemManager)
+        public PurchaseEquipmentUseCase(CurrencyManager currencyManager)
         {
-            _currencySystemManager = currencySystemManager;
+            _currencyManager = currencyManager;
         }
 
         #region Fields & Property
 
-        private readonly CurrencySystemManager _currencySystemManager;
+        private readonly CurrencyManager _currencyManager;
 
         #endregion
 
@@ -27,10 +27,10 @@ namespace AutoChess
 
         #region This
 
-        public void Execute(EquipmentBase equipmentBase)
+        public void Execute(EquipmentEntity equipmentEntity)
         {
-            var price = equipmentBase.EquipmentTableData.SellingPrice;
-            _currencySystemManager.VariationCurrency(CurrencyType.Gold, -price);
+            var price = equipmentEntity.EquipmentTableData.SellingPrice;
+            _currencyManager.VariationCurrency(CurrencyType.Gold, -price);
         }
 
         #endregion

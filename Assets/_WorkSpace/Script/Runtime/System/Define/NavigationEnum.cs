@@ -15,5 +15,6 @@ namespace KKSFramework.Navigation
         NextFloorConfirmPopup,
         
         BlackSmithPurchasePopup,
+        WarehousePopup,
     }
 }

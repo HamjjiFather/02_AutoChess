@@ -12,6 +12,12 @@
             Repair,
         }
         
+        
+        public enum WarehouseBehaviourType
+        {
+            Store,
+        }
+        
         /// <summary>
         /// 시작 레벨.
         /// </summary>

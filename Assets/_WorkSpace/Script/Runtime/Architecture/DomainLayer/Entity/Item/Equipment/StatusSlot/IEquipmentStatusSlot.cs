@@ -9,6 +9,8 @@
     
     public interface IEquipmentStatusSlot
     {
+        int SlotIndex { get; }
+
         EquipmentStatusSlotState EquipmentStatusSlotState { get; }
     }
 }

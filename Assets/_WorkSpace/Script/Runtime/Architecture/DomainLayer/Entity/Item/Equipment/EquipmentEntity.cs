@@ -8,7 +8,7 @@ namespace AutoChess
     /// <summary>
     /// 장비의 베이스 클래스.
     /// </summary>
-    public class EquipmentEntity : IGetSubAbility, ILevelCore
+    public class EquipmentEntity : IItemEntityBase, IGetSubAbility, ILevelCore
     {
         public EquipmentEntity(int uniqueIndex, Equipment equipmentTableData, int slotAmount)
         {
@@ -24,7 +24,7 @@ namespace AutoChess
 
         #region Fields & Property
 
-        public int UniqueIndex;
+        public int UniqueIndex { get; set; }
 
         /// <summary>
         /// 강화 레벨.

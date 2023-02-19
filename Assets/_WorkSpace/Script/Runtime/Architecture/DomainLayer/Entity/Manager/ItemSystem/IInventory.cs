@@ -4,7 +4,7 @@ namespace AutoChess
 {
     public interface IInventory
     {
-        Dictionary<int, ItemSlotBase> StoredItems { get; set; }
+        // Dictionary<int, ItemSlotBase> StoredItems { get; set; }
 
         void StoreItem(int slotIndex);
 

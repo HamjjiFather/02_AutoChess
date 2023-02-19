@@ -6,8 +6,17 @@ namespace AutoChess
 {
     public class WarehouseBuildingEntity : BuildingEntityBase, IInitializable
     {
-        public class WarehouseStoreSlot : ItemSlotBase
+        public class WarehouseStoreSlot
         {
+            /// <summary>
+            /// 비어있는지 여부?
+            /// </summary>
+            public bool IsEmpty => StoredItemUniqueIndex == Constant.InvalidIndex;
+
+            /// <summary>
+            /// 보관된 아이템.
+            /// </summary>
+            public int StoredItemUniqueIndex = Constant.InvalidIndex;
         }
 
         public WarehouseBuildingEntity(Building buildingTableData) : base(buildingTableData)
@@ -85,10 +94,17 @@ namespace AutoChess
 
         #region This
 
-        public void StoreItem()
+        public void StoreItem(int uniqueIndex)
         {
+            if (Full)
+                return;
             
+            var firstIndex = StoreSlots.FindIndex(x => x.IsEmpty);
+            StoreSlots[firstIndex].StoredItemUniqueIndex = uniqueIndex;
         }
+
+
+        public bool Full => StoreSlots.All(x => !x.IsEmpty);
 
         #endregion
 

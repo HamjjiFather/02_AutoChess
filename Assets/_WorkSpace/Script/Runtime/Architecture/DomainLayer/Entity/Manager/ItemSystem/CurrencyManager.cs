@@ -14,12 +14,12 @@ namespace AutoChess
 
         [Inject]
         private CurrencyRepository _currencyRepository;
-        
+
         /// <summary>
         /// 관리되는 재화.
         /// </summary>
-        private Dictionary<CurrencyType, int> _currencyDict = new();
-        
+        private Dictionary<CurrencyType, CurrencyEntity> _currencyDict = new();
+
         #endregion
 
 
@@ -31,7 +31,8 @@ namespace AutoChess
         {
             base.Initialize();
             var dao = _currencyRepository.ReadAll();
-            _currencyDict = dao.ToDictionary(cd => cd.CurrencyMd.CurrencyType, cd => cd.Amount);
+            _currencyDict = dao.ToDictionary(cd => cd.CurrencyMd.CurrencyType,
+                cd => new CurrencyEntity(cd.Index, cd.Amount));
         }
 
         #endregion
@@ -42,7 +43,8 @@ namespace AutoChess
         /// <summary>
         /// 재화 충분 여부.
         /// </summary>
-        public bool EnoughCurrency(CurrencyType currencyType, int amount) => amount >= _currencyDict[currencyType];
+        public bool EnoughCurrency(CurrencyType currencyType, int amount) =>
+            amount >= _currencyDict[currencyType].Amount;
 
 
         /// <summary>
@@ -65,8 +67,8 @@ namespace AutoChess
         /// </summary>
         private void IncreaseCurrency(CurrencyType currencyType, int amount)
         {
-            var cur = _currencyDict[currencyType] + amount;
-            _currencyDict[currencyType] = Mathf.Clamp(cur, 0, ItemDefine.LimitCurrencyAmount);
+            var cur = _currencyDict[currencyType].Amount + amount;
+            _currencyDict[currencyType].Amount = Mathf.Clamp(cur, 0, ItemDefine.LimitCurrencyAmount);
         }
 
 
@@ -75,8 +77,8 @@ namespace AutoChess
         /// </summary>
         private void DecreaseCurrency(CurrencyType currencyType, int amount)
         {
-            var cur = _currencyDict[currencyType] + amount;
-            _currencyDict[currencyType] = Mathf.Clamp(cur, 0, ItemDefine.LimitCurrencyAmount);
+            var cur = _currencyDict[currencyType].Amount + amount;
+            _currencyDict[currencyType].Amount = Mathf.Clamp(cur, 0, ItemDefine.LimitCurrencyAmount);
         }
 
         #endregion

@@ -33,6 +33,9 @@ namespace AutoChess
 
         #region This
 
+        public EquipmentEntity GetEquipment(int uniqueIndex) => _equipmentMap[uniqueIndex];
+        
+
         /// <summary>
         /// 장비를 획득함.
         /// </summary>

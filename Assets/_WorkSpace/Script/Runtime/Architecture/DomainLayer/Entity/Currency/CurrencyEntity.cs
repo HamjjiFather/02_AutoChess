@@ -1,18 +1,20 @@
-﻿namespace AutoChess
+﻿using UniRx;
+
+namespace AutoChess
 {
     public class CurrencyEntity : IItemEntityBase
     {
         public CurrencyEntity(int uniqueIndex, int amount)
         {
             UniqueIndex = uniqueIndex;
-            Amount = amount;
+            Amount = new IntReactiveProperty(amount);
         }
 
         #region Fields & Property
 
         public int UniqueIndex { get; set; }
 
-        public int Amount { get; set; }
+        public IntReactiveProperty Amount { get; set; }
 
         #endregion
 

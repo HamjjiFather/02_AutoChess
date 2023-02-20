@@ -1,4 +1,8 @@
-﻿namespace AutoChess
+﻿using System.Collections.Generic;
+using UniRx;
+using UnityEngine;
+
+namespace AutoChess
 {
     public static class CurrencyDefine
     {
@@ -9,24 +13,30 @@
     {
         #region Fields & Property
 
-        #endregion
+        private static Dictionary<CurrencyType, Sprite> _currencySpriteMap = new();
 
-
-        #region Methods
-
-        #region Override
+        private const string PathFormat = "_Image/Currency/{0}";
 
         #endregion
 
 
         #region This
 
-        #endregion
+        public static Sprite GetCurrencyIcon(CurrencyType currencyType)
+        {
+            if (_currencySpriteMap.ContainsKey(currencyType))
+                return _currencySpriteMap[currencyType];
 
 
-        #region Event
+            var iconName = TableDataManager.Instance.CurrencyDict[(int) currencyType].IconName;
+            var path = string.Format(PathFormat, iconName);
+            return Resources.Load<Sprite>(path);
+        }
 
-        #endregion
+        // public static CurrencyPresentVo ToPresentVo(CurrencyType currencyType, IntReactiveProperty intReactive)
+        // {
+        //     return new CurrencyPresentVo()
+        // }
 
         #endregion
     }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UniRx;
 using UnityEngine;
 using Zenject;
 
@@ -20,6 +21,11 @@ namespace AutoChess
         /// </summary>
         private Dictionary<CurrencyType, CurrencyEntity> _currencyDict = new();
 
+        /// <summary>
+        /// 재화 구독.
+        /// </summary>
+        public IntReactiveProperty GetCurrency(CurrencyType currencyType) => _currencyDict[currencyType].Amount;
+        
         #endregion
 
 
@@ -44,7 +50,7 @@ namespace AutoChess
         /// 재화 충분 여부.
         /// </summary>
         public bool EnoughCurrency(CurrencyType currencyType, int amount) =>
-            amount >= _currencyDict[currencyType].Amount;
+            amount >= _currencyDict[currencyType].Amount.Value;
 
 
         /// <summary>
@@ -67,8 +73,8 @@ namespace AutoChess
         /// </summary>
         private void IncreaseCurrency(CurrencyType currencyType, int amount)
         {
-            var cur = _currencyDict[currencyType].Amount + amount;
-            _currencyDict[currencyType].Amount = Mathf.Clamp(cur, 0, ItemDefine.LimitCurrencyAmount);
+            var cur = _currencyDict[currencyType].Amount.Value + amount;
+            _currencyDict[currencyType].Amount.SetValueAndForceNotify(Mathf.Clamp(cur, 0, ItemDefine.LimitCurrencyAmount));
         }
 
 
@@ -77,8 +83,8 @@ namespace AutoChess
         /// </summary>
         private void DecreaseCurrency(CurrencyType currencyType, int amount)
         {
-            var cur = _currencyDict[currencyType].Amount + amount;
-            _currencyDict[currencyType].Amount = Mathf.Clamp(cur, 0, ItemDefine.LimitCurrencyAmount);
+            var cur = _currencyDict[currencyType].Amount.Value + amount;
+            _currencyDict[currencyType].Amount.SetValueAndForceNotify(Mathf.Clamp(cur, 0, ItemDefine.LimitCurrencyAmount));
         }
 
         #endregion

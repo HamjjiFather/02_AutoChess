@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using KKSFramework.ResourcesLoad;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace KKSFramework.Navigation
@@ -34,7 +35,7 @@ namespace KKSFramework.Navigation
         /// <summary>
         /// CommonView 오픈.
         /// </summary>
-        public static async UniTask OpenCommonViewAsync<T> (string viewName) where T : PoolingComponent
+        public static async UniTask OpenCommonViewAsync<T> (string viewName) where T : Component
         {
             await NavigationProjectManager.Instance.OpenCommonView<T> (viewName);
         }

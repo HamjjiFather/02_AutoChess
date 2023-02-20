@@ -11,6 +11,11 @@ public class Currency : Item
 	/// </summary>
 	public CurrencyType CurrencyType;
 
+			/// <summary>
+	/// 아이콘 이름.
+	/// </summary>
+	public string IconName;
+
 		
 
     public Currency ()
@@ -22,10 +27,10 @@ public class Currency : Item
     {
         var rowIndex = 0;
         Id = int.Parse(myData[rowIndex++]);
-		GlobalIndex = myData[rowIndex++];
+		CurrencyType = (CurrencyType)Enum.Parse (typeof(CurrencyType), myData[rowIndex++]);
 		StackAmount = int.Parse(myData[rowIndex++]);
 		SellingPrice = int.Parse(myData[rowIndex++]);
-		CurrencyType = (CurrencyType)Enum.Parse (typeof(CurrencyType), myData[rowIndex++]);
+		IconName = myData[rowIndex++];
 		
     }
 }

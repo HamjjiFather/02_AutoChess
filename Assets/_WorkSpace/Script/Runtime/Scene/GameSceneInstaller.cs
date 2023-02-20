@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using AutoChess;
+using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using KKSFramework.Navigation;
 using KKSFramework.SceneLoad;
@@ -44,8 +45,18 @@ namespace KKSFramework.InGame
         };
 
 
-        [UsedImplicitly]
-        public void PushRootView()
+        public void OnPostInstall()
+        {
+            CreateCommonView();
+
+            void CreateCommonView()
+            {
+                var statusView = NavigationHelper.OpenCommonViewAsync<StatusView>(nameof(StatusView));
+            }
+        }
+
+
+        public void OnPostResolve()
         {
             base.PushRootView().Forget();
         }

@@ -12,11 +12,6 @@ public class Building : TableDataBase
 	public int Id;
 
 	/// <summary>
-	/// 건물 타입.
-	/// </summary>
-	public BuildingType BuildingType;
-
-	/// <summary>
 	/// 건물 이름.
 	/// </summary>
 	public string BuildingName;
@@ -30,10 +25,6 @@ public class Building : TableDataBase
 
     public override void SetData (List<string> myData)
     {
-        var rowIndex = 0;
-        Id = int.Parse(myData[rowIndex++]);
-		BuildingType = (BuildingType)Enum.Parse (typeof(BuildingType), myData[rowIndex++]);
-		BuildingName = myData[rowIndex++];
-		
+        return;
     }
 }

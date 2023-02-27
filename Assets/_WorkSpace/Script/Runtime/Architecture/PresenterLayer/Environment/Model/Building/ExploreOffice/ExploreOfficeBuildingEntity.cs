@@ -4,7 +4,7 @@ namespace AutoChess
 {
     public class ExploreOfficeBuildingEntity : BuildingEntityBase
     {
-        public ExploreOfficeBuildingEntity(Building buildingTableData) : base(buildingTableData)
+        public ExploreOfficeBuildingEntity(Base buildingTableData) : base(buildingTableData)
         {
         }
 

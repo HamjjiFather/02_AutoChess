@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoChess;
+using AutoChess.Repository;
 using JetBrains.Annotations;
 using KKSFramework;
+using Zenject;
 
 namespace AutoChess
 {
@@ -15,6 +18,10 @@ namespace AutoChess
 
         #region Fields & Property
 
+
+        [Inject]
+        private BuildingRepository _buildingRepository;
+
         /// <summary>
         /// 건축물.
         /// </summary>
@@ -22,24 +29,24 @@ namespace AutoChess
         {
             {
                 BuildingType.BlackSmith,
-                new BlackSmithBuildingEntity(TableDataManager.Instance.BuildingDict[(int) BuildingType.BlackSmith])
+                new BlackSmithBuildingEntity(TableDataManager.Instance.BaseDict[(int) BuildingType.BlackSmith])
             },
             {
                 BuildingType.Warehouse,
-                new WarehouseBuildingEntity(TableDataManager.Instance.BuildingDict[(int) BuildingType.Warehouse])
+                new WarehouseBuildingEntity(TableDataManager.Instance.BaseDict[(int) BuildingType.Warehouse])
             },
             {
                 BuildingType.ExploreOffice,
-                new ExploreOfficeBuildingEntity(TableDataManager.Instance.BuildingDict[(int) BuildingType.ExploreOffice])
+                new ExploreOfficeBuildingEntity(TableDataManager.Instance.BaseDict[(int) BuildingType.ExploreOffice])
             },
             {
                 BuildingType.Graveyard,
-                new GraveyardBuildingEntity(TableDataManager.Instance.BuildingDict[(int) BuildingType.Graveyard])
+                new GraveyardBuildingEntity(TableDataManager.Instance.BaseDict[(int) BuildingType.Graveyard])
             },
             {
                 BuildingType.EmploymentOffice,
                 new EmploymentOfficeBuildingEntity(
-                    TableDataManager.Instance.BuildingDict[(int) BuildingType.EmploymentOffice])
+                    TableDataManager.Instance.BaseDict[(int) BuildingType.EmploymentOffice])
             }
         };
 
@@ -47,6 +54,8 @@ namespace AutoChess
         /// 전초기지.
         /// </summary>
         private Dictionary<int, OutpostBuildingEntity> _outpostBuildings;
+
+        public Dictionary<int, OutpostBuildingEntity> OutpostBuildingEntities => _outpostBuildings;
 
         #endregion
 
@@ -58,6 +67,9 @@ namespace AutoChess
         public void Initialize()
         {
             _buildingEntityMap.Values.Foreach(entity => entity.Initialize());
+            var outpostDao = _buildingRepository.ReceiveOutpostDao();
+            _outpostBuildings =
+                outpostDao.ToDictionary(x => x.Index, x => new OutpostBuildingEntity(x.OutpostTableData));
         }
 
         #endregion
@@ -83,7 +95,8 @@ namespace AutoChess
 
             return BuildingType.ExploreOffice;
         }
-
+        
+        
         #endregion
 
 

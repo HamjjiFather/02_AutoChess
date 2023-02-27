@@ -4,7 +4,7 @@ namespace AutoChess
 {
     public partial class EmploymentOfficeBuildingEntity : BuildingEntityBase, IInitializable
     {
-        public EmploymentOfficeBuildingEntity(Building buildingTableData) : base(buildingTableData)
+        public EmploymentOfficeBuildingEntity(Base buildingTableData) : base(buildingTableData)
         {
         }
 

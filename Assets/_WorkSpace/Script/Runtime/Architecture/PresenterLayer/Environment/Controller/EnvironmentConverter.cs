@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using KKSFramework;
 using UnityEngine;
 
 namespace AutoChess.Presenter
@@ -51,6 +52,8 @@ namespace AutoChess.Presenter
             _gameEnvironments.Add(EnvironmentType.Base, baseEnvironment);
             _gameEnvironments.Add(EnvironmentType.Adventure, adventureEnvironment);
             _gameEnvironments.Add(EnvironmentType.Battle, battleEnvironment);
+            
+            _gameEnvironments.Foreach(ge => ge.Value.gameObject.SetActive(false));
         }
 
 
@@ -64,10 +67,11 @@ namespace AutoChess.Presenter
 
         #region This
 
-        public void ChangeEnvironment(EnvironmentType environmentType, EnvironmentParameterBase parameter)
+        public void ChangeEnvironment(EnvironmentType environmentType, EnvironmentParameterBase parameter = default)
         {
             if (_gameEnvironments.ContainsKey(_currentEnvironmentType))
             {
+                _gameEnvironments[_currentEnvironmentType].gameObject.SetActive(false);
                 _gameEnvironments[_currentEnvironmentType].OnEnvironmentDisabled();
             }
 
@@ -76,6 +80,7 @@ namespace AutoChess.Presenter
             if (_gameEnvironments.ContainsKey(_currentEnvironmentType))
             {
                 _gameEnvironments[_currentEnvironmentType].OnEnvironmentEnabled(parameter);
+                _gameEnvironments[_currentEnvironmentType].gameObject.SetActive(true);
             }
         }
 

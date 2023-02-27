@@ -1,13 +1,32 @@
-﻿using Zenject;
+﻿using System;
+using Zenject;
 
 namespace AutoChess
 {
+    [Flags]
+    public enum OutpostAddOnTypes
+    {
+        WatchTower = 1 << 1,
+        
+        SettlementPost = 1 << 2,
+        
+        CaravanPost = 1 << 3,
+        
+        ArchLab = 1 << 4,
+        
+        Armory = 1 << 5,
+        
+        Hospital = 1 << 6,
+        
+        CollectionCenter = 1 << 7,
+    }
+    
     /// <summary>
     /// 세계맵에 배치된 전초기지 건물.
     /// </summary>
     public class OutpostBuildingEntity : BuildingEntityBase, IInitializable
     {
-        public OutpostBuildingEntity(Building buildingTableData) : base(buildingTableData)
+        public OutpostBuildingEntity(Outpost buildingTableData) : base()
         {
         }
 

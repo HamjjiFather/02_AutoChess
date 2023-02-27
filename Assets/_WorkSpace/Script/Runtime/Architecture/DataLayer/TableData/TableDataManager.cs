@@ -30,7 +30,8 @@ public class TableDataManager : Singleton<TableDataManager>
 	 public Dictionary<int, AdventureField> AdventureFieldDict = new Dictionary<int, AdventureField> ();
 	 public Dictionary<int, AdventureEquipment> AdventureEquipmentDict = new Dictionary<int, AdventureEquipment> ();
 	 public Dictionary<int, AdventureEquipmentProb> AdventureEquipmentProbDict = new Dictionary<int, AdventureEquipmentProb> ();
-	 public Dictionary<int, Building> BuildingDict = new Dictionary<int, Building> ();
+	 public Dictionary<int, Base> BaseDict = new Dictionary<int, Base> ();
+	 public Dictionary<int, Outpost> OutpostDict = new Dictionary<int, Outpost> ();
 	 public Dictionary<int, OfficeSkill> OfficeSkillDict = new Dictionary<int, OfficeSkill> ();
 	 
 
@@ -56,7 +57,8 @@ public class TableDataManager : Singleton<TableDataManager>
 		AdventureFieldDict = (await ReadCSVData.Instance.LoadCSVData<AdventureField> ("TableData", nameof (AdventureField))).ToDictionary (x => x.Id, x => x);
 		AdventureEquipmentDict = (await ReadCSVData.Instance.LoadCSVData<AdventureEquipment> ("TableData", nameof (AdventureEquipment))).ToDictionary (x => x.Id, x => x);
 		AdventureEquipmentProbDict = (await ReadCSVData.Instance.LoadCSVData<AdventureEquipmentProb> ("TableData", nameof (AdventureEquipmentProb))).ToDictionary (x => x.Id, x => x);
-		BuildingDict = (await ReadCSVData.Instance.LoadCSVData<Building> ("TableData", nameof (Building))).ToDictionary (x => x.Id, x => x);
+		BaseDict = (await ReadCSVData.Instance.LoadCSVData<Base> ("TableData", nameof (Base))).ToDictionary (x => x.Id, x => x);
+		OutpostDict = (await ReadCSVData.Instance.LoadCSVData<Outpost> ("TableData", nameof (Outpost))).ToDictionary (x => x.Id, x => x);
 		OfficeSkillDict = (await ReadCSVData.Instance.LoadCSVData<OfficeSkill> ("TableData", nameof (OfficeSkill))).ToDictionary (x => x.Id, x => x);
 		
 
@@ -80,7 +82,8 @@ public class TableDataManager : Singleton<TableDataManager>
 		TotalDataDict.AddRange (AdventureFieldDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (AdventureEquipmentDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (AdventureEquipmentProbDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
-		TotalDataDict.AddRange (BuildingDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
+		TotalDataDict.AddRange (BaseDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
+		TotalDataDict.AddRange (OutpostDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (OfficeSkillDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		
     }

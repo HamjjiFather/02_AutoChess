@@ -11,7 +11,7 @@ namespace AutoChess
         {
         }
 
-        public BlackSmithBuildingEntity(Building buildingTableData) : base(buildingTableData)
+        public BlackSmithBuildingEntity(Base buildingTableData) : base(buildingTableData)
         {
         }
         

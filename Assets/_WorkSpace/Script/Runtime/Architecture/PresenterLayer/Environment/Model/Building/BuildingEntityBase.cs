@@ -8,7 +8,7 @@ namespace AutoChess
         {
         }
 
-        public BuildingEntityBase(Building buildingTableData)
+        public BuildingEntityBase(Base buildingTableData)
         {
             BuildingTableData = buildingTableData;
         }
@@ -17,7 +17,7 @@ namespace AutoChess
         
         #region Fields & Property
 
-        public Building BuildingTableData { get; set; }
+        public Base BuildingTableData { get; set; }
 
         public int Level { get; set; } = BuildingDefine.StartLevel;
 

@@ -62,3 +62,18 @@ TagManager:
   - name: Decorative
     uniqueID: 2252121409
     locked: 0
+  - name: New Layer 7
+    uniqueID: 1861766991
+    locked: 0
+  - name: New Layer 8
+    uniqueID: 2428413169
+    locked: 0
+  - name: New Layer 9
+    uniqueID: 4204174065
+    locked: 0
+  - name: New Layer 10
+    uniqueID: 2326275243
+    locked: 0
+  - name: EnvironmentUI
+    uniqueID: 3015808097
+    locked: 0

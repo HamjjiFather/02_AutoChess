@@ -1,18 +1,30 @@
-﻿namespace AutoChess.Presenter
+﻿using KKSFramework;
+using UnityEngine.Serialization;
+using Zenject;
+
+namespace AutoChess.Presenter
 {
     public class AdventureEnvironmentController : GameEnvironmentBase
     {
         #region Fields & Property
+        
+        [Inject]
+        private BuildingManager _buildingManager;
 
         /// <summary>
         /// 탐험 월드.
         /// </summary>
-        public AdventureWorld world;
+        public AdventureField field;
 
         /// <summary>
         /// 플레이어 캐릭터.
         /// </summary>
         public PlayableCharacterAgentController player;
+
+        /// <summary>
+        /// 플레이어 캐릭터에 포함된 감시 컴포넌트.
+        /// </summary>
+        public AdventureDetectableObjectDetector detector;
 
         #endregion
 
@@ -41,7 +53,14 @@
 
         public override void OnEnvironmentEnabled(EnvironmentParameterBase environmentParameter)
         {
-            throw new System.NotImplementedException();
+            var outpostMap = _buildingManager.OutpostBuildingEntities;
+            field.outpostBuildingTiles.Foreach(obt =>
+            {
+                var entity = outpostMap[obt.outpostIndex];
+                obt.Initialize(entity);
+            });
+            
+            detector.Activate();
         }
 
         #endregion

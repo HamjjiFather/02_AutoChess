@@ -1,13 +1,19 @@
 ﻿
+using System;
+using AutoChess.Presenter;
+using KKSFramework;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 using Zenject;
 
-namespace AutoChess
+namespace AutoChess.Presenter
 {
-    public class AdventureWorld : MonoBehaviour
+    public class AdventureField : MonoBehaviour
     {
         #region Fields & Property
+
+        public Camera adventureViewCamera;
 
         /// <summary>
         /// 캐릭터가 위치한 숲 타일 맵.
@@ -19,12 +25,21 @@ namespace AutoChess
         /// </summary>
         private Color _inColor = new Color(1, 1, 1, 0.46f);
 
+        public BaseBuildingTile baseBuildingTile;
+        
+        public OutpostBuildingTile[] outpostBuildingTiles;
+
         #endregion
 
 
         #region Methods
 
         #region Override
+
+        private void Awake()
+        {
+            outpostBuildingTiles.Foreach(ot => ot.canvas.worldCamera = adventureViewCamera);
+        }
 
         #endregion
 
@@ -42,6 +57,12 @@ namespace AutoChess
         {
             _forestTilemap.color = Color.white;
             _forestTilemap = default;
+        }
+
+
+        public void Initialize()
+        {
+            
         }
 
         #endregion

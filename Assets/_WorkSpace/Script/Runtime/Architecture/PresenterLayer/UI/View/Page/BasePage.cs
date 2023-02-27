@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using KKSFramework;
 using KKSFramework.Navigation;
 using UniRx;
+using UnityEngine.UI;
 using Zenject;
 
 namespace AutoChess.Presenter
@@ -20,6 +21,9 @@ namespace AutoChess.Presenter
     public class BasePage : PageViewBase
     {
         #region Fields & Property
+
+        [Inject]
+        private EnvironmentConverter _environmentConverter;
 
         [Inject]
         private BuildingManager _buildingManager;
@@ -53,15 +57,7 @@ namespace AutoChess.Presenter
             _areaViewByBuildingType.Add(BuildingType.EmploymentOffice, employmentOfficeBuildingMenuArea);
             _areaViewByBuildingType.Add(BuildingType.Warehouse, warehouseBuildingMenuArea);
             _areaViewByBuildingType.Add(BuildingType.Graveyard, graveyardBuildingMenuArea);
-            
             _areaViewByBuildingType.Foreach(kvp => kvp.Value.Initialize(_buildingManager.GetBuilding(kvp.Key)));
-            
-            MessageBroker.Default.Receive<OpenBuildingMenuMsg>().TakeUntilDestroy(this).Subscribe(msg =>
-            {
-                _areaViewByBuildingType[_controlledBuildingType].Hide().Forget();
-                _controlledBuildingType = msg.BuildingType;
-                _areaViewByBuildingType[_controlledBuildingType].Show().Forget();
-            });
         }
 
         #endregion
@@ -71,14 +67,26 @@ namespace AutoChess.Presenter
 
         protected override UniTask OnPush(object pushValue = null)
         {
-            return base.OnPush(pushValue);
+            MessageBroker.Default.Receive<OpenBuildingMenuMsg>().TakeUntilDestroy(this).Subscribe(msg =>
+            {
+                _areaViewByBuildingType[_controlledBuildingType].Hide().Forget();
+                _controlledBuildingType = msg.BuildingType;
+                _areaViewByBuildingType[_controlledBuildingType].Show().Forget();
+            });
             
+            return base.OnPush(pushValue);
         }
 
         #endregion
 
 
         #region EventMethods
+
+        public void OnToAdventureButton_Click()
+        {
+            _environmentConverter.ChangeEnvironment(EnvironmentType.Adventure);
+            NavigationHelper.OpenPageAsync(NavigationViewType.AdventurePage, NavigationTriggerState.First).Forget();
+        }
 
         #endregion
     }

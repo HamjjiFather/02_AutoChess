@@ -4,7 +4,7 @@ namespace AutoChess
 {
     public interface IConstructor : ILevelBasedOnExp
     {
-        public Building BuildingTableData { get; set; }
+        public Base BuildingTableData { get; set; }
 
         void Build();
     }

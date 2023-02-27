@@ -32,16 +32,6 @@ namespace AutoChess.Presenter
 
         #region Override
 
-        private void Awake()
-        {
-            
-        }
-
-        private void OnMouseDown()
-        {
-            // _blackSmithBuildingTile.OnMouseDown();
-        }
-
         #endregion
 
 

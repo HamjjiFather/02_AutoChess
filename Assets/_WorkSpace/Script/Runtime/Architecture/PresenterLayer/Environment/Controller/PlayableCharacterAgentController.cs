@@ -10,7 +10,7 @@ namespace AutoChess.Presenter
     {
         #region Fields & Property
 
-        private AdventureWorld _adventureWorld;
+        private AdventureField _adventureField;
 
         public Camera targetCamera; 
 
@@ -77,14 +77,14 @@ namespace AutoChess.Presenter
             Debug.Log($"Enter: {col}" );
 
             var tile = col.GetComponent<Tilemap>();
-            _adventureWorld.EnterToForest(tile);
+            _adventureField.EnterToForest(tile);
         }
 
 
         private void OnTriggerExit2D(Collider2D other)
         {
             Debug.Log($"exit: {other}" );
-            _adventureWorld.ExitFromForest();
+            _adventureField.ExitFromForest();
         }
 
         #endregion

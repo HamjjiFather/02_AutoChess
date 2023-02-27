@@ -6,6 +6,7 @@ namespace KKSFramework.Navigation
         TitlePage,
         GamePage = 1000,
         BasePage,
+        AdventurePage,
         
         BlackSmithPurchasePopup,
         WarehousePopup,

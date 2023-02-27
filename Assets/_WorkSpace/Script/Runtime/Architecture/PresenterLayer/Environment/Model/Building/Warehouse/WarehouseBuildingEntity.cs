@@ -19,7 +19,7 @@ namespace AutoChess
             public int StoredItemUniqueIndex = Constant.InvalidIndex;
         }
 
-        public WarehouseBuildingEntity(Building buildingTableData) : base(buildingTableData)
+        public WarehouseBuildingEntity(Base buildingTableData) : base(buildingTableData)
         {
         }
 

@@ -4,7 +4,7 @@ namespace AutoChess
 {
     public class GraveyardBuildingEntity : BuildingEntityBase, IInitializable
     {
-        public GraveyardBuildingEntity(Building buildingTableData) : base(buildingTableData)
+        public GraveyardBuildingEntity(Base buildingTableData) : base(buildingTableData)
         {
         }
 

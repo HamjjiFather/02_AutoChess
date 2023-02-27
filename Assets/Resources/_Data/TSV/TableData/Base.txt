@@ -1,0 +1,6 @@
+Id	BuildingName	BuildingType
+0	NAME_BUILDING_0000	ExploreOffice
+1	NAME_BUILDING_0001	BlackSmith
+2	NAME_BUILDING_0002	EmploymentOffice
+3	NAME_BUILDING_0003	Warehouse
+4	NAME_BUILDING_0004	Graveyard

@@ -27,7 +27,7 @@ namespace AutoChess.Presenter
         [Inject]
         private BuildingManager _buildingManager;
 
-        // public FieldActionArea fieldActionArea;
+        public FieldActionArea fieldActionArea;
 
         #endregion
 
@@ -44,7 +44,7 @@ namespace AutoChess.Presenter
             MessageBroker.Default.Receive<FieldActionMsg>().TakeUntilDestroy(this).Subscribe(fam =>
             {
                 var param = new FieldActionArea.FieldActionAreaParameter(fam.FieldActionType, OnShowOutpostMenu);
-                // fieldActionArea.Show(param).Forget();
+                fieldActionArea.Show(param).Forget();
             });
             
             return base.OnPush(pushValue);
@@ -60,7 +60,7 @@ namespace AutoChess.Presenter
 
         private void OnShowOutpostMenu()
         {
-            // fieldActionArea.Hide().Forget();
+            fieldActionArea.Hide().Forget();
         }
 
         #endregion

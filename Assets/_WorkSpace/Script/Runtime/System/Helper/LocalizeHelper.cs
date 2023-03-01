@@ -1,25 +1,24 @@
-using I2.Loc;
-
-
 namespace Helper
 {
     public static class LocalizeHelper
     {
         public static string FromName (string term)
         {
-            return LocalizationManager.GetTranslation ($"NAME/{term}", applyParameters: true);
+            return default;
         }
 
         
         public static string FromNoun (string term)
         {
-            return LocalizationManager.GetTranslation ($"NOUN/{term}", applyParameters: false);
+            return default;
+            // return LocalizationManager.GetTranslation ($"NOUN/{term}", applyParameters: false);
         }
         
         
         public static string FromDescription (string term)
         {
-            return LocalizationManager.GetTranslation ($"DESC/{term}", applyParameters: true);
+            return default;
+            // return LocalizationManager.GetTranslation ($"DESC/{term}", applyParameters: true);
         }
     }
 }

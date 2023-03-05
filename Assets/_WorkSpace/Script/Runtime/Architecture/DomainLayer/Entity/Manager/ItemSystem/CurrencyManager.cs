@@ -37,8 +37,10 @@ namespace AutoChess
         {
             base.Initialize();
             var dao = _currencyRepository.ReadAll();
-            _currencyDict = dao.ToDictionary(cd => cd.CurrencyMd.CurrencyType,
+            _currencyDict = dao.ToDictionary(cd => (CurrencyType)cd.CurrencyMd.Id,
                 cd => new CurrencyEntity(cd.Index, cd.Amount));
+            
+            CurrencyHelper.CheckEnoughCurrencyFunc = EnoughCurrency;
         }
 
         #endregion
@@ -50,7 +52,7 @@ namespace AutoChess
         /// 재화 충분 여부.
         /// </summary>
         public bool EnoughCurrency(CurrencyType currencyType, int amount) =>
-            amount >= _currencyDict[currencyType].Amount.Value;
+            amount <= _currencyDict[currencyType].Amount.Value;
 
 
         /// <summary>

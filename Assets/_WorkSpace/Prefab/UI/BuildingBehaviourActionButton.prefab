@@ -178,7 +178,7 @@ GameObject:
   - component: {fileID: 2440967045310739719}
   - component: {fileID: 2544327879936899894}
   m_Layer: 0
-  m_Name: buildingActionButtonText [106:4]
+  m_Name: ButtonLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

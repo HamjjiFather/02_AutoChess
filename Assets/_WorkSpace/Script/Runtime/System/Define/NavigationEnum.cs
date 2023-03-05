@@ -10,5 +10,6 @@ namespace KKSFramework.Navigation
         
         BlackSmithPurchasePopup,
         WarehousePopup,
+        OutpostPopup,
     }
 }

@@ -42,6 +42,11 @@ namespace AutoChess
         {
             _warehouseBuilding = buildingMgr.GetBuilding(BuildingType.Warehouse) as WarehouseBuildingEntity;
         }
+        
+        public void Initialize()
+        {
+            // throw new System.NotImplementedException();
+        }
 
         #endregion
 
@@ -59,5 +64,7 @@ namespace AutoChess
         #endregion
 
         #endregion
+
+
     }
 }

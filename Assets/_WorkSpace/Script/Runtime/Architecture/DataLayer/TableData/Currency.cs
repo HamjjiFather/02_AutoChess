@@ -7,11 +7,6 @@ using KKSFramework.TableData;
 public class Currency : Item
 {
 	/// <summary>
-	/// 재화 타입.
-	/// </summary>
-	public CurrencyType CurrencyType;
-
-			/// <summary>
 	/// 아이콘 이름.
 	/// </summary>
 	public string IconName;
@@ -27,7 +22,7 @@ public class Currency : Item
     {
         var rowIndex = 0;
         Id = int.Parse(myData[rowIndex++]);
-		CurrencyType = (CurrencyType)Enum.Parse (typeof(CurrencyType), myData[rowIndex++]);
+		GlobalIndex = myData[rowIndex++];
 		StackAmount = int.Parse(myData[rowIndex++]);
 		SellingPrice = int.Parse(myData[rowIndex++]);
 		IconName = myData[rowIndex++];

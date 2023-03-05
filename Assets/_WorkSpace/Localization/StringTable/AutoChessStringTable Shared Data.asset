@@ -16,7 +16,35 @@ MonoBehaviour:
   m_TableCollectionNameGuidString: 5ba1423721eafeb408ac88d6b2ac9d3d
   m_Entries:
   - m_Id: 8865513472
-    m_Key: Desc
+    m_Key: Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1066592300847104
+    m_Key: NAME_OUTPOST_EXTEND_0000
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1066592334401536
+    m_Key: NAME_OUTPOST_EXTEND_0001
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1066592334401537
+    m_Key: NAME_OUTPOST_EXTEND_0002
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1066592334401538
+    m_Key: NAME_OUTPOST_EXTEND_0003
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1066592334401539
+    m_Key: NAME_OUTPOST_EXTEND_0004
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1066592334401540
+    m_Key: NAME_OUTPOST_EXTEND_0005
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1066592334401541
+    m_Key: NAME_OUTPOST_EXTEND_0006
     m_Metadata:
       m_Items: []
   m_Metadata:

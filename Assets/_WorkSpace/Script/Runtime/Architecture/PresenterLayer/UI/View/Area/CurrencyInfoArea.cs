@@ -1,4 +1,5 @@
-﻿using KKSFramework.Navigation;
+﻿using System;
+using KKSFramework.Navigation;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,8 @@ namespace AutoChess
 
         public TextMeshProUGUI amountText;
 
+        private Color _originTextColor;
+
         #endregion
 
 
@@ -20,15 +23,27 @@ namespace AutoChess
 
         #region Override
 
+        private void Awake()
+        {
+            _originTextColor = amountText.color;
+        }
+
         #endregion
 
 
         #region This
 
-        public void SetArea(CurrencyPresentVo vo)
+        public void SetArea(CurrencyPresentVo presentVo)
         {
-            currencyIcon.sprite = vo.IconImage;
-            amountText.text = vo.AmountString;
+            currencyIcon.sprite = presentVo.IconImage;
+            amountText.text = presentVo.AmountString;
+            amountText.color = presentVo.Enough ? _originTextColor : ColorDefine.NegativeColor;
+        }
+
+
+        public void SetArea(CurrencyDataVo dataVo)
+        {
+            
         }
 
         #endregion

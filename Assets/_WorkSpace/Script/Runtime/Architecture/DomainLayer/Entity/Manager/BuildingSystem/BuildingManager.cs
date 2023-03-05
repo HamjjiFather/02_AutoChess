@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoChess;
 using AutoChess.Repository;
 using JetBrains.Annotations;
 using KKSFramework;
@@ -18,7 +17,9 @@ namespace AutoChess
 
         #region Fields & Property
 
-
+        [Inject]
+        private OutpostRepository _outpostRepository;
+        
         [Inject]
         private BuildingRepository _buildingRepository;
 
@@ -67,9 +68,13 @@ namespace AutoChess
         public void Initialize()
         {
             _buildingEntityMap.Values.Foreach(entity => entity.Initialize());
-            var outpostDao = _buildingRepository.ReceiveOutpostDao();
+            var outpostDao = _outpostRepository.ReceiveDaos();
             _outpostBuildings =
-                outpostDao.ToDictionary(x => x.Index, x => new OutpostBuildingEntity(x.OutpostTableData));
+                outpostDao.ToDictionary(x => x.Index, x =>
+                {
+                    var entity = new OutpostBuildingEntity(x.OutpostTableData, x.HasBuilt, x.ExtendBuildings);
+                    return entity;
+                });
         }
 
         #endregion
@@ -95,8 +100,7 @@ namespace AutoChess
 
             return BuildingType.ExploreOffice;
         }
-        
-        
+
         #endregion
 
 

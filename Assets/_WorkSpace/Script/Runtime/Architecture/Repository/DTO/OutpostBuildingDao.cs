@@ -7,13 +7,16 @@ namespace AutoChess.Repository
         public OutpostBuildingDao(OutpostBuildingBundleSet bundleSet, Outpost tableData)
         {
             Index = bundleSet.Index != null ? int.Parse(bundleSet.Index) : tableData.Id;
-            AddOnTypes = bundleSet.addOnTypes;
+            HasBuilt = bundleSet.hasBuilt;
+            ExtendBuildings = bundleSet.extendBuildings;
             OutpostTableData = tableData;
         }
 
         public readonly int Index;
 
-        public readonly OutpostAddOnTypes AddOnTypes;
+        public readonly bool HasBuilt;
+
+        public readonly int[] ExtendBuildings;
 
         public readonly Outpost OutpostTableData;
     }

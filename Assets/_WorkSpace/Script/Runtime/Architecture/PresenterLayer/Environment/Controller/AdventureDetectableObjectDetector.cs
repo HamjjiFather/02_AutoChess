@@ -30,7 +30,7 @@ namespace AutoChess
         /// <summary>
         /// 탐지가능한 범위.
         /// </summary>
-        public const float DetectRange = 1.5f;
+        public const float DetectRange = 2f;
 
         private readonly List<IDetectableObject> _detectableObjects = new();
 

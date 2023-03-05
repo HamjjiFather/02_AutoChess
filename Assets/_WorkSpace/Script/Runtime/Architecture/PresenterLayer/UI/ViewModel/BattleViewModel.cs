@@ -13,6 +13,11 @@ namespace AutoChess.Presenter
 
         #region Override
 
+        public void Initialize()
+        {
+            // throw new System.NotImplementedException();
+        }
+
         #endregion
 
 

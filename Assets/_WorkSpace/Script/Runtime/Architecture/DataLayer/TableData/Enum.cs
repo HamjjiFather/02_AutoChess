@@ -679,3 +679,43 @@ public enum BuildingType
 
 
 }
+
+public enum OutpostExtendType
+{
+	/// <summary>
+	/// 망루.
+	/// </summary>
+	WatchTower = 0,
+
+	/// <summary>
+	/// 개척 거점.
+	/// </summary>
+	SettlementPost = 1,
+
+	/// <summary>
+	/// 캐러반 거점.
+	/// </summary>
+	CaravanPost = 2,
+
+	/// <summary>
+	/// 고고학 연구소.
+	/// </summary>
+	ArchLab = 3,
+
+	/// <summary>
+	/// 무기고.
+	/// </summary>
+	Armory = 4,
+
+	/// <summary>
+	/// 의료소.
+	/// </summary>
+	Hospital = 5,
+
+	/// <summary>
+	/// 채집소.
+	/// </summary>
+	CollectionCenter = 6,
+
+
+}

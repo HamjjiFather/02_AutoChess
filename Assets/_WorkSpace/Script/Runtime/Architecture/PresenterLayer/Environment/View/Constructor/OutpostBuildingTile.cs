@@ -76,7 +76,7 @@ namespace AutoChess.Presenter
 
         public void OnTileButton_Click()
         {
-            MessageBroker.Default.Publish(new FieldActionMsg(FieldActionType.ShowOutpostMenu));
+            MessageBroker.Default.Publish(new OutpostMsg(outpostIndex));
         }
 
         #endregion

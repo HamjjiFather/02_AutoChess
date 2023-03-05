@@ -1,20 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 using KKSFramework.Data;
 
 namespace AutoChess.Bundle
 {
     [Serializable]
-    public class EquipmentBundleSet
+    public class EquipmentBundleSet : IBundleSet
     {
+        public string Index { get; set; }
+
         public int uniqueIndex;
 
         public int equipmentTableData;
 
         public int[] slotIndexes;
+        
     }
     
     [Serializable]
-    public class EquipmentBundle : IBundleBase
+    public class EquipmentBundle : BundleBase<EquipmentBundleSet>
     {
         public EquipmentBundle()
         {
@@ -24,6 +28,8 @@ namespace AutoChess.Bundle
         #region Fields & Property
 
         public int uniqueIndex;
+        
+        public override Dictionary<string, EquipmentBundleSet> ToDictionaryLinq { get; }
 
         #endregion
 
@@ -45,5 +51,6 @@ namespace AutoChess.Bundle
         #endregion
 
         #endregion
+
     }
 }

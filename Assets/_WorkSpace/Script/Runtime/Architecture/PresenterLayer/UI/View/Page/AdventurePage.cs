@@ -7,6 +7,16 @@ using Zenject;
 
 namespace AutoChess.Presenter
 {
+    public readonly struct OutpostMsg
+    {
+        public OutpostMsg(int outpostIndex)
+        {
+            OutpostIndex = outpostIndex;
+        }
+
+        public readonly int OutpostIndex;
+    }
+
     public readonly struct FieldActionMsg
     {
         public FieldActionMsg(FieldActionType fieldActionType)
@@ -16,7 +26,7 @@ namespace AutoChess.Presenter
 
         public readonly FieldActionType FieldActionType;
     }
-    
+
     public class AdventurePage : PageViewBase
     {
         #region Fields & Property
@@ -41,18 +51,24 @@ namespace AutoChess.Presenter
 
         protected override UniTask OnPush(object pushValue = null)
         {
+            MessageBroker.Default.Receive<OutpostMsg>().TakeUntilDestroy(this).Subscribe(om =>
+            {
+                NavigationHelper.OpenPopupAsync(NavigationViewType.OutpostPopup, om.OutpostIndex).Forget();
+            });
+
             MessageBroker.Default.Receive<FieldActionMsg>().TakeUntilDestroy(this).Subscribe(fam =>
             {
-                var param = new FieldActionArea.FieldActionAreaParameter(fam.FieldActionType, OnShowOutpostMenu);
-                fieldActionArea.Show(param).Forget();
+                if (fam.FieldActionType == FieldActionType.ShowOutpostMenu)
+                {
+                    NavigationHelper.OpenPopupAsync(NavigationViewType.OutpostPopup).Forget();
+                }
+                // var param = new FieldActionArea.FieldActionAreaParameter(fam.FieldActionType, OnShowOutpostMenu);
+                // fieldActionArea.Show(param).Forget();
             });
-            
+
             return base.OnPush(pushValue);
         }
 
-
-        
-        
         #endregion
 
 

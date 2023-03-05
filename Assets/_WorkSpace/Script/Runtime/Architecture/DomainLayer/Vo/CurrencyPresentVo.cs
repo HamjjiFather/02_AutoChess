@@ -5,15 +5,18 @@ namespace AutoChess
 {
     public readonly struct CurrencyPresentVo
     {
-        public CurrencyPresentVo(Sprite iconImage, string amountString)
+        public CurrencyPresentVo(Sprite iconImage, string amountString, bool enough)
         {
             IconImage = iconImage;
             AmountString = amountString;
+            Enough = enough;
         }
 
         public readonly Sprite IconImage;
 
         public readonly string AmountString;
+
+        public readonly bool Enough;
     }
 
 

@@ -36,11 +36,11 @@ namespace AutoChess
 
         protected override UniTask OnShow(object pushValue = null)
         {
-            if (pushValue is FieldActionAreaParameter value)
-            {
-                _currentFieldAction = value.FieldActionType;
-                fieldActionButtons[(int)_currentFieldAction].onClick.AddListener(value.ClickAction);
-            }
+            // if (pushValue is FieldActionAreaParameter value)
+            // {
+            //     _currentFieldAction = value.FieldActionType;
+            //     fieldActionButtons[(int)_currentFieldAction].onClick.AddListener(value.ClickAction);
+            // }
             
             return base.OnShow(pushValue);
         }
@@ -48,9 +48,9 @@ namespace AutoChess
 
         protected override UniTask OnHide()
         {
-            fieldActionButtons[(int)_currentFieldAction].onClick.RemoveAllListeners();
-            fieldActionButtons[(int)_currentFieldAction].gameObject.SetActive(false);
-            _currentFieldAction = FieldActionType.None;
+            // fieldActionButtons[(int)_currentFieldAction].onClick.RemoveAllListeners();
+            // fieldActionButtons[(int)_currentFieldAction].gameObject.SetActive(false);
+            // _currentFieldAction = FieldActionType.None;
             return base.OnHide();
         }
 

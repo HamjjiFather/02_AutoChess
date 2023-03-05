@@ -1,38 +1,31 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Zenject;
 
 namespace AutoChess
 {
-    [Flags]
-    public enum OutpostAddOnTypes
-    {
-        WatchTower = 1 << 1,
-        
-        SettlementPost = 1 << 2,
-        
-        CaravanPost = 1 << 3,
-        
-        ArchLab = 1 << 4,
-        
-        Armory = 1 << 5,
-        
-        Hospital = 1 << 6,
-        
-        CollectionCenter = 1 << 7,
-    }
-    
     /// <summary>
     /// 세계맵에 배치된 전초기지 건물.
     /// </summary>
     public class OutpostBuildingEntity : BuildingEntityBase, IInitializable
     {
-        public OutpostBuildingEntity(Outpost buildingTableData) : base()
+        public OutpostBuildingEntity(Outpost buildingTableData, bool hasBuilt, int[] extends) : base()
         {
+            TableData = buildingTableData;
+            OutpostIndex = TableData.Id;
+            HasBuilt = hasBuilt;
+            ExtendBuildingList = extends.Select(e => (OutpostExtendType)e).ToList();
         }
 
         #region Fields & Property
 
-        public int OutpostIndex;
+        protected readonly Outpost TableData;
+
+        public readonly int OutpostIndex;
+
+        public bool HasBuilt;
+
+        public readonly List<OutpostExtendType> ExtendBuildingList;
 
         #endregion
 
@@ -43,7 +36,7 @@ namespace AutoChess
 
         public override void Build()
         {
-            throw new System.NotImplementedException();
+            HasBuilt = true;
         }
 
         public override void SpendTime()
@@ -58,13 +51,23 @@ namespace AutoChess
 
         public override void Initialize()
         {
-            throw new System.NotImplementedException();
         }
 
         #endregion
 
 
         #region This
+
+        /// <summary>
+        /// 전초기지 증축.
+        /// </summary>
+        public void AddExtendBuilding(OutpostExtendType extend)
+        {
+            if (ExtendBuildingList.Contains(extend))
+                return;
+
+            ExtendBuildingList.Add(extend);
+        }
 
         #endregion
 

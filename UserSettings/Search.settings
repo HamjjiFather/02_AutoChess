@@ -7,6 +7,11 @@ onBoardingDoNotAskAgain = true
 showPackageIndexes = false
 showStatusBar = false
 scopes = {
+	"picker_window_position_offset.45F317DD" = "-334.4;333.6;559.2;550.4"
+	"picker_search_text.45F317DD" = "st: outpost "
+	"last_search.45F317DD" = "st: outpost "
+	"OpenInspectorPreview.45F317DD" = "0"
+	"currentGroup.45F317DD" = "all"
 }
 providers = {
 	adb = {
@@ -47,6 +52,16 @@ providers = {
 	scene = {
 		active = true
 		priority = 50
+		defaultAction = null
+	}
+	at = {
+		active = true
+		priority = 100
+		defaultAction = null
+	}
+	st = {
+		active = true
+		priority = 100
 		defaultAction = null
 	}
 }

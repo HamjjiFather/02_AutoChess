@@ -32,6 +32,7 @@ public class TableDataManager : Singleton<TableDataManager>
 	 public Dictionary<int, AdventureEquipmentProb> AdventureEquipmentProbDict = new Dictionary<int, AdventureEquipmentProb> ();
 	 public Dictionary<int, Base> BaseDict = new Dictionary<int, Base> ();
 	 public Dictionary<int, Outpost> OutpostDict = new Dictionary<int, Outpost> ();
+	 public Dictionary<int, OutpostExtend> OutpostExtendDict = new Dictionary<int, OutpostExtend> ();
 	 public Dictionary<int, OfficeSkill> OfficeSkillDict = new Dictionary<int, OfficeSkill> ();
 	 
 
@@ -59,6 +60,7 @@ public class TableDataManager : Singleton<TableDataManager>
 		AdventureEquipmentProbDict = (await ReadCSVData.Instance.LoadCSVData<AdventureEquipmentProb> ("TableData", nameof (AdventureEquipmentProb))).ToDictionary (x => x.Id, x => x);
 		BaseDict = (await ReadCSVData.Instance.LoadCSVData<Base> ("TableData", nameof (Base))).ToDictionary (x => x.Id, x => x);
 		OutpostDict = (await ReadCSVData.Instance.LoadCSVData<Outpost> ("TableData", nameof (Outpost))).ToDictionary (x => x.Id, x => x);
+		OutpostExtendDict = (await ReadCSVData.Instance.LoadCSVData<OutpostExtend> ("TableData", nameof (OutpostExtend))).ToDictionary (x => x.Id, x => x);
 		OfficeSkillDict = (await ReadCSVData.Instance.LoadCSVData<OfficeSkill> ("TableData", nameof (OfficeSkill))).ToDictionary (x => x.Id, x => x);
 		
 
@@ -84,6 +86,7 @@ public class TableDataManager : Singleton<TableDataManager>
 		TotalDataDict.AddRange (AdventureEquipmentProbDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (BaseDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (OutpostDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
+		TotalDataDict.AddRange (OutpostExtendDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (OfficeSkillDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		
     }

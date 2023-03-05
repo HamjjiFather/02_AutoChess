@@ -1,4 +1,4 @@
-Id	CurrencyType	StackAmount	SellingPrice	IconName
-0	Gold	10000000	0	UI_Icon_Currency
-1	Lore	1000	10	UI_Icon_Lore
-2	ExploreGoods	1000	10	UI_Icon_ExploreGoods
+Id	GlobalIndex	StackAmount	SellingPrice	IconName
+0	CURRENCY_ITEM_0000	99	10	UI_Icon_Currency
+1	CURRENCY_ITEM_0001	99	20	UI_Icon_Lore
+2	CURRENCY_ITEM_0002	99	30	UI_Icon_ExploreGoods

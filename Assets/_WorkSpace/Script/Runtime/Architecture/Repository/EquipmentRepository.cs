@@ -15,6 +15,8 @@ namespace AutoChess
     {
         #region Fields & Property
 
+        public int UniqueIndex { get; set; }
+        
         private EquipmentBundle _equipmentBundle;
         
         #endregion
@@ -24,9 +26,12 @@ namespace AutoChess
 
         #region Override
         
-        public int UniqueIndex { get; set; }
-        
         public int GetUniqueIndex() => _equipmentBundle.uniqueIndex++;
+
+        public void Initialize()
+        {
+            // throw new System.NotImplementedException();
+        }
 
         #endregion
 

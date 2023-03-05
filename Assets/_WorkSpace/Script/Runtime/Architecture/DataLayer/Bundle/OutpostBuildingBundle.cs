@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using KKSFramework.Data;
+using UnityEngine.Serialization;
 
 namespace AutoChess.Bundle
 {
@@ -16,7 +18,9 @@ namespace AutoChess.Bundle
             set => index = value;
         }
 
-        public OutpostAddOnTypes addOnTypes;
+        public bool hasBuilt;
+
+        public int[] extendBuildings = Enumerable.Empty<int>().ToArray();
     }
 
     [Serializable]

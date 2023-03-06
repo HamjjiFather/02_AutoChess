@@ -873,7 +873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aadd0ccdb18d21e4c93ba97905c3545f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showOnPush: 1
+  showOnPush: 0
   viewEffector: {fileID: 1211797098741369811}
 --- !u!114 &5909263821816462677
 MonoBehaviour:

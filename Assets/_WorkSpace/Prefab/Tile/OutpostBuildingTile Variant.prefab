@@ -348,6 +348,37 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!1 &6972087135615162154
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4024263462384819851}
+  m_Layer: 8
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4024263462384819851
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6972087135615162154}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8535381530001416828}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6688759407063184967
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -359,7 +390,7 @@ PrefabInstance:
     - target: {fileID: 3071731449555555387, guid: 1131032d798a38a4cb46fe005ee5a4c4,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3071731449555555387, guid: 1131032d798a38a4cb46fe005ee5a4c4,
         type: 3}
@@ -464,6 +495,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2585490042061082074}
+    - targetCorrespondingSourceObject: {fileID: 3071731449555555387, guid: 1131032d798a38a4cb46fe005ee5a4c4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4024263462384819851}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6128026502546877104, guid: 1131032d798a38a4cb46fe005ee5a4c4,
         type: 3}
@@ -494,6 +529,7 @@ MonoBehaviour:
   tileTriggerCollider: {fileID: 4993885952630391735}
   outpostIndex: 0
   canvas: {fileID: 3710390757159984292}
+  spawnPoint: {fileID: 4024263462384819851}
 --- !u!212 &3428885351448837721 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 8306579667748931614, guid: 1131032d798a38a4cb46fe005ee5a4c4,

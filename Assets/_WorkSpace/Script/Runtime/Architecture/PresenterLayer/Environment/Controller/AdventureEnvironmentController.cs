@@ -54,6 +54,8 @@ namespace AutoChess.Presenter
         public override void OnEnvironmentEnabled(EnvironmentParameterBase environmentParameter)
         {
             var outpostMap = _buildingManager.OutpostBuildingEntities;
+            player.transform.position = field.baseBuildingTile.spawnPoint.position;
+            
             field.outpostBuildingTiles.Foreach(obt =>
             {
                 var entity = outpostMap[obt.outpostIndex];

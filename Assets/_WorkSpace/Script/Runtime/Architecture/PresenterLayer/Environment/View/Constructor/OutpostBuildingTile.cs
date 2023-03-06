@@ -1,16 +1,22 @@
 ﻿using UniRx;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace AutoChess.Presenter
 {
-    public class OutpostBuildingTile : BuildingTileBase, IDetectableObject
+    public class OutpostBuildingTile : BuildingTileBase, IDetectableObject, ISpawnPoint
     {
         #region Fields & Property
 
         public int outpostIndex;
 
         public Canvas canvas;
+        
+        public Transform spawnPoint;
+        public Transform SpawnPoint
+        {
+            get => spawnPoint;
+            set => spawnPoint = value;
+        }
 
         public override BuildingEntityBase BuildingEntity { get; set; }
 

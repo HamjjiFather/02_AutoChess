@@ -1,11 +1,22 @@
-﻿namespace AutoChess.Presenter
+﻿using UnityEngine;
+using UnityEngine.Serialization;
+
+namespace AutoChess.Presenter
 {
-    public class BaseBuildingTile : BuildingTileBase
+    public class BaseBuildingTile : BuildingTileBase, ISpawnPoint
     {
         #region Fields & Property
         
         public override BuildingEntityBase BuildingEntity { get; set; }
+
+        public Transform spawnPoint;
         
+        public Transform SpawnPoint
+        {
+            get => spawnPoint;
+            set => spawnPoint = value;
+        }
+
         // public OutpostBuildingEntity ToOutpostBuildingEntity { get; private set; }
 
         #endregion
@@ -34,6 +45,5 @@
         #endregion
 
         #endregion
-
     }
 }

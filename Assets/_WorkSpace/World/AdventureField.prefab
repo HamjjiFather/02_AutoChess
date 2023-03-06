@@ -57458,6 +57458,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: OutpostBuildingTile Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 4024263462384819851, guid: 7abdadc05267ec04a89d4ecc06051a0f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.29
+      objectReference: {fileID: 0}
+    - target: {fileID: 4024263462384819851, guid: 7abdadc05267ec04a89d4ecc06051a0f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.95
+      objectReference: {fileID: 0}
     - target: {fileID: 4841613278067943309, guid: 7abdadc05267ec04a89d4ecc06051a0f,
         type: 3}
       propertyPath: outpostIndex
@@ -57655,6 +57665,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: OutpostBuildingTile Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 4024263462384819851, guid: 7abdadc05267ec04a89d4ecc06051a0f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.29
+      objectReference: {fileID: 0}
+    - target: {fileID: 4024263462384819851, guid: 7abdadc05267ec04a89d4ecc06051a0f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.87
+      objectReference: {fileID: 0}
     - target: {fileID: 4841613278067943309, guid: 7abdadc05267ec04a89d4ecc06051a0f,
         type: 3}
       propertyPath: outpostIndex
@@ -57847,11 +57867,27 @@ PrefabInstance:
       propertyPath: m_Name
       value: BaseBuildingTile Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 2719180271050279677, guid: 066a4eb124c47584da5d4a6d4ff0790f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 2719180271050279677, guid: 066a4eb124c47584da5d4a6d4ff0790f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.94
+      objectReference: {fileID: 0}
     - target: {fileID: 3335738499717919879, guid: 066a4eb124c47584da5d4a6d4ff0790f,
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8529519334220870620, guid: 066a4eb124c47584da5d4a6d4ff0790f,
+        type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000,
+        type: 0}
     - target: {fileID: 8623532600231209122, guid: 066a4eb124c47584da5d4a6d4ff0790f,
         type: 3}
       propertyPath: m_RootOrder
@@ -57942,6 +57978,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: OutpostBuildingTile Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 4024263462384819851, guid: 7abdadc05267ec04a89d4ecc06051a0f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 4024263462384819851, guid: 7abdadc05267ec04a89d4ecc06051a0f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.92
       objectReference: {fileID: 0}
     - target: {fileID: 4841613278067943309, guid: 7abdadc05267ec04a89d4ecc06051a0f,
         type: 3}

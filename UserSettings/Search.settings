@@ -1,15 +1,15 @@
 trackSelection = true
 fetchPreview = true
-defaultFlags = 0
+defaultFlags = 8
 keepOpen = false
 queryFolder = "Assets"
 onBoardingDoNotAskAgain = true
 showPackageIndexes = false
-showStatusBar = false
+showStatusBar = true
 scopes = {
-	"picker_window_position_offset.45F317DD" = "-334.4;333.6;559.2;550.4"
-	"picker_search_text.45F317DD" = "st: outpost "
-	"last_search.45F317DD" = "st: outpost "
+	"picker_window_position_offset.45F317DD" = "-643.9999;312.8;559.2;550.4"
+	"picker_search_text.45F317DD" = "st: col:AutoChessStringTable "
+	"last_search.45F317DD" = "st: col:AutoChessStringTable "
 	"OpenInspectorPreview.45F317DD" = "0"
 	"currentGroup.45F317DD" = "all"
 }
@@ -68,6 +68,10 @@ providers = {
 objectSelectors = {
 }
 recentSearches = [
+	"st: col:AutoChessStringTable"
+	""
+	"NOUN_CHARACTER"
+	"st: id=12345"
 ]
 searchItemFavorites = [
 ]
@@ -76,7 +80,7 @@ showSavedSearchPanel = false
 hideTabs = false
 expandedQueries = [
 ]
-queryBuilder = false
+queryBuilder = true
 ignoredProperties = "id;name;classname;imagecontentshash"
-helperWidgetCurrentArea = "all"
+helperWidgetCurrentArea = "st:"
 disabledIndexers = ""

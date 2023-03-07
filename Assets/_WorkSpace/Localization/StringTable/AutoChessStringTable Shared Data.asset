@@ -19,32 +19,80 @@ MonoBehaviour:
     m_Key: Title
     m_Metadata:
       m_Items: []
-  - m_Id: 1066592300847104
+  - m_Id: 2886109414359040
+    m_Key: NOUN_CHARACTER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2886109414359041
+    m_Key: NOUN_ADVENTURE_INVENTORY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2886109414359042
+    m_Key: NOUN_ACHIEVEMENT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2885638708592640
     m_Key: NAME_OUTPOST_EXTEND_0000
     m_Metadata:
       m_Items: []
-  - m_Id: 1066592334401536
+  - m_Id: 2885638708592641
     m_Key: NAME_OUTPOST_EXTEND_0001
     m_Metadata:
       m_Items: []
-  - m_Id: 1066592334401537
+  - m_Id: 2885638708592642
     m_Key: NAME_OUTPOST_EXTEND_0002
     m_Metadata:
       m_Items: []
-  - m_Id: 1066592334401538
+  - m_Id: 2885638708592643
     m_Key: NAME_OUTPOST_EXTEND_0003
     m_Metadata:
       m_Items: []
-  - m_Id: 1066592334401539
+  - m_Id: 2885638708592644
     m_Key: NAME_OUTPOST_EXTEND_0004
     m_Metadata:
       m_Items: []
-  - m_Id: 1066592334401540
+  - m_Id: 2885638708592645
     m_Key: NAME_OUTPOST_EXTEND_0005
     m_Metadata:
       m_Items: []
-  - m_Id: 1066592334401541
+  - m_Id: 2885638708592646
     m_Key: NAME_OUTPOST_EXTEND_0006
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2885638708592647
+    m_Key: NAME_REGION_0000
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2885638708592648
+    m_Key: NAME_REGION_0001
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2885638708592649
+    m_Key: NAME_REGION_0002
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2885638708592650
+    m_Key: NAME_REGION_0003
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2885638708592651
+    m_Key: NAME_REGION_0004
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2885638708592652
+    m_Key: NAME_REGION_0005
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2885638708592653
+    m_Key: NAME_REGION_0006
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2885638708592654
+    m_Key: NAME_REGION_0007
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2886545433231360
+    m_Key: NOUN_REGION_0000
     m_Metadata:
       m_Items: []
   m_Metadata:

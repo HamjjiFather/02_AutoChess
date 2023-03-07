@@ -34,6 +34,7 @@ public class TableDataManager : Singleton<TableDataManager>
 	 public Dictionary<int, Outpost> OutpostDict = new Dictionary<int, Outpost> ();
 	 public Dictionary<int, OutpostExtend> OutpostExtendDict = new Dictionary<int, OutpostExtend> ();
 	 public Dictionary<int, OfficeSkill> OfficeSkillDict = new Dictionary<int, OfficeSkill> ();
+	 public Dictionary<int, Region> RegionDict = new Dictionary<int, Region> ();
 	 
 
     public async UniTask LoadTableDatas ()
@@ -62,6 +63,7 @@ public class TableDataManager : Singleton<TableDataManager>
 		OutpostDict = (await ReadCSVData.Instance.LoadCSVData<Outpost> ("TableData", nameof (Outpost))).ToDictionary (x => x.Id, x => x);
 		OutpostExtendDict = (await ReadCSVData.Instance.LoadCSVData<OutpostExtend> ("TableData", nameof (OutpostExtend))).ToDictionary (x => x.Id, x => x);
 		OfficeSkillDict = (await ReadCSVData.Instance.LoadCSVData<OfficeSkill> ("TableData", nameof (OfficeSkill))).ToDictionary (x => x.Id, x => x);
+		RegionDict = (await ReadCSVData.Instance.LoadCSVData<Region> ("TableData", nameof (Region))).ToDictionary (x => x.Id, x => x);
 		
 
         TotalDataDict.AddRange (PlayerLevelDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
@@ -88,6 +90,7 @@ public class TableDataManager : Singleton<TableDataManager>
 		TotalDataDict.AddRange (OutpostDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (OutpostExtendDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		TotalDataDict.AddRange (OfficeSkillDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
+		TotalDataDict.AddRange (RegionDict.ToDictionary (x => x.Key, k => (TableDataBase) k.Value));
 		
     }
 }

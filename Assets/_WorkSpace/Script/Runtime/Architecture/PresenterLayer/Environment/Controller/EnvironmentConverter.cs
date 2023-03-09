@@ -1,19 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using KKSFramework;
 using UnityEngine;
 
 namespace AutoChess.Presenter
 {
-    public enum EnvironmentType
-    {
-        None,
-        Base,
-        Adventure,
-        Battle
-    }
-
     public class EnvironmentParameterBase
     {
         
@@ -30,7 +23,22 @@ namespace AutoChess.Presenter
     {
         #region Fields & Property
 
-        private Dictionary<EnvironmentType, GameEnvironmentBase> _gameEnvironments = new ();
+        private Dictionary<GameSceneType, GameEnvironmentBase> _gameEnvironments = new ();
+
+        public Dictionary<GameSceneType, GameEnvironmentBase> GameEnvironments
+        {
+            get
+            {
+                if (_gameEnvironments.Any()) return _gameEnvironments;
+                _gameEnvironments.Add(GameSceneType.Base, baseEnvironment);
+                _gameEnvironments.Add(GameSceneType.Adventure, adventureEnvironment);
+                _gameEnvironments.Add(GameSceneType.Battle, battleEnvironment);
+                _gameEnvironments.Foreach(ge => ge.Value.gameObject.SetActive(false));
+
+                return _gameEnvironments;
+            }
+            set => _gameEnvironments = value;
+        }
 
         public BaseEnvironmentController baseEnvironment;
         
@@ -38,7 +46,7 @@ namespace AutoChess.Presenter
 
         public BattleEnvironmentController battleEnvironment;
 
-        private EnvironmentType _currentEnvironmentType;
+        private GameSceneType _currentGameSceneType;
 
         #endregion
 
@@ -47,40 +55,25 @@ namespace AutoChess.Presenter
 
         #region Override
 
-        private void Awake()
-        {
-            _gameEnvironments.Add(EnvironmentType.Base, baseEnvironment);
-            _gameEnvironments.Add(EnvironmentType.Adventure, adventureEnvironment);
-            _gameEnvironments.Add(EnvironmentType.Battle, battleEnvironment);
-            
-            _gameEnvironments.Foreach(ge => ge.Value.gameObject.SetActive(false));
-        }
-
-
-        private void Start()
-        {
-            ChangeEnvironment(EnvironmentType.Base, default);
-        }
-
         #endregion
 
 
         #region This
 
-        public void ChangeEnvironment(EnvironmentType environmentType, EnvironmentParameterBase parameter = default)
+        public void ChangeEnvironment(GameSceneType GameSceneType, EnvironmentParameterBase parameter = default)
         {
-            if (_gameEnvironments.ContainsKey(_currentEnvironmentType))
+            if (GameEnvironments.ContainsKey(_currentGameSceneType))
             {
-                _gameEnvironments[_currentEnvironmentType].gameObject.SetActive(false);
-                _gameEnvironments[_currentEnvironmentType].OnEnvironmentDisabled();
+                GameEnvironments[_currentGameSceneType].gameObject.SetActive(false);
+                GameEnvironments[_currentGameSceneType].OnEnvironmentDisabled();
             }
 
-            _currentEnvironmentType = environmentType;
+            _currentGameSceneType = GameSceneType;
             
-            if (_gameEnvironments.ContainsKey(_currentEnvironmentType))
+            if (GameEnvironments.ContainsKey(_currentGameSceneType))
             {
-                _gameEnvironments[_currentEnvironmentType].OnEnvironmentEnabled(parameter);
-                _gameEnvironments[_currentEnvironmentType].gameObject.SetActive(true);
+                GameEnvironments[_currentGameSceneType].OnEnvironmentEnabled(parameter);
+                GameEnvironments[_currentGameSceneType].gameObject.SetActive(true);
             }
         }
 

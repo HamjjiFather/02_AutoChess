@@ -1,10 +1,11 @@
 ﻿using System;
+using AutoChess.Domain;
 using Cysharp.Threading.Tasks;
 using KKSFramework.Navigation;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace AutoChess
+namespace AutoChess.Presenter
 {
     public class FieldActionArea : AreaView
     {

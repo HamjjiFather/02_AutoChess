@@ -45,6 +45,16 @@ namespace KKSFramework.InGame
         };
 
 
+        protected override async UniTask PushRootView()
+        {
+            // return base.PushRootView();
+            var gameSceneMgr = Container.Resolve<GameSceneManager>();
+            gameSceneMgr.ChangeScene(GameSceneType.Base);
+            NavigationProjectManager.Instance.ChangeTransitionLockState (false);
+            // await NavigationProjectManager.Instance.HideTransitionViewAsync ();
+        }
+
+
         public void OnPostInstall()
         {
             CreateCommonView();
@@ -58,7 +68,7 @@ namespace KKSFramework.InGame
 
         public void OnPostResolve()
         {
-            base.PushRootView().Forget();
+            PushRootView().Forget();
         }
 
 

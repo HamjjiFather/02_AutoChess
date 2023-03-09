@@ -23,7 +23,7 @@ namespace AutoChess.Presenter
         #region Fields & Property
 
         [Inject]
-        private EnvironmentConverter _environmentConverter;
+        private GameSceneManager _gameSceneManager;
 
         [Inject]
         private BuildingManager _buildingManager;
@@ -84,8 +84,7 @@ namespace AutoChess.Presenter
 
         public void OnToAdventureButton_Click()
         {
-            _environmentConverter.ChangeEnvironment(EnvironmentType.Adventure);
-            NavigationHelper.OpenPageAsync(NavigationViewType.AdventurePage, NavigationTriggerState.First).Forget();
+            _gameSceneManager.ChangeScene(GameSceneType.Adventure);
         }
 
         #endregion

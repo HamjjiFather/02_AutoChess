@@ -1,6 +1,6 @@
-﻿using AutoChess;
+﻿using UniRx;
 
-namespace AutoChess
+namespace AutoChess.Domain
 {
     public enum FieldActionType
     {
@@ -32,10 +32,13 @@ namespace AutoChess
         Exit,
     }
     
-    public class AdventureManager : ManagerBase
+    
+    public class AdventureManager : ManagerBase, IGameSceneManager<GameSceneParameterBase>
     {
         #region Fields & Property
 
+        public IntReactiveProperty ExploreGoodsAmount;
+        
         #endregion
 
 
@@ -43,14 +46,26 @@ namespace AutoChess
 
         #region Override
 
+
+        public void OnStart(GameSceneParameterBase parameter)
+        {
+            ExploreGoodsAmount = new IntReactiveProperty(100);
+        }
+
+
+        public void Dispose()
+        {
+            // throw new NotImplementedException();
+        }
+
         #endregion
 
 
         #region This
 
-        public void StartAdventure(OutpostBuildingEntity startOutpost)
+        public void Initialize(object parameter)
         {
-            
+            ExploreGoodsAmount = new IntReactiveProperty(100);
         }
 
         #endregion

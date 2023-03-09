@@ -1,8 +1,7 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using AutoChess.Domain;
+using Cysharp.Threading.Tasks;
 using KKSFramework.Navigation;
 using UniRx;
-using UnityEngine;
-using UnityEngine.UI;
 using Zenject;
 
 namespace AutoChess.Presenter

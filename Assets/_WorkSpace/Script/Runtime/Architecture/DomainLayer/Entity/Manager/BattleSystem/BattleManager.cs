@@ -22,7 +22,7 @@ namespace AutoChess
     /// 캐릭터 추합.
     /// 전투 시작.
     /// </summary>
-    public class BattleSystemManager : ManagerBase, IBattleStateReceiver
+    public class BattleManager : ManagerBase, IBattleStateReceiver, IGameSceneManager<GameSceneParameterBase>
     {
         public List<BattleInteractableUnit> PlayerUnits, EnemyUnits;
 
@@ -35,6 +35,16 @@ namespace AutoChess
         {
             PlayerUnits.AddRange(players.Select(p => new BattleInteractableUnit(BattleSideType.Player, p)));
             EnemyUnits.AddRange(enemies.Select(p => new BattleInteractableUnit(BattleSideType.Enemy, p)));
+        }
+
+        public void OnStart(GameSceneParameterBase parameter)
+        {
+            
+        }
+
+        public void Dispose()
+        {
+            
         }
 
 
